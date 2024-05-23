@@ -5,9 +5,13 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import path from 'path'
 import dotenv from 'dotenv'
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 //Internal
-import { __dirname } from './utils.js';
 // import indexRouter from './routes/index.js';
 // import usersRouter from './routes/users.js';
 
