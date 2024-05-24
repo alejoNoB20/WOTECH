@@ -7,6 +7,8 @@ import path from 'path'
 import dotenv from 'dotenv'
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { sequelize } from './database/connection.js';
+import "./models/usersModels.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -32,7 +34,16 @@ app.use(express.static(path.join(__dirname, '/public')))
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running at port ${process.env.PORT}`);
-})
+async function main(){
+  try {
+    await sequelize.sync();
+    app.listen(process.env.PORT, () => {
+      console.log(`Server running at port ${process.env.PORT}`);
+    });
+  } catch(error){
+    console.log(error);
+  }
+}
+main();
+
 export default app;
