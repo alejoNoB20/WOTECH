@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 //Internal
-// import indexRouter from './routes/index.js';
+import indexRouter from './routes/index.js';
 // import usersRouter from './routes/users.js';
 
 const app = express();
@@ -31,17 +31,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')))
 
 
-// app.use('/', indexRouter);
+app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
 async function main(){
   try {
     await sequelize.sync();
     app.listen(process.env.PORT, () => {
-      console.log(`Server running at port ${process.env.PORT}`);
+      console.log(`Server running at port http://localhost:${process.env.PORT}`);
     });
   } catch(error){
-    console.log(error);
+    console.log(`Ha ocurrido el siguiente error: ${error}`);
   }
 }
 main();

@@ -7,29 +7,35 @@ const user = sequelize.define('users', {
         primaryKey: true,
         autoIncrement: true
     },
+    user_dni: {
+        type: DataTypes.CHAR(8),
+        allowNull: false
+    },
     user_level:{
         type: DataTypes.INTEGER(1),
         allowNull: false,
     },
-    name: {
+    user_name: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    last_name: {
+    user_last_name: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    number_phone: {
+    user_number_phone: {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
     user_inscription: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: null
+        allowNull: false
     },
-    mail: {
+    user_mail: {
         type: DataTypes.STRING(50),
         allowNull: false
     }
+}, {
+    tableName: 'users',
+    timestamps: false
 });
