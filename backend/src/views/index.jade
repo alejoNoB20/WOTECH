@@ -1,5 +1,35 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  nav.navbar.navbar-expand-lg.bg-body-tertiary
+    div.container-fluid
+      a.navbar-brand(href='/') Wotech
+      button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      .collapse.navbar-collapse(id='navbarSupportedContent')
+        ul.navbar-nav.me-auto.mb-2.mb-lg-0
+          li.nav-item
+            a.nav-link(href='/users') Usuarios
+          li.nav-item
+            a.nav-link(href='/toolsController') Control de herramientas
+          li.nav-item
+            a.nav-link(href='/suppliers') Proveedores
+          li.nav-item
+            a.nav-link(href='/stock') Stock
+          li.nav-item
+            a.nav-link(href='/orders') Pedidos 
+          li.nav-item
+            a.nav-link(href='/maps') Planos
+          li.nav-item
+            a.nav-link(href='/clients') Clientes
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(href='#', role='button', data-bs-toggle='dropdown', aria-expanded='false') Mi cuenta
+            ul.dropdown-menu
+              li
+                a.dropdown-item(href='#') Mis datos
+              li
+                a.dropdown-item(href='#') Cerrar sesión
+          li.nav-item
+        form.d-flex(role='search')
+          input.form-control.me-2(type='search', placeholder='Buscar pedidos', aria-label='Search')
+          button.btn.btn-outline-success(type='submit') Buscar

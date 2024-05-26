@@ -14,7 +14,14 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 //Internal
-import indexRouter from './routes/index.js';
+import indexRouter from './routes/indexRouter.js';
+import usersRouter from './routes/usersRouter.js';
+import toolsControllerRouter from './routes/toolsControllerRouter.js';
+import suppliersRouter from './routes/suppliersRouter.js';
+import stockRouter from './routes/stockRouter.js';
+import ordersRouter from './routes/ordersRouter.js';
+import mapsRouter from './routes/mapsRouter.js';
+import clientsRouter from './routes/clientsRouter.js';
 // import usersRouter from './routes/users.js';
 
 const app = express();
@@ -31,8 +38,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')))
 
 
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.get('/', indexRouter);
+app.get('/users', usersRouter);
+app.get('/toolsController', toolsControllerRouter);
+app.get('/suppliers', suppliersRouter);
+app.get('/stock', stockRouter);
+app.get('/orders', ordersRouter);
+app.get('/maps', mapsRouter);
+app.get('/clients', clientsRouter)
 
 async function main(){
   try {
