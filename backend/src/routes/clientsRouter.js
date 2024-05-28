@@ -1,7 +1,7 @@
 import { Router } from "express";
 let clientsRouter = Router();
 
-clientsRouter.get('/clients', (req, res, next) =>{
+clientsRouter.get('/', (req, res, next) =>{
     res.render('clients', {title: "Control de clientes"});
 });
 
