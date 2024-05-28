@@ -1,8 +1,8 @@
 import { Router } from "express";
+import { UsersController } from "../controllers/usersController.js";
+const userController = new UsersController()
 let usersRouter = Router();
 
-usersRouter.get('/', (req, res, next) =>{
-    res.render('users', {title: "Control de usuarios"});
-});
+usersRouter.post('/', userController.ingresar);
 
 export default usersRouter;

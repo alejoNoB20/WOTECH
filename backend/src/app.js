@@ -38,14 +38,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')))
 
 
-app.use('/', indexRouter);
+app.get('/', indexRouter);
 app.use('/users', usersRouter);
-// app.use('/toolsController', toolsControllerRouter);
-// app.use('/suppliers', suppliersRouter);
-// app.use('/stock', stockRouter);
-// app.use('/orders', ordersRouter);
-// app.use('/maps', mapsRouter);
-// app.use('/clients', clientsRouter)
+app.get('/toolsController', toolsControllerRouter);
+app.get('/suppliers', suppliersRouter);
+app.get('/stock', stockRouter);
+app.get('/orders', ordersRouter);
+app.get('/maps', mapsRouter);
+app.get('/clients', clientsRouter)
 
 async function main(){
   try {
