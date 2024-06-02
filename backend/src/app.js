@@ -16,13 +16,12 @@ const __dirname = dirname(__filename)
 //Internal
 import indexRouter from './routes/indexRouter.js';
 import usersRouter from './routes/usersRouter.js';
-// import toolsControllerRouter from './routes/toolsControllerRouter.js';
-// import suppliersRouter from './routes/suppliersRouter.js';
-// import stockRouter from './routes/stockRouter.js';
-// import ordersRouter from './routes/ordersRouter.js';
-// import mapsRouter from './routes/mapsRouter.js';
-// import clientsRouter from './routes/clientsRouter.js';
-// import usersRouter from './routes/users.js';
+import toolsControllerRouter from './routes/toolsControllerRouter.js';
+import suppliersRouter from './routes/suppliersRouter.js';
+import stockRouter from './routes/stockRouter.js';
+import ordersRouter from './routes/ordersRouter.js';
+import mapsRouter from './routes/mapsRouter.js';
+import clientsRouter from './routes/clientsRouter.js';
 
 const app = express();
 dotenv.config();

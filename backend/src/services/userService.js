@@ -12,4 +12,26 @@ export class UserService {
             console.log(error)            
         }
     }
+
+    buscarUsuario = async (where) =>{
+        try {
+            if(where) {
+                const buscarUno = await User.findOne({where});
+                return buscarUno;
+            }
+            const buscarUsuarios = await User.findAll();
+            return buscarUsuarios
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    buscarUsuarios = async(datos) =>{
+        try {
+            const buscarTodos = await User.findAll();
+            return buscarTodos;
+        } catch (err){
+            console.log(err);
+        }
+    }
 }
