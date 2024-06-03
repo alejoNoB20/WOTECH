@@ -12,19 +12,35 @@ export class UsersController {
             console.log(error)            
         }
     }
-    obtenerUsuario = async (req,res) =>{
+    obtenerUnico = async (req,res) =>{
         try{
-            const resultado = await user.buscarUsuario(req.params);
+            const resultado = await user.buscarUnicoUsuario(req.params);
             res.status(200).json(resultado);
         } catch (error){
             console.log(error);
         }
     }
-    obtenerUsuarios = async (req,res) => {
+    obtenerTodos = async (req,res) => {
         try{
             const resultado = await user.buscarUsuarios(req.body);
             res.status(200).json(resultado);
         } catch(err){
+            console.log(err);
+        }
+    }
+    actualizar = async(req,res) =>{
+        try {
+            const resultado = await user.actualizarUsuario(req.params);
+            res.status(204).json(resultado);
+        } catch(err){
+            console.log(err);
+        }
+    }
+    eliminar = async(req,res) =>{
+        try {
+            const resultado = await user.eliminarUsuario(req.params);
+            res.status(204).json(resultado);
+        } catch(err) {
             console.log(err);
         }
     }
