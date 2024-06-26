@@ -8,7 +8,11 @@ import dotenv from 'dotenv'
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { sequelize } from './database/connection.js';
+import Handlebars from 'handlebars';
+import {engine} from 'express-handlebars';
+import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access'
 import "./models/usersModels.js"
+import "./models/stocksModels.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -23,12 +27,20 @@ import ordersRouter from './routes/ordersRouter.js';
 import mapsRouter from './routes/mapsRouter.js';
 import clientsRouter from './routes/clientsRouter.js';
 
+
 const app = express();
 dotenv.config();
 
 // view engine setup
 app.set('views', join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'hbs');
+app.engine('hbs', engine({
+  extname: 'hbs',
+  defaultLayout: 'layout.hbs',
+  layoutsDir: __dirname + '/views',
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
+}))
+
 
 app.use(logger('dev'));
 app.use(json());
@@ -39,9 +51,9 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/stock', stockRouter);
 app.get('/toolsController', toolsControllerRouter);
 app.get('/suppliers', suppliersRouter);
-app.get('/stock', stockRouter);
 app.get('/orders', ordersRouter);
 app.get('/maps', mapsRouter);
 app.get('/clients', clientsRouter)

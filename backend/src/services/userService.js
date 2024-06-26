@@ -33,6 +33,8 @@ export class UserService {
 
     actualizarUsuario = async(where) =>{
         try {
+            const body = req.body;
+            const params = req.params;
             const actualizar = await User.update({where});
             return actualizar;
         } catch(err) {
