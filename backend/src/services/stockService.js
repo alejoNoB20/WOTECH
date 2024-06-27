@@ -18,9 +18,11 @@ export class StockService {
             throw err;
         }
     }
-    actualizarStock = async (id, newDate) => {
+    actualizarStock = async (id, newData) => {
         try {
-            const actualizar = await Stock.update(newDate, {
+            const {total_amount_product, buy_price_product, amount_product, ...dato} = newData;
+            total_amount_product = buy_price_product * amount_product;
+            const actualizar = await Stock.update(newData, {
                 where: {
                     id_product: id
                 }
@@ -32,8 +34,20 @@ export class StockService {
     }
     verUnStock = async (where) => {
         try {
-            const buscarUnStock = Stock.findOne({where});
-            return buscarUnStock;
+                const buscarUnStock = Stock.findOne({where});
+                return buscarUnStock;
+        } catch(err){
+            console.log(err);
+        }
+    }
+    buscarUnProducto = async (name_product) => {
+        try {
+                const buscarUnStock = Stock.findOne({
+                    where:{
+                        name_product: name_product
+                    }
+                });
+                return buscarUnStock;
         } catch(err){
             console.log(err);
         }

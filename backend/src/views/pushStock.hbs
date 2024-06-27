@@ -57,7 +57,7 @@
       <input type="text" class="form-control" id="productName" name="name_product" required>
     </div>
     <div class="mb-3">
-      <label for="productDescription" class="form-label">Descripción del Producto*</label>
+      <label for="productDescription" class="form-label">Descripción del Producto</label>
       <textarea class="form-control" id="productDescription" name="description_product" rows="3"></textarea>
     </div>
     <div class="mb-3">
@@ -68,5 +68,13 @@
       <label for="quantity" class="form-label">Cantidad*</label>
       <input type="number" class="form-control" id="quantity" name="amount_product" required>
     </div>
+    <div class="form-check">
+      <label for="contains" class="form-check-label">Contiene...</label>
+      <input type="checkbox"class="form-check-input" id="contains" name="contains">
+    </div>
+    <div class="mb-3">
+      <label for="flexCheckIndeterminate" class="form-label">Cantidad del contenido*</label>
+      <input type="number" class="form-control" id="howMuchContains" name="how_much_contains" disabled>
+    </div>
     <button type="submit" class="btn btn-primary">Cargar Producto</button>
-  </form>
+  </form> 

@@ -11,13 +11,8 @@ export class StockController {
     }
     crear = async (req, res) => {
         try {
-            if(req.body.id_product){
-                console.log(req.body.id_product)
-                res.redirect('/stock');
-            } else {
-                const resultado = await stock.crearStock(req.body);
-                res.redirect('/stock');
-            }
+            const resultado = await stock.crearStock(req.body);
+            res.redirect('/stock');
         }catch (err) {
             console.log(err);
         }
@@ -61,6 +56,16 @@ export class StockController {
             const resultado = await stock.borrarStock(req.params);
             res.redirect('/stock');
         } catch(err) {
+            console.log(err);
+        }
+    }
+    buscarUno = async (req, res) => {
+        try{
+            const nameProduct = req.query.name_product;
+            console.log(nameProduct)
+            const resultado = await stock.buscarUnProducto(nameProduct);
+            res.render('browserStock', {resultado});
+        } catch(err){
             console.log(err);
         }
     }

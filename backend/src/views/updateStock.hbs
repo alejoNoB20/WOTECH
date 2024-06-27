@@ -54,20 +54,28 @@
   <form action="/stock/update/{{productoACambiar.id_product}}" method="post">
     <div class="mb-3">
       <label for="productName" class="form-label">Nombre del Producto*</label>
-      <input type="text" class="form-control" id="productName" name="name_product" value="{{productoACambiar.name_product}}" required>
+      <input type="text" class="form-control" id="name_product" name="name_product" value="{{productoACambiar.name_product}}" required>
     </div>
     <div class="mb-3">
       <label for="productDescription" class="form-label">Descripción del Producto</label>
-      <textarea class="form-control" id="productDescription" name="description_product" value="{{productoACambiar.description_product}}" rows="3"></textarea>
+      <textarea class="form-control" id="description_product" name="description_product" rows="3" value="{{productoACambiar.description_product}}"></textarea>
     </div>
     <div class="mb-3">
       <label for="purchasePrice" class="form-label">Precio de Compra*</label>
-      <input type="number" class="form-control" id="purchasePrice" name="buy_price_product" value="{{productoACambiar.buy_price_product}}" step="0.01" required>
+      <input type="number" class="form-control" id="buy_price_product" name="buy_price_product" step="0.01" value="{{productoACambiar.buy_price_product}}" required>
     </div>
     <div class="mb-3">
       <label for="quantity" class="form-label">Cantidad*</label>
-      <input type="number" class="form-control" id="quantity" name="amount_product" value="{{productoACambiar.amount_product}}" required>
+      <input type="number" class="form-control" id="amount_product" name="amount_product" value="{{productoACambiar.amount_product}}" required>
     </div>
-    <button type="submit" class="btn btn-primary">Modificar Producto</button>
-  </form>
+    <div class="form-check">
+      <label for="contains" class="form-check-label">Contiene...</label>
+      <input type="checkbox"class="form-check-input" id="contains" name="contains">
+    </div>
+    <div class="mb-3">
+      <label for="flexCheckIndeterminate" class="form-label">Cantidad del contenido*</label>
+      <input type="number" class="form-control" id="how_much_contains" name="how_much_contains" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar Producto</button>
+  </form> 
 

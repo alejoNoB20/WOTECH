@@ -5,6 +5,7 @@ let stockRouter = Router();
 
 stockRouter.get('/', stockController.verTodos);
 stockRouter.get('/create', stockController.agregarStock);
+stockRouter.get('/search', stockController.buscarUno);
 stockRouter.post('/create', stockController.crear);
 stockRouter.get('/update/:id_product', stockController.irActualizarStock);
 stockRouter.post('/update/:id_product', stockController.actualizar);
