@@ -51,14 +51,32 @@
   </nav>
 
   <div class="container">
-    <h1 class="mb-2">{{title}}</h1>
+    <h1 class="mb-2 fs-1">{{title}}</h1>
   </div>
 
-  <form action="/stock/search" method="get">
-    <label for="browser"class="form-label">Buscar producto por su nombre:</label>
-    <input type="text" id="name_product" name="name_product" class="form-input">
-    <button type="submit" class="btn btn-primary">Buscar</button>
-  </form>
+  <div class="container">
+    <div class="row">
+      <form action="/stock/search/{{searchValue.value}}" method="get" class="d-flex">
+      <div class="col">
+        <label for="browser"class="form-label fs-2">Buscar producto por su</label>
+      </div>
+      <div class="col-2">
+        <select class="form-select col" name="searchValue">
+          <option value="name_product" selected>Nombre</option>
+          <option value="id_product">Id</option>
+          <option value="amount_product">Cantidad</option>
+          <option value="buy_price_product">Precio</option>
+        </select> 
+      </div>
+      <div class="col">
+        <input type="text" id="searchProduct" name="searchProduct" class="form-input col">
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary p-3 fs-4" id="searchButton">Buscar</button>
+      </div>
+      </form>
+    </div>
+  </div>
 
   <a type="button" class="btn btn-success" href="/stock/create">Crear nuevo stock</a>
 
@@ -86,7 +104,7 @@
           <td class="text-center">{{this.how_much_contains}}</td>
           <td class="text-center">{{this.total_amount_product}}</td>          
           <td class="text-center">${{this.buy_price_product}}</td>
-          <td class="text-center">$ {{this.value_stock}}</td>
+          <td class="text-center">${{this.value_stock}}</td>
           <td class="text-center">
               <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_product}}">Actualizar</a>
               <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_product}}">Eliminar</a>

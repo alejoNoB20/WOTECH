@@ -1,4 +1,5 @@
 import {StockService} from "../services/stockService.js";
+import Handlebars from "handlebars";
 export const stock = new StockService();
 
 export class StockController {
@@ -61,10 +62,10 @@ export class StockController {
     }
     buscarUno = async (req, res) => {
         try{
-            const nameProduct = req.query.name_product;
-            console.log(nameProduct)
-            const resultado = await stock.buscarUnProducto(nameProduct);
-            res.render('browserStock', {resultado});
+            const searchValue = req.query.searchValue;
+            const searchProduct = req.query.searchProduct;
+            const resultado = await stock.buscarUnProducto(searchValue, searchProduct);
+            res.render('browserStock', {title: searchProduct, resultado});
         } catch(err){
             console.log(err);
         }

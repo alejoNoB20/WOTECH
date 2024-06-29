@@ -1,4 +1,6 @@
+import { Op } from "sequelize";
 import {Stock} from "../models/stocksModels.js"
+import { response } from "express";
 
 export class StockService {
     verStock = async () => {
@@ -20,12 +22,10 @@ export class StockService {
     }
     actualizarStock = async (id, newData) => {
         try {
-            const {total_amount_product, buy_price_product, amount_product, ...dato} = newData;
-            total_amount_product = buy_price_product * amount_product;
             const actualizar = await Stock.update(newData, {
                 where: {
                     id_product: id
-                }
+                }, individualHooks: true,
             });
             return actualizar;
         } catch(err) {
@@ -40,14 +40,31 @@ export class StockService {
             console.log(err);
         }
     }
-    buscarUnProducto = async (name_product) => {
-        try {
-                const buscarUnStock = Stock.findOne({
-                    where:{
-                        name_product: name_product
-                    }
+    buscarUnProducto = async (searchValue, searchProduct) => {
+        try {  
+            if (searchValue === "id_product" || searchValue === "name_product") {
+                console.log(searchProduct);
+                const whereClause = {}
+                whereClause[searchValue] = {
+                    [Op.like]: `%${searchProduct}%`
+                }; 
+                const buscarUnStock = Stock.findAll({
+                    where: whereClause 
                 });
                 return buscarUnStock;
+            } else if (searchValue === "amount_product" || searchValue === "buy_price_product"){
+                console.log(searchProduct);
+                const whereClause = {}
+                whereClause[searchValue] = {
+                    [Op.eq]: searchProduct
+                }; 
+                const buscarUnStock = Stock.findAll({
+                    where: whereClause 
+                });
+                return buscarUnStock;
+            } else {
+                return false;   
+            }
         } catch(err){
             console.log(err);
         }

@@ -39,6 +39,15 @@ app.engine('hbs', engine({
   defaultLayout: 'layout.hbs',
   layoutsDir: __dirname + '/views',
   handlebars: allowInsecurePrototypeAccess(Handlebars),
+//   helpers: {
+//     checkResult: (resultado, options, title) => {
+//         if (!resultado || resultado.length === 0) {
+//             return options.fn({ message: `No se encontró "${options.hash.title}" en la lista de stock`, title });
+//         } else {
+//             return options.fn({ resultado });
+//         }
+//     }
+// }
 }))
 
 
@@ -60,7 +69,9 @@ app.get('/clients', clientsRouter)
 
 async function main(){
   try {
-    await sequelize.sync();
+    await sequelize.sync()
+      .then(() => console.log('DBActualizada'))
+        .catch(err => console.log(err));
     app.listen(process.env.PORT, () => {
       console.log(`Server running at port http://localhost:${process.env.PORT}`);
     });

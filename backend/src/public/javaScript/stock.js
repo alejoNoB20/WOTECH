@@ -1,5 +1,6 @@
 const $contains = document.querySelector('#contains'),
-    $howMuchContains = document.querySelector('#howMuchContains');
+    $howMuchContains = document.querySelector('#howMuchContains'),
+    $searchForm = document.querySelector('#searchForm');
 
 $contains.addEventListener('click', e=>{
     if (e.target.checked) {

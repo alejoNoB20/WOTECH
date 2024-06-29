@@ -52,7 +52,6 @@ export const Stock = sequelize.define('stock', {
                 stock.total_amount_product = amountProduct * howMuchContains;
             }
             stock.value_stock = amountProduct * buyPriceProduct;
-            console.log(stock.value_stock, amountProduct, buyPriceProduct);
         },
         beforeUpdate: (stock) => {
             const amountProduct = stock.amount_product;
@@ -66,5 +65,3 @@ export const Stock = sequelize.define('stock', {
         }
     }
 });
-
-sequelize.sync().then(() => console.log('DBActualizada')).catch(err => console.log(err));
