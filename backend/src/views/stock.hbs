@@ -1,54 +1,6 @@
 {{{layout}}}
 
 {{{body}}}
-  <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Wotech</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/users">Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/toolsController">Control de herramientas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/suppliers">Proveedores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/stock">Stock</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/orders">Pedidos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/maps">Planos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/clients">Clientes</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mi cuenta</a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="#">Mis datos</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Cerrar sesión</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar pedidos" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </nav>
 
   <div class="container">
     <h1 class="mb-2 fs-1">{{title}}</h1>
@@ -56,7 +8,7 @@
 
   <div class="container">
     <div class="row">
-      <form action="/stock/search/{{searchValue.value}}" method="get" class="d-flex">
+      <form action="/stock/search/" method="get" class="d-flex">
       <div class="col">
         <label for="browser"class="form-label fs-2">Buscar producto por su</label>
       </div>

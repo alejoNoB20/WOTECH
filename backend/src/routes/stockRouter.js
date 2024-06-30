@@ -4,7 +4,8 @@ const stockController = new StockController();
 let stockRouter = Router();
 
 stockRouter.get('/', stockController.verTodos);
-stockRouter.get('/create', stockController.agregarStock);
+stockRouter.get('/create', (req, res) => {
+    res.render('pushStock', {title: "Crear Nuevo Stock"})});
 stockRouter.get('/search', stockController.buscarUno);
 stockRouter.post('/create', stockController.crear);
 stockRouter.get('/update/:id_product', stockController.irActualizarStock);

@@ -1,72 +1,24 @@
 {{{layout}}}
 
 {{{body}}}
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">Wotech</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/users">Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/toolsController">Control de herramientas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/suppliers">Proveedores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/stock">Stock</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/orders">Pedidos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/maps">Planos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/clients">Clientes</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mi cuenta</a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="#">Mis datos</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Cerrar sesión</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar pedidos" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </nav>
 
-  <h1>{{title}}: {{productoACambiar.name_product}}</h1>
-  <form action="/stock/update/{{productoACambiar.id_product}}" method="post">
+  <h1>{{title}}: {{resultado.name_product}}</h1>
+  <form action="/stock/update/{{resultado.id_product}}" method="post">
     <div class="mb-3">
       <label for="productName" class="form-label">Nombre del Producto*</label>
-      <input type="text" class="form-control" id="name_product" name="name_product" value="{{productoACambiar.name_product}}" required>
+      <input type="text" class="form-control" id="name_product" name="name_product" value="{{resultado.name_product}}" required>
     </div>
     <div class="mb-3">
       <label for="productDescription" class="form-label">Descripción del Producto</label>
-      <textarea class="form-control" id="description_product" name="description_product" rows="3" value="{{productoACambiar.description_product}}"></textarea>
+      <textarea class="form-control" id="description_product" name="description_product" rows="3" value="{{resultado.description_product}}"></textarea>
     </div>
     <div class="mb-3">
       <label for="purchasePrice" class="form-label">Precio de Compra*</label>
-      <input type="number" class="form-control" id="buy_price_product" name="buy_price_product" step="0.01" value="{{productoACambiar.buy_price_product}}" required>
+      <input type="number" class="form-control" id="buy_price_product" name="buy_price_product" step="0.01" value="{{resultado.buy_price_product}}" required>
     </div>
     <div class="mb-3">
       <label for="quantity" class="form-label">Cantidad*</label>
-      <input type="number" class="form-control" id="amount_product" name="amount_product" value="{{productoACambiar.amount_product}}" required>
+      <input type="number" class="form-control" id="amount_product" name="amount_product" value="{{resultado.amount_product}}" required>
     </div>
     <div class="form-check">
       <label for="contains" class="form-check-label">Contiene...</label>
@@ -74,7 +26,7 @@
     </div>
     <div class="mb-3">
       <label for="flexCheckIndeterminate" class="form-label">Cantidad del contenido*</label>
-      <input type="number" class="form-control" id="how_much_contains" name="how_much_contains" disabled>
+      <input type="number" class="form-control" id="how_much_contains" name="how_much_contains" value="{{resultado.how_much_contains}}" disabled>
     </div>
     <button type="submit" class="btn btn-primary">Cargar Producto</button>
   </form> 

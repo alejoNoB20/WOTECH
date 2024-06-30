@@ -1,5 +1,8 @@
 import { Sequelize, DataTypes } from "sequelize";
 import { sequelize } from "../database/connection.js";
+// import { Productions } from "./productsModels.js";
+
+
 
 export const Stock = sequelize.define('stock', {
     id_product: {
@@ -41,7 +44,7 @@ export const Stock = sequelize.define('stock', {
     }
 }, {
     tableName: 'stock',
-    timestamps: false,
+    sequelize,
     hooks: {
         beforeCreate: (stock) => {
             const amountProduct = stock.amount_product;
