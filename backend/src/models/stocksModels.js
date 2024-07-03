@@ -15,7 +15,7 @@ export const Stock = sequelize.define('stock', {
         allowNull: false
     },
     description_product: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.TEXT('long'),
         allowNull: true
     },
     buy_price_product: {

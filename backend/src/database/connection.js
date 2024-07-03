@@ -8,4 +8,4 @@ export const sequelize = new Sequelize('wotech', 'root', '', {
     }
 });
 
-sequelize.sync({force:true}).then(() => console.log('DBActualizada')).catch(err => console.log(err));
+sequelize.sync({force:false}).then(() => console.log('DBActualizada')).catch(err => console.log(err));

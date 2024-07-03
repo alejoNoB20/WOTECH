@@ -11,6 +11,7 @@ import { sequelize } from './database/connection.js';
 import Handlebars from 'handlebars';
 import {engine} from 'express-handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access'
+import "./models/associations.js"
 import "./models/usersModels.js"
 import "./models/stocksModels.js"
 import "./models/productsModels.js"

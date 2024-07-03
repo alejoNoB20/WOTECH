@@ -17,7 +17,7 @@
           <option value="name_product" selected>Nombre</option>
           <option value="id_product">Id</option>
           <option value="amount_product">Cantidad</option>
-          <option value="buy_price_product">Precio</option>
+          <option value="buy_price_product">Precio de compra</option>
         </select> 
       </div>
       <div class="col">
@@ -32,36 +32,40 @@
 
   <a type="button" class="btn btn-success" href="/stock/create">Crear nuevo stock</a>
 
-  <table class="table mt-2">
-    <thead>
-      <tr class="table-primary">
-        <th scope="col" class="text-center">ID</th>
-        <th scope="col" class="text-center">Producto</th>
-        <th scope="col" class="text-center">Descripción</th>
-        <th scope="col" class="text-center">Cantidad</th>
-        <th scope="col" class="text-center">Contenido c/u Producto</th>
-        <th scope="col" class="text-center">Total Contenido</th>
-        <th scope="col" class="text-center">Precio De Compra</th>
-        <th scope="col" class="text-center">Valor del Stock</th>
-        <th scope="col" class="text-center">#</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each resultado}}
-        <tr class="table-secondary">
-          <th scope="row" class="text-center">{{this.id_product}}</th>
-          <td class="text-center">{{this.name_product}}</td>
-          <td class="text-center">{{this.description_product}}</td>
-          <td class="text-center">{{this.amount_product}}</td>
-          <td class="text-center">{{this.how_much_contains}}</td>
-          <td class="text-center">{{this.total_amount_product}}</td>          
-          <td class="text-center">${{this.buy_price_product}}</td>
-          <td class="text-center">${{this.value_stock}}</td>
-          <td class="text-center">
-              <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_product}}">Actualizar</a>
-              <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_product}}">Eliminar</a>
-          </td>
+    {{#if resultado}}
+    <table class="table mt-2">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Producto</th>
+          <th scope="col" class="text-center">Descripción</th>
+          <th scope="col" class="text-center">Cantidad</th>
+          <th scope="col" class="text-center">Contenido c/u Producto</th>
+          <th scope="col" class="text-center">Total Contenido</th>
+          <th scope="col" class="text-center">Precio De Compra</th>
+          <th scope="col" class="text-center">Valor del Stock</th>
+          <th scope="col" class="text-center">#</th>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {{#each resultado}}
+          <tr class="table-secondary">
+            <th scope="row" class="text-center">{{this.id_product}}</th>
+            <td class="text-center">{{this.name_product}}</td>
+            <td class="text-center">{{this.description_product}}</td>
+            <td class="text-center">{{this.amount_product}}</td>
+            <td class="text-center">{{this.how_much_contains}}</td>
+            <td class="text-center">{{this.total_amount_product}}</td>          
+            <td class="text-center">${{this.buy_price_product}}</td>
+            <td class="text-center">${{this.value_stock}}</td>
+            <td class="text-center">
+                <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_product}}">Actualizar</a>
+                <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_product}}">Eliminar</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <h1 class="mt-3">{{message}}</h1>
+  {{/if}}

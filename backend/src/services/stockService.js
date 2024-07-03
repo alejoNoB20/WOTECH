@@ -62,9 +62,8 @@ export class StockService {
                     where: whereClause 
                 });
                 return buscarUnStock;
-            } else {
-                return false;   
             }
+            
         } catch(err){
             console.log(err);
         }
