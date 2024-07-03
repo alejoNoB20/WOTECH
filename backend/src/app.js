@@ -7,14 +7,13 @@ import path from 'path'
 import dotenv from 'dotenv'
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { sequelize } from './database/connection.js';
 import Handlebars from 'handlebars';
 import {engine} from 'express-handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access'
-import "./models/associations.js"
-import "./models/usersModels.js"
 import "./models/stocksModels.js"
+import "./models/toolsControllerModels.js"
 import "./models/productsModels.js"
+import "./models/associations.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -41,15 +40,6 @@ app.engine('hbs', engine({
   defaultLayout: 'layout.hbs',
   layoutsDir: __dirname + '/views',
   handlebars: allowInsecurePrototypeAccess(Handlebars),
-//   helpers: {
-//     checkResult: (resultado, title, options) => {
-//         if (!resultado || resultado.length === 0) {
-//             return options.fn({ message: `No se encontró "${title}" en la lista de stock` });
-//         } else {
-//             return options.fn({resultado});
-//         }
-//     }
-// }
 }))
 
 
@@ -63,7 +53,7 @@ app.use(express.static(path.join(__dirname, '/public')))
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/stock', stockRouter);
-// app.get('/toolsController', toolsControllerRouter);
+app.use('/toolsController', toolsControllerRouter);
 app.use('/products', productsRouter);
 // app.get('/orders', ordersRouter);
 // app.get('/maps', mapsRouter);
