@@ -12,33 +12,35 @@ export const Tools = sequelize.define('tools', {
         allowNull: false
     },
     description_tool: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.TEXT('medium'),
         allowNull: true
     },
     status_tool: {
         type: DataTypes.STRING,
         allowNull: false
     },
+    enable_tool: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
     location_tool: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    repair_date_tool : {
-        type: DataTypes.DATE,
+    repair_shop_tool: {
+        type: DataTypes.STRING(100),
+        allowNull:true
+    },
+    repair_date_tool: {
+        type: DataTypes.DATEONLY,
+        allowNull: true
+    },
+    search_repair_tool: {
+        type: DataTypes.DATEONLY,
         allowNull: true
     }
 },
     {
         tableName: 'tools',
         sequelize,
-        // hooks:{
-        //     beforeCreate: (tools) => {
-        //         if (tools.status_tool === 'missing'){
-        //             tools.location_tool = 
-        //         }
-        //     },
-        //     beforeUpdate: (tools) => {
-
-        //     }
-        // }
     })

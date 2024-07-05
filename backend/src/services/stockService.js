@@ -43,7 +43,6 @@ export class StockService {
     buscarUnProducto = async (searchValue, searchProduct) => {
         try {  
             if (searchValue === "id_product" || searchValue === "name_product") {
-                console.log(searchProduct);
                 const whereClause = {}
                 whereClause[searchValue] = {
                     [Op.like]: `%${searchProduct}%`
@@ -53,7 +52,6 @@ export class StockService {
                 });
                 return buscarUnStock;
             } else if (searchValue === "amount_product" || searchValue === "buy_price_product"){
-                console.log(searchProduct);
                 const whereClause = {}
                 whereClause[searchValue] = {
                     [Op.eq]: searchProduct

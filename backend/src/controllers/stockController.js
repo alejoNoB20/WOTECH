@@ -102,7 +102,6 @@ export class StockController {
                 howMuchContains = Number(req.body.how_much_contains),
                 contains = req.body.contains,
                 buyPriceProduct = req.body.buy_price_product;
-                console.log(buyPriceProduct % 1)
             // VALIDATIONS
             //  Tests if nameProduct, amountProduct or buyPriceProduct contains any caracters 
             if (nameProduct.length === 0 || amountProduct.length === 0 || buyPriceProduct.length === 0){

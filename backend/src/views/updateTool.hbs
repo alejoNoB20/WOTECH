@@ -1,0 +1,43 @@
+{{{layout}}}
+
+{{{body}}}
+
+  <h1>{{title}}: {{resultado.name_tool}}</h1>
+  <a href="/tools" class="btn btn-primary p-2 m-2">Volver</a>
+  <form action="/tools/update/{{resultado.id_tool}}" method="post">
+    <div class="mb-3">
+      <label for="name_tool" class="form-label">Nombre de la herramienta*</label>
+      <input type="text" class="form-control" id="name_tool" name="name_tool" value="{{resultado.name_tool}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="description_tool" class="form-label">Descripción de la herramienta</label>
+      <textarea class="form-control" id="description_tool" name="description_tool" rows="3" value="{{resultado.description_tool}}"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="status_tool" class="form-label">Estado de la herramienta</label>
+      <select class="form-select col" name="status_tool" id="status_tool" required>
+        <option value="Habilitado">Habilitado</option>
+        <option value="En_arreglo">En Arreglo</option>
+        <option value="Perdido">Perdido</option>
+      </select> 
+    </div>
+    <div class="mb-3">
+      <label for="location_tool" class="form-label">Localización*</label>
+      <input type="text" class="form-control" id="location_tool" name="location_tool" step="0.01" value="{{resultado.location_tool}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="repair_shop_tool" class="form-label">Donde se está arreglando</label>
+      <input type="text" class="form-control" id="repair_shop_tool" name="repair_shop_tool" value="{{resultado.repair_shop_tool}}" disabled>
+    </div>
+    <div class="mb-3">
+      <label for="repair_date_tool" class="form-label">Cuando se llevo a reparar</label>
+      <input type="date" class="form-control" id="repair_date_tool" name="repair_date_tool" value="{{resultado.repair_date_tool}}" disabled>
+    </div>
+    <div class="mb-3">
+      <label for="search_repair_tool" class="form-label">Cuando ir a buscar</label>
+      <input type="date" class="form-control" id="search_repair_tool" name="search_repair_tool" value="{{resultado.search_repair_tool}}" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar herramienta</button>
+  </form> 
+
+  <script type="module" src="/javaScript/tools.js"></script>

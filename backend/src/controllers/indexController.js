@@ -1,5 +1,6 @@
 import {StockService} from "../services/stockService.js";
-export const stock = new StockService();
+const stock = new StockService();
+
 
 export class IndexController {
     verStockIndex = async (req, res) => {

@@ -1,0 +1,21 @@
+{{{layout}}}
+
+{{{body}}}
+
+<h1 class="my-2">{{title}}</h1>
+  <a href="/tools" class="btn btn-primary p-2 m-2">Volver</a>
+  <form action="/tools/create" method="post">
+    <div class="mb-3">
+      <label for="name_tool" class="form-label">Nombre de la herramienta*</label>
+      <input type="text" class="form-control" id="name_tool" name="name_tool" >
+    </div>
+    <div class="mb-3">
+      <label for="description_tool" class="form-label">Descripción de la herramienta</label>
+      <textarea class="form-control" id="description_tool" name="description_tool" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="location_tool" class="form-label">Localización*</label>
+      <input type="text" class="form-control" id="location_tool" name="location_tool" >
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar Producto</button>
+  </form> 

@@ -1,0 +1,88 @@
+{{{layout}}}
+
+{{{body}}}
+
+  <h1 class="my-3">{{title}}</h1>
+  
+  <div class="container mt-3">
+    <div class="row">
+      <form action="/tools/search/" method="get" class="d-flex">
+      <div class="col">
+        <label for="browser"class="form-label fs-2">Buscar herramienta por su</label>
+      </div>
+      <div class="col-2">
+        <select class="form-select col" name="searchValue" id="searchValue">
+          <option value="name_tool" selected>Nombre</option>
+          <option value="id_tool">Id</option>
+          <option value="status_tool">Estado</option>
+          <option value="location_tool">Ubicación</option>
+          <option value="repair_shop_tool">Donde se está arreglando</option>
+        </select> 
+      </div>
+      <div class="col">
+        <input type="text" id="searchProduct" name="searchProduct" class="form-input">
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary p-3 fs-4">Buscar</button>
+      </div>
+      </form>
+      <div class="col" id="status_options"></div>
+    </div>
+  </div>
+
+  <a type="button" class="btn btn-success" href="/tools/create">Crear nuevo stock</a>
+
+    {{#if resultado}}
+    <table class="table mt-2">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Herramienta</th>
+          <th scope="col" class="text-center">Descripción</th>
+          <th scope="col" class="text-center">Estado</th>
+          <th scope="col" class="text-center">Ubicación</th>
+          <th scope="col" class="text-center">Donde se está arreglando</th>
+          <th scope="col" class="text-center">Cuando se llevo a reparar</th>
+          <th scope="col" class="text-center">Cuando ir a buscar</th>
+          <th scope="col" class="text-center">#</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado}}
+            <tr class="table-secondary">
+          {{#if this.enable_tool}}
+              <th scope="row" class="text-center table-success">{{this.id_tool}}</th>
+              <td class="text-center table-success">{{this.name_tool}}</td>
+              <td class="text-center table-success">{{this.description_tool}}</td>
+              <td class="text-center table-success">{{this.status_tool}}</td>
+              <td class="text-center table-success">{{this.location_tool}}</td>
+              <td class="text-center table-success">{{this.repair_shop_tool}}</td>
+              <td class="text-center table-success">{{this.repair_date_tool}}</td>
+              <td class="text-center table-success">{{this.search_repair_tool}}</td>          
+              <td class="text-center table-success">
+                  <a type="button" class="btn btn-warning mb-2" href="/tools/update/{{this.id_tool}}">Actualizar</a>
+                  <a type="button" class="btn btn-danger" href="/tools/delete/{{this.id_tool}}">Eliminar</a>
+              </td>
+            {{else}}
+              <th scope="row" class="text-center table-danger">{{this.id_tool}}</th>
+              <td class="text-center table-danger">{{this.name_tool}}</td>
+              <td class="text-center table-danger">{{this.description_tool}}</td>
+              <td class="text-center table-danger">{{this.status_tool}}</td>
+              <td class="text-center table-danger">{{this.location_tool}}</td>
+              <td class="text-center table-danger">{{this.repair_shop_tool}}</td>
+              <td class="text-center table-danger">{{this.repair_date_tool}}</td>
+              <td class="text-center table-danger">{{this.search_repair_tool}}</td>          
+              <td class="text-center table-danger">
+                  <a type="button" class="btn btn-warning mb-2" href="/tools/update/{{this.id_tool}}">Actualizar</a>
+                  <a type="button" class="btn btn-danger" href="/tools/delete/{{this.id_tool}}">Eliminar</a>
+              </td>
+          {{/if}}
+            </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+			<h1 class="mt-3">No se encontraron herramientas registradas en la base de datos</h1>
+  {{/if}}
+
+  <script type="module" src="/javaScript/toolsIndex.js"></script>
