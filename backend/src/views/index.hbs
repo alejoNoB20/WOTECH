@@ -13,7 +13,7 @@
           <th scope="col" class="text-center">Producto</th>
           <th scope="col" class="text-center">Descripción</th>
           <th scope="col" class="text-center">Cantidad</th>
-          <th scope="col" class="text-center">Contenido c/u Producto</th>
+          <th scope="col" class="text-center">Contenido c/u producto</th>
           <th scope="col" class="text-center">Total Contenido</th>
           <th scope="col" class="text-center">Precio De Compra</th>
           <th scope="col" class="text-center">Valor del Stock</th>
@@ -22,13 +22,13 @@
       <tbody>
         {{#each resultado}}
           <tr class="table-secondary">
-            <th scope="row" class="text-center">{{this.id_product}}</th>
-            <td class="text-center">{{this.name_product}}</td>
-            <td class="text-center">{{this.description_product}}</td>
-            <td class="text-center">{{this.amount_product}}</td>
+            <th scope="row" class="text-center">{{this.id_material}}</th>
+            <td class="text-center">{{this.name_material}}</td>
+            <td class="text-center">{{this.description_material}}</td>
+            <td class="text-center">{{this.amount_material}}</td>
             <td class="text-center">{{this.how_much_contains}}</td>
-            <td class="text-center">{{this.total_amount_product}}</td>          
-            <td class="text-center">${{this.buy_price_product}}</td>
+            <td class="text-center">{{this.total_amount_material}}</td>          
+            <td class="text-center">${{this.buy_price_material}}</td>
             <td class="text-center">${{this.value_stock}}</td>
           </tr>
         {{/each}}

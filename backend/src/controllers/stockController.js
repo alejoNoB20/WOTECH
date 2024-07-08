@@ -7,29 +7,39 @@ export class StockController {
     // Create new stock
     crear = async (req, res) => {
         try {
-            const nameProduct = req.body.name_product,
-                amountProduct = Number(req.body.amount_product),
+            const findTheSameName = await stock.verStock();
+            const namematerial = req.body.name_material,
+                amountmaterial = Number(req.body.amount_material),
                 howMuchContains = Number(req.body.how_much_contains),
                 contains = req.body.contains,
-                buyPriceProduct = req.body.buy_price_product;
+                buyPricematerial = req.body.buy_price_material;
             // VALIDATIONS
-            //  Tests if nameProduct, amountProduct or buyPriceProduct contains any caracters 
-            if (nameProduct.length === 0 || amountProduct.length === 0 || buyPriceProduct.length === 0){
+            //  Tests if namematerial, amountmaterial or buyPricematerial contains any caracters 
+            if (namematerial.length === 0 || amountmaterial.length === 0 || buyPricematerial.length === 0){
                 throw new Error(JSON.stringify({message: `Los campos "NOMBRE", "PRECIO DE COMPRA" Y "CANTIDAD" son obligatorios`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
             }
-            // Tests if nameProduct is longer than 50 caracters
-            if(nameProduct.length > 50){
-                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${nameProduct} cuenta con ${nameProduct.length} caracteres`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+            // Tests if namematerial is longer than 50 caracters
+            if(namematerial.length > 50){
+                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${namematerial} cuenta con ${namematerial.length} caracteres`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
             }
-            // Tests if buyPriceProduct or amountProduct isn't number or integer  
-            if ((isNaN(buyPriceProduct) || (buyPriceProduct % 1 !== 0)) || (isNaN(amountProduct) || (amountProduct % 1 !== 0))){
+            // Tests if buyPricematerial or amountmaterial isn't number or integer  
+            if ((isNaN(buyPricematerial) || (buyPricematerial % 1 !== 0)) || (isNaN(amountmaterial) || (amountmaterial % 1 !== 0))){
                 throw new Error(JSON.stringify({message: `Los campos "PRECIO DE COMPRA", "CANTIDAD" Y "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
             }
             // Tests if howMuchContains isn't number or integer
             if(contains === 'on'){
-                if(isNaN(howMuchContains) || (howMuchContains % 1 !== 0)){
+                if (howMuchContains === 0){
+                    throw new Error(JSON.stringify({message: `Si el stock tiene un contenido debes detallar su cantidad con números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+                } else if (isNaN(howMuchContains) || (howMuchContains % 1 !== 0)) {
                     throw new Error(JSON.stringify({message: `El campo "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
                 }
+            }
+            if(findTheSameName.length > 0){
+                findTheSameName.forEach(stock => {
+                    if(namematerial === stock.name_material) {
+                        throw new Error(JSON.stringify({message: `Ya existe un materialo con el nombre de "${namematerial}" en la base de datos`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+                    }
+                })
             }
             // RESPONSES
             if(req.query.format === 'json'){
@@ -51,10 +61,11 @@ export class StockController {
             res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
         }
     }
-    // view all products
+    // view all materials
     verTodos = async (req, res) => {
         try {
             const resultado = await stock.verStock();
+            console.log(resultado)
             // VALIDATIONS
             // Tests if DB contains stocks
             if(resultado.length === 0){
@@ -80,7 +91,7 @@ export class StockController {
     irActualizarStock = async (req, res) => {
         try {
             const resultado = await stock.verUnStock(req.params);
-            res.render('updateStock', {title: "Modificar producto", resultado});
+            res.render('updateStock', {title: "Modificar materialo", resultado});
         } catch (err) {
             let errorObject;
             try{
@@ -94,34 +105,44 @@ export class StockController {
     // update one stock
     actualizar = async (req, res) => {
         try {
-            const idProduct = req.params.id_product;
+            const findTheSameName = await stock.verStock();
+            const idmaterial = req.params.id_material;
             const newData = req.body;
-            const {id_product, ...data} = newData;
-            const nameProduct = req.body.name_product,
-                amountProduct = Number(req.body.amount_product),
+            const {id_material, ...data} = newData;
+            const namematerial = req.body.name_material,
+                amountmaterial = Number(req.body.amount_material),
                 howMuchContains = Number(req.body.how_much_contains),
                 contains = req.body.contains,
-                buyPriceProduct = req.body.buy_price_product;
+                buyPricematerial = req.body.buy_price_material;
             // VALIDATIONS
-            //  Tests if nameProduct, amountProduct or buyPriceProduct contains any caracters 
-            if (nameProduct.length === 0 || amountProduct.length === 0 || buyPriceProduct.length === 0){
-                throw new Error(JSON.stringify({message: `Los campos "NOMBRE", "PRECIO DE COMPRA" Y "CANTIDAD" son obligatorios`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+            //  Tests if namematerial, amountmaterial or buyPricematerial contains any caracters 
+            if (namematerial.length === 0 || amountmaterial.length === 0 || buyPricematerial.length === 0){
+                throw new Error(JSON.stringify({message: `Los campos "NOMBRE", "PRECIO DE COMPRA" Y "CANTIDAD" son obligatorios`, redirect: '/stock', text: 'Volver a Stock'}));
             }
-            // Tests if nameProduct is longer than 50 caracters
-            if(nameProduct.length > 50){
-                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${nameProduct} cuenta con ${nameProduct.length} caracteres`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+            // Tests if namematerial is longer than 50 caracters
+            if(namematerial.length > 50){
+                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${namematerial} cuenta con ${namematerial.length} caracteres`, redirect: '/stock', text: 'Volver a Stock'}));
             }
-            // Tests if buyPriceProduct or amountProduct isn't number or integer  
-            if ((isNaN(buyPriceProduct) || (buyPriceProduct % 1 !== 0)) || (isNaN(amountProduct) || (amountProduct % 1 !== 0))){
-                throw new Error(JSON.stringify({message: `Los campos "PRECIO DE COMPRA", "CANTIDAD" Y "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+            // Tests if buyPricematerial or amountmaterial isn't number or integer  
+            if ((isNaN(buyPricematerial) || (buyPricematerial % 1 !== 0)) || (isNaN(amountmaterial) || (amountmaterial % 1 !== 0))){
+                throw new Error(JSON.stringify({message: `Los campos "PRECIO DE COMPRA", "CANTIDAD" Y "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock', text: 'Volver a Stock'}));
             }
             // Tests if howMuchContains isn't number or integer
             if(contains === 'on'){
-                if(isNaN(howMuchContains) || (howMuchContains % 1 !== 0)){
+                if (howMuchContains === 0){
+                    throw new Error(JSON.stringify({message: `Si el stock tiene un contenido debes detallar su cantidad con números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
+                } else if (isNaN(howMuchContains) || (howMuchContains % 1 !== 0)) {
                     throw new Error(JSON.stringify({message: `El campo "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
                 }
             }
-            await stock.actualizarStock(idProduct, data);
+            if(findTheSameName.length > 0){
+                findTheSameName.forEach(stock => {
+                    if((namematerial === stock.name_material) && ((req.params.id_material != stock.id_material))) {
+                        throw new Error(JSON.stringify({message: `Ya existe un materialo con el nombre de "${namematerial}" en la base de datos`, redirect: '/stock', text: 'Volver a Stock'}));
+                    }
+                })
+            }
+            await stock.actualizarStock(idmaterial, data);
             res.redirect('/stock');
         } catch (err) {
             let errorObject;
@@ -152,7 +173,7 @@ export class StockController {
         try {
             const resultado = await stock.borrarStock(req.params);
             if (req.query.format === 'json'){
-                res.status(200).json({title: `El elemento con ID: ${req.params.id_product} ha sido eliminado correctamente`})
+                res.status(200).json({title: `El elemento con ID: ${req.params.id_material} ha sido eliminado correctamente`})
             } else {
                 res.redirect('/stock');
             }
@@ -170,43 +191,43 @@ export class StockController {
     buscarUno = async (req, res) => {
         try{
             const searchValue = req.query.searchValue;
-            const searchProduct = req.query.searchProduct;
-            const resultado = await stock.buscarUnProducto(searchValue, searchProduct);
+            const searchmaterial = req.query.searchmaterial;
+            const resultado = await stock.buscarUnmaterialo(searchValue, searchmaterial);
             // VALIDATIONS
-            // Tests if searchValue options, except name_product, isn't a number of is a float point number
-            if (searchValue !== 'name_product' && (isNaN(searchProduct) || (searchProduct % 1 !== 0))){
+            // Tests if searchValue options, except name_material, isn't a number of is a float point number
+            if (searchValue !== 'name_material' && (isNaN(searchmaterial) || (searchmaterial % 1 !== 0))){
                 throw new Error(JSON.stringify({message: 'Los campos "CANTIDAD", "PRECIO" y "ID" solo reciben números y solo números', redirect: '/stock', text: 'Volver a Stock'}))
             }
             // REPONSES
             if(req.query.format === 'json'){
                 // Response for EndPoint
                 if (resultado.length === 0) {
-                    // if the searched product doesn't exist in the DB
-                    res.status(200).json({title: searchProduct, resultado: `No se encontró ningun producto con "${searchProduct}"`});
+                    // if the searched material doesn't exist in the DB
+                    res.status(200).json({title: searchmaterial, resultado: `No se encontró ningun materialo con "${searchmaterial}"`});
                 } else {
-                    // if the searched product exist in the DB
-                    res.status(200).json({title: searchProduct, resultado});
+                    // if the searched material exist in the DB
+                    res.status(200).json({title: searchmaterial, resultado});
                 }
             } else {
                 if (resultado.length === 0){
-                    // if the searched product doesn't exist in the DB                    
+                    // if the searched material doesn't exist in the DB                    
                     switch (searchValue) {
-                        case 'name_product':
-                            res.render('browserStock', {title: searchProduct, resultado, searchProduct, searchValue: 'Nombre'})
+                        case 'name_material':
+                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Nombre'})
                         break;        
-                        case 'id_product':
-                            res.render('browserStock', {title: searchProduct, resultado, searchProduct, searchValue: 'ID'})
+                        case 'id_material':
+                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'ID'})
                         break;                        
-                        case 'amount_product':
-                            res.render('browserStock', {title: searchProduct, resultado, searchProduct, searchValue: 'Cantidad'})
+                        case 'amount_material':
+                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Cantidad'})
                         break;                        
-                        case 'buy_price_product':
-                            res.render('browserStock', {title: searchProduct, resultado, searchProduct, searchValue: 'Precio de compra'})
+                        case 'buy_price_material':
+                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Precio de compra'})
                         break;
                     }
                 } else {
-                    // if the searched product exist in the DB
-                    res.render('browserStock', {title: searchProduct, resultado});
+                    // if the searched material exist in the DB
+                    res.render('browserStock', {title: searchmaterial, resultado});
                 }
                 
             }

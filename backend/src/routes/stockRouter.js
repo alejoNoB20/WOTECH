@@ -8,8 +8,8 @@ stockRouter.get('/create', (req, res) => {
     res.render('pushStock', {title: "Crear Nuevo Stock"})});
 stockRouter.get('/search', stockController.buscarUno);
 stockRouter.post('/create', stockController.crear);
-stockRouter.get('/update/:id_product', stockController.irActualizarStock);
-stockRouter.post('/update/:id_product', stockController.actualizar);
-stockRouter.get('/delete/:id_product', stockController.borrar);
+stockRouter.get('/update/:id_material', stockController.irActualizarStock);
+stockRouter.post('/update/:id_material', stockController.actualizar);
+stockRouter.get('/delete/:id_material', stockController.borrar);
 
 export default stockRouter;

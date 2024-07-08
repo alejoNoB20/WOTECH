@@ -37,6 +37,7 @@ export class ToolsController {
     }
     pushHerramienta = async (req, res) => {
         try {
+            const findTheSameName = await Tool.verHerramientas();
             const nameTool = req.body.name_tool,
                 locationTool = req.body.location_tool;
             // VALIDATIONS
@@ -47,6 +48,14 @@ export class ToolsController {
             // Tests if nameTool is longer than 50 caracters
             if(nameTool.length > 50){
                 throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${nameTool} cuenta con ${nameTool.length} caracteres`, redirect: '/tools/create', text: 'Volver a crear Herramienta'}));
+            }
+            // Test if there is a tool with the same name.
+            if(findTheSameName.length > 0){
+                findTheSameName.forEach(tool => {
+                    if(nameTool === tool.name_tool) {
+                        throw new Error(JSON.stringify({message: `Ya existe una herramienta con el nombre de "${nameTool}" en la base de datos`, redirect: '/tools/create', text: 'Volver a crear Herramienta'}));
+                    }
+                })
             }
             // RESPONSES
             if(req.query.format === 'json'){
@@ -105,6 +114,7 @@ export class ToolsController {
     }
     actualizarHerramienta = async (req, res) => {
         try {
+            const findTheSameName = await Tool.verHerramientas();
             const idtool = req.params.id_tool;
             const newData = req.body;
             const {idTool, ...data} = newData;
@@ -139,7 +149,13 @@ export class ToolsController {
             } else {
                 newData.enable_tool = true;
             }
-
+            if(findTheSameName.length > 0){
+                findTheSameName.forEach(tool => {
+                    if((nameTool === tool.name_tool) && (req.params.id_tool != tool.id_tool)) {
+                        throw new Error(JSON.stringify({message: `Ya existe una herramienta con el nombre de "${nameTool}" en la base de datos`, redirect: '/tools', text: 'Volver "Herramientas"'}));
+                    }
+                })
+            }
             await Tool.updateTool(idtool, newData);
             res.redirect('/tools');
         } catch (err) {

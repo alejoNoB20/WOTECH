@@ -24,7 +24,7 @@ export class StockService {
         try {
             const actualizar = await Stock.update(newData, {
                 where: {
-                    id_product: id
+                    id_material: id
                 }, individualHooks: true,
             });
             return actualizar;
@@ -40,21 +40,21 @@ export class StockService {
             console.log(err);
         }
     }
-    buscarUnProducto = async (searchValue, searchProduct) => {
+    buscarUnmaterialo = async (searchValue, searchmaterial) => {
         try {  
-            if (searchValue === "id_product" || searchValue === "name_product") {
+            if (searchValue === "id_material" || searchValue === "name_material") {
                 const whereClause = {}
                 whereClause[searchValue] = {
-                    [Op.like]: `%${searchProduct}%`
+                    [Op.like]: `%${searchmaterial}%`
                 }; 
                 const buscarUnStock = Stock.findAll({
                     where: whereClause 
                 });
                 return buscarUnStock;
-            } else if (searchValue === "amount_product" || searchValue === "buy_price_product"){
+            } else if (searchValue === "amount_material" || searchValue === "buy_price_material"){
                 const whereClause = {}
                 whereClause[searchValue] = {
-                    [Op.eq]: searchProduct
+                    [Op.eq]: searchmaterial
                 }; 
                 const buscarUnStock = Stock.findAll({
                     where: whereClause 

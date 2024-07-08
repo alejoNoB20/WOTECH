@@ -1,33 +1,34 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../database/connection.js";
 
-export const Productions = sequelize.define('productions', {
-    id_production: {
+export const Products = sequelize.define('products', {
+    id_product: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    name_production:{
+    name_product:{
         type: DataTypes.STRING(50),
+        unique: true,
         allowNull: false
     },
-    img_production: {
+    img_product: {
         type: DataTypes.TEXT('medium'),
         allowNull: true
     },
-    description_production: {
+    description_product: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    tools_use_production: {
+    tools_use_product: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    materials_of_production: {
+    materials_of_product: {
         type: DataTypes.STRING(50),
         allowNull: false
     }
 }, {
-    tableName:'productions',
+    tableName:'products',
     sequelize
 })

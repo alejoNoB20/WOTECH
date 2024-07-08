@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes} from "sequelize";
+import {DataTypes} from "sequelize";
 import { sequelize } from "../database/connection.js";
 
 export const Tools = sequelize.define('tools', {
@@ -9,6 +9,7 @@ export const Tools = sequelize.define('tools', {
     },
     name_tool: {
         type: DataTypes.STRING(50),
+        unique: true,
         allowNull: false
     },
     description_tool: {

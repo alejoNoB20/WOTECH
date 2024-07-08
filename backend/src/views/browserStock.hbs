@@ -22,17 +22,17 @@
     <tbody>
       {{#each resultado}}
         <tr class="table-secondary">
-          <th scope="row" class="text-center">{{this.id_product}}</th>
-          <td class="text-center">{{this.name_product}}</td>
-          <td class="text-center">{{this.description_product}}</td>
-          <td class="text-center">{{this.amount_product}}</td>
+          <th scope="row" class="text-center">{{this.id_material}}</th>
+          <td class="text-center">{{this.name_material}}</td>
+          <td class="text-center">{{this.description_material}}</td>
+          <td class="text-center">{{this.amount_material}}</td>
           <td class="text-center">{{this.how_much_contains}}</td>
-          <td class="text-center">{{this.total_amount_product}}</td>          
-          <td class="text-center">${{this.buy_price_product}}</td>
+          <td class="text-center">{{this.total_amount_material}}</td>          
+          <td class="text-center">${{this.buy_price_material}}</td>
           <td class="text-center">${{this.value_stock}}</td>
           <td class="text-center">
-              <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_product}}">Actualizar</a>
-              <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_product}}">Eliminar</a>
+              <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_material}}">Actualizar</a>
+              <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_material}}">Eliminar</a>
           </td>
         </tr>
       {{/each}}
@@ -40,6 +40,6 @@
   </table>
   {{else}}
     <h1 class="pb-4 fs-2">Resultado encontrado con: "{{title}}"</h1>
-    <h2>No se encontro ningún/a "{{searchValue}}"" con "{{searchProduct}}"" en la base datos</h2>
+    <h2>No se encontro ningún/a "{{searchValue}}"" con "{{searchmaterial}}"" en la base datos</h2>
     <a class="btn btn-primary p-2 mb-3 fs-5" href="/stock">Volver</a>
   {{/if}}

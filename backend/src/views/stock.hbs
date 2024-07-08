@@ -14,14 +14,14 @@
       </div>
       <div class="col-2">
         <select class="form-select col" name="searchValue">
-          <option value="name_product" selected>Nombre</option>
-          <option value="id_product">Id</option>
-          <option value="amount_product">Cantidad</option>
-          <option value="buy_price_product">Precio de compra</option>
+          <option value="name_material" selected>Nombre</option>
+          <option value="id_material">Id</option>
+          <option value="amount_material">Cantidad</option>
+          <option value="buy_price_material">Precio de compra</option>
         </select> 
       </div>
       <div class="col">
-        <input type="text" id="searchProduct" name="searchProduct" class="form-input col">
+        <input type="text" id="searchmaterial" name="searchmaterial" class="form-input col">
       </div>
       <div class="col">
         <button type="submit" class="btn btn-primary p-3 fs-4" id="searchButton">Buscar</button>
@@ -50,17 +50,17 @@
       <tbody>
         {{#each resultado}}
           <tr class="table-secondary">
-            <th scope="row" class="text-center">{{this.id_product}}</th>
-            <td class="text-center">{{this.name_product}}</td>
-            <td class="text-center">{{this.description_product}}</td>
-            <td class="text-center">{{this.amount_product}}</td>
+            <th scope="row" class="text-center">{{this.id_material}}</th>
+            <td class="text-center">{{this.name_material}}</td>
+            <td class="text-center">{{this.description_material}}</td>
+            <td class="text-center">{{this.amount_material}}</td>
             <td class="text-center">{{this.how_much_contains}}</td>
-            <td class="text-center">{{this.total_amount_product}}</td>          
-            <td class="text-center">${{this.buy_price_product}}</td>
+            <td class="text-center">{{this.total_amount_material}}</td>          
+            <td class="text-center">${{this.buy_price_material}}</td>
             <td class="text-center">${{this.value_stock}}</td>
             <td class="text-center">
-                <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_product}}">Actualizar</a>
-                <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_product}}">Eliminar</a>
+                <a type="button" class="btn btn-warning mb-2" href="/stock/update/{{this.id_material}}">Actualizar</a>
+                <a type="button" class="btn btn-danger" href="/stock/delete/{{this.id_material}}">Eliminar</a>
             </td>
           </tr>
         {{/each}}

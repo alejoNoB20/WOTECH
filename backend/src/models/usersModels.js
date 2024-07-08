@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../database/connection.js";
 
 export const User = sequelize.define('users', {
@@ -9,6 +9,7 @@ export const User = sequelize.define('users', {
     },
     user_dni: {
         type: DataTypes.CHAR(8),
+        unique: true,
         allowNull: false
     },
     user_level:{
@@ -37,5 +38,4 @@ export const User = sequelize.define('users', {
     }
 }, {
     tableName: 'users',
-    timestamps: false
 });

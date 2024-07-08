@@ -1,28 +1,26 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../database/connection.js";
-// import { Productions } from "./productsModels.js";
-
-
 
 export const Stock = sequelize.define('stock', {
-    id_product: {
+    id_material: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     }, 
-    name_product: {
+    name_material: {
         type: DataTypes.STRING(50),
+        unique: true,
         allowNull: false
     },
-    description_product: {
+    description_material: {
         type: DataTypes.TEXT('long'),
         allowNull: true
     },
-    buy_price_product: {
+    buy_price_material: {
         type: DataTypes.DECIMAL,
         allowNull: false
     },
-    amount_product: {
+    amount_material: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -34,7 +32,7 @@ export const Stock = sequelize.define('stock', {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    total_amount_product: {
+    total_amount_material: {
         type: DataTypes.INTEGER,
         allowNull: true
     },
@@ -47,24 +45,24 @@ export const Stock = sequelize.define('stock', {
     sequelize,
     hooks: {
         beforeCreate: (stock) => {
-            const amountProduct = stock.amount_product;
-            const buyPriceProduct = stock.buy_price_product;
+            const amountMaterial = stock.amount_material;
+            const buyPriceMaterial = stock.buy_price_material;
             const howMuchContains = stock.how_much_contains;
             const contains = stock.contains;
             if(contains === 'on'){
-                stock.total_amount_product = amountProduct * howMuchContains;
+                stock.total_amount_material = amountMaterial * howMuchContains;
             }
-            stock.value_stock = amountProduct * buyPriceProduct;
+            stock.value_stock = amountMaterial * buyPriceMaterial;
         },
         beforeUpdate: (stock) => {
-            const amountProduct = stock.amount_product;
-            const buyPriceProduct = stock.buy_price_product;
+            const amountMaterial = stock.amount_material;
+            const buyPricematerial = stock.buy_price_material;
             const howMuchContains = stock.how_much_contains;
             const contains = stock.contains;
             if(contains === 'on'){
-                stock.total_amount_product = amountProduct * howMuchContains;
+                stock.total_amount_material = amountMaterial * howMuchContains;
             }
-            stock.value_stock = amountProduct * buyPriceProduct;
+            stock.value_stock = amountMaterial * buyPricematerial;
         }
     }
 });

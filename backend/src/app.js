@@ -13,20 +13,18 @@ import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access
 import "./models/stocksModels.js"
 import "./models/toolsModels.js"
 import "./models/productsModels.js"
-import "./models/associations.js"
+import "./models/productStocksModels.js"
+import "./models/productToolsModels.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 //Internal
 import indexRouter from './routes/indexRouter.js';
-import usersRouter from './routes/usersRouter.js';
 import toolsRouter from './routes/toolsRouter.js';
 import productsRouter from './routes/productsRouter.js';
 import stockRouter from './routes/stockRouter.js';
-import ordersRouter from './routes/ordersRouter.js';
-import mapsRouter from './routes/mapsRouter.js';
-import clientsRouter from './routes/clientsRouter.js';
+
 
 
 const app = express();
@@ -51,13 +49,10 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/stock', stockRouter);
 app.use('/tools', toolsRouter);
 app.use('/products', productsRouter);
-// app.get('/orders', ordersRouter);
-// app.get('/maps', mapsRouter);
-// app.get('/clients', clientsRouter)
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port http://localhost:${process.env.PORT}`);
