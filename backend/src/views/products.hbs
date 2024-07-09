@@ -1,3 +1,40 @@
 {{{layout}}}
 
 {{{body}}}
+
+  <h1 class="my-3">{{title}}</h1>
+  <a type="button" class="btn btn-success" href="/products/create">Crear nuevo producto</a>
+
+    {{#if Productos}}
+    <table class="table mt-2">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Producto</th>
+          <th scope="col" class="text-center">Imagen</th>
+          <th scope="col" class="text-center">Descripción</th>
+          <th scope="col" class="text-center">Herramientas que usa</th>
+          <th scope="col" class="text-center">Materiales que usa</th>
+          <th scope="col" class="text-center">#</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each Productos}}
+          <tr class="table-secondary">
+            <th scope="row" class="text-center">{{this.id_product}}</th>
+            <td class="text-center">{{this.name_product}}</td>
+            <td class="text-center">{{this.img_product}}</td>
+            <td class="text-center">{{this.description_product}}</td>
+            <td class="text-center">{{#each stocks}}{{this.name_material}}{{/each}}</td>
+            <td class="text-center">{{#each tools}}{{this.name_tool}}{{/each}}</td>
+            <td class="text-center">
+                <a type="button" class="btn btn-warning mb-2" href="/product/update/{{this.id_material}}">Actualizar</a>
+                <a type="button" class="btn btn-danger" href="/product/delete/{{this.id_material}}">Eliminar</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+      <h1 class="mt-3">{{message}}</h1>
+  {{/if}}

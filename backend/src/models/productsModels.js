@@ -18,15 +18,7 @@ export const Products = sequelize.define('products', {
     },
     description_product: {
         type: DataTypes.STRING(100),
-        allowNull: false
-    },
-    tools_use_product: {
-        type: DataTypes.STRING(50),
-        allowNull: false
-    },
-    materials_of_product: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
     }
 }, {
     tableName:'products',

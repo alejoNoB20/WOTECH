@@ -5,4 +5,4 @@ export const sequelize = new Sequelize('wotech', 'root', '', {
     dialect: 'mysql',
 });
 
-sequelize.sync({force:false}).then(() => console.log('DBActualizada')).catch(err => console.log(err));
+// sequelize.sync({alter: true}).then(() => console.log('DBActualizada')).catch(err => console.log(err));

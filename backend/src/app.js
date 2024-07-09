@@ -22,8 +22,8 @@ const __dirname = dirname(__filename)
 //Internal
 import indexRouter from './routes/indexRouter.js';
 import toolsRouter from './routes/toolsRouter.js';
-import productsRouter from './routes/productsRouter.js';
 import stockRouter from './routes/stockRouter.js';
+import productsRouter from './routes/productsRouter.js';
 
 
 

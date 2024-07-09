@@ -65,7 +65,6 @@ export class StockController {
     verTodos = async (req, res) => {
         try {
             const resultado = await stock.verStock();
-            console.log(resultado)
             // VALIDATIONS
             // Tests if DB contains stocks
             if(resultado.length === 0){

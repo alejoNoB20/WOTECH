@@ -4,7 +4,7 @@ import { Stock } from "./stocksModels.js";
 import { Products } from "./productsModels.js";
 
 
-export const productStocks = sequelize.define('productStocks', {
+export const product_Stocks_association = sequelize.define('product_Stocks_association', {
     id_product_stock: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,9 +12,15 @@ export const productStocks = sequelize.define('productStocks', {
     },
     how_much_contains_use: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     }
 })
 
-Stock.belongsToMany(Products, {through: productStocks});
-Products.belongsToMany(Stock, {through: productStocks});
+Stock.belongsToMany(Products, {through: product_Stocks_association, foreignKey: {
+    name: 'id_material_fk',
+    columnName: 'id_material'
+}});
+Products.belongsToMany(Stock, {through: product_Stocks_association, foreignKey: {
+    name: 'id_product_fk',
+    columnName: 'id_product'
+}});

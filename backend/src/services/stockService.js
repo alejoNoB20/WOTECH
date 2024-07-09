@@ -1,6 +1,5 @@
 import { Op } from "sequelize";
 import {Stock} from "../models/stocksModels.js"
-import { response } from "express";
 
 export class StockService {
     verStock = async () => {
