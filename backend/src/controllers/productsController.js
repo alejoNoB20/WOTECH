@@ -53,7 +53,8 @@ export class productsController {
     }
     crear = async (req, res) => {
         try {
-            const { name_product, img_product, description_product, tools_needed, materials_needed } = req.body;
+            // const { name_product, img_product, description_product, tools_needed, materials_needed, choosen_tools, choosen_materials } = req.body;
+            console.log(req.body)
             // RESPONSES
             if(req.query.format === 'json'){
                 // Response for EndPoint
@@ -61,8 +62,8 @@ export class productsController {
                 res.status(200).json(resultado);
             } else {
                 // Response for Web
-                await Product.crearProducto(req.body);
-                res.redirect('/products');
+                // await Product.crearProducto(req.body);
+                // res.redirect('/products');
             }
         }catch (err) {
             let errorObject;
