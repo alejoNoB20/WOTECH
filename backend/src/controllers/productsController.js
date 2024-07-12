@@ -18,9 +18,9 @@ export class productsController {
             }
             // RESPONSES  
             if (req.query.format === 'json') {
-                res.json({ title: "Control Productos", Productos});
+                res.json({ title: "Control de Productos", Productos});
             } else {
-                res.render('products', { title: "Control Productos", Productos});
+                res.render('products', { title: "Control de Productos", Productos});
             }
         } catch (err) {
             let errorObject;
@@ -53,8 +53,11 @@ export class productsController {
     }
     crear = async (req, res) => {
         try {
-            // const { name_product, img_product, description_product, tools_needed, materials_needed, choosen_tools, choosen_materials } = req.body;
-            console.log(req.body)
+            const {name_product, img_product, description_product, tools, materials} = req.body
+            //VALIDATIONS 
+            if (name_product.length === 0) {
+                throw new Error(JSON.stringify({message: `El campo "NOMBRE DEL PRODUCTO" es obligatorio`, redirect: '/products', text: 'Volver a Productos'}));
+            }
             // RESPONSES
             if(req.query.format === 'json'){
                 // Response for EndPoint
@@ -62,8 +65,7 @@ export class productsController {
                 res.status(200).json(resultado);
             } else {
                 // Response for Web
-                // await Product.crearProducto(req.body);
-                // res.redirect('/products');
+                await Product.crearProducto(req.body);
             }
         }catch (err) {
             let errorObject;
@@ -73,6 +75,50 @@ export class productsController {
                 errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
             }
             res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+        }
+    }
+    eliminar = async (req, res) => {
+        try{
+            await Product.eliminarProducto(req.params);
+            res.redirect('/products')
+        }catch (err) {
+            let errorObject;
+            try{
+                errorObject = JSON.parse(err.message);
+            } catch(errParse){
+                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
+            }
+            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+        }
+    }
+    irPaginaActualizar = async (req, res) => {
+        try {
+            const Producto = await Product.llamarUnProducto(req.params);
+            const Materiales = await Stock.verStock();
+            const Herramientas = await Tool.verHerramientas();
+            res.render('updateProduct', {title: `Actualizar el producto: "${Producto.name_product}"`, Producto, Herramientas, Materiales});
+        } catch(err){
+            let errorObject;
+            try{
+                errorObject = JSON.parse(err.message);
+            } catch(errParse){
+                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
+            }
+            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});            
+        }
+    }
+    actualizar = async (req, res) => {
+        try{
+            console.log(req.params, req.body)
+            await Product.actualizarProducto(req.params, req.body);
+        } catch(err) {
+            let errorObject;
+            try{
+                errorObject = JSON.parse(err.message);
+            } catch(errParse){
+                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
+            }
+            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});         
         }
     }
 }

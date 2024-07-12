@@ -170,7 +170,7 @@ export class StockController {
     // delete one stock
     borrar = async (req,res) => {
         try {
-            const resultado = await stock.borrarStock(req.params);
+            await stock.borrarStock(req.params);
             if (req.query.format === 'json'){
                 res.status(200).json({title: `El elemento con ID: ${req.params.id_material} ha sido eliminado correctamente`})
             } else {

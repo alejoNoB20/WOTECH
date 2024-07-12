@@ -2,15 +2,18 @@ const $form = document.querySelector('#form'),
     $nameProduct = document.querySelector('#name_product'),
     $imgProduct = document.querySelector('#img_product'),
     $descriptionProduct = document.querySelector('#description_product'),
-    $choosenTools = document.querySelector('#choseen_tools'),
-    $choosenMaterials = document.querySelector('#choosen_materials'),
     $toolsNeeded = document.querySelector('#tools_needed'),
-    $materialsNeeded = document.querySelector('#materials_needed'),
-    $howMuchContains = document.querySelector('#how_much_contains'),
+    $allChoosedTools = document.querySelectorAll('.tools'), 
     $submitTools = document.querySelector('#submit_tools'),
-    $submitMaterials = document.querySelector('#submit_materials'),
     $containerDivTools = document.querySelector('#container_div_tools'),
+    $choosenTools = document.querySelector('#choseen_tools'),
+    $allChoosedMaterials = document.querySelectorAll('.materials'),
+    $allCantMaterials = document.querySelectorAll('.materials_cant'),
+    $materialsNeeded = document.querySelector('#materials_needed'),
+    $submitMaterials = document.querySelector('#submit_materials'),
     $containerDivMaterials = document.querySelector('#container_div_materials'),
+    $choosenMaterials = document.querySelector('#choosen_materials'),
+    $howMuchContains = document.querySelector('#how_much_contains'),
     $submitForm = document.querySelector('#submit_form');
 
 enableSubmitButton();
@@ -90,15 +93,11 @@ $submitForm.addEventListener('click', e => {
     e.preventDefault();
 
     let ChoosendToolsID = [];
-    const $allChoosedTools = document.querySelectorAll('.tools'); 
     $allChoosedTools.forEach(tool => {
         ChoosendToolsID.push(parseInt(tool.id))
     })
 
     let ChoosedMaterials = [];
-
-    const $allChoosedMaterials = document.querySelectorAll('.materials');    
-    const $allCantMaterials = document.querySelectorAll('.materials_cant')
 
     $allChoosedMaterials.forEach(material => {
         ChoosedMaterials.push({"id": parseInt(material.id)});
@@ -128,13 +127,37 @@ function deleteTool(option) {
 
 function deleteMaterial(option) {
     const parent = document.querySelector('#container_div_materials');
-    const child = document.querySelector(`#div-${option}`);
+    const child = document.querySelector(`#div-${option.value}`);
     parent.removeChild(child);
     option.disabled = false;
 }
 
 function enableSubmitButton() {
-    ($toolsNeeded.value === 'selected') ? $submitTools.disabled = true : $submitTools.disabled = false;
+    const ChoosendToolsID = Array.from($allChoosedTools).map(tool => {
+        return tool.id;
+    })
+
+    Array.from($toolsNeeded).forEach(option => {
+        if(ChoosendToolsID.includes(option.value)){
+            option.disabled = true;
+        }
+    })
+
+    const ChoosendMaterialsID = Array.from($allChoosedMaterials).map(material => {
+        return material.id;
+    })
+
+    Array.from($materialsNeeded).forEach(option => {
+        if(ChoosendMaterialsID.includes(option.value)){
+            option.disabled = true;
+        }
+    })
+    
+    if ($toolsNeeded.value === 'selected'){
+        $submitTools.disabled = true
+    } else {
+        $submitTools.disabled = false;
+    }
     if ($materialsNeeded.value === 'selected') {
         $submitMaterials.disabled = true; 
         $howMuchContains.disabled = true;
@@ -146,7 +169,7 @@ function enableSubmitButton() {
 }
 
 function sendData(newData) {
-    fetch('/products/create', {method: 'POST', body: JSON.stringify(newData), headers: {'Content-Type': 'application/json'}})
+    fetch('/products/update/:id_product', {method: 'POST', body: JSON.stringify(newData), headers: {'Content-Type': 'application/json'}})
         .then(()=>{window.location.href = '/products';})
             .catch(() => {res.status(400).render('error', {error: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'});})
 }
