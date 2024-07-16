@@ -42,21 +42,21 @@ export class StockService {
     buscarUnmaterialo = async (searchValue, searchmaterial) => {
         try {  
             if (searchValue === "id_material" || searchValue === "name_material") {
-                const whereClause = {}
-                whereClause[searchValue] = {
+                const objetoWhere = {}
+                objetoWhere[searchValue] = {
                     [Op.like]: `%${searchmaterial}%`
                 }; 
                 const buscarUnStock = Stock.findAll({
-                    where: whereClause 
+                    where: objetoWhere 
                 });
                 return buscarUnStock;
             } else if (searchValue === "amount_material" || searchValue === "buy_price_material"){
-                const whereClause = {}
-                whereClause[searchValue] = {
+                const objetoWhere = {}
+                objetoWhere[searchValue] = {
                     [Op.eq]: searchmaterial
                 }; 
                 const buscarUnStock = Stock.findAll({
-                    where: whereClause 
+                    where: objetoWhere 
                 });
                 return buscarUnStock;
             }

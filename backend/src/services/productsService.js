@@ -4,7 +4,6 @@ import { Stock } from "../models/stocksModels.js";
 import { product_Stocks_association } from "../models/productStocksModels.js";
 import { Tools } from "../models/toolsModels.js";
 import { product_Tools_association } from "../models/productToolsModels.js";
-import { canTreatArrayAsAnd } from "sequelize/lib/utils";
 
 
 export class productsService {
@@ -84,46 +83,140 @@ export class productsService {
         try{
             const tools = newData.tools;
             const materials = newData.materials;
-            const result = await Products.update({
+
+            await Products.update({
                 name_product: newData.name_product,
                 img_product: newData.img_product,
                 description_product: newData.description_product
             }, {
                 where:{
-                    id_product
+                    id_product: id_product.id_product
                 }
             })
-            await Products.destroy({
+
+            await product_Stocks_association.destroy({
                 where:{
-                    id_product_fk: id_product
+                    id_product_fk: id_product.id_product
                 }
             })
-            await Products.destroy({
+
+            await product_Tools_association.destroy({
                 where: {
-                    id_tool_fk: id_product
+                    id_product_fk: id_product.id_product
                 }
             })
+
             const promiseTool = tools.map(tool => {
-                return Products.create({
-                    id_product_fk: id_product,
-                    id_tool_fk: tool.id_tool_fk
+                return product_Tools_association.create({
+                    id_product_fk: id_product.id_product,
+                    id_tool_fk: tool
                 })
             })
             const promiseMaterial = materials.map(material =>{
-                return Products.create({
-                    id_product_fk: id_product,
-                    id_material_fk: material.id_material_fk
+                return product_Stocks_association.create({
+                    id_product_fk: id_product.id_product,
+                    how_much_contains_use: material.how_much_content,
+                    id_material_fk: material.id
                 })
             })
             
             await Promise.all([...promiseTool, ...promiseMaterial])
-            console.log(tools)
-            console.log(materials)
-            console.log(result)
-            console.log(promiseTool)
-            console.log(promiseMaterial)
         } catch {
             console.log(err);
+        }
+    }
+    resultadoBusquedaFiltrada = async(type, value) => {
+        try {
+            if (type === 'id_product'){
+                const result = await Products.findAll({
+                    where: {'id_product': value},
+                    include: [
+                    {model: Stock},
+                    {model: Tools}
+                ]})
+                return result
+            } 
+            if (type === 'name_product'){
+                const objetoWhere = {}
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%`
+                };
+                const result = await Products.findAll({
+                    where: objetoWhere,
+                    include: [
+                    {model: Stock},
+                    {model: Tools}
+                ]})
+                return result
+            }
+            if (type === 'id_tool'){
+                const tool = await Tools.findByPk(value);
+                const associations = await product_Tools_association.findAll({
+                    where:{
+                        'id_tool_fk': value
+                    }});
+                const id_product_association = associations.map(assocation =>{
+                    return assocation.id_product_fk;
+                })
+                const resultPromise = id_product_association.map(productID => {
+                    return Products.findAll({
+                        where: {'id_product': productID},
+                        include: [
+                            {model: Stock},
+                            {model: Tools}
+                        ]
+                    })
+                })
+                const result = await Promise.all(resultPromise)
+                return {result, tool}
+            }
+            if (type === 'id_material'){
+                const material = await Stock.findByPk(value);
+                const associations = await product_Stocks_association.findAll({
+                    where:{
+                        'id_material_fk': value
+                    }});
+                const id_material_association = associations.map(assocation =>{
+                    return assocation.id_product_fk;
+                })
+                const resultPromise = id_material_association.map(productID => {
+                    return Products.findAll({
+                        where: {'id_product': productID},
+                        include: [
+                            {model: Stock},
+                            {model: Tools}
+                        ]
+                    })
+                })
+                const result = await Promise.all(resultPromise)
+                return {result, material}
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    pruebas = async () =>{
+        try{
+            const associations = await product_Tools_association.findAll({
+                where:{
+                    'id_tool_fk': 7
+                }});
+            const id_product_association = associations.map(assocation =>{
+                return assocation.id_product_fk;
+            })
+            const resultPromise = id_product_association.map(productID => {
+                return Products.findAll({
+                    where: {'id_product': productID},
+                    include: [
+                        {model: Stock},
+                        {model: Tools}
+                    ]
+                })
+            })
+            const result = await Promise.all(resultPromise)
+            return result
+        }catch (err){
+            console.log()
         }
     }
 }

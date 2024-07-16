@@ -2,7 +2,9 @@
 
 {{{body}}}
 
-  <h1 class="my-2">{{title}}</h1>
+  <h1 class="my-2">Actualizar producto<h1>
+  <h1 class="id_product" id="{{Producto.id_product}}">ID: "{{Producto.id_product}}"</h1>
+  <h1>Nombre del producto: "{{Producto.name_product}}"</h1>
   <a href="/products" class="btn btn-primary p-2 m-2">Volver</a>
   <form id="form">
     <div class="mb-3">
@@ -29,14 +31,12 @@
         <button type="button" class="btn btn-info m-2 fs-5 col-1" id="submit_tools" name="choosen_tools">+</button>
       </div>
       <div class="container justify-content-between" id="container_div_tools">
-        <ul class="list-group col my-2 justify-content-between" id="choseen_tools">
           {{#each Producto.tools}}
-            <div class="row my-3" id="div-{{this.product_Tools_association.id_tool_fk}}">
+            <div class="row my-3" id="tool-div-{{this.product_Tools_association.id_tool_fk}}">
               <li class="list-group-item col fs-5 tools" id={{this.product_Tools_association.id_tool_fk}}>- {{this.name_tool}}</li>
-              <button type="button" class="btn btn-danger mx-5 col-1 fs-5" id={{this.product_Tools_association.id_tool_fk}}>-</button>
+              <button type="button" class="btn btn-danger mx-5 col-1 fs-5 tool_button" id={{this.product_Tools_association.id_tool_fk}}>-</button>
             </div>
           {{/each}}
-        </ul> 
       </div>
     </div>
     <div class="mb-3 col-7">
@@ -52,15 +52,13 @@
         <button type="button" class="btn btn-info m-2 fs-5 col-1" id="submit_materials" name="submit_materials">+</button>
       </div>
       <div class="container justify-content-between" id="container_div_materials">
-        <ul class="list-group col my-2 justify-content-between" id="choseen_materials">
           {{#each Producto.stocks}}
-            <div class="row my-3" id="div-{{this.product_Stocks_association.id_stock_fk}}">
+            <div class="row my-3" id="material-div-{{this.product_Stocks_association.id_material_fk}}">
               <li class="list-group-item col fs-5 materials" id={{this.product_Stocks_association.id_material_fk}}>- {{this.name_material}}</li>
               <li class="list-group-item col fs-5 materials_cant" id={{this.product_Stocks_association.how_much_contains_use}}>({{this.product_Stocks_association.how_much_contains_use}})</li>
-              <button type="button" class="btn btn-danger mx-5 col-1 fs-5" id={{this.product_Stocks_association.id_material_fk}}>-</button>
+              <button type="button" class="btn btn-danger mx-5 col-1 fs-5 material_button" id={{this.product_Stocks_association.id_material_fk}}>-</button>
             </div>
           {{/each}}
-        </ul> 
       </div>
     </div>
     <button type="submit" class="btn btn-primary" id="submit_form">Cargar Producto</button>

@@ -1,0 +1,38 @@
+{{{layout}}}
+
+{{{body}}}
+
+{{#if resultado}}
+    <h1 class="pb-4 fs-2">{{title}}</h1>
+    <a class="btn btn-primary p-2 mb-3 fs-5" href="/products">Volver</a>
+    <table class="table mt-2">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Producto</th>
+          <th scope="col" class="text-center">Imagen</th>
+          <th scope="col" class="text-center">Descripción</th>
+          <th scope="col" class="text-center">Herramientas que usa</th>
+          <th scope="col" class="text-center">Materiales que usa</th>
+          <th scope="col" class="text-center">Cantidades</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each resultado}}
+          <tr class="table-secondary">
+            <th scope="row" class="text-center">{{this.id_product}}</th>
+            <td class="text-center">{{this.name_product}}</td>
+            <td class="text-center">{{this.img_product}}</td>
+            <td class="text-center">{{this.description_product}}</td>
+            <td class="text-center"><ul class="list-group-flush">{{#each tools}}<li class="list-group-item my-1">{{this.name_tool}}</li>{{/each}}</ul></td>
+            <td class="text-center"><ul class="list-group-flush">{{#each stocks}}<li class="list-group-item my-1">{{this.name_material}}</li>{{/each}}</ul></td>
+            <td class="text-center"><ul class="list-group-flush">{{#each stocks}}<li class="list-group-item my-1">{{this.product_Stocks_association.how_much_contains_use}}</li>{{/each}}</ul></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <h1 class="pb-4 fs-2">{{title}}</h1>
+    <h2>No se encontro nada con "{{searchValue}}" en la base datos</h2>
+    <a class="btn btn-primary p-2 mb-3 fs-5" href="/products">Volver</a>
+  {{/if}}
