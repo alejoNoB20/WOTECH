@@ -1,0 +1,50 @@
+{{{layout}}}
+
+{{{body}}}
+
+<h1 class="my-2">{{title}}</h1>
+  <a href="/clients" class="btn btn-primary p-2 m-2">Volver</a>
+  <form action="/clients/create" method="post">
+    <div class="mb-3">
+      <label for="name_client" class="form-label">Nombres*</label>
+      <input type="text" class="form-control" id="name_client" name="name_client" >
+    </div>
+    <div class="mb-3">
+      <label for="last_name_client" class="form-label">Apellido*</label>
+      <input type="text" class="form-control" id="last_name_client" name="last_name_client" >
+    </div>
+    <div class="mb-3">
+      <label for="type_client" class="form-label">Tipo de cliente*</label>
+      <select class="form-select" name="type_client" id="type_client">
+        <option value="selected" selected>Elegir tipo...</option>        
+        <option value="Consumidor Final">Consumidor Final</option>
+        <option value="Empresa">Empresa</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="province_client" class="form-label">Provincia*</label>
+      <input type="text" class="form-control" id="province_client" name="province_client" >
+    </div>
+    <div class="mb-3">
+      <label for="direction_client" class="form-label">Dirección*</label>
+      <input type="text" class="form-control" id="direction_client" name="direction_client" >
+    </div>
+    <div class="mb-3">
+      <label for="mail_client" class="form-label">Correo Electrónico*</label>
+      <input type="email" class="form-control" id="mail_client" name="mail_client" >
+    </div>
+    <div class="mb-3">
+      <label for="phone_number_client" class="form-label">Número de teléfono*</label>
+      <input type="text" class="form-control" id="phone_number_client" name="phone_number_client" >
+    </div>
+    <div class="mb-3">
+      <label for="dni_client" class="form-label">DNI*</label>
+      <input class="form-control" id="dni_client" name="dni_client"></input>
+    </div>
+    <div class="mb-3">
+      <label for="cuil_or_cuit_client" class="form-label">CUIT/CUIL</label>
+      <input type="text" class="form-control" id="cuil_or_cuit_client" name="cuil_or_cuit_client" >
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar Cliente</button>
+  </form> 
