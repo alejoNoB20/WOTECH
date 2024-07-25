@@ -13,7 +13,7 @@
         <label for="browser"class="form-label fs-2">Buscar producto por su</label>
       </div>
       <div class="col-2">
-        <select class="form-select col" name="searchValue">
+        <select class="form-select col" name="searchValue" id="searchValue">
           <option value="name_material" selected>Nombre</option>
           <option value="id_material">Id</option>
           <option value="amount_material">Cantidad</option>
@@ -24,7 +24,7 @@
         <input type="text" id="searchmaterial" name="searchmaterial" class="form-input col">
       </div>
       <div class="col">
-        <button type="submit" class="btn btn-primary p-3 fs-4" id="searchButton">Buscar</button>
+        <button type="submit" class="btn btn-primary p-3 fs-4" id="searchButton" disabled>Buscar</button>
       </div>
       </form>
     </div>
@@ -69,3 +69,5 @@
     {{else}}
       <h1 class="mt-3">{{message}}</h1>
   {{/if}}
+
+  <script type="module" src="/javaScript/stock.js"></script>

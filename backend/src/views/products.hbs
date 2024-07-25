@@ -42,6 +42,7 @@
           <th scope="col" class="text-center">Herramientas que usa</th>
           <th scope="col" class="text-center">Materiales que usa</th>
           <th scope="col" class="text-center">Cantidades</th>
+          <th scope="col" class="text-center">Precio del producto</th>          
           <th scope="col" class="text-center">#</th>
         </tr>
       </thead>
@@ -55,6 +56,7 @@
             <td class="text-center"><ul class="list-group-flush">{{#each tools}}<li class="list-group-item my-1">{{this.name_tool}}</li>{{/each}}</ul></td>
             <td class="text-center"><ul class="list-group-flush">{{#each stocks}}<li class="list-group-item my-1">{{this.name_material}}</li>{{/each}}</ul></td>
             <td class="text-center"><ul class="list-group-flush">{{#each stocks}}<li class="list-group-item my-1">{{this.product_Stocks_association.how_much_contains_use}}</li>{{/each}}</ul></td>
+            <td class="text-center">{{this.price_product}}</td>
             <td class="text-center">
                 <a type="button" class="btn btn-warning mb-2" href="/products/update/{{this.id_product}}">Actualizar</a>
                 <a type="button" class="btn btn-danger" href="/products/delete/{{this.id_product}}">Eliminar</a>

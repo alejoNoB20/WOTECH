@@ -19,6 +19,10 @@ export const Products = sequelize.define('products', {
     description_product: {
         type: DataTypes.STRING(100),
         allowNull: true
+    },
+    price_product: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     tableName:'products',

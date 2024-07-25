@@ -98,7 +98,7 @@ $submitForm.addEventListener('click', e => {
     let ChoosedMaterials = [];
 
     const $allChoosedMaterials = document.querySelectorAll('.materials');    
-    const $allCantMaterials = document.querySelectorAll('.materials_cant')
+    const $allCantMaterials = document.querySelectorAll('.materials_cant');
 
     $allChoosedMaterials.forEach(material => {
         ChoosedMaterials.push({"id": parseInt(material.id)});

@@ -1,19 +1,52 @@
-const $statusTool = document.querySelector('#status_tool'),
-    $repairDateTool = document.querySelector('#repair_date_tool'),
-    $repairShopTool = document.querySelector('#repair_shop_tool'),
-    $search_repair_tool = document.querySelector('#search_repair_tool');
+const input = document.createElement('input');
+input.type = 'text';
+input.id = 'inputProduct';
+input.name = 'searchProduct';
+input.className = 'form-control';
 
-$statusTool.addEventListener('change', function(){
-    if(this.value === 'En_arreglo'){
-        $repairDateTool.disabled = false;
-        $repairShopTool.disabled = false;
-        $search_repair_tool.disabled = false;
+const select = document.createElement('select');
+select.id = 'selectProduct';
+select.name = 'searchProduct';
+select.className = 'form-select col';
+select .innerHTML = `
+        <option value="Habilitado" selected>Habilitado</option>
+        <option value="En Arreglo">En Arreglo</option>
+        <option value="Perdido">Perdido</option>    
+`
+
+const $searchValue = document.querySelector('#searchValue'),
+    $searchButton = document.querySelector('#searchButton'),
+    $searchProduct = document.querySelector('#inputProduct');
+
+let isInput = true;
+
+$searchProduct.addEventListener('input', e=>{
+    if(e.target.value.length > 0) {
+        $searchButton.disabled = false;
     } else {
-        $repairDateTool.value = null;
-        $repairShopTool.value = null;
-        $search_repair_tool.value = null;
-        $repairDateTool.disabled = true;
-        $repairShopTool.disabled = true;
-        $search_repair_tool.disabled = true;
+        $searchButton.disabled = true;
+    }
+})
+
+$searchValue.addEventListener('change', e=>{
+    const parent = document.querySelector('#div-product'),
+        inputchild = document.querySelector('#inputProduct'),
+        selectChild = document.querySelector('#selectProduct');
+
+    if(e.target.value === 'status_tool'){
+            parent.removeChild(inputchild);
+            parent.appendChild(select);
+            $searchButton.disabled = false;
+            isInput = false;
+    } else {
+        if (!isInput){
+            parent.removeChild(selectChild);
+            parent.appendChild(input);
+            $searchButton.disabled = true;
+            isInput = true;
+        } else {
+            $searchButton.disabled = true;
+            inputchild.value = '';
+        }
     }
 })

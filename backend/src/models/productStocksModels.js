@@ -13,6 +13,10 @@ export const product_Stocks_association = sequelize.define('product_Stocks_assoc
     how_much_contains_use: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    content_price: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 })
 

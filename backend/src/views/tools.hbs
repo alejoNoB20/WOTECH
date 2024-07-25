@@ -8,7 +8,7 @@
     <div class="row">
       <form action="/tools/search/" method="get" class="d-flex">
       <div class="col">
-        <label for="browser"class="form-label fs-2">Buscar herramienta por su</label>
+        <label for="browser"class="form-label fs-2">Buscar herramienta por</label>
       </div>
       <div class="col-2">
         <select class="form-select col" name="searchValue" id="searchValue">
@@ -19,14 +19,13 @@
           <option value="repair_shop_tool">Donde se está arreglando</option>
         </select> 
       </div>
-      <div class="col">
-        <input type="text" id="searchProduct" name="searchProduct" class="form-input">
+      <div class="col" id="div-product">
+        <input type="text" id="inputProduct" name="searchProduct" class="form-control">
       </div>
       <div class="col">
-        <button type="submit" class="btn btn-primary p-3 fs-4">Buscar</button>
+        <button type="submit" class="btn btn-primary p-3 fs-4" id="searchButton" disabled>Buscar</button>
       </div>
       </form>
-      <div class="col" id="status_options"></div>
     </div>
   </div>
 
@@ -85,4 +84,4 @@
 			<h1 class="mt-3">No se encontraron herramientas registradas en la base de datos</h1>
   {{/if}}
 
-  <script type="module" src="/javaScript/toolsIndex.js"></script>
+  <script type="module" src="/javaScript/tools.js"></script>

@@ -21,7 +21,6 @@ export class ToolsService {
     crearHerramienta = async (body) => {
         try{
             body.status_tool = 'Habilitado'
-            body.enable_tool = 'true'
             const resultado = await Tools.create(body);
             return resultado;
         } catch (err) {
@@ -38,12 +37,13 @@ export class ToolsService {
     }
     updateTool = async (idTool, newData) => {
         try {
-            const resultado = await Tools.update(newData, {
+            await Tools.update(newData, {
                 where: {
                     id_tool: idTool,
                 }
             })
-            return resultado;
+            const Tool = await Tools.findByPk(idTool);
+            return Tool;
         } catch (err) {
             console.log(err);
         }
@@ -60,6 +60,13 @@ export class ToolsService {
                 where: whereClause
             })
             return respuesta
+            } else if (searchValue === 'nameToolValidator') {
+                const exist = await Tools.findOne({
+                    where: {
+                        name_tool: searchTool
+                    }
+                })
+                return exist
             } else {
                 const whereClause = {};
                 whereClause[searchValue] = {

@@ -1,13 +1,17 @@
-const $contains = document.querySelector('#contains'),
-    $howMuchContains = document.querySelector('#howMuchContains'),
-    $searchForm = document.querySelector('#searchForm');
+const searchMaterial = document.querySelector('#searchmaterial'),
+    searchValue = document.querySelector('#searchValue'),
+    searchButton = document.querySelector('#searchButton');
 
-$contains.addEventListener('click', e=>{
-    if (e.target.checked) {
-        $howMuchContains.disabled = false;
-        console.log($contains.value)
+searchMaterial.addEventListener('input', e=>{
+    if (e.target.value.length > 0){
+        searchButton.disabled = false;
     } else {
-        $howMuchContains.disabled = true;
-        $howMuchContains.value = null;
+        searchButton.disabled = true;
     }
 })
+
+searchValue.addEventListener('change', e=>{
+    searchMaterial.value = '';
+    searchButton.disabled = true;
+})
+

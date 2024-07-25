@@ -1,16 +1,14 @@
 import { Router } from "express";
 import {ToolsController} from "../controllers/toolsController.js";
+import {toolsValidations} from "../validations/toolsCreateValidator.js";
 const toolsController = new ToolsController();
 let toolsRouter = Router();
 
 toolsRouter.get('/', toolsController.verTodasHerramientas);
-toolsRouter.get('/create', (req, res) => {
-    res.render('pushTool', {title: 'Agregar nueva herramienta'});
-})
-toolsRouter.post('/create', toolsController.pushHerramienta);
-toolsRouter.get('/delete/:id_tool', toolsController.deleteHerramienta);
-toolsRouter.get('/update/:id_tool', toolsController.irActualizarHerramienta);
-toolsRouter.post('/update/:id_tool', toolsController.actualizarHerramienta);
+toolsRouter.post('/create', toolsValidations.createTool, toolsController.pushHerramienta);
+toolsRouter.get('/delete/:id_tool',toolsValidations.deleteTool, toolsController.deleteHerramienta);
+// toolsRouter.get('/update/:id_tool', toolsController.irActualizarHerramienta);
+toolsRouter.post('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
 toolsRouter.get('/search', toolsController.buscarHerramienta);
 
 export default toolsRouter;

@@ -20,10 +20,6 @@ export const Tools = sequelize.define('tools', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    enable_tool: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    },
     location_tool: {
         type: DataTypes.STRING,
         allowNull: false

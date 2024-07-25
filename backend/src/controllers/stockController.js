@@ -191,12 +191,13 @@ export class StockController {
         try{
             const searchValue = req.query.searchValue;
             const searchmaterial = req.query.searchmaterial;
-            const resultado = await stock.buscarUnmaterialo(searchValue, searchmaterial);
             // VALIDATIONS
             // Tests if searchValue options, except name_material, isn't a number of is a float point number
             if (searchValue !== 'name_material' && (isNaN(searchmaterial) || (searchmaterial % 1 !== 0))){
                 throw new Error(JSON.stringify({message: 'Los campos "CANTIDAD", "PRECIO" y "ID" solo reciben números y solo números', redirect: '/stock', text: 'Volver a Stock'}))
             }
+            
+            const resultado = await stock.buscarUnmaterialo(searchValue, searchmaterial);
             // REPONSES
             if(req.query.format === 'json'){
                 // Response for EndPoint
@@ -212,16 +213,16 @@ export class StockController {
                     // if the searched material doesn't exist in the DB                    
                     switch (searchValue) {
                         case 'name_material':
-                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Nombre'})
+                            res.render('browserStock', {title: `Nombre encontrado con "${searchmaterial}"`, resultado, searchmaterial})
                         break;        
                         case 'id_material':
-                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'ID'})
+                            res.render('browserStock', {title: `ID encontrado con "${searchmaterial}"`, resultado, searchmaterial})
                         break;                        
                         case 'amount_material':
-                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Cantidad'})
+                            res.render('browserStock', {title: `Cantidad encontrada con "${searchmaterial}"`, resultado, searchmaterial})
                         break;                        
                         case 'buy_price_material':
-                            res.render('browserStock', {title: searchmaterial, resultado, searchmaterial, searchValue: 'Precio de compra'})
+                            res.render('browserStock', {title: `Precio de compra encontrado con "${searchmaterial}"`, resultado, searchmaterial})
                         break;
                     }
                 } else {
