@@ -1,0 +1,19 @@
+/* navBar.css */
+.navbar {
+  z-index: 10;
+  /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.navbar a.active {
+  font-weight: bold;
+  color: #c03737;
+  /* Color cuando el enlace está activo */
+}
+
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
