@@ -33,4 +33,15 @@ export const toolsValidations = {
             validatorResult(req, res, next);
         }
     ],
+    searchTool: [
+        query('search_type').exists().notEmpty().isIn(['id_tool', 'name_tool', 'status_tool', 'location_tool', 'repair_shop_tool']).custom(value => {
+            if(value === 'id_tool'){
+                query('search_value').isInt().withMessage('El ID solo recibe números enteros');
+            }
+        }).withMessage('Tipo de busqueda inválido'),
+        query('search_value').exists().notEmpty().isLength({max: 50}).withMessage('Valor de la herramienta busqueda inválida'),
+        (req, res, next) => {
+            validatorResult(req, res, next);
+        }
+    ]
 };

@@ -9,6 +9,6 @@ toolsRouter.post('/create', toolsValidations.createTool, toolsController.pushHer
 toolsRouter.get('/delete/:id_tool',toolsValidations.deleteTool, toolsController.deleteHerramienta);
 // toolsRouter.get('/update/:id_tool', toolsController.irActualizarHerramienta);
 toolsRouter.post('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
-toolsRouter.get('/search', toolsController.buscarHerramienta);
+toolsRouter.get('/search',toolsValidations.searchTool, toolsController.buscarHerramienta);
 
 export default toolsRouter;
