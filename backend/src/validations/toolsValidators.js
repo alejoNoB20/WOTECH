@@ -10,9 +10,10 @@ export const toolsValidations = {
             .exists()
             .notEmpty().withMessage('El campo nombre es obligatorio, no puede estar vacío')
             .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres')
-            .custom(async value => {
-            const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', value);
-            if (findTheSameName) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');}),
+            .custom(async (value, {req}) => {
+                const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', req.body.name_tool);
+                if (findTheSameName) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+            }),
 
         body('location_tool')
             .trim()
@@ -40,7 +41,7 @@ export const toolsValidations = {
             .notEmpty().withMessage('El campo nombre es obligatorio, no puede estar vacío')
             .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres')
             .custom(async (value, {req}) => {
-            const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', value);
+            const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', req.body.name_tool);
             if (findTheSameName && findTheSameName.id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');}).bail(),
 
         body('description_tool')
@@ -89,13 +90,13 @@ export const toolsValidations = {
             .isIn(['id_tool', 'name_tool', 'status_tool', 'location_tool', 'repair_shop_tool']),
 
         query('search_value')
-        .exists()
-        .notEmpty()
-        .isLength({max: 50}).withMessage('Valor de la herramienta busqueda inválida')
-        .if(query('search_type').equals('id_tool'))
-        .isInt().withMessage('El campo ID solo permite números enteros')
-        .if(query('search_type').equals('status_tool'))
-        .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
+            .exists()
+            .notEmpty()
+            .isLength({max: 50}).withMessage('Valor de la herramienta busqueda inválida')
+            .if(query('search_type').equals('id_tool'))
+            .isInt().withMessage('El campo ID solo permite números enteros')
+            .if(query('search_type').equals('status_tool'))
+            .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
 
         (req, res, next) => {
             validatorResult(req, res, next);

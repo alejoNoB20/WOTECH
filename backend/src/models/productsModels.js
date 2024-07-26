@@ -8,7 +8,7 @@ export const Products = sequelize.define('products', {
         autoIncrement: true
     },
     name_product:{
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(80),
         unique: true,
         allowNull: false
     },

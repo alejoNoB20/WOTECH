@@ -54,20 +54,20 @@ export class ToolsController {
             res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
         }
     }
-    // irActualizarHerramienta = async (req, res) => {
-    //     try {
-    //         const resultado = await Tool.verUnaHerramienta(req.params);
-    //             res.render('updateTool', {title: "Modificar producto", resultado});
-    //     } catch (err) {
-    //         let errorObject;
-    //         try{    
-    //             errorObject = JSON.parse(err.message);
-    //         } catch(errParse){
-    //             errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-    //         }
-    //         res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
-    //     }
-    // }
+    irActualizarHerramienta = async (req, res) => {
+        try {
+            const resultado = await Tool.verUnaHerramienta(req.params);
+                res.status(200).json({title: "Modificar producto", resultado});
+        } catch (err) {
+            let errorObject;
+            try{    
+                errorObject = JSON.parse(err.message);
+            } catch(errParse){
+                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
+            }
+            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+        }
+    }
     actualizarHerramienta = async (req, res) => {
         try {
             const idTool = req.params.id_tool;

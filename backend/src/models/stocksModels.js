@@ -28,7 +28,7 @@ export const Stock = sequelize.define('stock', {
         type: DataTypes.STRING(2),
         allowNull: true
     },
-    how_much_contains : {
+    how_much_contains: {
         type: DataTypes.INTEGER,
         allowNull: true
     },

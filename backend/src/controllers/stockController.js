@@ -7,90 +7,31 @@ export class StockController {
     // Create new stock
     crear = async (req, res) => {
         try {
-            const findTheSameName = await stock.verStock();
-            const namematerial = req.body.name_material,
-                amountmaterial = Number(req.body.amount_material),
-                howMuchContains = Number(req.body.how_much_contains),
-                contains = req.body.contains,
-                buyPricematerial = req.body.buy_price_material;
-            // VALIDATIONS
-            //  Tests if namematerial, amountmaterial or buyPricematerial contains any caracters 
-            if (namematerial.length === 0 || amountmaterial.length === 0 || buyPricematerial.length === 0){
-                throw new Error(JSON.stringify({message: `Los campos "NOMBRE", "PRECIO DE COMPRA" Y "CANTIDAD" son obligatorios`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-            }
-            // Tests if namematerial is longer than 50 caracters
-            if(namematerial.length > 50){
-                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${namematerial} cuenta con ${namematerial.length} caracteres`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-            }
-            // Tests if buyPricematerial or amountmaterial isn't number or integer  
-            if ((isNaN(buyPricematerial) || (buyPricematerial % 1 !== 0)) || (isNaN(amountmaterial) || (amountmaterial % 1 !== 0))){
-                throw new Error(JSON.stringify({message: `Los campos "PRECIO DE COMPRA", "CANTIDAD" Y "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-            }
-            // Tests if howMuchContains isn't number or integer
-            if(contains === 'on'){
-                if (howMuchContains === 0){
-                    throw new Error(JSON.stringify({message: `Si el stock tiene un contenido debes detallar su cantidad con números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-                } else if (isNaN(howMuchContains) || (howMuchContains % 1 !== 0)) {
-                    throw new Error(JSON.stringify({message: `El campo "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-                }
-            }
-            if(findTheSameName.length > 0){
-                findTheSameName.forEach(stock => {
-                    if(namematerial === stock.name_material) {
-                        throw new Error(JSON.stringify({message: `Ya existe un materialo con el nombre de "${namematerial}" en la base de datos`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-                    }
-                })
-            }
-            // RESPONSES
-            if(req.query.format === 'json'){
-                // Response for EndPoint
-                const resultado = await stock.crearStock(req.body);
-                res.status(200).json(resultado);
-            } else {
-                // Response for Web
-                await stock.crearStock(req.body);
-                res.redirect('/stock');
-            }
+            const resultado = await stock.crearStock(req.body);
+            res.status(200).json(resultado);
         }catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err);
         }
     }
     // view all materials
     verTodos = async (req, res) => {
         try {
             const resultado = await stock.verStock();
-            // VALIDATIONS
-            // Tests if DB contains stocks
+
             if(resultado.length === 0){
-                res.render('stock', {title: "Control de Stock", resultado, message: "No se encontró ningún registro de Stock en la base de datos"});
-            }
-            // RESPONSES  
-            if (req.query.format === 'json') {
-                res.json({ title: "Control Stock", resultado });
+                res.status(200).json({title: "Control de Stock", message: "No se encontró ningún registro de Stock en la base de datos"});
             } else {
-                res.render('stock', { title: "Control Stock", resultado });
+                res.status(200).json({ title: "Control Stock", resultado });
             }
         } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err);
         }
     }
     // goes to updateStock.js in views
     irActualizarStock = async (req, res) => {
         try {
             const resultado = await stock.verUnStock(req.params);
-            res.render('updateStock', {title: "Modificar materialo", resultado});
+            res.status(200),json({title: "Modificar material", resultado});
         } catch (err) {
             let errorObject;
             try{
@@ -104,53 +45,16 @@ export class StockController {
     // update one stock
     actualizar = async (req, res) => {
         try {
-            const findTheSameName = await stock.verStock();
-            const idmaterial = req.params.id_material;
-            const newData = req.body;
-            const {id_material, ...data} = newData;
-            const namematerial = req.body.name_material,
-                amountmaterial = Number(req.body.amount_material),
-                howMuchContains = Number(req.body.how_much_contains),
-                contains = req.body.contains,
-                buyPricematerial = req.body.buy_price_material;
-            // VALIDATIONS
-            //  Tests if namematerial, amountmaterial or buyPricematerial contains any caracters 
-            if (namematerial.length === 0 || amountmaterial.length === 0 || buyPricematerial.length === 0){
-                throw new Error(JSON.stringify({message: `Los campos "NOMBRE", "PRECIO DE COMPRA" Y "CANTIDAD" son obligatorios`, redirect: '/stock', text: 'Volver a Stock'}));
+            if(!req.body.contains){
+                req.body.contains = null;
+                req.body.how_much_contains = null;
+                req.body.total_amount_material = null;
             }
-            // Tests if namematerial is longer than 50 caracters
-            if(namematerial.length > 50){
-                throw new Error(JSON.stringify({message: `No puedes ingresar un nombre con más de 50 carateres, ${namematerial} cuenta con ${namematerial.length} caracteres`, redirect: '/stock', text: 'Volver a Stock'}));
-            }
-            // Tests if buyPricematerial or amountmaterial isn't number or integer  
-            if ((isNaN(buyPricematerial) || (buyPricematerial % 1 !== 0)) || (isNaN(amountmaterial) || (amountmaterial % 1 !== 0))){
-                throw new Error(JSON.stringify({message: `Los campos "PRECIO DE COMPRA", "CANTIDAD" Y "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock', text: 'Volver a Stock'}));
-            }
-            // Tests if howMuchContains isn't number or integer
-            if(contains === 'on'){
-                if (howMuchContains === 0){
-                    throw new Error(JSON.stringify({message: `Si el stock tiene un contenido debes detallar su cantidad con números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-                } else if (isNaN(howMuchContains) || (howMuchContains % 1 !== 0)) {
-                    throw new Error(JSON.stringify({message: `El campo "CANTIDAD DEL CONTENIDO" solo aceptan números enteros`, redirect: '/stock/create', text: 'Volver a crear Stock'}));
-                }
-            }
-            if(findTheSameName.length > 0){
-                findTheSameName.forEach(stock => {
-                    if((namematerial === stock.name_material) && ((req.params.id_material != stock.id_material))) {
-                        throw new Error(JSON.stringify({message: `Ya existe un materialo con el nombre de "${namematerial}" en la base de datos`, redirect: '/stock', text: 'Volver a Stock'}));
-                    }
-                })
-            }
-            await stock.actualizarStock(idmaterial, data);
-            res.redirect('/stock');
+
+            const resultado = await stock.actualizarStock(req.params, req.body);
+            res.status(200).json({title: `Actualización correcta del producto: ID ${req.params.id_material}` });
         } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err)
         }
     }
     // controller to see one stock
@@ -171,74 +75,29 @@ export class StockController {
     borrar = async (req,res) => {
         try {
             await stock.borrarStock(req.params);
-            if (req.query.format === 'json'){
-                res.status(200).json({title: `El elemento con ID: ${req.params.id_material} ha sido eliminado correctamente`})
-            } else {
-                res.redirect('/stock');
-            }
+            res.status(200).json({title: `El elemento con ID: ${req.params.id_material} ha sido eliminado correctamente`})
         } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err);
         }
     }
     // finder of stocks
     buscarUno = async (req, res) => {
         try{
-            const searchValue = req.query.searchValue;
-            const searchmaterial = req.query.searchmaterial;
-            // VALIDATIONS
-            // Tests if searchValue options, except name_material, isn't a number of is a float point number
-            if (searchValue !== 'name_material' && (isNaN(searchmaterial) || (searchmaterial % 1 !== 0))){
-                throw new Error(JSON.stringify({message: 'Los campos "CANTIDAD", "PRECIO" y "ID" solo reciben números y solo números', redirect: '/stock', text: 'Volver a Stock'}))
-            }
+            const searchType = req.query.search_type;
+            const searchValue = req.query.search_value;
             
-            const resultado = await stock.buscarUnmaterialo(searchValue, searchmaterial);
+            const resultado = await stock.buscarUnMaterial(searchType, searchValue);
             // REPONSES
-            if(req.query.format === 'json'){
                 // Response for EndPoint
                 if (resultado.length === 0) {
                     // if the searched material doesn't exist in the DB
-                    res.status(200).json({title: searchmaterial, resultado: `No se encontró ningun materialo con "${searchmaterial}"`});
+                    res.status(200).json({title: searchValue, resultado: `No se encontró ningun material con ${searchValue}`});
                 } else {
                     // if the searched material exist in the DB
-                    res.status(200).json({title: searchmaterial, resultado});
+                    res.status(200).json({title: searchValue, resultado});
                 }
-            } else {
-                if (resultado.length === 0){
-                    // if the searched material doesn't exist in the DB                    
-                    switch (searchValue) {
-                        case 'name_material':
-                            res.render('browserStock', {title: `Nombre encontrado con "${searchmaterial}"`, resultado, searchmaterial})
-                        break;        
-                        case 'id_material':
-                            res.render('browserStock', {title: `ID encontrado con "${searchmaterial}"`, resultado, searchmaterial})
-                        break;                        
-                        case 'amount_material':
-                            res.render('browserStock', {title: `Cantidad encontrada con "${searchmaterial}"`, resultado, searchmaterial})
-                        break;                        
-                        case 'buy_price_material':
-                            res.render('browserStock', {title: `Precio de compra encontrado con "${searchmaterial}"`, resultado, searchmaterial})
-                        break;
-                    }
-                } else {
-                    // if the searched material exist in the DB
-                    res.render('browserStock', {title: searchmaterial, resultado});
-                }
-                
-            }
         } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err)
         }
     }
 }

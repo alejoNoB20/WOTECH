@@ -6,4 +6,4 @@ export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
     dialect: 'mysql',
 });
 
-sequelize.sync({alter: true}).then(() => console.log('DBActualizada')).catch(err => console.log(err));
+// sequelize.sync({alter: true}).then(() => console.log('DBActualizada')).catch(err => console.log(err));

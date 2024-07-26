@@ -20,15 +20,6 @@ export class productsService {
             console.log(err);
         }   
     }
-    verAsociacionesProductos = async () => {
-        try {
-            const resultProductStocks = await product_Stocks_association.findAll();
-            const resultProductTools = await product_Tools_association.findAll();
-            return {resultProductStocks, resultProductTools}
-        } catch (err) {
-            console.log(err);
-        }
-    }
     crearProducto = async (data) => {
         try {
             const tools = data.tools;
@@ -37,14 +28,16 @@ export class productsService {
             const newProduct = await Products.create({
                 name_product: data.name_product,
                 img_product: data.img_product,
-                description_product: data.description_product
-            })
+                description_product: data.description_product,
+                price_product: data.price_product
+            });
 
             const promiseTool = tools.map(tool => {
                 product_Tools_association.create({
                     id_tool_fk: tool,
                     id_product_fk: newProduct.id_product  
-            })
+            });
+
             })
             const promiseMaterial = materials.map(material => {
                 product_Stocks_association.create({
@@ -52,7 +45,7 @@ export class productsService {
                     how_much_contains_use: material.how_much_content,
                     id_product_fk: newProduct.id_product
                 })
-            })
+            });
 
             await Promise.all([...promiseTool, ...promiseMaterial]);
         } catch (err) {
@@ -193,30 +186,6 @@ export class productsService {
             }
         } catch (err) {
             console.log(err);
-        }
-    }
-    pruebas = async () =>{
-        try{
-            const associations = await product_Tools_association.findAll({
-                where:{
-                    'id_tool_fk': 7
-                }});
-            const id_product_association = associations.map(assocation =>{
-                return assocation.id_product_fk;
-            })
-            const resultPromise = id_product_association.map(productID => {
-                return Products.findAll({
-                    where: {'id_product': productID},
-                    include: [
-                        {model: Stock},
-                        {model: Tools}
-                    ]
-                })
-            })
-            const result = await Promise.all(resultPromise)
-            return result
-        }catch (err){
-            console.log()
         }
     }
 }

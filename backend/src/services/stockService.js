@@ -16,16 +16,11 @@ export class StockService {
             return nuevoStock;
         } catch (err) {
             console.log(err);
-            throw err;
         }
     }
-    actualizarStock = async (id, newData) => {
+    actualizarStock = async (where, newData) => {
         try {
-            const actualizar = await Stock.update(newData, {
-                where: {
-                    id_material: id
-                }, individualHooks: true,
-            });
+            const actualizar = await Stock.update(newData, {where, individualHooks: true});
             return actualizar;
         } catch(err) {
             console.log(err);
@@ -33,15 +28,15 @@ export class StockService {
     }
     verUnStock = async (where) => {
         try {
-                const buscarUnStock = Stock.findOne({where});
-                return buscarUnStock;
+            const buscarUnStock = Stock.findOne({where});
+            return buscarUnStock;
         } catch(err){
             console.log(err);
         }
     }
-    buscarUnmaterialo = async (searchValue, searchmaterial) => {
+    buscarUnMaterial = async (searchValue, searchmaterial) => {
         try {  
-            if (searchValue === "id_material" || searchValue === "name_material") {
+            if (searchValue === "name_material") {
                 const objetoWhere = {}
                 objetoWhere[searchValue] = {
                     [Op.like]: `%${searchmaterial}%`
@@ -50,7 +45,14 @@ export class StockService {
                     where: objetoWhere 
                 });
                 return buscarUnStock;
-            } else if (searchValue === "amount_material" || searchValue === "buy_price_material"){
+            } else if (searchValue === 'nameMaterialValidator'){
+                const resultado = await Stock.findOne({
+                    where: {
+                        name_material: searchmaterial
+                    }
+                })
+                return resultado;
+            }else {
                 const objetoWhere = {}
                 objetoWhere[searchValue] = {
                     [Op.eq]: searchmaterial
