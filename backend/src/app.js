@@ -42,7 +42,7 @@ app.engine('hbs', engine({
   handlebars: allowInsecurePrototypeAccess(Handlebars),
 }));
 
-
+app.use(cors())
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
