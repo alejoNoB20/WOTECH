@@ -16,7 +16,7 @@ import "./models/productsModels.js";
 import "./models/productStocksModels.js";
 import "./models/productToolsModels.js";
 import './models/clientsModels.js';
-
+import cors from 'cors'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
