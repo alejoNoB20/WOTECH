@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from '../navBar/navBar';
-import Sidebar from '../sideBar/sidebar';
-import Footer from '../footer/footer';
+import NavBar from '../navBar/NavBar';
+import Sidebar from '../sideBar/Sidebar';
+import Footer from '../footer/Footer';
 const Layout = ({ children, links, logged }) => {
     return (
         <div className="flex flex-col min-h-screen">

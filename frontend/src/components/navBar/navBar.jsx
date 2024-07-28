@@ -11,7 +11,7 @@ const NavBar = ({ logged }) => {
     // Aquí puedes manejar la búsqueda, por ejemplo, redirigir a una página de resultados
   }
   return (
-    <navbar className="navbar bg-gray-700 text-white p-7 fixed w-full top-0 z-10">
+    <div className="navbar bg-gray-700 text-white p-7 fixed w-full top-0 z-10">
       <div className="flex justify-between items-center">
         <div className="text-lg font-semibold">Wotech</div>
         <SearchBar onSearch={handleSearch} />
@@ -41,7 +41,7 @@ const NavBar = ({ logged }) => {
           )}
         </div>
       </div>
-    </navbar>
+    </div>
   );
 };
 

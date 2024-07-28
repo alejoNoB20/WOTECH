@@ -5,20 +5,20 @@ import './sidebar.css'; // Importar los estilos personalizados
 
 const Sidebar = ({ links }) => {
   return (
-    <sidebar className="sidebar bg-gray-800 text-white p-4">
+    <div className="sidebar bg-gray-800 text-white p-4">
       <nav className="space-y-4">
         {links.map((link, index) => (
           <NavLink 
             key={index} 
             to={link.path} 
-            activeClassName="active" 
+             
             className="block text-gray-300 hover:text-white"
           >
             {link.name}
           </NavLink>
         ))}
       </nav>
-    </sidebar>
+    </div>
   );
 };
 

@@ -17,7 +17,7 @@ const ItemList = ({ items }) => {
             </thead>
             <tbody className="table-hover">
                 {items.length > 0 && items.map((item) => (
-                    <ItemStock key={item.id} item={item} />
+                    <ItemStock key={item.id_material} item={item} />
                 ))}
             </tbody>
 

@@ -1,10 +1,10 @@
 import React from "react";
 import './itemStock.css'
 const ItemStock = ({ item }) => {
-    const { id, name_material, description_material, amount_material, how_much_contains, total_amount_material, buy_price_material, value_stock } = item
+    const { id_material, name_material, description_material, amount_material, how_much_contains, total_amount_material, buy_price_material, value_stock } = item
     return (
         <tr>
-            <td className="text-left">{id}</td>
+            <td className="text-left">{id_material}</td>
             <td className="text-left">{name_material}</td>
             <td className="text-left">{description_material}</td>
             <td className="text-left">{amount_material}</td>
