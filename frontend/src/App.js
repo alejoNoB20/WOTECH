@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Layout from './components/layout/Layout.jsx';
+import Layout from './components/layout/layout.jsx';
 import ItemListContainer from './components/itemListContainer/ItemListContainer.jsx';
 
 function App() {

@@ -1,6 +1,7 @@
 import {body, param, query} from 'express-validator';
 import {validatorResult} from '../libs/validationLib.js';
 import {StockService} from '../services/stockService.js';
+import { NUMBER } from 'sequelize';
 const Stock = new StockService();
 
 export const stockValidations = {
@@ -21,24 +22,20 @@ export const stockValidations = {
             .isLength({max: 200}).withMessage('El campo DESCRIPCIÓN recibe un máximo de 200 caracteres').bail(),
 
         body('buy_price_material')
-            .trim()
             .exists()
             .notEmpty().withMessage('El campo PRECIO DE COMPRA es obligatorio').bail()
             .isNumeric().withMessage('El campo PRECIO DE COMPRA solo recibe números enteros o con coma'),
 
         body('amount_material')
-            .trim()
             .exists()
             .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
         body('contains')
-            .trim()
             .optional(),
 
         body('how_much_contains')
-            .trim()
-            .if(body('contains').equals('on'))
+            .if((value, {req}) => req.body.contains == true)
                 .exists()
                 .notEmpty().withMessage('El campo CUANTO CONTIENE es obligatio en caso de que el stock cuente con algún tipo de contenido').bail()
                 .isInt().withMessage('El campo CUNATO CONTIENE solo recibe número enteros'),
@@ -49,7 +46,6 @@ export const stockValidations = {
     ],
     deleteStock: [
         param('id_material')
-            .trim()
             .isInt().withMessage('El ID debe ser un número entero'),
 
         (req, res, next) =>{
@@ -64,14 +60,22 @@ export const stockValidations = {
             .isIn(['id_material', 'name_material', 'amount_material', 'buy_price_material']).withMessage('El filtro de busqueda es inválido'),
 
         query('search_value')
-            .trim()
             .exists()
             .notEmpty().withMessage('El valor del filtro es obligatorio para buscar en una lista').bail()
-            .if(query('search_type').equals('name_material'))
-                .isLength({max: 50}).withMessage('El nombre de un stock no puede superar los 50 caracteres')
-            .if(query('search_type').not().equals('name_material'))
-                .isInt().withMessage('Los campos CANTIDAD - PRECIO - ID solo reciben números enteros'),
-            
+            .custom((value, {req}) => {
+                if(req.query.search_type === 'name_material'){
+                    if(value > 50){
+                        throw new Error('El nombre de un stock no puede superar los 50 caracteres');
+                    }
+                if(req.query.search_type !== 'name_material'){
+                    if(!Number.isInteger(value)){
+                        throw new Error('Los campos CANTIDAD - PRECIO - ID solo reciben números enteros')
+                    }
+                }
+                return true
+                }
+            })
+            ,
             (req, res, next) =>{
                 validatorResult(req, res, next);
             }
@@ -93,24 +97,20 @@ export const stockValidations = {
             .isLength({max: 200}).withMessage('El campo DESCRIPCIÓN recibe un máximo de 200 caracteres').bail(),
 
         body('buy_price_material')
-            .trim()
             .exists()
             .notEmpty().withMessage('El campo PRECIO DE COMPRA es obligatorio').bail()
             .isNumeric().withMessage('El campo PRECIO DE COMPRA solo recibe números enteros o con coma'),
 
         body('amount_material')
-            .trim()
             .exists()
             .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
         body('contains')
-            .trim()
             .optional(),
 
         body('how_much_contains')
-            .trim()
-            .if(body('contains').equals('on'))
+            .if((value, {req}) => req.body.contains == true)
                 .exists()
                 .notEmpty().withMessage('El campo CUANTO CONTIENE es obligatio en caso de que el stock cuente con algún tipo de contenido').bail()
                 .isInt().withMessage('El campo CUNATO CONTIENE solo recibe número enteros'),
