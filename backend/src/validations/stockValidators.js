@@ -63,19 +63,18 @@ export const stockValidations = {
             .exists()
             .notEmpty().withMessage('El valor del filtro es obligatorio para buscar en una lista').bail()
             .custom((value, {req}) => {
-                if(req.query.search_type === 'name_material'){
-                    if(value > 50){
-                        throw new Error('El nombre de un stock no puede superar los 50 caracteres');
+                if(req.query.search_type === "name_material"){
+                    if(req.query.search_value.length > 50){
+                        throw new Error('El nombre del stock permite un máximo de 50 caracteres')
                     }
-                if(req.query.search_type !== 'name_material'){
-                    if(!Number.isInteger(value)){
-                        throw new Error('Los campos CANTIDAD - PRECIO - ID solo reciben números enteros')
+                }
+                if(req.query.search_type !== "name_material"){
+                    if(!Number(value) || (value % 1) !== 0){
+                        throw new Error('Los campos ID - CANTIDAD - PRECIO DE COMPRA solo reciben números enteros')
                     }
                 }
                 return true
-                }
-            })
-            ,
+            }),
             (req, res, next) =>{
                 validatorResult(req, res, next);
             }

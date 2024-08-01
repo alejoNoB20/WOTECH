@@ -14,7 +14,7 @@ export class productsController {
             if(resultado.length === 0){
                 res.status(404).json({title: "Control de productos", message: "No se encontró ningún registro de Productos en la base de datos"});
             } else {
-                res.json({ title: "Control de Productos", resultado});
+                res.status(200).json({ title: "Control de Productos", resultado});
             }  
         } catch (err) {
             let errorObject;
@@ -46,19 +46,13 @@ export class productsController {
             const resultado = await Product.crearProducto(req.body);
             res.status(200).json(resultado);
         }catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err)
         }
     }
     eliminar = async (req, res) => {
         try{
             await Product.eliminarProducto(req.params);
-            res.redirect('/products')
+            res.status(200).json({title: `El producto con ID: ${req.params.id_product} fue eliminado con éxito`})
         }catch (err) {
             let errorObject;
             try{
@@ -74,7 +68,7 @@ export class productsController {
             const Producto = await Product.llamarUnProducto(req.params);
             const Materiales = await Stock.verStock();
             const Herramientas = await Tool.verHerramientas();
-            res.render('updateProduct', {Producto, Herramientas, Materiales});
+            res.status(200).json(Producto, Herramientas, Materiales);
         } catch(err){
             let errorObject;
             try{
@@ -88,14 +82,10 @@ export class productsController {
     actualizar = async (req, res) => {
         try{
             await Product.actualizarProducto(req.params, req.body);  
+            const resultado = await Product.llamarUnProducto(req.params)
+            res.status(200).json({title: `El producto N° "${req.params.id_product}" fue actualizaco con éxito`, resultado});
         } catch(err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});         
+            console.log(err)
         }
     }
     filtrarBusqueda = async (req, res) => {
@@ -138,23 +128,6 @@ export class productsController {
                 errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
             }
             res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});         
-        }
-    }
-    prueba = async (req, res) => {
-        try{
-            const resultado = await Product.pruebas();
-            res.status(200).json(resultado);
-        } catch(err){
-            console.log(err)
-        }
-    }
-    all = async (req, res) => {
-        try{
-            const tools = await Tool.verHerramientas();
-            const stocks = await Stock.verStock();
-            res.json({tools, stocks})
-        } catch(err) {
-            console.log(err);
         }
     }
 }

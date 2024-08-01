@@ -48,6 +48,7 @@ export class productsService {
             });
 
             await Promise.all([...promiseTool, ...promiseMaterial]);
+            return newProduct
         } catch (err) {
             console.log(err);
         }
@@ -77,7 +78,7 @@ export class productsService {
             const tools = newData.tools;
             const materials = newData.materials;
 
-            await Products.update({
+            const resultado = await Products.update({
                 name_product: newData.name_product,
                 img_product: newData.img_product,
                 description_product: newData.description_product
@@ -114,7 +115,8 @@ export class productsService {
             })
             
             await Promise.all([...promiseTool, ...promiseMaterial])
-        } catch {
+            return resultado
+        } catch(err) {
             console.log(err);
         }
     }
@@ -183,6 +185,14 @@ export class productsService {
                 })
                 const result = await Promise.all(resultPromise)
                 return {result, material}
+            }
+            if (type === 'nameProductValidator'){
+                const resultado = await Products.findOne({
+                    where:{
+                        name_product: value
+                    }
+                })
+                return resultado
             }
         } catch (err) {
             console.log(err);
