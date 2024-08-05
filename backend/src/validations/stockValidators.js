@@ -1,7 +1,6 @@
 import {body, param, query} from 'express-validator';
 import {validatorResult} from '../libs/validationLib.js';
 import {StockService} from '../services/stockService.js';
-import { NUMBER } from 'sequelize';
 const Stock = new StockService();
 
 export const stockValidations = {

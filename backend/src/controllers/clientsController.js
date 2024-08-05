@@ -6,9 +6,9 @@ export class clientsController {
         try {
             const resultado = await Clients.verClientes(); 
             if (resultado.length === 0){
-                res.render('clients', {title: 'Control de clientes', message: 'No se encontró ningun cliente en la base de datos'});
+                res.status(404).json({title: 'Control de clientes', message: 'No se encontró ningun cliente en la base de datos'});
             } else {
-                res.render('clients', {title: 'Control de clientes', resultado})
+                res.status(200).json({title: 'Control de clientes', resultado})
             }
         }catch (err) {
             let errorObject = null;
@@ -22,8 +22,8 @@ export class clientsController {
     }
     crear = async (req, res) => {
         try{
-            await Clients.crearCliente(req.body);
-            res.redirect('/clients');
+            const resultado = await Clients.crearCliente(req.body);
+            res.status(200).json({title: 'Cliente creado con éxito', resultado});
         } catch(err){
             let errorObject = null;
             try{
@@ -37,7 +37,7 @@ export class clientsController {
     borrar = async (req, res) => {
         try{
             await Clients.borrarCliente(req.params);
-            res.redirect('/clients');
+            res.status(200).json({title: `Cliente con ID: ${req.params.id_client} eliminado con éxito`});
         }catch(err){
             let errorObject = null;
             try{
@@ -50,8 +50,8 @@ export class clientsController {
     }
     paginaActualizar = async (req, res) => {
         try{
-            const buscarCliente = await Clients.buscarUno(req.params.id_client);
-            res.render('updateClient', {title: 'Actualizar cliente', buscarCliente})
+            const resultado = await Clients.buscarUno(req.params.id_client);
+            res.status(200).json({title: 'Actualizar cliente', resultado})
         }catch(err){
             let errorObject = null;
             try{
@@ -64,8 +64,8 @@ export class clientsController {
     }
     actualizar = async (req, res) => {
         try {
-            await Clients.actualizarCliente(req.params.id_client, req.body);
-            res.redirect('/clients');
+            const resultado = await Clients.actualizarCliente(req.params.id_client, req.body);
+            res.status(200).json({title: 'Cliente actualizado correctamente', resultado});
         }catch(err){
             let errorObject = null;
             try{
@@ -83,9 +83,9 @@ export class clientsController {
             const resultado = await Clients.filtrarBusqueda(searchType, searchValue);
 
             if(resultado.length === 0){
-                res.render('browserClients', {title: `Resultado encontrado con "${searchType}" "${searchValue}"`, searchValue})
+                res.status(404).json({title: `No se encontró ningún resultado con "${searchType}" "${searchValue}"`})
             } else {
-                res.render('browserClients', {title: `Resultado encontrado con "${searchType}" "${searchValue}"`, resultado})
+                res.status(200).json({title: `Resultado encontrado con "${searchType}" "${searchValue}"`, resultado})
             }
         }catch(err){
             let errorObject = null;

@@ -48,6 +48,7 @@ export class productsService {
             });
 
             await Promise.all([...promiseTool, ...promiseMaterial]);
+            return newProduct;
         } catch (err) {
             console.log(err);
         }
@@ -77,7 +78,7 @@ export class productsService {
             const tools = newData.tools;
             const materials = newData.materials;
 
-            await Products.update({
+            const updateProduct = await Products.update({
                 name_product: newData.name_product,
                 img_product: newData.img_product,
                 description_product: newData.description_product
@@ -114,7 +115,8 @@ export class productsService {
             })
             
             await Promise.all([...promiseTool, ...promiseMaterial])
-        } catch {
+            return updateProduct;
+        } catch(err) {
             console.log(err);
         }
     }
@@ -130,12 +132,12 @@ export class productsService {
                 return result
             } 
             if (type === 'name_product'){
-                const objetoWhere = {}
-                objetoWhere[type] = {
-                    [Op.like]: `%${value}%`
-                };
                 const result = await Products.findAll({
-                    where: objetoWhere,
+                    where: {
+                        'name_product': {
+                            [Op.like]: `%${value}%`
+                        }
+                    },
                     include: [
                     {model: Stock},
                     {model: Tools}
@@ -183,6 +185,14 @@ export class productsService {
                 })
                 const result = await Promise.all(resultPromise)
                 return {result, material}
+            }
+            if(type = 'nameProductValidator'){
+                const resultado = await Products.findOne({
+                    where: {
+                        name_product: value
+                    }
+                });
+                return resultado
             }
         } catch (err) {
             console.log(err);
