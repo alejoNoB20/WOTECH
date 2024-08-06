@@ -12,12 +12,14 @@ export const clientsValidator = {
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('last_name_client')
+            .optional()
             .trim()
             .exists()
             .notEmpty().withMessage('El campo APELLIDO es obligatorio').bail()
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('dni_client')
+            .optional()
             .trim()
             .exists()
             .notEmpty().withMessage('El campo DNI es obligatorio').bail()
@@ -57,7 +59,7 @@ export const clientsValidator = {
             .optional()
             .isNumeric().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
             .isInt().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
-            .isLength({min: 15, max: 15}).withMessage('El campo CUIL O CUIT DEL CLIENTE permite un máximo de 15 caracteres númericos'),
+            .isLength({min: 11, max: 11}).withMessage('El campo CUIL O CUIT DEL CLIENTE permite un máximo de 11 caracteres númericos'),
 
         (req, res, next) => {
             validatorResult(req, res, next);
@@ -83,10 +85,9 @@ export const clientsValidator = {
                 }
                 if(req.query.search_type === 'id_client' || req.query.search_type === 'dni_client' || req.query.search_type === 'cuil_or_cuit_client'){
                     const valueFloat = parseFloat(value);
-                    console.log(valueFloat)
                     if(!Number.isInteger(valueFloat) || valueFloat < 1) throw new Error ('Los campos ID - DNI - CUIL O CUIT DEL CLIENTE solo reciben números entereros positivos');
                     if(req.query.search_type === 'dni_client' && value.length != 8) throw new Error ('El campo DNI solo permite 8 carateres');
-                    if(req.query.search_type === 'cuil_or_cuit_client' && value.length != 15) throw new Error ('El campo CUIL O CUIT DEL CLIENTE solo permite 15 carateres');
+                    if(req.query.search_type === 'cuil_or_cuit_client' && value.length != 11) throw new Error ('El campo CUIL O CUIT DEL CLIENTE solo permite 15 carateres');
                 }
                 return true
             }),

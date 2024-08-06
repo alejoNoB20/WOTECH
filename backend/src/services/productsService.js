@@ -11,8 +11,16 @@ export class productsService {
         try {
             const resultado = await Products.findAll({
                 include: [ 
-                    {model: Stock},
-                    {model: Tools}
+                    {model: Stock, 
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['id_material', 'name_material', 'buy_price_material']},
+                    {model: Tools, 
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['id_tool', 'name_tool', 'status_tool']}
                 ]
             });
             return resultado;

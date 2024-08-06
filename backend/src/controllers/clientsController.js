@@ -25,13 +25,7 @@ export class clientsController {
             const resultado = await Clients.crearCliente(req.body);
             res.status(200).json({title: 'Cliente creado con éxito', resultado});
         } catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err);
         }
     }
     borrar = async (req, res) => {
