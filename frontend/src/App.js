@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Layout from './components/layout/layout.jsx';
-import ItemListContainer from './components/itemListContainer/ItemListContainer.jsx';
-import AddStock from './components/stock/AddStock.jsx';
+import ItemListContainer from './components/itemListContainer/ItemListContainer';
+import Layout from './components/layout/layout';
+import AddStock from './components/stock/AddStock'
 function App() {
   const links = [
     { name: 'Inicio', path: '/' },
-    { name: 'Acerca de', path: '/about' },
+    { name: 'Agregar stock', path: '/addstock' },
     { name: 'Carrito', path: '/cart' },
     // Añade más enlaces aquí
   ];
