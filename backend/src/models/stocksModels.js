@@ -24,10 +24,6 @@ export const Stock = sequelize.define('stock', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    contains: {
-        type: DataTypes.STRING(2),
-        allowNull: true
-    },
     how_much_contains: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -35,34 +31,8 @@ export const Stock = sequelize.define('stock', {
     total_amount_material: {
         type: DataTypes.INTEGER,
         allowNull: true
-    },
-    value_stock: {
-        type: DataTypes.DECIMAL,
-        allowNull: true
     }
 }, {
     tableName: 'stock',
     sequelize,
-    hooks: {
-        beforeCreate: (stock) => {
-            const amountMaterial = stock.amount_material;
-            const buyPriceMaterial = stock.buy_price_material;
-            const howMuchContains = stock.how_much_contains;
-            const contains = stock.contains;
-            if(contains === 'on'){
-                stock.total_amount_material = amountMaterial * howMuchContains;
-            }
-            stock.value_stock = amountMaterial * buyPriceMaterial;
-        },
-        beforeUpdate: (stock) => {
-            const amountMaterial = stock.amount_material;
-            const buyPricematerial = stock.buy_price_material;
-            const howMuchContains = stock.how_much_contains;
-            const contains = stock.contains;
-            if(contains === 'on'){
-                stock.total_amount_material = amountMaterial * howMuchContains;
-            }
-            stock.value_stock = amountMaterial * buyPricematerial;
-        }
-    }
 });

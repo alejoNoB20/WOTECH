@@ -11,19 +11,9 @@ export class productsController {
     verTodos = async (req, res) => {
         try {
             const resultado = await Product.verProductos();
-            if(resultado.length === 0){
-                res.status(404).json({title: "Control de productos", message: "No se encontró ningún registro de Productos en la base de datos"});
-            } else {
-                res.json({ title: "Control de Productos", resultado});
-            }  
+                res.status(200).json({ title: "Control de Productos", resultado});
         } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            console.log(err)
         }
     }
     irAPaginaCrear = async (req, res) => {
@@ -44,7 +34,7 @@ export class productsController {
     crear = async (req, res) => {
         try {
             const resultado = await Product.crearProducto(req.body);
-            res.status(200).json(resultado);
+            res.status(200).json({title: "Producto creado con éxito", resultado});
         }catch (err) {
             let errorObject;
             try{
@@ -87,15 +77,11 @@ export class productsController {
     }
     actualizar = async (req, res) => {
         try{
-            await Product.actualizarProducto(req.params, req.body);  
+            await Product.actualizarProducto(req.params, req.body);
+            const result = await Product.llamarUnProducto(req.params)
+            res.status(200).json({title: "Producto actualizado con éxito", result});
         } catch(err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});         
+            console.log(err)
         }
     }
     filtrarBusqueda = async (req, res) => {
@@ -105,39 +91,17 @@ export class productsController {
 
             const resultado = await Product.resultadoBusquedaFiltrada(searchType, searchValue);
             if (resultado.length === 0){
-                switch (searchType) {
-                    case 'name_product':
-                        res.render('browserProduct', {title: `Resultado encontrado con "Nombre del producto": "${searchValue}"`, resultado, searchValue});                
-                        break;
-                        case 'id_product':
-                            res.render('browserProduct', {title: `Resultado encontrado con "ID": "${searchValue}"`, resultado, searchValue});                                    
-                            break;
-                    case 'id_tool':
-                        res.render('browserProduct', {title: `Resultado encontrado con "Herramientas que usa": "${searchValue}"`, resultado, searchValue});                
-                        break;
-                    case 'id_material':
-                        res.render('browserProduct', {title: `Resultado encontrado con "Materiales que usa": "${searchValue}"`, resultado, searchValue});                
-                        break;
-                    }
-                } else {
-                    if(searchType === 'id_tool'){
+                res.status(404).json({title: `Busqueda del ${searchType} con ${searchValue}`, resultado: "No se encontró nada en la base de datos"})
+            } else {
+                if(searchType === 'id_tool' || searchType === 'id_material'){
                     const flatResult = resultado.result.flat();
-                    res.render('browserProduct', {title: `Resultado encontrado con "${resultado.tool.name_tool}"`, resultado: flatResult});
-                } else if (searchType === 'id_material') {    
-                    const flatResult = resultado.result.flat();
-                    res.render('browserProduct', {title: `Resultado encontrado con "${resultado.material.name_material}"`, resultado: flatResult});
+                    res.status(200).json({title: `Busqueda del ${searchType} con ${searchValue}`, resultado: flatResult});
                 } else {
-                    res.render('browserProduct', {title: `Resultado encontrado con "${searchValue}"`, resultado});
+                    res.status(200).json({title: `Busqueda del ${searchType} con ${searchValue}`, resultado})
                 }
             }
         } catch(err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});         
+            console.log(err);
         }
     }
     prueba = async (req, res) => {

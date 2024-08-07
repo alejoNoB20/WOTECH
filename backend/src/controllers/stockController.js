@@ -7,7 +7,16 @@ export class StockController {
     // Create new stock
     crear = async (req, res) => {
         try {
-            const resultado = await stock.crearStock(req.body);
+            const {contains, ...data}=  req.body
+
+            if(!contains){
+                data.how_much_contains = null;
+                data.total_amount_material = null;
+            } else {
+                data.total_amount_material = data.amount_material * data.how_much_contains;
+            }
+            
+            const resultado = await stock.crearStock(data);
             res.status(200).json(resultado);
         }catch (err) {
             console.log(err);
@@ -45,13 +54,16 @@ export class StockController {
     // update one stock
     actualizar = async (req, res) => {
         try {
-            if(!req.body.contains){
-                req.body.contains = null;
-                req.body.how_much_contains = null;
-                req.body.total_amount_material = null;
+            const {contains, ...data} = req.body
+
+            if(!contains){
+                data.how_much_contains = null;
+                data.total_amount_material = null;
+            } else {
+                data.total_amount_material = data.amountMaterial * data.howMuchContains;
             }
 
-            const resultado = await stock.actualizarStock(req.params, req.body);
+            await stock.actualizarStock(req.params, data);
             res.status(200).json({title: `Actualización correcta del producto: ID ${req.params.id_material}` });
         } catch (err) {
             console.log(err)
@@ -60,7 +72,7 @@ export class StockController {
     // controller to see one stock
     verUno = async (req, res) => {
         try {
-            const resultado = await stock.verUnStock(req.params);
+            await stock.verUnStock(req.params);
         } catch (err) {
             let errorObject;
             try{

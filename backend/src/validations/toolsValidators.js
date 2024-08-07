@@ -41,8 +41,9 @@ export const toolsValidations = {
             .notEmpty().withMessage('El campo nombre es obligatorio, no puede estar vacío')
             .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres')
             .custom(async (value, {req}) => {
-            const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', req.body.name_tool);
-            if (findTheSameName && findTheSameName.id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');}).bail(),
+                const findTheSameName = await Tool.buscarUnaHerramienta('nameToolValidator', req.body.name_tool);
+                if (findTheSameName && findTheSameName.id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+            }).bail(),
 
         body('description_tool')
             .trim()
@@ -55,24 +56,22 @@ export const toolsValidations = {
             .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
 
         body('repair_shop_tool')
-            .if(body('status_tool').equals('En Arreglo')).bail()
-            .trim()
-            .exists()
-            .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Donde se está arreglando" es obligatorio').bail(),
+            .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
+                .trim()
+                .exists()
+                .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Donde se está arreglando" es obligatorio').bail(),
 
         body('repair_date_tool')
-            .if(body('status_tool').equals('En Arreglo')).bail()
-            .trim()
-            .exists()
-            .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Cuando se llevo a reparar" es obligatorio')
-            .isDate().withMessage('El formato de "Cuando se llevo a reparar" debe ser de fecha').bail(),
+            .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
+                .exists()
+                .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Cuando se llevo a reparar" es obligatorio')
+                .isDate().withMessage('El formato de "Cuando se llevo a reparar" debe ser de fecha').bail(),
 
         body('search_repair_tool')
-            .if(body('status_tool').equals('En Arreglo')).bail()
-            .trim()
-            .exists()
-            .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Cuando ir a buscar" es obligatorio')
-            .isDate().withMessage('El formato de "Cuando ir a buscar" debe ser de fecha').bail(),
+            .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
+                .exists()
+                .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Cuando ir a buscar" es obligatorio')
+                .isDate().withMessage('El formato de "Cuando ir a buscar" debe ser de fecha').bail(),
 
         body('location_tool')
             .trim()
@@ -93,10 +92,10 @@ export const toolsValidations = {
             .exists()
             .notEmpty()
             .isLength({max: 50}).withMessage('Valor de la herramienta busqueda inválida')
-            .if(query('search_type').equals('id_tool'))
-            .isInt().withMessage('El campo ID solo permite números enteros')
-            .if(query('search_type').equals('status_tool'))
-            .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
+            .if((value, {req}) => req.query.search_type === 'id_tool')
+                .isInt().withMessage('El campo ID solo permite números enteros')
+            .if((value, {req}) => req.query.search_type === 'status_tool')
+                .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
 
         (req, res, next) => {
             validatorResult(req, res, next);

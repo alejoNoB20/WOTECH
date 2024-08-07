@@ -7,7 +7,7 @@ export class clientsService {
             const resultado = await Clients.findAll();
             return resultado;
         } catch(err) {
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)    
         }
     }
     crearCliente = async (data) => {
@@ -15,14 +15,14 @@ export class clientsService {
             const resultado = await Clients.create(data);
             return resultado;
         }catch(err){    
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)    
         }
     }
     borrarCliente = async (where) => {
         try{
             await Clients.destroy({where})
         }catch(err){
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)    
         }
     }
     buscarUno = async (id) => {
@@ -30,7 +30,7 @@ export class clientsService {
             const resultado = await Clients.findByPk(id);
             return resultado;
         }catch(err){
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)    
         }
     }
     actualizarCliente = async (id, newData) => {
@@ -42,21 +42,12 @@ export class clientsService {
             })
             return resultado;
         }catch(err){
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)    
         }
     }
     filtrarBusqueda = async (type, value) => {
         try{
-            console.log(value)
-            console.log(type)
-            if(type === 'type_client'){
-                const resultado = await Clients.findAll({
-                    where: {
-                        'type_client': value
-                        } 
-                    })
-                return resultado;
-            }else if(type === 'name_client' || type === 'last_name_client'){
+            if (type === 'name_client' || type === 'last_name_client'){
                     const objetoWhere = {};
                     objetoWhere[type] = {
                         [Op.like]: `%${value}%`
@@ -65,6 +56,13 @@ export class clientsService {
                         where: objetoWhere
                     })
                     return resultado;
+            } else if(type === 'dniClientValidator'){
+                const resultado = await Clients.findOne({
+                    where: {
+                        dni_client: value
+                    }
+                })
+                return resultado
             } else {
                 const objetoWhere = {};
                 objetoWhere[type] = {
@@ -77,7 +75,7 @@ export class clientsService {
             }
             
         }catch(err){
-            res.status(400).render('error', {error: 'Falla interna en la página', redirect: '/', text: 'Volver al inicio'});  
+            console.log(err)
         }
     }
 }

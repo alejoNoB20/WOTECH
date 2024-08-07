@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import path from 'path';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import Handlebars from 'handlebars';
@@ -16,7 +17,8 @@ import "./models/productsModels.js";
 import "./models/productStocksModels.js";
 import "./models/productToolsModels.js";
 import './models/clientsModels.js';
-import cors from 'cors'
+import './models/ordersModels.js';
+import './models/orderProductsModels.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -26,6 +28,7 @@ import toolsRouter from './routes/toolsRouter.js';
 import stockRouter from './routes/stockRouter.js';
 import productsRouter from './routes/productsRouter.js';
 import clientsRouter from './routes/clientsRouter.js';
+import ordersRouter from './routes/ordersRouter.js';
 
 
 
@@ -54,7 +57,8 @@ app.use('/', indexRouter);
 app.use('/stock', stockRouter);
 app.use('/tools', toolsRouter);
 app.use('/products', productsRouter);
-app.use('/clients', clientsRouter)
+app.use('/clients', clientsRouter);
+app.use('/orders', ordersRouter);
 
 
 app.listen(process.env.PORT, () => {

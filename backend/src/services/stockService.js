@@ -20,7 +20,7 @@ export class StockService {
     }
     actualizarStock = async (where, newData) => {
         try {
-            const actualizar = await Stock.update(newData, {where, individualHooks: true});
+            const actualizar = await Stock.update(newData, {where});
             return actualizar;
         } catch(err) {
             console.log(err);
