@@ -3,11 +3,12 @@ import './App.css';
 import ItemListContainer from './components/itemListContainer/ItemListContainer';
 import Layout from './components/layout/layout';
 import AddStock from './components/stock/AddStock'
+import UpdateStock from './components/stock/UpdateStock';
 function App() {
   const links = [
     { name: 'Inicio', path: '/' },
     { name: 'Agregar stock', path: '/addstock' },
-    { name: 'Carrito', path: '/cart' },
+    { name: 'Actualizar stock', path: '/updatestock' },
     // Añade más enlaces aquí
   ];
 
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/stock" element={<ItemListContainer />} />
         <Route path = "/addstock" element={<AddStock/>}/>
+        <Route path = "/updatestock/:id" element={<UpdateStock/>}/>
       </Routes>
     </Layout>
 

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const AddStock = () => {
   const [formData, setFormData] = useState({})
   const [createdMaterial, setCreatedMaterial] = useState(false)
-  const [resp, setResp] = useState({})
+  const [resp, setResp] = useState()
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setFormData({
@@ -24,11 +24,10 @@ const AddStock = () => {
       .then(response => response.json()) // Convierte la respuesta a JSON
       .then(data => {
         setResp(data)
+        setCreatedMaterial(true)
       })
       .catch(err => console.log(err))
-      setCreatedMaterial(true)
-      console.log(formData)
-      console.log(resp)
+
   }
 
   if (createdMaterial) {
@@ -37,20 +36,20 @@ const AddStock = () => {
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Vista Previa del Material</h2>
           <div className="mb-4">
-            <p className="text-gray-700"><strong>Nombre:</strong> {formData.name_material}</p>
+            <p className="text-gray-700"><strong>Nombre:</strong> {resp.name_material}</p>
           </div>
           <div className="mb-4">
-            <p className="text-gray-700"><strong>Descripción:</strong> {formData.description_material}</p>
+            <p className="text-gray-700"><strong>Descripción:</strong> {resp.description_material}</p>
           </div>
           <div className="mb-4">
-            <p className="text-gray-700"><strong>Cantidad en el contenedor:</strong> {formData.contains ? formData.how_much_contains : 'N/A'}</p>
+            <p className="text-gray-700"><strong>Cantidad en el contenedor:</strong> {resp.contains ? resp.how_much_contains : 'N/A'}</p>
           </div>
 
           <div className="mb-4">
-            <p className="text-gray-700"><strong>Precio:</strong> ${formData.buy_price_material}</p>
+            <p className="text-gray-700"><strong>Precio:</strong> ${resp.buy_price_material}</p>
           </div>
           <div className="mb-4">
-            <p className="text-gray-700"><strong>Cantidad:</strong> {formData.amount_material}</p>
+            <p className="text-gray-700"><strong>Cantidad:</strong> {resp.amount_material}</p>
           </div>
         </div>
       </div>
@@ -82,7 +81,7 @@ const AddStock = () => {
               value={formData.description_material || ''}
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              
+
             />
           </div>
 

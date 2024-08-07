@@ -12,7 +12,6 @@ const ItemList = ({ items }) => {
                     <th className="text-left">Contiene</th>
                     <th className="text-left">Cantidad total</th>
                     <th className="text-left">Precio por unidad</th>
-                    <th className="text-left">Precio total</th>
                 </tr>
             </thead>
             <tbody className="table-hover">
