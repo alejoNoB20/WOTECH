@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import ItemList from "../itemList/ItemList"
+import ItemList from "../itemList/itemList"
 import Loader from "../loader/loader"
 
 
