@@ -66,13 +66,19 @@ export const stockValidations = {
                     if(value > 50){
                         throw new Error('El nombre de un stock no puede superar los 50 caracteres');
                     }
-                if(req.query.search_type !== 'name_material'){
-                    if(!Number.isInteger(value)){
-                        throw new Error('Los campos CANTIDAD - PRECIO - ID solo reciben números enteros')
+                }
+                if(req.query.search_type === 'id_material' || req.query.search_type === 'amount_material'){
+                    const valueFloat = parseFloat(value);
+                    if(!Number.isInteger(valueFloat) || valueFloat < 1){
+                        throw new Error('Los campos CANTIDAD - ID solo reciben números enteros')
+                    }
+                }
+                if(req.query.search_type === 'buy_price_material'){
+                    if(isNaN(value)){
+                        throw new Error('El campo PRECIO solo reciben números')
                     }
                 }
                 return true
-                }
             })
             ,
             (req, res, next) =>{

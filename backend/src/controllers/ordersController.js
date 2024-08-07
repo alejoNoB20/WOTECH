@@ -24,6 +24,15 @@ export class orderController {
     }
     crear = async (req, res) => {
         try{
+            // ---EXAMPLE---
+            // {
+            //     "id_client": 2,
+            //     "delivery_day_order": "2024-08-08",
+            //     "products": [
+            //         {"id": 1, "price_product": 5000, "amount_product": 8},
+            //         {"id": 2, "price_product": 5000, "amount_product": 10}
+            //         ]
+            // }
             const {products, ...datos} = req.body;
             const priceProducts = products.map(product => {
                 const price_product = product.price_product * product.amount_product;
