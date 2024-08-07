@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import ItemList from "../itemList/itemList"
-import Loader from "../loader/loader"
+import ItemList from "../itemList/ItemList"
+import Loader from "../loader/Loader"
 
 
 

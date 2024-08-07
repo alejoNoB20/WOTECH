@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import ItemListContainer from './components/itemListContainer/itemListContainer.jsx';
-import AddStock from './components/stock/addStock.jsx';
-import Layout from './components/layout/layout.jsx';
+import ItemListContainer from './components/itemListContainer/ItemListContainer.jsx';
+import AddStock from './components/stock/AddStock.jsx';
+import Layout from './components/layout/Layout.jsx';
 function App() {
   const links = [
     { name: 'Inicio', path: '/' },
