@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faFloppyDisk, faTrash } from '@fortawesome/free-solid-svg-icons'
 import './updateStock.css'
-import { useParams } from 'react-router-dom';
-import Loader from '../loader/Loader';
+import { useNavigate, useParams } from 'react-router-dom'
+import Loader from '../loader/Loader'
 const UpdateStock = () => {
-  const [material, setMaterial] = useState({});
+  const [material, setMaterial] = useState({})
   const [loading, setLoading] = useState(true)
   const [item, setItem] = useState([])
   const [isEditable, setIsEditable] = useState({
@@ -14,23 +14,29 @@ const UpdateStock = () => {
     amount_material: false,
     how_much_contains: false,
     buy_price_material: false
-  });
+  })
+  const { id } = useParams()
+  const navigate = useNavigate()
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target
     setMaterial((prevMaterial) => ({
       ...prevMaterial,
-      [name]: value
-    }));
-  };
-  const { id } = useParams()
+      [name]: type === 'checkbox' ? checked : value,
+    }))
+  }
   useEffect(() => {
     setLoading(true)
     const fetchData = () => {
       fetch('https://wotech.onrender.com/stock/search?search_type=id_material&search_value=' + id)
         .then(response => response.json())
         .then(response => {
-          setMaterial(response.resultado[0])
-          setItem([response.resultado[0]])
+          const { updatedAt, createdAt, total_amount_material, ...restData } = response.resultado[0]
+          if (restData.how_much_contains > 0) {
+            restData.contains = true
+          }
+          setMaterial(restData)
+          setItem(restData)
         })
         .finally(() => setLoading(false))
     }
@@ -38,25 +44,35 @@ const UpdateStock = () => {
   }, [id])
   const toggleInput = (field) => {
     setIsEditable((prevEditable) => {
-      const isNowEditable = !prevEditable[field];
+      const isNowEditable = !prevEditable[field]
       if (!isNowEditable) {
-        handleUpdate()
+        setItem(material)
       }
       return {
         ...prevEditable,
         [field]: isNowEditable
-      };
-    });
-    const handleUpdate = async () => {
-      await fetch('https://wotech.onrender.com/stock/update/' + id, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(material),
+      }
+    })
+  }
+  const handleUpdate = async () => {
+    await fetch('https://wotech.onrender.com/stock/update/' + id, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(material),
+    })
+    .then(window.location.reload())
+  }
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(`Estás seguro que querés eliminar el material "${material.name_material}"`)
+    if (confirmDelete) {
+      await fetch('https://wotech.onrender.com/stock/delete/' + id, {
+        method: 'DELETE',
       })
+      navigate('/stock/getstock')
     }
-  };
+  }
 
   return (
     <>
@@ -134,6 +150,18 @@ const UpdateStock = () => {
               </div>
             </div>
             <div className="mb-4">
+              <label htmlFor="contains" className="block text-gray-700">Unidad
+                <input
+                  type="checkbox"
+                  id="contains"
+                  name="contains"
+                  checked={material.contains || false}
+                  onChange={handleChange}
+                  className="my-2 ml-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </label>
+            </div>
+            {material.contains && (<div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="how_much_contains">
                 Contiene:
               </label>
@@ -155,7 +183,8 @@ const UpdateStock = () => {
                   )}
                 </button>
               </div>
-            </div>
+            </div>)}
+
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="buy_price_material">
                 Precio por unidad:
@@ -179,24 +208,36 @@ const UpdateStock = () => {
                 </button>
               </div>
             </div>
+            <div className="flex justify-start space-x-4">
+              <button onClick={handleUpdate} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
+                Guardar Material
+              </button>
+
+              <button onClick={handleDelete} className="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                Eliminar Material
+              </button>
+            </div>
+
           </div>
           <div className="w-1/2 pl-4">
 
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">{material.name_material}</h2>
+              <h2 className="text-2xl font-bold text-gray-800">{item.name_material}</h2>
               <span className="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded">
-                Stock: {material.total_amount_material}
+                Stock: {item.total_amount_material}
               </span>
             </div>
             <p className="text-gray-700 text-base mb-4">
-              {material.description_material}
+              {item.description_material}
             </p>
             <div className="flex items-center">
               <div className="text-sm">
-                <p className="text-gray-600">Código: {material.id_material}</p>
-                <p className="text-gray-600">Cantidad en unidades: {material.amount_material}</p>
-                <p className="text-gray-600">Cada uno contiene: {material.how_much_contains}</p>
-                <p className="text-gray-600">Precio del material: ${material.buy_price_material}</p>
+                <p className="text-gray-600">Código: {item.id_material}</p>
+                <p className="text-gray-600">Cantidad en unidades: {item.amount_material}</p>
+                <p className="text-gray-600">Cada uno contiene: {item.how_much_contains}</p>
+                <p className="text-gray-600">Precio del material: ${item.buy_price_material}</p>
               </div>
             </div>
           </div>
@@ -204,7 +245,7 @@ const UpdateStock = () => {
 
       )}
     </>
-  );
-};
+  )
+}
 
-export default UpdateStock;
+export default UpdateStock

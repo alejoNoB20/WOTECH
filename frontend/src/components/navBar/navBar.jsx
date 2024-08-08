@@ -20,13 +20,13 @@ const NavBar = ({ logged }) => {
           <NavLink to="/" exact className="hover:text-gray-400 active:text-red-500">
             Inicio
           </NavLink>
-          <NavLink to="/stock" className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/stock/getstock" className="hover:text-gray-400 active:text-red-500">
             Materiales
           </NavLink>
-          <NavLink to="/products" className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/products/getproducts" className="hover:text-gray-400 active:text-red-500">
             Productos
           </NavLink>
-          <NavLink to="/tools" exact className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500">
             Herramientas
           </NavLink>
           <NavLink to="/user">
