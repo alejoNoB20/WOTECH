@@ -9,6 +9,6 @@ stockRouter.get('/search', stockValidations.searchStock,stockController.buscarUn
 stockRouter.post('/create', stockValidations.createStock, stockController.crear);
 stockRouter.get('/update/:id_material', stockController.irActualizarStock);
 stockRouter.post('/update/:id_material', stockValidations.updateStock,stockController.actualizar);
-stockRouter.get('/delete/:id_material', stockValidations.deleteStock,stockController.borrar);
+stockRouter.delete('/delete/:id_material', stockValidations.deleteStock,stockController.borrar);
 
 export default stockRouter;
