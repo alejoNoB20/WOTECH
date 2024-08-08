@@ -60,7 +60,7 @@ export class StockController {
                 data.how_much_contains = null;
                 data.total_amount_material = null;
             } else {
-                data.total_amount_material = data.amountMaterial * data.howMuchContains;
+                data.total_amount_material = data.amount_material * data.how_much_contains;
             }
 
             await stock.actualizarStock(req.params, data);
