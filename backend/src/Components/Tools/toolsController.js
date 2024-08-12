@@ -2,6 +2,30 @@ import { ToolsService } from "./toolsService.js";
 import {try_catch} from "../../utils/try_catch.js"; 
 const Tool = new ToolsService();
 
+// ---EXAMPLE 1---
+// {
+//     "name_tool": "Destornillador",
+//     "description_tool": "Destornillador plano",
+//     "status_tool": "En Arreglo", 
+//     "location_tool": "Pared Derecha",
+//     "repair_shop_tool": "Calle Random123",
+//     "repair_date_tool": "2024-06-03", 
+//     "search_repair_tool": "2024-07-03",
+//     "disabled": false
+// }
+
+// ---EXAMPLE 2---
+// {
+//     "name_tool": "Destornillador",
+//     "description_tool": "Destornillador plano",
+//     "status_tool": "Habilitado", 
+//     "location_tool": "Pared Derecha",
+//     "repair_shop_tool": null,
+//     "repair_date_tool": null, 
+//     "search_repair_tool": null,
+//     "disabled": false
+// }
+
 export class ToolsController {
     verTodasHerramientas = async (req, res) => {
         try {

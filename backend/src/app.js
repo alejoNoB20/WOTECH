@@ -1,7 +1,4 @@
-import createError from 'http-errors';
 import express, { json, urlencoded } from 'express';
-import { join } from 'path';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -26,8 +23,6 @@ import productsRouter from './Components/Products/productsRouter.js';
 import clientsRouter from './Components/Clients/clientsRouter.js';
 import ordersRouter from './Components/Orders/ordersRouter.js';
 
-
-
 const app = express();
 dotenv.config();
 
@@ -35,7 +30,6 @@ app.use(cors())
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/stock', stockRouter);
