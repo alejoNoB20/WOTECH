@@ -5,7 +5,7 @@ import './sidebar.css'; // Importar los estilos personalizados
 
 const Sidebar = ({ links }) => {
   return (
-    <div className="sidebar bg-gray-800 text-white p-4">
+    <div className="sidebar bg-gray-800 text-white p-4 transition-all duration-500">
       <nav className="space-y-4">
         {links.map((link, index) => (
           <NavLink 

@@ -8,6 +8,6 @@ stockRouter.get('/', stockController.verTodos);
 stockRouter.get('/search', stockValidations.searchStock,stockController.buscarUno);
 stockRouter.post('/create', stockValidations.createStock, stockController.crear);
 stockRouter.post('/update/:id_material', stockValidations.updateStock,stockController.actualizar);
-stockRouter.get('/delete/:id_material', stockValidations.deleteStock,stockController.borrar);
+stockRouter.delete('/delete/:id_material', stockValidations.deleteStock,stockController.borrar);
 
 export default stockRouter;

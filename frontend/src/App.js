@@ -5,20 +5,13 @@ import Layout from './components/layout/layout';
 import AddStock from './components/stock/AddStock'
 import UpdateStock from './components/stock/UpdateStock';
 function App() {
-  const links = [
-    { name: 'Inicio', path: '/' },
-    { name: 'Agregar stock', path: '/addstock' },
-    { name: 'Actualizar stock', path: '/updatestock' },
-    // Añade más enlaces aquí
-  ];
-
 
   return (
-    <Layout links={links} logged={true}>
+    <Layout logged={true}>
       <Routes>
-        <Route path="/stock" element={<ItemListContainer />} />
-        <Route path = "/addstock" element={<AddStock/>}/>
-        <Route path = "/updatestock/:id" element={<UpdateStock/>}/>
+        <Route path="/stock/getstock" element={<ItemListContainer />} />
+        <Route path = "/stock/addstock" element={<AddStock/>}/>
+        <Route path = "/stock/updatestock/:id" element={<UpdateStock/>}/>
       </Routes>
     </Layout>
 
