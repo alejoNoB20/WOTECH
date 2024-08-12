@@ -35,6 +35,10 @@ export const User = sequelize.define('users', {
     user_mail: {
         type: DataTypes.STRING(50),
         allowNull: false
+    },
+    disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 }, {
     tableName: 'users',

@@ -22,12 +22,16 @@ export const Orders = sequelize.define('orders', {
         type: DataTypes.STRING(100),
         allowNull: true
     },
-    price_order: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     delivery_day_order: {
         type: DataTypes.DATEONLY,
+        allowNull: false
+    },
+    disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    },
+    price_order: {
+        type: DataTypes.INTEGER,
         allowNull: false
     }
 }, {

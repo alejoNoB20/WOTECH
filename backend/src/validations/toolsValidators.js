@@ -23,14 +23,6 @@ export const toolsValidations = {
         (req, res, next) => {
             validatorResult(req, res, next);
     }],
-    deleteTool: [
-        param('id_tool', 'El ID es incorrecto')
-            .isInt(),
-
-        (req, res, next) => {
-            validatorResult(req, res, next);
-        }
-    ],
     updateTool: [
         param('id_tool')
             .isInt().withMessage('El ID es incorrecto').bail(),

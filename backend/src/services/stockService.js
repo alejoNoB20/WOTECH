@@ -4,7 +4,11 @@ import {Stock} from "../models/stocksModels.js"
 export class StockService {
     verStock = async () => {
         try {
-            const buscarTodo = await Stock.findAll();
+            const buscarTodo = await Stock.findAll({
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            });
             return buscarTodo;
         } catch(err) {
             console.log(err);
@@ -26,14 +30,6 @@ export class StockService {
             console.log(err);
         }
     }
-    verUnStock = async (where) => {
-        try {
-            const buscarUnStock = Stock.findOne({where});
-            return buscarUnStock;
-        } catch(err){
-            console.log(err);
-        }
-    }
     buscarUnMaterial = async (searchValue, searchmaterial) => {
         try {  
             if (searchValue === "name_material") {
@@ -42,14 +38,20 @@ export class StockService {
                     [Op.like]: `%${searchmaterial}%`
                 }; 
                 const buscarUnStock = Stock.findAll({
-                    where: objetoWhere 
+                    where: objetoWhere,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']                        
+                    }  
                 });
                 return buscarUnStock;
             } else if (searchValue === 'nameMaterialValidator'){
                 const resultado = await Stock.findOne({
                     where: {
                         name_material: searchmaterial
-                    }
+                    },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']                        
+                    } 
                 })
                 return resultado;
             }else {
@@ -58,7 +60,10 @@ export class StockService {
                     [Op.eq]: searchmaterial
                 }; 
                 const buscarUnStock = Stock.findAll({
-                    where: objetoWhere 
+                    where: objetoWhere,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']                        
+                    } 
                 });
                 return buscarUnStock;
             }

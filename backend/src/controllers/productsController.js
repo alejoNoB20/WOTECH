@@ -77,7 +77,7 @@ export class productsController {
     }
     actualizar = async (req, res) => {
         try{
-            await Product.actualizarProducto(req.params, req.body);
+            await Product.actualizarProducto(req.params.id_product, req.body);
             const result = await Product.llamarUnProducto(req.params)
             res.status(200).json({title: "Producto actualizado con éxito", result});
         } catch(err) {
@@ -100,23 +100,6 @@ export class productsController {
                     res.status(200).json({title: `Busqueda del ${searchType} con ${searchValue}`, resultado})
                 }
             }
-        } catch(err) {
-            console.log(err);
-        }
-    }
-    prueba = async (req, res) => {
-        try{
-            const resultado = await Product.pruebas();
-            res.status(200).json(resultado);
-        } catch(err){
-            console.log(err)
-        }
-    }
-    all = async (req, res) => {
-        try{
-            const tools = await Tool.verHerramientas();
-            const stocks = await Stock.verStock();
-            res.json({tools, stocks})
         } catch(err) {
             console.log(err);
         }

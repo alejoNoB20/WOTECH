@@ -23,6 +23,10 @@ export const Products = sequelize.define('products', {
     price_product: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 }, {
     tableName:'products',

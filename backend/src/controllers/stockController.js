@@ -36,21 +36,6 @@ export class StockController {
             console.log(err);
         }
     }
-    // goes to updateStock.js in views
-    irActualizarStock = async (req, res) => {
-        try {
-            const resultado = await stock.verUnStock(req.params);
-            res.status(200),json({title: "Modificar material", resultado});
-        } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
-        }
-    }
     // update one stock
     actualizar = async (req, res) => {
         try {
@@ -60,27 +45,13 @@ export class StockController {
                 data.how_much_contains = null;
                 data.total_amount_material = null;
             } else {
-                data.total_amount_material = data.amountMaterial * data.howMuchContains;
+                data.total_amount_material = data.amount_material * data.how_much_contains;
             }
 
             await stock.actualizarStock(req.params, data);
             res.status(200).json({title: `Actualización correcta del producto: ID ${req.params.id_material}` });
         } catch (err) {
             console.log(err)
-        }
-    }
-    // controller to see one stock
-    verUno = async (req, res) => {
-        try {
-            await stock.verUnStock(req.params);
-        } catch (err) {
-            let errorObject;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
         }
     }
     // delete one stock

@@ -1,61 +1,93 @@
 import { ordersService } from "../services/ordersService.js";
+import { try_catch } from "../../utils/try_catch.js";
 import { Products } from "../models/productsModels.js";
 const Order = new ordersService();
+
+// ---EXAMPLE---
+// {
+//     "id_client": 2,
+//     "shipping_address_order": "",
+//     "delivery_day_order": "2024-08-08",
+//     "products": [
+//         {"id": 1, "price_product": 5000, "amount_product": 15},
+//         {"id": 2, "price_product": 5000, "amount_product": 12}
+//         ]
+// }
 
 export class orderController {
     verPedidos = async (req, res) => {
         try{
             const resultado = await Order.verTodo();
-            if(resultado.length === 0){
-                res.status(404).json({title: "Control de Pedidos", resultado: 'No se encontró nada en la base de datos'});
-            }
-            res.status(200).json({title: "Control de Pedidos", resultado})
-        }catch(err){
-            console.log(err)
+            try_catch.TRY_RES(res, resultado);
+            
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
     irPaginaCrear = async (req, res) => {
         try{    
             const resultado = await Order.mostrarProductos();
-            res.status(200).json({title: 'Crear pedido', resultado})
-        }catch (err) {
-            console.log(err);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
     crear = async (req, res) => {
         try{
-            // ---EXAMPLE---
-            // {
-            //     "id_client": 2,
-            //     "delivery_day_order": "2024-08-08",
-            //     "products": [
-            //         {"id": 1, "price_product": 5000, "amount_product": 8},
-            //         {"id": 2, "price_product": 5000, "amount_product": 10}
-            //         ]
-            // }
-            const {products, ...datos} = req.body;
-            const priceProducts = products.map(product => {
-                const price_product = product.price_product * product.amount_product;
-                return price_product;
-            })
-            const sum = priceProducts.reduce((sumaParcial, a) => sumaParcial + a, 0);
-            datos.price_order = sum;
-            const resultado = await Order.crearPedido(products, datos);
-            if(resultado) res.status(200).json({title: 'Pedido generado con éxito', resultado});
+            const resultado = await Order.crearPedido(req.body);
+            try_catch.TRY_RES(res, resultado);
+
         }catch(err) {
-            console.log(err);
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    deshabilitar = async (req, res) => {
+        try{
+            const resultado = await Order.deshabilitarPedido(req.params.id_order);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
     borrar = async (req, res) => {
         try{
             const resultado = await Order.borrarPedido(req.params.id_order);
-            if(resultado){
-                res.status(200).json(`El pedido con ID: ${req.params.id_order} eliminado con éxito`);
-            } else {
-                res.status(404).json(`El pedido con ID: ${req.params.id_order} no se pudo eliminar debido a un erro del sistema`);
-            }
+            try_catch.TRY_RES(res, resultado);
+
         }catch(err) {
-            console.log(err)
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    irPaginaActualizar = async (req, res) => {
+        try{
+            const resultado = await Order.filtrarPedidos('id_order', req.params.id_order);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    actualizar = async (req, res) => {
+        try{
+            const resultado = await Order.actualizarPedido(req.params.id_order, req.body);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    filtrar = async (req, res) => {
+        try{
+            const type = req.query.search_type;
+            const value = req.query.search_value;
+
+            const resultado = await Order.filtrarPedidos(type, value);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
 }

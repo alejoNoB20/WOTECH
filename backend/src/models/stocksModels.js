@@ -31,6 +31,10 @@ export const Stock = sequelize.define('stock', {
     total_amount_material: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 }, {
     tableName: 'stock',

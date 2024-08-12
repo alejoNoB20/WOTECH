@@ -91,32 +91,30 @@ export class productsService {
                 img_product: newData.img_product,
                 description_product: newData.description_product
             }, {
-                where:{
-                    id_product: id_product.id_product
-                }
+                where: id_product
             })
 
             await product_Stocks_association.destroy({
                 where:{
-                    id_product_fk: id_product.id_product
+                    id_product_fk: id_product
                 }
             })
 
             await product_Tools_association.destroy({
                 where: {
-                    id_product_fk: id_product.id_product
+                    id_product_fk: id_product
                 }
             })
 
-            const promiseTool = tools.map(tool => {
+            const promiseTool = tools.map(id_tool_fk => {
                 return product_Tools_association.create({
-                    id_product_fk: id_product.id_product,
-                    id_tool_fk: tool
+                    id_product_fk: id_product,
+                    id_tool_fk
                 })
             })
             const promiseMaterial = materials.map(material =>{
                 return product_Stocks_association.create({
-                    id_product_fk: id_product.id_product,
+                    id_product_fk: id_product,
                     how_much_contains_use: material.how_much_content,
                     id_material_fk: material.id
                 })

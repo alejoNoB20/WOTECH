@@ -35,6 +35,10 @@ export const Tools = sequelize.define('tools', {
     search_repair_tool: {
         type: DataTypes.DATEONLY,
         allowNull: true
+    },
+    disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 },
     {

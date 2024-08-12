@@ -1,85 +1,108 @@
 import { Op } from "sequelize";
 import { Tools } from "../models/toolsModels.js";
+import { try_catch } from "../../utils/try_catch.js";
 
 export class ToolsService {
     verHerramientas = async () => {
         try{
-            const resultado = await Tools.findAll();
-            return resultado;
+            const resultado = await Tools.findAll({
+                order: [['disabled', 'ASC']],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            });
+            if(resultado.length === 0) return {status: 404, success: false, msg: 'No se encontraron herramientas registradas en la base de datos'};
+
+            return try_catch.SERVICE_TRY_RES(resultado);
+
         } catch (err) {
-            console.log(err);
+            try_catch.SERVICE_CATCH_RES(err);
         }
     }
-    verUnaHerramienta = async (where) => {
-        try {
-            const resultado = await Tools.findOne({where});
-            return resultado;
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    crearHerramienta = async (body) => {
+    crearHerramienta = async (data) => {
         try{
-            body.status_tool = 'Habilitado'
-            const resultado = await Tools.create(body);
-            return resultado;
-        } catch (err) {
-            console.log(err);
+            const resultado = await Tools.create(data)
+            if(!resultado) throw new Error ('La herramienta no se pudo crear debido a un error en el servidor');
+
+            return try_catch.SERVICE_TRY_RES(resultado);
+
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
         }
     }
-    borrarHerramienta = async (where) => {
+    borrarHerramienta = async (id_tool) => {
         try {
-            const resultado = await Tools.destroy({where});
-            return resultado;
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    updateTool = async (idTool, newData) => {
-        try {
-            await Tools.update(newData, {
+            const resultado = await Tools.destroy({
                 where: {
-                    id_tool: idTool,
+                    id_tool
                 }
-            })
-            const Tool = await Tools.findByPk(idTool);
-            return Tool;
-        } catch (err) {
-            console.log(err);
+            });
+            if(!resultado) throw new Error ('La herramienta no se pudo eliminar debido a un error en el servidor');
+
+            return try_catch.SERVICE_TRY_RES(`La herramienta con ID: ${id_tool} fue eliminada con éxito`);
+
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
         }
     }
-    buscarUnaHerramienta = async (searchValue, searchTool) => {
+    updateTool = async (id_tool, data) => {
         try {
-            if (searchValue === 'id_tool' || searchValue === 'status_tool'){
-                const whereClause = {};
-                whereClause[searchValue] = {
-                    [Op.eq]: searchTool
+            const toolUpdate = await Tools.update(data, {
+                where: {
+                    id_tool
                 }
-                
-            const respuesta = await Tools.findAll({
-                where: whereClause
             })
-            return respuesta
-            } else if (searchValue === 'nameToolValidator') {
-                const exist = await Tools.findOne({
-                    where: {
-                        name_tool: searchTool
+            if(!toolUpdate) throw new Error ('La herramienta no se pudo actualizar debido a un error en el servidor');
+
+            const respuesta = await Tools.findOne({
+                where: {id_tool},
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            });
+
+            return try_catch.SERVICE_TRY_RES(respuesta);
+
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
+        }
+    }
+    filtrarHerramienta = async (type, value) => {
+        try {
+            if (type === 'id_tool' || type === 'status_tool' || type === 'nameToolValidator'){
+                const objetoWhere = {};
+                objetoWhere[type] = {
+                    [Op.eq]: value
+                };
+                
+                const respuesta = await Tools.findAll({
+                    where: objetoWhere,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
                     }
                 })
-                return exist
+
+                return try_catch.SERVICE_TRY_RES(respuesta);
+
             } else {
-                const whereClause = {};
-                whereClause[searchValue] = {
-                    [Op.like]: `%${searchTool}%` 
-                }
+                const objetoWhere = {};
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%` 
+                };
                 
             const respuesta = await Tools.findAll({
-                where: whereClause
-            })
-            return respuesta
-            }
-        } catch (err) {
-            console.log(err);
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            });
+
+                return try_catch.SERVICE_TRY_RES(respuesta);
+
+            };
+
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
         }
     }
 };
