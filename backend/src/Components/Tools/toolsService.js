@@ -6,6 +6,9 @@ export class ToolsService {
     verHerramientas = async () => {
         try{
             const resultado = await Tools.findAll({
+                where: {
+                    disabled: false
+                },
                 order: [['disabled', 'ASC']],
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
