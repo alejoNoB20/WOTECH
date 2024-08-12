@@ -8,42 +8,28 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import Handlebars from 'handlebars';
-import {engine} from 'express-handlebars';
-import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
-import "./models/stocksModels.js";
-import "./models/toolsModels.js";
-import "./models/productsModels.js";
-import "./models/productStocksModels.js";
-import "./models/productToolsModels.js";
-import './models/clientsModels.js';
-import './models/ordersModels.js';
-import './models/orderProductsModels.js'
+import "./Components/Stock/stocksModels.js";
+import "./Components/Tools/toolsModels.js";
+import "./Components/Products/productsModels.js";
+import "./Components/Associations/productStocksModels.js";
+import "./Components/Associations/productToolsModels.js";
+import './Components/Clients/clientsModels.js';
+import './Components/Orders/ordersModels.js';
+import './Components/Associations/orderProductsModels.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 //Internal
-import indexRouter from './routes/indexRouter.js';
-import toolsRouter from './routes/toolsRouter.js';
-import stockRouter from './routes/stockRouter.js';
-import productsRouter from './routes/productsRouter.js';
-import clientsRouter from './routes/clientsRouter.js';
-import ordersRouter from './routes/ordersRouter.js';
+import toolsRouter from './Components/Tools/toolsRouter.js';
+import stockRouter from './Components/Stock/stockRouter.js';
+import productsRouter from './Components/Products/productsRouter.js';
+import clientsRouter from './Components/Clients/clientsRouter.js';
+import ordersRouter from './Components/Orders/ordersRouter.js';
 
 
 
 const app = express();
 dotenv.config();
-
-// view engine setup
-app.set('views', join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.engine('hbs', engine({
-  extname: 'hbs',
-  defaultLayout: 'layout.hbs',
-  layoutsDir: __dirname + '/views',
-  handlebars: allowInsecurePrototypeAccess(Handlebars),
-}));
 
 app.use(cors())
 app.use(logger('dev'));
@@ -52,8 +38,6 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 
-
-app.use('/', indexRouter);
 app.use('/stock', stockRouter);
 app.use('/tools', toolsRouter);
 app.use('/products', productsRouter);
