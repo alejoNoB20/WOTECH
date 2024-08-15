@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import ItemList from "../itemList/itemList"
-import Loader from "../loader/Loader"
+import ItemList from '../../components/itemStockList/itemStockList'
+import Loader from "../../components/loader/Loader"
 
 
 
-const ItemListContainer = () => {
+const GetStock = () => {
     const [items, setItems] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -29,4 +29,4 @@ const ItemListContainer = () => {
         </>
     )
 }
-export default ItemListContainer
+export default GetStock
