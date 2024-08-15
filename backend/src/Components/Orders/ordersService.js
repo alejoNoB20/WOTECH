@@ -1,5 +1,6 @@
 import { Orders } from "./ordersModels.js";
 import { Products } from "../Products/productsModels.js";
+import { Clients } from "../Clients/clientsModels.js";
 import { order_Products_association } from "../Associations/orderProductsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 import { Op } from "sequelize";
@@ -12,13 +13,16 @@ export class ordersService {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 },
-                include: {
+                include: [{
                     model: Products,
                     through: {
                         attributes: ['amount_product']
                     },
                     attributes: ['id_product', 'name_product']
-                }
+                }, {
+                    model: Clients,
+                    attributes: ['name_client'] 
+                }]
             });
             if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningun pedido en la base de datos', 404);
 
@@ -111,7 +115,17 @@ export class ordersService {
                     }, 
                     attributes: {
                         exclude: ['createdAt', 'updatedAt']
-                    }
+                    },
+                    include: [{
+                        model: Products,
+                        through: {
+                            attributes: ['amount_product']
+                        },
+                        attributes: ['id_product', 'name_product']
+                    }, {
+                        model: Clients,
+                        attributes: ['name_client'] 
+                    }] 
                 });
                 if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`); 
 
@@ -126,7 +140,17 @@ export class ordersService {
                     where: objetoWhere,
                     attributes: {
                         exclude: ['createdAt', 'updatedAt']
-                    }
+                    },
+                    include: [{
+                        model: Products,
+                        through: {
+                            attributes: ['amount_product']
+                        },
+                        attributes: ['id_product', 'name_product']
+                    }, {
+                        model: Clients,
+                        attributes: ['name_client'] 
+                    }]
                 })
                 if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`); 
 
@@ -192,10 +216,20 @@ export class ordersService {
             const orderUpdated = await Orders.findByPk(id_order, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
-                }
+                },
+                include: [{
+                    model: Products,
+                    through: {
+                        attributes: ['amount_product']
+                    },
+                    attributes: ['id_product', 'name_product']
+                }, {
+                    model: Clients,
+                    attributes: ['name_client'] 
+                }]
             });
 
-            return try_catch.SERVICE_TRY_RES(orderUpdate, 200);
+            return try_catch.SERVICE_TRY_RES(orderUpdated, 200);
 
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);

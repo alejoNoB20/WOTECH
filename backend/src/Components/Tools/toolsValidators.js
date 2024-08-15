@@ -45,7 +45,7 @@ export const toolsValidations = {
         body('status_tool')
             .exists()
             .notEmpty()
-            .isIn(['Habilitado', 'En Arreglo', 'Roto', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
+            .isIn(['Habilitado', 'En Arreglo', 'Inhabilitada', 'Perdido']).withMessage('El estado de la herramienta es incorrecta'),
 
         body('repair_shop_tool')
             .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
