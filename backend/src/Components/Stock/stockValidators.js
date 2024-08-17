@@ -11,44 +11,33 @@ export const stockValidations = {
             .notEmpty().withMessage('El campo NOMBRE es obligatorio').bail()
             .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
-                const findSameName = await Stock.buscarUnMaterial('nameMaterialValidator', req.body.name_material);
+                const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
                 if(findSameName) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
             }),
 
         body('description_material')
-            .trim()
             .optional()
+            .trim()
             .isLength({max: 200}).withMessage('El campo DESCRIPCIÓN recibe un máximo de 200 caracteres').bail(),
 
-        body('buy_price_material')
-            .exists()
-            .notEmpty().withMessage('El campo PRECIO DE COMPRA es obligatorio').bail()
-            .isNumeric().withMessage('El campo PRECIO DE COMPRA solo recibe números enteros o con coma'),
-
         body('amount_material')
+            .optional()
             .exists()
             .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
-        body('contains')
-            .optional(),
+        body('measurement_material')
+            .exists()
+            .notEmpty().withMessage('El campo UNIDAD DE MEDIDA es obligatorio').bail()
+            .isIn(['cm', 'unidad']).withMessage('El tipo de unidad de medida no es válido'),
 
-        body('how_much_contains')
-            .if((value, {req}) => req.body.contains == true)
-                .exists()
-                .notEmpty().withMessage('El campo CUANTO CONTIENE es obligatio en caso de que el stock cuente con algún tipo de contenido').bail()
-                .isInt().withMessage('El campo CUNATO CONTIENE solo recibe número enteros'),
-            
-            (req, res, next) => {
-                validatorResult(req, res, next);
-            }
     ],
     searchStock: [
         query('search_type')
             .trim()
             .exists()
             .notEmpty().withMessage('El tipo de filtro es obligatorio para buscar en una lista').bail()
-            .isIn(['id_material', 'name_material', 'amount_material', 'buy_price_material']).withMessage('El filtro de busqueda es inválido'),
+            .isIn(['id_material', 'name_material', 'amount_material']).withMessage('El filtro de busqueda es inválido'),
 
         query('search_value')
             .exists()
@@ -65,11 +54,6 @@ export const stockValidations = {
                         throw new Error('Los campos CANTIDAD - ID solo reciben números enteros')
                     }
                 }
-                if(req.query.search_type === 'buy_price_material'){
-                    if(isNaN(value)){
-                        throw new Error('El campo PRECIO solo reciben números')
-                    }
-                }
                 return true
             })
             ,
@@ -84,36 +68,24 @@ export const stockValidations = {
             .notEmpty().withMessage('El campo NOMBRE es obligatorio').bail()
             .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
-                const findSameName = await Stock.buscarUnMaterial('nameMaterialValidator', req.body.name_material);
+                const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
                 if(findSameName && findSameName.id_material != req.params.id_material) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
             }),
 
         body('description_material')
-            .trim()
             .optional()
+            .trim()
             .isLength({max: 200}).withMessage('El campo DESCRIPCIÓN recibe un máximo de 200 caracteres').bail(),
 
-        body('buy_price_material')
-            .exists()
-            .notEmpty().withMessage('El campo PRECIO DE COMPRA es obligatorio').bail()
-            .isNumeric().withMessage('El campo PRECIO DE COMPRA solo recibe números enteros o con coma'),
-
         body('amount_material')
+            .optional()
             .exists()
             .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
-        body('contains')
-            .optional(),
-
-        body('how_much_contains')
-            .if((value, {req}) => req.body.contains == true)
-                .exists()
-                .notEmpty().withMessage('El campo CUANTO CONTIENE es obligatio en caso de que el stock cuente con algún tipo de contenido').bail()
-                .isInt().withMessage('El campo CUNATO CONTIENE solo recibe número enteros'),
-            
-            (req, res, next) => {
-                validatorResult(req, res, next);
-            }
+        body('measurement_material')
+            .exists()
+            .notEmpty().withMessage('El campo UNIDAD DE MEDIDA es obligatorio').bail()
+            .isIn(['cm', 'unidad']).withMessage('El tipo de unidad de medida no es válido'),
     ]
 }

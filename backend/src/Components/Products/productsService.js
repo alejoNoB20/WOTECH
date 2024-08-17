@@ -14,20 +14,8 @@ export class productsService {
                 where: {
                     disabled: false
                 },
-                include: [ 
-                    {model: Stock, 
-                        through: {
-                            attributes: []
-                        },
-                        attributes: ['id_material', 'name_material', 'buy_price_material']},
-                    {model: Tools, 
-                        through: {
-                            attributes: []
-                        },
-                        attributes: ['id_tool', 'name_tool', 'status_tool']}
-                ],
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['createdAt', 'updatedAt', 'description_product']
                 },
                 order: [['disabled', 'ASC']]
             });
@@ -53,16 +41,16 @@ export class productsService {
 
             const promiseTool = tools.map(tool => {
                 return product_Tools_association.create({
-                    id_tool_fk: tool,
-                    id_product_fk: newProduct.id_product  
+                    id_tool: tool,
+                    id_product: newProduct.id_product  
                 });
 
             });
             const promiseMaterial = materials.map(material => {
                 return product_Stocks_association.create({
-                    id_material_fk: material.id,
+                    id_material: material.id,
                     how_much_contains_use: material.how_much_content,
-                    id_product_fk: newProduct.id_product
+                    id_product: newProduct.id_product
                 });
             });
             await Promise.all([...promiseTool, ...promiseMaterial]);
@@ -92,79 +80,108 @@ export class productsService {
         try{
             const {tools, materials, ...data} = newData;
 
-            const olderProduct = await Products.findByPk(id_product, {
+            const olderProduct = await Products.findAll({
+                where: {
+                    id_product
+                },
+                include: [ 
+                    {model: Stock, 
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['id_material', 'name_material']},
+                    {model: Tools, 
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['id_tool', 'name_tool']}
+                ],
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
-                }
+                },
+                order: [['disabled', 'ASC']]
             });
 
+            const olderMaterials = (olderProduct[0].stocks).map(stock => {
+                return {id_material: stock.id_material, name_material: stock.name_material}
+            });
+            const olderTools = (olderProduct[0].tools).map(tool => {
+                return tool.id_tool
+            });;
+
             if(JSON.stringify(data) !== JSON.stringify(olderProduct)){
-                const updateProduct = await Products.update({
-                    name_product: data.name_product,
-                    img_product: data.img_product,
-                    description_product: data.description_product
+                await Products.update({
+                    where: {
+                        name_product: data.name_product,
+                        img_product: data.img_product,
+                        description_product: data.description_product
+                    }
                 }, {
                     where: id_product
                 });
-                return updateProduct;
+
             }
 
-            await product_Stocks_association.destroy({
-                where:{
-                    id_product_fk: id_product
-                }
-            });
+            if(JSON.stringify(tools) !== JSON.stringify(olderTools)){
+                await product_Tools_association.destroy({
+                    where: {
+                        id_product
+                    }
+                });
+    
+                const promiseTool = tools.map(id_tool => {
+                    return product_Tools_association.create({
+                        id_product,
+                        id_tool
+                    })
+                });
+                
+                await Promise.all(promiseTool);
 
-            await product_Tools_association.destroy({
-                where: {
-                    id_product_fk: id_product
-                }
-            });
+            }
 
-            const promiseTool = tools.map(id_tool_fk => {
-                return product_Tools_association.create({
-                    id_product_fk: id_product,
-                    id_tool_fk
-                })
-            });
-            const promiseMaterial = materials.map(material =>{
-                return product_Stocks_association.create({
-                    id_product_fk: id_product,
-                    how_much_contains_use: material.how_much_content,
-                    id_material_fk: material.id
-                })
-            });
+            if(JSON.stringify(materials) !== JSON.stringify(olderMaterials)){
+                await product_Stocks_association.destroy({
+                    where:{
+                        id_product
+                    }
+                });
+                const promiseMaterial = materials.map(material =>{
+                    return product_Stocks_association.create({
+                        id_product,
+                        id_material: material.id
+                    })
+                });
+                await Promise.all(promiseMaterial);
+
+            }
+
+            const resultado = await this.filtrarProducto('id_product', id_product);
+
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
             
-            await Promise.all([...promiseTool, ...promiseMaterial]);
-            return updateProduct;
-        } catch(err) {
-            console.log(err);
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
         }
     }
     filtrarProducto = async (type, value) => {
         try {
-            if (type === 'id_product' || type === 'nameProductValidator'){
-                const objetoWhere = {};
-                objetoWhere[type] = {
-                    [Op.eq]: value
-                };
-
+            if (type === 'id_product'){
                 const resultado = await Products.findAll({
-                    where: [
-                        objetoWhere, {
-                            disabled: false
-                        }],
+                    where: {
+                        id_product: value
+                    },
                     include: [ 
                         {model: Stock, 
                             through: {
                                 attributes: []
                             },
-                            attributes: ['id_material', 'name_material', 'buy_price_material']},
+                            attributes: ['id_material', 'name_material']},
                         {model: Tools, 
                             through: {
                                 attributes: []
                             },
-                            attributes: ['id_tool', 'name_tool', 'status_tool']}
+                            attributes: ['id_tool', 'name_tool']}
                     ],
                     attributes: {
                         exclude: ['createdAt', 'updatedAt']

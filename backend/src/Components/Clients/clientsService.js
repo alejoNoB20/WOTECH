@@ -1,4 +1,4 @@
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 import { Clients } from "./clientsModels.js";
 
 export class clientsService {

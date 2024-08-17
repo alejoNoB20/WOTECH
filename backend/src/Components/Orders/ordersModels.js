@@ -8,16 +8,6 @@ export const Orders = sequelize.define('orders', {
         primaryKey: true,
         autoIncrement: true
     },
-    id_client: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'clients',
-            key: 'id_client'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    },
     shipping_address_order: {
         type: DataTypes.STRING(100),
         allowNull: true
@@ -28,7 +18,8 @@ export const Orders = sequelize.define('orders', {
     },
     disabled: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     },
     price_order: {
         type: DataTypes.INTEGER,
@@ -40,8 +31,8 @@ export const Orders = sequelize.define('orders', {
 })
 
 Orders.belongsTo(Clients, {
-    foreignKey: 'id_client',
+    foreignKey: 'id_client_fk',
     targetKey: 'id_client'
 });
 
-Clients.hasMany(Orders, {foreignKey: 'id_client'});
+Clients.hasMany(Orders, {foreignKey: 'id_client_fk'});

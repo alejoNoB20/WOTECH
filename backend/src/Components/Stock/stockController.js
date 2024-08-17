@@ -1,86 +1,72 @@
 import { StockService } from "./stockService.js";
+import { try_catch } from "../../utils/try_catch.js";
 export const stock = new StockService();
 
 
-// stockProducts CRUD
 export class StockController {
-    // Create new stock
-    crear = async (req, res) => {
-        try {
-            const {contains, ...data}=  req.body
-
-            if(!contains){
-                data.how_much_contains = null;
-                data.total_amount_material = null;
-            } else {
-                data.total_amount_material = data.amount_material * data.how_much_contains;
-            }
-            
-            const resultado = await stock.crearStock(data);
-            res.status(200).json(resultado);
-        }catch (err) {
-            console.log(err);
-        }
-    }
-    // view all materials
     verTodos = async (req, res) => {
         try {
             const resultado = await stock.verStock();
-
-            if(resultado.length === 0){
-                res.status(200).json({title: "Control de Stock", message: "No se encontró ningún registro de Stock en la base de datos"});
-            } else {
-                res.status(200).json({ title: "Control Stock", resultado });
-            }
-        } catch (err) {
-            console.log(err);
+            try_catch.TRY_RES(res, resultado);
+            
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
-    // update one stock
-    actualizar = async (req, res) => {
+    crear = async (req, res) => {
         try {
-            const {contains, ...data} = req.body
+            const resultado = await stock.crearStock(req.body);
+            try_catch.TRY_RES(res, resultado);
 
-            if(!contains){
-                data.how_much_contains = null;
-                data.total_amount_material = null;
-            } else {
-                data.total_amount_material = data.amount_material * data.how_much_contains;
-            }
-
-            await stock.actualizarStock(req.params, data);
-            res.status(200).json({title: `Actualización correcta del producto: ID ${req.params.id_material}` });
-        } catch (err) {
-            console.log(err)
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
-    // delete one stock
+    deshabilitar = async (req, res) => {
+        try{
+            const resultado = await stock.deshabilitarStock(req.params.id_material);
+            try_catch.TRY_RES(res, resultado);
+            
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
     borrar = async (req,res) => {
         try {
-            await stock.borrarStock(req.params);
-            res.status(200).json({title: `El elemento con ID: ${req.params.id_material} ha sido eliminado correctamente`})
-        } catch (err) {
-            console.log(err);
+            const resultado = await stock.borrarStock(req.params.id_material);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
-    // finder of stocks
-    buscarUno = async (req, res) => {
+    detallesMaterial = async (req, res) => {
         try{
-            const searchType = req.query.search_type;
-            const searchValue = req.query.search_value;
-            
-            const resultado = await stock.buscarUnMaterial(searchType, searchValue);
-            // REPONSES
-                // Response for EndPoint
-                if (resultado.length === 0) {
-                    // if the searched material doesn't exist in the DB
-                    res.status(200).json({title: searchValue, resultado: `No se encontró ningun material con ${searchValue}`});
-                } else {
-                    // if the searched material exist in the DB
-                    res.status(200).json({title: searchValue, resultado});
-                }
-        } catch (err) {
-            console.log(err)
+            const resultado = await stock.filtrarMaterial('id_material', res.params.id_material);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    actualizar = async (req, res) => {
+        try {
+            const resultado = await stock.actualizarStock(req.params.id_material, req.body);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    filtrar = async (req, res) => {
+        try{
+            const type = req.query.search_type;
+            const value = req.query.search_value;
+            const resultado = await stock.filtrarMaterial(type, value);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
 }

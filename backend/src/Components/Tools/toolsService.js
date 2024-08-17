@@ -10,9 +10,7 @@ export class ToolsService {
                     disabled: false
                 },
                 order: [['disabled', 'ASC']],
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
+                attributes: ['id_tool', 'name_tool', 'status_tool', 'location_tool']
             });
             if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontraron herramientas registradas en la base de datos', 404);
 
@@ -57,12 +55,7 @@ export class ToolsService {
             })
             if(!toolUpdate) return try_catch.SERVICE_CATCH_RES(toolUpdate, 'La herramienta no se pudo actualizar debido a un error en el servidor');
 
-            const respuesta = await Tools.findOne({
-                where: {id_tool},
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
-            });
+            const respuesta = await this.filtrarHerramienta('id_tool', id_tool);
 
             return try_catch.SERVICE_TRY_RES(respuesta, 200);
 
@@ -73,6 +66,7 @@ export class ToolsService {
     filtrarHerramienta = async (type, value) => {
         try {
             if (type === 'id_tool' || type === 'status_tool' || type === 'nameToolValidator'){
+                if(type === 'nameToolValidator') type = 'name_tool';
                 const objetoWhere = {};
                 objetoWhere[type] = {
                     [Op.eq]: value
@@ -84,7 +78,7 @@ export class ToolsService {
                         exclude: ['createdAt', 'updatedAt']
                     }
                 })
-                if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontra nada en la base de datos con ${type}: ${value}`, 404);
+                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontro nada en la base de datos con ${type}: ${value}`, 404);
 
                 return try_catch.SERVICE_TRY_RES(respuesta, 302);
 
@@ -100,7 +94,7 @@ export class ToolsService {
                         exclude: ['createdAt', 'updatedAt']
                     }
                 });
-                if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontra nada en la base de datos con ${type}: ${value}`, 404);
+                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontra nada en la base de datos con ${type}: ${value}`, 404);
 
                 return try_catch.SERVICE_TRY_RES(respuesta, 302);
 
@@ -112,8 +106,7 @@ export class ToolsService {
     }
     deshabilitarHerramienta = async (id_tool) => {
         try{
-            const toolUpdate = await Tools.findByPk(id_tool);
-            if(!toolUpdate) return try_catch.SERVICE_CATCH_RES(toolUpdate, 'La herramienta no ha sido encontrada debido a un error en el servidor');
+            await this.filtrarHerramienta('id_tool', id_tool);
 
             const respuesta = await Tools.update({
                 disabled: true
@@ -122,7 +115,7 @@ export class ToolsService {
                     id_tool
                 }
             });
-            if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, 'No se pudo desabilitar la herramienta devido a un error en el servidor');
+            if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, 'No se pudo desabilitar la herramienta debido a un error en el servidor');
 
             return try_catch.SERVICE_TRY_RES(`La herramienta ID: ${id_tool} ha sido desabilitada con éxito`, 200);
 

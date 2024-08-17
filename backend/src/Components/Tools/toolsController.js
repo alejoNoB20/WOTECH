@@ -1,5 +1,5 @@
 import { ToolsService } from "./toolsService.js";
-import {try_catch} from "../../utils/try_catch.js"; 
+import { try_catch } from "../../utils/try_catch.js"; 
 const Tool = new ToolsService();
 
 // ---EXAMPLE 1---
@@ -54,9 +54,9 @@ export class ToolsController {
             try_catch.CATCH_RES(res, err);
         }
     }
-    irActualizarHerramienta = async (req, res) => {
+    detallesHerramienta = async (req, res) => {
         try {
-            const resultado = await Tool.filtrarHerramienta('id_tool', req.params.idTool);
+            const resultado = await Tool.filtrarHerramienta('id_tool', req.params.id_tool);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

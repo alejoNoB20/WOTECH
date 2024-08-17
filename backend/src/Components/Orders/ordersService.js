@@ -57,8 +57,8 @@ export class ordersService {
 
             const productsPromise = products.map(product => {
                 return order_Products_association.create({
-                        id_order_fk: resultado.id_order,
-                        id_product_fk: product.id,
+                        id_order: resultado.id_order,
+                        id_product: product.id,
                         amount_product: product.amount_product
                 })
             });
@@ -185,12 +185,12 @@ export class ordersService {
 
             const olderAssociation = await order_Products_association.findAll({
                 where: {
-                    id_order_fk: id_order
+                    id_order
                 }
             });
 
             const Oldervalidation = olderAssociation.map(olderProduct => {
-                return ({id: olderProduct.id_product_fk, amount_product: olderProduct.amount_product});
+                return ({id: olderProduct.id_product, amount_product: olderProduct.amount_product});
             });
 
             const newValidation = products.map(newProduct => {
@@ -199,13 +199,15 @@ export class ordersService {
 
             if(JSON.stringify(Oldervalidation) !== JSON.stringify(newValidation)){
                 await order_Products_association.destroy({
-                    where: {id_order_fk: id_order}
+                    where: {
+                        id_order
+                    }
                 })
 
                 const promiseAsocciation = newValidation.map(product => {
                     return order_Products_association.create({
-                            id_order_fk: id_order,
-                            id_product_fk: product.id,
+                            id_order,
+                            id_product: product.id,
                             amount_product: product.amount_product
                     })
                 })
@@ -213,21 +215,7 @@ export class ordersService {
                 await Promise.all(promiseAsocciation);
             };
 
-            const orderUpdated = await Orders.findByPk(id_order, {
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                },
-                include: [{
-                    model: Products,
-                    through: {
-                        attributes: ['amount_product']
-                    },
-                    attributes: ['id_product', 'name_product']
-                }, {
-                    model: Clients,
-                    attributes: ['name_client'] 
-                }]
-            });
+            const orderUpdated = await this.filtrarPedidos('id_order', id_order);
 
             return try_catch.SERVICE_TRY_RES(orderUpdated, 200);
 

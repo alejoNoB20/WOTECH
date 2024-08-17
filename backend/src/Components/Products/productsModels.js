@@ -26,7 +26,8 @@ export const Products = sequelize.define('products', {
     },
     disabled: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     tableName:'products',

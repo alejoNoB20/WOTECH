@@ -47,7 +47,8 @@ export const Clients = sequelize.define('clients', {
     },
     disabled: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     }
 }, {
     tableName: 'clients',

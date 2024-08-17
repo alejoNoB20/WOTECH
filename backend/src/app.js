@@ -13,6 +13,10 @@ import "./Components/Associations/productToolsModels.js";
 import './Components/Clients/clientsModels.js';
 import './Components/Orders/ordersModels.js';
 import './Components/Associations/orderProductsModels.js'
+import './Components/Associations/suppliersMaterialsModels.js'
+import './Components/Associations/purchasesModels.js'
+import './Components/Suppliers/invoicesModels.js'
+import './Components/Suppliers/suppliersModels.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

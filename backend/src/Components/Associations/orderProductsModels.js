@@ -9,7 +9,7 @@ export const order_Products_association = sequelize.define('order_Products_assoc
         primaryKey: true,
         autoIncrement:true
     },
-    amount_product: {
+    unit_product: {
         type: DataTypes.INTEGER,
         allowNull: false
     },

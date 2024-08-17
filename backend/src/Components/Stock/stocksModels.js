@@ -13,30 +13,22 @@ export const Stock = sequelize.define('stock', {
         allowNull: false
     },
     description_material: {
-        type: DataTypes.TEXT('long'),
+        type: DataTypes.TEXT('medium'),
         allowNull: true
-    },
-    buy_price_material: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
     },
     amount_material: {
         type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    measurement_material: {
+        type: DataTypes.STRING(10),
         allowNull: false
-    },
-    how_much_contains: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    total_amount_material: {
-        type: DataTypes.INTEGER,
-        allowNull: true
     },
     disabled: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     }
 }, {
-    tableName: 'stock',
-    sequelize,
+    tableName: 'stock'
 });
