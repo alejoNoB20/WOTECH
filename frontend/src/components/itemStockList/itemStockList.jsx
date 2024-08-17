@@ -1,5 +1,5 @@
 import ItemStock from "../itemStock/itemStock";
-import './itemList.css'
+import './itemStockList.css'
 const ItemList = ({ items }) => {
     return (
         <table className="table-fill">

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faFloppyDisk, faTrash } from '@fortawesome/free-solid-svg-icons'
 import './updateStock.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import Loader from '../loader/Loader'
+import Loader from '../../components/loader/Loader'
 const UpdateStock = () => {
   const [material, setMaterial] = useState({})
   const [loading, setLoading] = useState(true)

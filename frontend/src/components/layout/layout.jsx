@@ -19,8 +19,8 @@ const Layout = ({ children, logged }) => {
             { name: "Ver ordenes", path: "/vieworders" },
         ],
         "/tools": [
-            { name: "Ver herramientas", path: "/vieworders" },
-            { name: "Crear herramienta", path: "/createorder" },
+            { name: "Ver herramientas", path: "/gettools" },
+            { name: "Crear herramienta", path: "/addtool" },
         ],
     };
     const currentBasePath = `/${location.pathname.split('/')[1]}`
