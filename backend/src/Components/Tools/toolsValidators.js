@@ -34,15 +34,10 @@ export const toolsValidations = {
                 if (findTheSameName && findTheSameName.id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
             }),
 
-        body('description_tool')
-            .trim()
-            .optional()
-            .isLength({max: 100}).withMessage('El campo de la descripcion puede tener un máximo de 100 caracteres'),
-
         body('status_tool')
             .exists()
-            .notEmpty()
-            .isIn(['Habilitado', 'En Arreglo', 'Inhabilitada', 'Perdido']).withMessage('El estado de la herramienta no es válido'),
+            .notEmpty().withMessage('El campo ESTADO DE LA HERRAMIENTA es obligatorio').bail()
+            .isIn(['Habilitado', 'En Arreglo', 'Inhabilitado', 'Perdido']).withMessage('El estado de la herramienta no es válido'),
 
         body('repair_shop_tool')
             .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
@@ -91,7 +86,7 @@ export const toolsValidations = {
                     if(value.length > 100) throw new Error ('La ubicación de la herramienta puede tener un máximo de 100 caracteres');
                 };
                 if(req.query.search_type === 'status_tool'){
-                    if(value != 'Habilitado' && value != 'En Arreglo' && value != 'Inhabilitada' && value != 'Perdido') throw new Error ('El estado de la herramienta no es válido');
+                    if(value != 'Habilitado' && value != 'En Arreglo' && value != 'Inhabilitado' && value != 'Perdido') throw new Error ('El estado de la herramienta no es válido');
                 };
                 if(req.query.search_type === 'id_tool'){
                     const value_float = parseFloat(value);

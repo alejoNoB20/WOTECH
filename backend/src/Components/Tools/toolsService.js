@@ -9,7 +9,6 @@ export class ToolsService {
                 where: {
                     disabled: false
                 },
-                order: [['disabled', 'ASC']],
                 attributes: ['id_tool', 'name_tool', 'status_tool', 'location_tool']
             });
             if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontraron herramientas registradas en la base de datos', 404);
@@ -22,10 +21,25 @@ export class ToolsService {
     }
     crearHerramienta = async (data) => {
         try{
-            const resultado = await Tools.create(data)
-            if(!resultado) return try_catch.SERVICE_CATCH_RES(resultado, 'La herramienta no se pudo crear debido a un error en el servidor');
+            const resultado = await Tools.create(data);
 
             return try_catch.SERVICE_TRY_RES(resultado, 201);
+
+        }catch(err) {
+            try_catch.SERVICE_CATCH_RES(err);
+        }
+    }
+    deshabilitarHerramienta = async (id_tool) => {
+        try{
+            await Tools.update({
+                disabled: true
+            },{
+                where: {
+                    id_tool
+                }
+            });
+
+            return try_catch.SERVICE_TRY_RES(`La herramienta ID: ${id_tool} ha sido desabilitada con éxito`, 200);
 
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);
@@ -38,7 +52,6 @@ export class ToolsService {
                     id_tool
                 }
             });
-            if(!resultado) return try_catch.SERVICE_CATCH_RES(resultado, 'La herramienta no se pudo eliminar debido a un error en el servidor');
 
             return try_catch.SERVICE_TRY_RES(`La herramienta con ID: ${id_tool} fue eliminada con éxito`, 200);
 
@@ -48,16 +61,15 @@ export class ToolsService {
     }
     updateTool = async (id_tool, data) => {
         try {
-            const toolUpdate = await Tools.update(data, {
+            await Tools.update(data, {
                 where: {
                     id_tool
                 }
             })
-            if(!toolUpdate) return try_catch.SERVICE_CATCH_RES(toolUpdate, 'La herramienta no se pudo actualizar debido a un error en el servidor');
 
             const respuesta = await this.filtrarHerramienta('id_tool', id_tool);
 
-            return try_catch.SERVICE_TRY_RES(respuesta, 200);
+            return try_catch.SERVICE_TRY_RES(respuesta.msg, 200);
 
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);
@@ -99,25 +111,6 @@ export class ToolsService {
                 return try_catch.SERVICE_TRY_RES(respuesta, 302);
 
             };
-
-        }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
-        }
-    }
-    deshabilitarHerramienta = async (id_tool) => {
-        try{
-            await this.filtrarHerramienta('id_tool', id_tool);
-
-            const respuesta = await Tools.update({
-                disabled: true
-            },{
-                where: {
-                    id_tool
-                }
-            });
-            if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, 'No se pudo desabilitar la herramienta debido a un error en el servidor');
-
-            return try_catch.SERVICE_TRY_RES(`La herramienta ID: ${id_tool} ha sido desabilitada con éxito`, 200);
 
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);

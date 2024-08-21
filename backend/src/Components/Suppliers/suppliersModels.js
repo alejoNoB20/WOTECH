@@ -67,6 +67,5 @@ export const Supplier = sequelize.define('supplier', {
         defaultValue: false
     }
 }, {
-    sequelize,
     tableName: 'supplier'
 });

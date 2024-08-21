@@ -40,10 +40,19 @@ export class ToolsController {
         try {
             const resultado = await Tool.crearHerramienta(req.body);
             try_catch.TRY_RES(res, resultado);
-
+            
         }catch (err) {
             try_catch.CATCH_RES(res, err);
         }    
+    }
+    deshabilitar = async (req, res) => {
+        try{
+            const respuesta = await Tool.deshabilitarHerramienta(req.params.id_tool);
+            try_catch.TRY_RES(res, respuesta);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
     }
     deleteHerramienta = async (req, res) => {
         try {
@@ -76,18 +85,8 @@ export class ToolsController {
         try{
             const type = req.query.search_type;
             const value = req.query.search_value;
-
             const resultado = await Tool.filtrarHerramienta(type, value);
             try_catch.TRY_RES(res, resultado);
-
-        }catch(err) {
-            try_catch.CATCH_RES(res, err);
-        }
-    }
-    deshabilitar = async (req, res) => {
-        try{
-            const respuesta = await Tool.deshabilitarHerramienta(req.params.id_tool);
-            try_catch.TRY_RES(res, respuesta);
 
         }catch(err) {
             try_catch.CATCH_RES(res, err);

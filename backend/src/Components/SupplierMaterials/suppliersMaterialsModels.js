@@ -23,7 +23,7 @@ export const supplier_materials_associations = sequelize.define('supplier_Materi
         defaultValue: false
     }
 }, {
-    sequelize,
+    timestamps: false,
     tableName: 'supplier_Materials_associations'
 });
 

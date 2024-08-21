@@ -20,9 +20,14 @@ EJEMPLOS RECURSOS PARA URLS:
 (D) => TABLA QUE TIENE EL CAMPO "disabled" INCORPORADO PARA UN BORRADO LÓGICO (VALOR DEFAULT = FALSE)
 // TODAS LAS TABLAS PRINCIPALES TIENEN INCLUIDO EL CAMPO DE "createdAT" y "updatedAT"
 
------ /stock ----- (D)
 
----- EXAMPLE /stock----
+
+
+
+
+----- /stock -----
+
+---- EXAMPLE /stock/create ---- (D)
 
 
 REQUEST: {
@@ -32,5 +37,29 @@ REQUEST: {
             *measurement_material: STRING
         }
 
+-----------------------------------------------------------------------------
 
+----- /suppliers -----
+
+=> POST ----- /suppliers/supplierMaterials/create ----- (D)
+
+REQUEST: {
+  "id_material": INT,
+  "id_supplier": INT,
+  "amount_material": INT,
+  "price_material": FLOAT
+}
+
+-----------------------------------------------------------------------------
+
+----- /purchase -----
+
+=> POST ---- /purchase ----
+
+REQUEST: {
+  "purchase": [
+    {"id_supplier_material": INT, "unit_material": INT},
+    {"id_supplier_material": INT, "unit_material": INT}
+    ]
+}
 

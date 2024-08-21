@@ -8,15 +8,16 @@ import { fileURLToPath } from "url";
 import "./Components/Stock/stocksModels.js";
 import "./Components/Tools/toolsModels.js";
 import "./Components/Products/productsModels.js";
-import "./Components/Associations/productStocksModels.js";
-import "./Components/Associations/productToolsModels.js";
 import './Components/Clients/clientsModels.js';
 import './Components/Orders/ordersModels.js';
+import './Components/Invoices/invoicesModels.js';
+import './Components/Suppliers/suppliersModels.js';
+import './Components/SupplierMaterials/suppliersMaterialsModels.js';
+import './Components/SupplierMaterials/suppliersMaterialsModels.js';
+import './Components/Purchase/purchasesModels.js';
+import "./Components/Associations/productStocksModels.js";
+import "./Components/Associations/productToolsModels.js";
 import './Components/Associations/orderProductsModels.js'
-import './Components/Associations/suppliersMaterialsModels.js'
-import './Components/Associations/purchasesModels.js'
-import './Components/Suppliers/invoicesModels.js'
-import './Components/Suppliers/suppliersModels.js'
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -26,6 +27,9 @@ import stockRouter from './Components/Stock/stockRouter.js';
 import productsRouter from './Components/Products/productsRouter.js';
 import clientsRouter from './Components/Clients/clientsRouter.js';
 import ordersRouter from './Components/Orders/ordersRouter.js';
+import supplierRouter from './Components/Suppliers/suppliersRouter.js';
+import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
+import purchasesRouter from './Components/Purchase/purchasesRouter.js';
 
 const app = express();
 dotenv.config();
@@ -41,7 +45,9 @@ app.use('/tools', toolsRouter);
 app.use('/products', productsRouter);
 app.use('/clients', clientsRouter);
 app.use('/orders', ordersRouter);
-
+app.use('/suppliers', supplierRouter);
+app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
+app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port http://localhost:${process.env.PORT}`);

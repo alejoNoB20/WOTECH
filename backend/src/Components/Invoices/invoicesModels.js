@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/connection.js";
-import { Supplier } from "./suppliersModels.js";
+import { Supplier } from "../Suppliers/suppliersModels.js";
 
 export const Invoices = sequelize.define('invoice', {
     id_invoice: {

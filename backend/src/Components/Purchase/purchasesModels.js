@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/connection.js";
-import { supplier_materials_associations } from "./suppliersMaterialsModels.js";
+import { supplier_materials_associations } from "../SupplierMaterials/suppliersMaterialsModels.js";
 
 export const Purchase = sequelize.define('purchase', {
     id_purchase: {
@@ -23,7 +23,7 @@ export const Purchase = sequelize.define('purchase', {
         allowNull: false
     }
 }, {
-    sequelize,
+    timestamps: false,
     tableName: 'purchase'
 });
 
