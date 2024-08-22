@@ -1,0 +1,105 @@
+* [33m972d510[m[33m ([m[1;36mHEAD -> [m[1;32mdeveloper[m[33m, [m[1;31morigin/developer[m[33m)[m Prueba pruchase
+*   [33m45db919[m[33m ([m[1;32mdebug[m[33m)[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[32m|[m[33m\[m  
+[32m|[m * [33m503a198[m Structure fix
+[32m|[m *   [33mf624621[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[32m|[m [34m|[m[35m\[m  
+[32m|[m * [35m|[m [33m121a83b[m Structure fix
+* [35m|[m [35m|[m [33m14f9d29[m Refactor STOCK and TOOLS
+[35m|[m [35m|[m[35m/[m  
+[35m|[m[35m/[m[35m|[m   
+* [35m|[m   [33ma22aa9b[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[36m|[m[1;31m\[m [35m\[m  
+[36m|[m * [35m|[m [33mdcacb37[m toolsService fix
+[36m|[m [35m|[m[35m/[m  
+* [35m/[m [33mb9a1045[m CRUD Products Modificated  V1.7.0
+[35m|[m[35m/[m  
+* [33m5bbbb64[m Control Errors Implemented V.1.6.2
+*   [33mfd96f9f[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[1;32m|[m[1;33m\[m  
+[1;32m|[m *   [33m069561f[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[1;32m|[m [1;34m|[m[1;35m\[m  
+[1;32m|[m [1;34m|[m * [33m88b2a58[m 'Fixed controller stock'
+[1;32m|[m * [1;35m|[m [33m7975c91[m UpdateStock Mod
+[1;32m|[m [1;35m|[m[1;35m/[m  
+[1;32m|[m * [33mc0155ee[m Update stockRouter.js
+* [1;35m|[m [33mf5ae49e[m Finish Orders CRUD and tools refactor V.1.6.1
+[1;35m|[m[1;35m/[m  
+*   [33m0e1ed6d[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[1;36m|[m[31m\[m  
+[1;36m|[m *   [33mda619f8[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[1;36m|[m [32m|[m[33m\[m  
+[1;36m|[m * [33m|[m [33mb23f26b[m stockValidator fixed
+* [33m|[m [33m|[m [33md2f7244[m UpdateStock Mod
+[33m|[m [33m|[m[33m/[m  
+[33m|[m[33m/[m[33m|[m   
+* [33m|[m [33m052e9c4[m Routes correct
+* [33m|[m [33m39a815d[m Routes correct
+* [33m|[m [33m4e603de[m Routes correct
+* [33m|[m [33m7c04906[m Routes correct
+* [33m|[m [33ma1ae089[m Routes correct
+* [33m|[m [33m1dd6c7d[m Routes correct
+* [33m|[m [33mea389a3[m Routes correct
+* [33m|[m [33m85fd13f[m Routes correct
+* [33m|[m [33m904d786[m AddStock component ADD
+[34m|[m[33m\[m[33m|[m 
+[34m|[m * [33me460926[m add Create - Read - Delete of Orders V1.6.0
+[34m|[m * [33m97017ba[m add productValidator V1.5.3
+* [35m|[m [33m1daefc8[m AddStock mod
+[35m|[m [35m|[m * [33m9326bef[m[33m ([m[1;31morigin/Debugg[m[33m, [m[1;32mDebugg[m[33m)[m Teste Products Validations
+[35m|[m [35m|[m[35m/[m  
+[35m|[m * [33m609558b[m me
+[35m|[m *   [33m2943098[m Merge branch 'developer' of https://github.com/alejoNoB20/WOTECH into developer
+[35m|[m [1;31m|[m[1;32m\[m  
+[35m|[m [1;31m|[m * [33m011afe0[m Update layout.jsx
+[35m|[m [1;31m|[m * [33mbeca3bc[m Update App.js
+[35m|[m [1;31m|[m[35m/[m  
+[35m|[m[35m/[m[1;31m|[m   
+* [1;31m|[m [33mdbfdd73[m AddStock add
+[1;32m|[m * [33maa684f5[m add config
+[1;32m|[m[1;32m/[m  
+* [33m64e7419[m Fetch Stock Add
+* [33m91aa3e0[m Added cors
+* [33mf9a4f02[m Added cors
+* [33maa8209c[m Validations Completed Stock/Tools V1.5.2
+* [33m7159856[m Frontend add
+* [33m5be2ae9[m SYNC DATABASE
+* [33m2d313fe[m .env edit
+* [33md745cd4[m Add Express-Validator Libs V1.5.1
+* [33m75b2247[m Init Clients CRUD V1.5.0
+* [33m1f7cb32[m Products CRUD (completed) 1.4.4
+* [33m44d0d48[m Products CRUD 1.4.3
+* [33mea37287[m Products CRUD 1.4.2
+* [33m37b8c73[m Products CRUD 1.4.1
+* [33m3827d9d[m Update stock and tool validations - Init CRUD Products V1.4.0
+* [33m5060eec[m Tools CRUD V1.3.1
+* [33m309c19e[m init toolsController CRUD
+* [33mc8b0b77[m Stock CRUD V.1.2.1(Validations)
+* [33m3fef55a[m Arreglando belongstomany
+* [33m477d159[m Stock CRUD V1.2.0
+* [33m045c674[m Stock CRUD V1.1
+* [33m191851c[m Stock CRUD
+* [33m609cfc2[m[33m ([m[1;31morigin/frontend_development[m[33m)[m Normalize all the line endings
+*   [33meecab37[m ...
+[1;33m|[m[1;34m\[m  
+[1;33m|[m * [33mdaa20c4[m Delete backend/node_modules directory
+[1;33m|[m * [33md895d08[m GitIgnore
+[1;33m|[m * [33m9eea135[m GitIgnore
+* [1;34m|[m [33me67cbd4[m CRUD Users
+* [1;34m|[m [33m8058dd5[m CRUD Users
+* [1;34m|[m [33m098f08b[m ...
+* [1;34m|[m [33m70345cb[m now
+[1;35m|[m[1;34m\[m[1;34m|[m 
+[1;35m|[m *   [33m51006d3[m Ingresar usuario
+[1;35m|[m [31m|[m[32m\[m  
+[1;35m|[m * [32m|[m [33m30421bd[m GitIgnore
+* [32m|[m [32m|[m [33m4cde722[m random
+[32m|[m [32m|[m[32m/[m  
+[32m|[m[32m/[m[32m|[m   
+* [32m|[m [33m7bfd6d2[m add: Views and Routes
+* [32m|[m [33m8e7fb10[m Sequealize fixed
+* [32m|[m [33mcc9906b[m Cambios en models
+[32m|[m[32m/[m  
+* [33m0189b05[m Estructura modificada
+* [33m03d04db[m Estructura del proyecto
+* [33m2e7230c[m[33m ([m[1;31morigin/Portfolio[m[33m, [m[1;31morigin/Main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mPortfolio[m[33m)[m Initial commit

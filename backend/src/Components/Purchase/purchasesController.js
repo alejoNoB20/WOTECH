@@ -25,8 +25,7 @@ export class purchaseController {
     }
     crear = async (req, res) => {
         try{
-            const resultado = Purchase.crearVenta(req.body);
-            console.log(resultado)
+            const resultado = await Purchase.crearVenta(req.body);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

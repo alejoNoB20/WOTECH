@@ -12,7 +12,8 @@ export const stockValidations = {
             .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
-                if(findSameName) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
+                if(findSameName.status === 302) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
+                return true;
             }),
 
         body('description_material')
@@ -30,6 +31,10 @@ export const stockValidations = {
             .exists()
             .notEmpty().withMessage('El campo UNIDAD DE MEDIDA es obligatorio').bail()
             .isIn(['cm', 'unidad']).withMessage('El tipo de unidad de medida no es válido'),
+        
+            (req, res, next) =>{
+                validatorResult(req, res, next);
+            }
 
     ],
     searchStock: [
@@ -55,8 +60,8 @@ export const stockValidations = {
                     }
                 }
                 return true
-            })
-            ,
+            }),
+
             (req, res, next) =>{
                 validatorResult(req, res, next);
             }
@@ -69,7 +74,8 @@ export const stockValidations = {
             .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
-                if(findSameName && findSameName.id_material != req.params.id_material) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
+                if(findSameName && findSameName.msg[0].id_material != req.params.id_material) throw new Error('Error: Ya se hay un stock con el mismo nombre en la base de datos');
+                return true;
             }),
 
         body('description_material')
@@ -84,8 +90,13 @@ export const stockValidations = {
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
         body('measurement_material')
+            .trim()
             .exists()
             .notEmpty().withMessage('El campo UNIDAD DE MEDIDA es obligatorio').bail()
             .isIn(['cm', 'unidad']).withMessage('El tipo de unidad de medida no es válido'),
+        
+            (req, res, next) =>{
+                validatorResult(req, res, next);
+            }
     ]
 }

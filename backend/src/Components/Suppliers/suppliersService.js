@@ -100,7 +100,8 @@ export class supplierService {
                         through: {
                             attributes: ['amount_material', 'price_material', 'id_supplier']
                         }
-                    }
+                    },
+                    order: [['disabled', 'ASC']]
                 });
             };
 

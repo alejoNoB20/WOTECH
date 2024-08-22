@@ -1,4 +1,5 @@
 import { Op } from "sequelize";
+import { try_catch } from "../../utils/try_catch.js";
 import { Clients } from "./clientsModels.js";
 
 export class clientsService {
@@ -53,7 +54,7 @@ export class clientsService {
                         [Op.like]: `%${value}%`
                     } 
                     const resultado = await Clients.findAll({
-                        where: objetoWhere
+                        where: objetoWhere 
                     })
                     return resultado;
             } else if(type === 'dniClientValidator'){

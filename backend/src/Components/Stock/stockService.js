@@ -1,5 +1,7 @@
 import { Op } from "sequelize";
 import { Stock } from "./stocksModels.js"
+import { Supplier } from "../Suppliers/suppliersModels.js";
+import { Products } from "../Products/productsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 
 export class StockService {
@@ -80,38 +82,44 @@ export class StockService {
     }
     filtrarMaterial = async (type, value) => {
         try {  
-            if (type === "name_material") {
-                const resultado = await Stock.findAll({
-                    where: {
-                        name_material: `%${value}%`
-                    },
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']                        
-                    }  
-                });
-                if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
-                
-                return try_catch.SERVICE_TRY_RES(resultado, 302);
+            let objetoWhere = {};
 
-            }else {
+            if (type === "id_material" || type === 'nameMaterialValidator') {
                 if(type === 'nameMaterialValidator') type = 'name_material';
 
-                const objetoWhere = {}
                 objetoWhere[type] = {
                     [Op.eq]: value
                 }; 
-
-                const resultado = await Stock.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']                        
-                    } 
-                });
-                if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
-
-                return try_catch.SERVICE_TRY_RES(resultado, 302);
-
+            }else {
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%`
+                }; 
             }
+
+            const resultado = await Stock.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']                        
+                },
+                include: [
+                    {model: Products,
+                        attributes: ['id_product', 'name_product'],
+                        through: {
+                            attributes: ['how_much_contains_use']
+                        }
+                    },
+                    {model: Supplier,
+                        attributes: ['id_supplier', 'name_company_supplier', 'tax_address_supplier'],
+                        through: {
+                            attributes: ['amount_material', 'price_material']
+                        }
+                    }
+                ],
+                order: [['disabled', 'ASC']] 
+            });
+            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
+
+            return try_catch.SERVICE_TRY_RES(resultado, 302);
             
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);

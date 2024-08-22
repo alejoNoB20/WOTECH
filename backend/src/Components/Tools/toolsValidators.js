@@ -1,4 +1,4 @@
-import {body, param, query} from 'express-validator';
+import { body, query } from 'express-validator';
 import { validatorResult } from '../../libs/validationLib.js';
 import { ToolsService } from "./toolsService.js";
 const Tool = new ToolsService();
@@ -12,8 +12,15 @@ export const toolsValidations = {
             .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findTheSameName = await Tool.filtrarHerramienta('nameToolValidator', req.body.name_tool);
-                if (findTheSameName) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+                if (findTheSameName.status == 302) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+                return true;
             }),
+
+        body('status_tool')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El ESTADO de la herramienta debe ser válido para la creación').bail()
+            .isIn(['Habilitado']),
 
         body('location_tool')
             .trim()
@@ -31,7 +38,8 @@ export const toolsValidations = {
             .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findTheSameName = await Tool.filtrarHerramienta('nameToolValidator', req.body.name_tool);
-                if (findTheSameName && findTheSameName.id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+                if (findTheSameName.status == 302 && findTheSameName.msg[0].id_tool != req.params.id_tool) throw new Error('Error: ya se encuentra registrada una herramienta con el mismo nombre');
+                return true
             }),
 
         body('status_tool')

@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import { Tools } from "./toolsModels.js";
+import { Products } from '../Products/productsModels.js';
 import { try_catch } from "../../utils/try_catch.js";
 
 export class ToolsService {
@@ -47,7 +48,7 @@ export class ToolsService {
     }
     borrarHerramienta = async (id_tool) => {
         try {
-            const resultado = await Tools.destroy({
+            await Tools.destroy({
                 where: {
                     id_tool
                 }
@@ -68,6 +69,7 @@ export class ToolsService {
             })
 
             const respuesta = await this.filtrarHerramienta('id_tool', id_tool);
+            if(respuesta.status != 302) return try_catch.SERVICE_CATCH_RES(respuesta, respuesta.msg, respuesta.status);
 
             return try_catch.SERVICE_TRY_RES(respuesta.msg, 200);
 
@@ -77,41 +79,38 @@ export class ToolsService {
     }
     filtrarHerramienta = async (type, value) => {
         try {
+            let objetoWhere = {};
+            
             if (type === 'id_tool' || type === 'status_tool' || type === 'nameToolValidator'){
                 if(type === 'nameToolValidator') type = 'name_tool';
-                const objetoWhere = {};
+
                 objetoWhere[type] = {
                     [Op.eq]: value
                 };
-                
-                const respuesta = await Tools.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    }
-                })
-                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontro nada en la base de datos con ${type}: ${value}`, 404);
-
-                return try_catch.SERVICE_TRY_RES(respuesta, 302);
-
             } else {
-                const objetoWhere = {};
                 objetoWhere[type] = {
                     [Op.like]: `%${value}%` 
                 };
-                
-                const respuesta = await Tools.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
+            }
+            
+            const respuesta = await Tools.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Products,
+                    attributes: ['id_product', 'name_product'],
+                    through: {
+                        attributes: []
                     }
-                });
-                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontra nada en la base de datos con ${type}: ${value}`, 404);
+                },
+                order: [['disabled', 'ASC']]
+            })
+            if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontro nada en la base de datos con ${type}: ${value}`, 404);
 
-                return try_catch.SERVICE_TRY_RES(respuesta, 302);
-
-            };
-
+            return try_catch.SERVICE_TRY_RES(respuesta, 302);
+            
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);
         }

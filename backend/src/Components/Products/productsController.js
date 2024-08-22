@@ -86,6 +86,15 @@ export class productsController {
             try_catch.CATCH_RES(res, err);
         }
     }
+    deshabilitar = async (req, res) => {
+        try{
+            const resultado = await Product.deshabilitarProducto(req.params.id_product);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
     eliminar = async (req, res) => {
         try{
             const resultado = await Product.eliminarProducto(req.params.id_product);

@@ -14,7 +14,6 @@ import './Components/Invoices/invoicesModels.js';
 import './Components/Suppliers/suppliersModels.js';
 import './Components/SupplierMaterials/suppliersMaterialsModels.js';
 import './Components/SupplierMaterials/suppliersMaterialsModels.js';
-import './Components/Purchase/purchasesModels.js';
 import "./Components/Associations/productStocksModels.js";
 import "./Components/Associations/productToolsModels.js";
 import './Components/Associations/orderProductsModels.js'
