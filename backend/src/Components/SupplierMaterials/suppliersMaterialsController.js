@@ -30,4 +30,13 @@ export class supplierMaterialsController {
             try_catch.CATCH_RES(res, err);
         }
     }
+    listaPrecios = async (req, res) => {
+        try{
+            const resultado = await verListaDePrecios(req.params.id_supplier_material);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
 }
