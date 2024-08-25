@@ -6,32 +6,45 @@ export class clientsService {
     verClientes = async () => {
         try{
             const resultado = await Clients.findAll();
-            return resultado;
+            if(resultado.length <= 0){
+                return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontro ningun cliente.', 404)
+            }
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
         } catch(err) {
-            console.log(err)    
+            return try_catch.SERVICE_CATCH_RES(err, 500)   
         }
     }
     crearCliente = async (data) => {
         try{
             const resultado = await Clients.create(data);
-            return resultado;
+
+            return try_catch.SERVICE_TRY_RES(resultado, 201);
         }catch(err){    
-            console.log(err)    
+            return try_catch.SERVICE_CATCH_RES(err, 500)     
         }
     }
-    borrarCliente = async (where) => {
-        try{
-            await Clients.destroy({where})
-        }catch(err){
-            console.log(err)    
+    borrarCliente = async (id) => {
+        try {
+            const { id_client } = id; 
+            
+            const resultado = await Clients.update(
+                { disabled: 1 },
+                { where: { id_client } } // Ahora se usa el valor correcto
+            );
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
+        } catch (err) {
+            return try_catch.SERVICE_CATCH_RES(err, 500);
         }
     }
     buscarUno = async (id) => {
         try{
             const resultado = await Clients.findByPk(id);
-            return resultado;
+            if(!resultado){
+                return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontro el cliente.')
+            }
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
         }catch(err){
-            console.log(err)    
+            return try_catch.SERVICE_CATCH_RES(err, 500)     
         }
     }
     actualizarCliente = async (id, newData) => {
@@ -41,14 +54,20 @@ export class clientsService {
                     id_client: id
                 }
             })
-            return resultado;
+            
+            if(resultado[0] === 1){
+                return try_catch.SERVICE_TRY_RES('Cliente actualizado', 200)
+            }
+            return try_catch.SERVICE_CATCH_RES(resultado, 'Error al actualizar el cliente')
+            
         }catch(err){
-            console.log(err)    
+            return try_catch.SERVICE_CATCH_RES(err, 500)     
         }
     }
     filtrarBusqueda = async (type, value) => {
         try{
-            if (type === 'name_client' || type === 'last_name_client'){
+
+            if (type === 'name_client' || type === 'last_name_client' || type === 'type_client'){
                     const objetoWhere = {};
                     objetoWhere[type] = {
                         [Op.like]: `%${value}%`
@@ -56,27 +75,26 @@ export class clientsService {
                     const resultado = await Clients.findAll({
                         where: objetoWhere 
                     })
-                    return resultado;
-            } else if(type === 'dniClientValidator'){
+                if(resultado.length === 0){
+                    return try_catch.SERVICE_CATCH_RES(404, `No se encontró ningún resultado con "${type}" "${value}"`, 404)
+                }
+                    return try_catch.SERVICE_TRY_RES(resultado[0].dataValues, 200);
+            } else if(type === 'dniClientValidator' || type === 'cuil_or_cuit_client' || type === 'id_client'){
                 const resultado = await Clients.findOne({
                     where: {
                         dni_client: value
                     }
                 })
-                return resultado
-            } else {
-                const objetoWhere = {};
-                objetoWhere[type] = {
-                    [Op.eq]: value
-                } 
-                const resultado = await Clients.findAll({
-                    where: objetoWhere
-                })
-                return resultado;
-            }
+                if(resultado.length === 0){
+                    return try_catch.SERVICE_CATCH_RES(404, `No se encontró ningún resultado con "${type}" "${value}"`)
+                }
+                return try_catch.SERVICE_TRY_RES(resultado, 200)
+            } 
+            
+            
             
         }catch(err){
-            console.log(err)
+            return try_catch.SERVICE_CATCH_RES(err, 500) 
         }
     }
 }

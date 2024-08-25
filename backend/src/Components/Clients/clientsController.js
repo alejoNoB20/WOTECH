@@ -1,73 +1,47 @@
 import { clientsService } from "./clientsService.js";
+import { try_catch } from "../../utils/try_catch.js";
 const Clients = new clientsService();
 
 export class clientsController {
     verTodos = async (req, res) => {
         try {
             const resultado = await Clients.verClientes(); 
-            if (resultado.length === 0){
-                res.status(404).json({title: 'Control de clientes', message: 'No se encontró ningun cliente en la base de datos'});
-            } else {
-                res.status(200).json({title: 'Control de clientes', resultado})
-            }
+            return try_catch.TRY_RES(res, resultado)
         }catch (err) {
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            return try_catch.CATCH_RES(res, err)
         }
     }
     crear = async (req, res) => {
         try{
             const resultado = await Clients.crearCliente(req.body);
-            res.status(200).json({title: 'Cliente creado con éxito', resultado});
+            return try_catch.TRY_RES(res, resultado)
         } catch(err){
-            console.log(err);
+            return try_catch.CATCH_RES(res, err)
         }
     }
     borrar = async (req, res) => {
         try{
-            await Clients.borrarCliente(req.params);
-            res.status(200).json({title: `Cliente con ID: ${req.params.id_client} eliminado con éxito`});
-        }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});            
+            const resultado = await Clients.borrarCliente(req.params);
+            return try_catch.TRY_RES(res, {status: 200, msg: `Cliente con ID: ${req.params.id_client} eliminado con éxito`})
+        }catch(err){        
+            return try_catch.CATCH_RES(res, err)
         }
     }
     paginaActualizar = async (req, res) => {
         try{
             const resultado = await Clients.buscarUno(req.params.id_client);
-            res.status(200).json({title: 'Actualizar cliente', resultado})
+            return try_catch.TRY_RES(res, resultado)
         }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+            return try_catch.CATCH_RES(res, err)
+
         }
     }
     actualizar = async (req, res) => {
         try {
             const resultado = await Clients.actualizarCliente(req.params.id_client, req.body);
-            res.status(200).json({title: 'Cliente actualizado correctamente', resultado});
+            return try_catch.TRY_RES(res, resultado)
         }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+            return try_catch.CATCH_RES(res, err)
         }
     }
     filtrar = async (req, res) => {
@@ -75,20 +49,15 @@ export class clientsController {
             const searchType = req.query.search_type;
             const searchValue = req.query.search_value;
             const resultado = await Clients.filtrarBusqueda(searchType, searchValue);
-
-            if(resultado.length === 0){
-                res.status(404).json({title: `No se encontró ningún resultado con "${searchType}" "${searchValue}"`})
-            } else {
-                res.status(200).json({title: `Resultado encontrado con "${searchType}" "${searchValue}"`, resultado})
+            
+            if(resultado.status === 404){
+                return try_catch.CATCH_RES(res, {msg: resultado.msg, status: 404})
             }
+            return try_catch.TRY_RES(res, {msg:resultado.msg, status: 200})
+            
         }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+            return try_catch.CATCH_RES(res, err)
+
         }        
     }
 }
