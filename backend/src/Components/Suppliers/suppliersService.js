@@ -68,16 +68,7 @@ export class supplierService {
                 }
             });
 
-            const resultado = await Supplier.findOne({
-                where: {
-                    id_supplier
-                },
-                attributes: {
-                    exclude: ['createdAt', 'updateAt']
-                }
-            });
-
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES(`El proveedor con ID: ${id_supplier} se actualizó con éxito`, 200);
 
         }catch(err) {
             try_catch.SERVICE_CATCH_RES(err);
@@ -85,25 +76,33 @@ export class supplierService {
     }
     filtrarProveedor = async (type, value) => {
         try{
-            let resultado = null;
-            if (type === 'id_supplier'){
-                resultado = await Supplier.findAll({
-                    where: {
-                        id_supplier: value
-                    },
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    },
-                    include: {
-                        model: Stock,
-                        attributes:["id_material", "name_material"],
-                        through: {
-                            attributes: ['amount_material', 'price_material', 'id_supplier']
-                        }
-                    },
-                    order: [['disabled', 'ASC']]
-                });
+            let objetoWhere = {};
+            if (type === 'id_supplier' || type === 'nameCompanyValidation' || type === 'cuitCompanyValidation'){
+                if(type === 'nameCompanyValidation') type = 'name_company_supplier';
+                if(type === 'cuitCompanyValidation') type = 'cuit_company_supplier';
+                objetoWhere[type] = {
+                    [Op.eq]: value
+                }
+            }else {
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%`
+                }
             };
+
+            const resultado = await Supplier.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Stock,
+                    attributes:["id_material", "name_material"],
+                    through: {
+                        attributes: ['amount_material', 'price_material', 'id_supplier']
+                    }
+                },
+                order: [['disabled', 'ASC']]
+            });
 
             if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
 

@@ -1,6 +1,6 @@
 export class try_catch {
     static TRY_RES = (res, resultado) => {
-        res.status(resultado.status).json({resultado: resultado.msg});
+        res.status(resultado.status).json(resultado.msg);
     };
     static CATCH_RES = (res, err) => {
         console.log(err);

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { swaggerDoc } from './libs/swagger.js';
 import "./Components/Stock/stocksModels.js";
 import "./Components/Tools/toolsModels.js";
 import "./Components/Products/productsModels.js";
@@ -50,6 +51,7 @@ app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port http://localhost:${process.env.PORT}`);
+  swaggerDoc(app, process.env.PORT);
   });
 
 
