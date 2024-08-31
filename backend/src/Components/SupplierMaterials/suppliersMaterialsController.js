@@ -21,9 +21,9 @@ export class supplierMaterialsController {
             try_catch.CATCH_RES(res, err);
         }
     }
-    borrar = async (req, res) => {
+    deshabilitar = async (req, res) => {
         try{
-            const resultado = await supplierMaterials.borrarMaterial(req.params.id_supplier_material)
+            const resultado = await supplierMaterials.deshabilitarMaterial(req.params.id_supplier_material)
             try_catch.TRY_RES(res, resultado);
             
         }catch(err) {

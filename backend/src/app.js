@@ -30,6 +30,7 @@ import ordersRouter from './Components/Orders/ordersRouter.js';
 import supplierRouter from './Components/Suppliers/suppliersRouter.js';
 import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
 import purchasesRouter from './Components/Purchase/purchasesRouter.js';
+import invoicesRouter from './Components/Invoices/invoicesRouter.js';
 
 const app = express();
 dotenv.config();
@@ -47,6 +48,7 @@ app.use('/clients', clientsRouter);
 app.use('/orders', ordersRouter);
 app.use('/suppliers', supplierRouter);
 app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
+app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {

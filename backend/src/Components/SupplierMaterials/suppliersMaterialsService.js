@@ -5,12 +5,12 @@ import { PriceControl } from "./priceControlModels.js";
 export class supplierMaterialsService {
     crearMaterial = async (data) => {
         try{
-            const resultado = await supplier_materials_associations.create(data);
+            await supplier_materials_associations.create(data);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201); 
+            return try_catch.SERVICE_TRY_RES('La creación del material de proveedor finalizó exitosamente', 201); 
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del material de proveedor falló');
         }
     }
     modificarMaterial = async (id_supplier_material, data) => {
@@ -36,24 +36,26 @@ export class supplierMaterialsService {
             });
             
 
-            return try_catch.SERVICE_TRY_RES(`El material con ID: ${id_supplier_material} se actualizo con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES('La actualización del material de proveedor finalizó exitosamente', 200);
             
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del material de proveedor falló');
         }
     }
-    borrarMaterial = async (id_supplier_material) => {
+    deshabilitarMaterial = async (id_supplier_material) => {
         try{
-            supplier_materials_associations.destroy(data, {
+            supplier_materials_associations.update({
+                disabled: true
+            }, {
                 where: {
                     id_supplier_material
                 }
-            });
+            })
 
-            return try_catch.SERVICE_TRY_RES(`El material del proveedor ha sido eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES('La deshabilitación del material de proveedor finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación del material de proveedor falló');
         }
     }
     verControlDePrecios = async (id_material_supplier_fk) => {
@@ -64,12 +66,12 @@ export class supplierMaterialsService {
                 },
                 attributes: ['id_price_control', 'register_price_control', 'createdAt']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'Este producto no cuenta con precios actualizados', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('Este producto no cuenta con precios actualizados', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     } 
 }

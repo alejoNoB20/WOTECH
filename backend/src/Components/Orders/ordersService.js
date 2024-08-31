@@ -5,7 +5,7 @@ import { Clients } from "../Clients/clientsModels.js";
 import { Stock } from "../Stock/stocksModels.js"
 import { order_Products_association } from "../Associations/orderProductsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
-import { Association, Op } from "sequelize";
+import { Op } from "sequelize";
 const Product = new productsService();
 
 export class ordersService {
@@ -17,15 +17,15 @@ export class ordersService {
                 },
                 order: [['delivery_day_order', 'ASC']], 
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'shipping_address_order', 'id_client_fk']
+                    exclude: ['createdAt', 'updatedAt', 'shipping_address_order', 'id_client_fk', 'disabled']
                 }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningun pedido en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los pedidos debido a una falla en el sistema');
         }
     }
     mostrarProductos = async () => {
@@ -34,12 +34,12 @@ export class ordersService {
                 attributes: ['id_product', 'name_product', 'price_product'],
                 order: [['name_product', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningun producto en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los productos debido a una falla en el sistema');
         }
     }
     crearPedido = async (datos) => {
@@ -80,10 +80,10 @@ export class ordersService {
 
             }
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201);
+            return try_catch.SERVICE_TRY_RES('La creación del pedido finalizó exitosamente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del pedido falló');
         }
     }
     deshabilitarPedido = async (id_order) => {
@@ -96,10 +96,10 @@ export class ordersService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El pedido con ID: ${id_order} se cerró con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`El pedido se cerró con éxito`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'El pedido fallo al intentar cerrarlo');
         }
     }
     borrarPedido = async (id_order) => {
@@ -110,17 +110,17 @@ export class ordersService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El pedido con ID: ${id_order} eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`La eliminación del pedido finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del pedido falló');
         }
     }
     filtrarPedidos = async (type, value) => {
         try{
             let objetoWhere = {};
 
-            if(type === 'shipping_address_order'){
+            if(type === 'shipping_address_order' || type === 'id_client'){
                 objetoWhere[type] = {
                     [Op.like]: `%${value}%` 
                 }
@@ -148,12 +148,12 @@ export class ordersService {
                     attributes: ['name_client'] 
                 }]
             })
-            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`); 
+            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204); 
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
     actualizarPedido = async (id_order, datos) => {
@@ -247,12 +247,10 @@ export class ordersService {
                 })}
             };
 
-            const orderUpdated = await this.filtrarPedidos('id_order', id_order);
-
-            return try_catch.SERVICE_TRY_RES(orderUpdated.msg, 200);
+            return try_catch.SERVICE_TRY_RES('La actualización del pedido finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del pedido falló');
         }
     }
 };
