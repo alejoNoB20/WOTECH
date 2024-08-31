@@ -8,7 +8,7 @@ JSON -> {
 
 ESTADOS -> 
     GET(TRUE): 302,
-    GET(FALSE): 404,
+    GET(FALSE): 204,
     POST(TRUE): 201,
     PATH/DELETE(TRUE): 200,
     ENTRY_ERROR: 400,

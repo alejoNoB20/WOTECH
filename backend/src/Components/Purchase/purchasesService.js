@@ -20,10 +20,10 @@ export class purchaseService {
                     })
             }
 
-            return try_catch.SERVICE_TRY_RES(`Compra realiza con éxito`, 200); 
+            return try_catch.SERVICE_TRY_RES(`Compra realiza con éxito`, 201); 
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La compra falló');
         }
     }
 }

@@ -31,7 +31,16 @@ export class ToolsController {
         try {
             const resultado = await Tool.verHerramientas();
             try_catch.TRY_RES(res, resultado);
-
+            
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    detallesHerramienta = async (req, res) => {
+        try {
+            const resultado = await Tool.filtrarHerramienta('id_tool', req.params.id_tool);
+            try_catch.TRY_RES(res, resultado);
+    
         }catch(err) {
             try_catch.CATCH_RES(res, err);
         }
@@ -57,15 +66,6 @@ export class ToolsController {
     deleteHerramienta = async (req, res) => {
         try {
             const resultado = await Tool.borrarHerramienta(req.params.id_tool);
-            try_catch.TRY_RES(res, resultado);
-
-        }catch(err) {
-            try_catch.CATCH_RES(res, err);
-        }
-    }
-    detallesHerramienta = async (req, res) => {
-        try {
-            const resultado = await Tool.filtrarHerramienta('id_tool', req.params.id_tool);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

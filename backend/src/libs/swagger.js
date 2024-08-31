@@ -7,7 +7,7 @@ const options = {
         info: {
             title: 'Wotech - Carpentry Manager',
             description: 'Una API para gestionar una carpintería',
-            version: '1.7.2',
+            version: '1.0.0',
             contact: {
                 name: 'Soporte de API',
                 email: 'alejoviviani12@gmail.com'
@@ -18,8 +18,8 @@ const options = {
                 description: 'Servidor de desarrollo'
             }],
     },
-    apis: ['src/Components/Stock/stockRouter.js']
-}
+    apis: ['src/Components/Stock/stockRouter.js', 'src/Components/Tools/toolsRouter.js', 'src/Components/Suppliers/suppliersRouter.js', 'src/Components/Products/productsRouter.js', 'src/Components/SupplierMaterials/suppliersMaterialsRouter.js', 'src/Components/Purchase/purchasesRouter.js', 'src/Components/Orders/ordersRouter.js', 'src/Components/Invoices/invoicesRouter.js', 'src/Components/Clients/clientsRouter.js']
+};
 
 const swaggerSpec = swaggerJSDoc(options);
 

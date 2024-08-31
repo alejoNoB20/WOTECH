@@ -16,12 +16,6 @@ export const toolsValidations = {
                 return true;
             }),
 
-        body('status_tool')
-            .trim()
-            .exists()
-            .notEmpty().withMessage('El ESTADO de la herramienta debe ser válido para la creación').bail()
-            .isIn(['Habilitado']),
-
         body('location_tool')
             .trim()
             .exists()
