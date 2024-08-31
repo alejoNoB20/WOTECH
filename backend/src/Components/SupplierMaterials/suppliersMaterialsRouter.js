@@ -8,6 +8,7 @@ supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterials
 supplierMaterialsRouter.patch('/disabled/:id_supplier_material', supplierMaterials.deshabilitar);
 supplierMaterialsRouter.get('/priceControl/:id_supplier_material', supplierMaterials.controlPrecios);
 
+
 export default supplierMaterialsRouter;
 
 /**
@@ -236,3 +237,4 @@ export default supplierMaterialsRouter;
  *           type: string
  *           example: "2024-08-23T15:48:19.000Z"
  */
+
