@@ -1,7 +1,5 @@
 #  Wotech
 
-  
-
 This is a project designed for a familiar carpentry
 ##  Team
 The sowftare was developed by three students of Software Development: Alejo Viviani, Taiel Sagretti and Nicolas Raffagnini.
@@ -13,8 +11,6 @@ The sowftare was developed by three students of Software Development: Alejo Vivi
 | Nicolas Raffagnini | Front and Back-end | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/nicolas-raffagnini/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/nico-raffa)                        |                       |
 
 
-
-
 It last about to 3 months.
 ##  Technological Stack
 - ![Javascript](https://img.shields.io/badge/Javascript-black?logo=javascript)**Javascript**
@@ -22,8 +18,6 @@ It last about to 3 months.
 - ![Express](https://img.shields.io/badge/express-green?logo=express) **Express.js** 
 - ![MySQL](https://img.shields.io/badge/react-blue?logo=react) **React.js**  
 - ![MySQL](https://img.shields.io/badge/mysql-white?logo=mysql) **MySQL**
-
-
   
 ##  Getting Started
 
@@ -31,49 +25,12 @@ It last about to 3 months.
 ```bash
 git clone https://github.com/alejoNoB20/WOTECH.git
 ```
-  
-###  2. Navigate to the Project Folder
-Open the project folder or navigate to it through command line
+
+###  2. Install Dependencies
 ```bash
-cd /porject-folder/wotech/backend
+npm install
 ```
 
-###  3. Install Dependencies
-Now, you should install the dependencies in both, back and front end.
+You need to install the dependencies for both the backend and frontend, so you should run this command in both folders.
 
-```bash
-npm  install
-```
-
-You should do this on both sides, back and front end.
-
-  
-
-###  4. Set Up Environment Variables
-
-Create a .env file in the project root with the following fields:
-
-```makefile
-
-PORT=8080 (for example)
-
-DB_NAME
-
-DB_USER
-
-DB_PASSWORD
-
-DB_HOST
-```
-
-And that's it, you have all setup to start exploring our project.
-
-###  5. Start running the project.
-```bash
-npm run start
-```
-or 
-```bash
-npm run dev
-```
-The only difference between both scripts is that "start" just run once and "dev" runs with nodemon, which allows you to change anything in the code and the page is going to update automatically.
+The rest of the instructions will be divided between the respective README files.
