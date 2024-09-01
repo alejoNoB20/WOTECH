@@ -18,7 +18,7 @@ export const clientsValidator = {
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('dni_client')
-<<<<<<< HEAD
+
     .optional()
     .trim()
     .exists()
@@ -31,16 +31,7 @@ export const clientsValidator = {
             throw new Error('El número de DNI ya está registrado');
         }
     }),
-=======
-            .optional()
-            .trim()
-            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
-            .custom(async (value, {req}) => {
-                const findSameDNI = await Client.filtrarClientes('dniClientValidator', req.body.dni_client);
-                if (findSameDNI.status == 200) throw new Error('El número de DNI ya está registrado');
-                return true;
-            }),
->>>>>>> developer
+
 
         body('province_client')
             .trim()

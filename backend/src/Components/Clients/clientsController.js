@@ -1,6 +1,5 @@
 import { try_catch } from "../../utils/try_catch.js";
 import { clientsService } from "./clientsService.js";
-import { try_catch } from "../../utils/try_catch.js";
 const Clients = new clientsService();
 
 export class clientsController {
