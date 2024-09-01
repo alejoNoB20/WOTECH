@@ -4,7 +4,7 @@ import { clientsService } from "./clientsService.js";
 const Client = new clientsService();
 
 export const clientsValidator = {
-    createAndUpdateClient: [
+    createClient: [
         body('name_client')
             .trim()
             .exists()
@@ -12,13 +12,13 @@ export const clientsValidator = {
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('last_name_client')
-            .optional()
             .trim()
             .exists()
             .notEmpty().withMessage('El campo APELLIDO es obligatorio').bail()
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('dni_client')
+<<<<<<< HEAD
     .optional()
     .trim()
     .exists()
@@ -31,8 +31,19 @@ export const clientsValidator = {
             throw new Error('El número de DNI ya está registrado');
         }
     }),
+=======
+            .optional()
+            .trim()
+            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
+            .custom(async (value, {req}) => {
+                const findSameDNI = await Client.filtrarClientes('dniClientValidator', req.body.dni_client);
+                if (findSameDNI.status == 200) throw new Error('El número de DNI ya está registrado');
+                return true;
+            }),
+>>>>>>> developer
 
         body('province_client')
+            .trim()
             .exists()
             .notEmpty().withMessage('El campo PROVINCIA es obligatorio').bail()
             .isIn(["Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]).withMessage('La provincia seleccionada no es válida'),
@@ -40,17 +51,81 @@ export const clientsValidator = {
         body('direction_client')
             .trim()
             .exists()
-            .notEmpty().withMessage('El campo DIRECCIÓN es obligatorio'),
+            .notEmpty().withMessage('El campo DIRECCIÓN es obligatorio').bail()
+            .isLength({max: 100}).withMessage('El campo DIRECCIÓN permite un máximo de 100 caracteres'),
 
         body('mail_client')
-            .exists()
-            .notEmpty().withMessage('El campo CORREO ELECTRÓNICO es obligatorio').bail()
+            .optional()
+            .isLength({max: 100}).withMessage('El campo MAIL permite un máximo de 100 caracteres').bail()
             .isEmail().withMessage('El formato del campo CORREO ELECTRÓNICO no es válido'),
 
         body('phone_number_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo NÚMERO TELEFÓNICO es obligatorio').bail()
+            .isLength({max: 30}).withMessage('El campo NÚMERO TELEFÓNICO permite un máximo de 30 caracteres'),
+
+        body('type_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo TIPO DE CLIENTE es obligatorio').bail()
+            .isIn(['Empresa', 'Consumidor Final', 'Otro']).withMessage('El TIPO DE CLIENTE no es válido'),
+
+        body('cuil_or_cuit_client')
             .optional()
-            .isNumeric().withMessage('El campo NÚMERO TELEFÓNICO solo recibe números enteros').bail()
-            .isInt().withMessage('El campo NÚMERO TELEFÓNICO solo recibe números enteros'),
+            .isNumeric().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
+            .isInt().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
+            .isLength({min: 11, max: 11}).withMessage('El campo CUIL O CUIT DEL CLIENTE permite un máximo de 11 caracteres númericos'),
+
+        (req, res, next) => {
+            validatorResult(req, res, next);
+        }
+    ],
+    updateClient: [
+        body('name_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo NOMBRE es obligatorio').bail()
+            .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
+
+        body('last_name_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo APELLIDO es obligatorio').bail()
+            .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
+
+        body('dni_client')
+            .optional()
+            .trim()
+            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
+            .custom(async (value, {req}) => {
+                const findSameDNI = await Client.filtrarClientes('dniClientValidator', req.body.dni_client);
+                if (findSameDNI.status == 200 && findSameDNI.msg[0].dni_client != req.body.dni_client) throw new Error('El número de DNI ya está registrado');
+                return true;
+            }),
+
+        body('province_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo PROVINCIA es obligatorio').bail()
+            .isIn(["Buenos Aires", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]).withMessage('La provincia seleccionada no es válida'),
+
+        body('direction_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo DIRECCIÓN es obligatorio').bail()
+            .isLength({max: 100}).withMessage('El campo DIRECCIÓN permite un máximo de 100 caracteres'),
+
+        body('mail_client')
+            .optional()
+            .isLength({max: 100}).withMessage('El campo MAIL permite un máximo de 100 caracteres').bail()
+            .isEmail().withMessage('El formato del campo CORREO ELECTRÓNICO no es válido'),
+
+        body('phone_number_client')
+            .trim()
+            .exists()
+            .notEmpty().withMessage('El campo NÚMERO TELEFÓNICO es obligatorio').bail()
+            .isLength({max: 30}).withMessage('El campo NÚMERO TELEFÓNICO permite un máximo de 30 caracteres'),
 
         body('type_client')
             .trim()

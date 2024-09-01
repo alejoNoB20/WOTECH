@@ -13,7 +13,7 @@ export const Clients = sequelize.define('clients', {
     }, 
     last_name_client: {
         type: DataTypes.STRING(100),
-        allowNull: true
+        allowNull: false
     },
     dni_client: {
         type: DataTypes.STRING(8),
@@ -25,7 +25,7 @@ export const Clients = sequelize.define('clients', {
         allowNull: false
     },
     direction_client: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     mail_client: {
@@ -33,8 +33,8 @@ export const Clients = sequelize.define('clients', {
         allowNull: true
     },
     phone_number_client: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+        type: DataTypes.STRING(20),
+        allowNull: false
     },
     type_client: {
         type: DataTypes.STRING,
@@ -52,5 +52,4 @@ export const Clients = sequelize.define('clients', {
     }
 }, {
     tableName: 'clients',
-    sequelize
-}) 
+});

@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { try_catch } from "../../utils/try_catch.js";
 import { Clients } from "./clientsModels.js";
+import { Orders } from "../Orders/ordersModels.js";
 
 export class clientsService {
     verClientes = async () => {
@@ -47,7 +48,7 @@ export class clientsService {
             return try_catch.SERVICE_CATCH_RES(err, 500);
         }
     }
-    buscarUno = async (id) => {
+    eliminarCliente = async (id_client) => {
         try{
             const resultado = await Clients.findByPk(id);
             if(!resultado){
@@ -60,7 +61,7 @@ export class clientsService {
     }
     actualizarCliente = async (dni, newData) => {
         try{
-            const resultado = await Clients.update(newData, {
+            await Clients.update(data, {
                 where: {
                     dni_client: dni
                 }
@@ -75,7 +76,7 @@ export class clientsService {
             return try_catch.SERVICE_CATCH_RES(err, 500)     
         }
     }
-    filtrarBusqueda = async (type, value) => {
+    filtrarClientes = async (type, value) => {
         try{
             if (type === 'name_client' || type === 'last_name_client' || type === 'type_client'){
                     const objetoWhere = {};

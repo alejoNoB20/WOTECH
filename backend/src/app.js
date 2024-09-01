@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { swaggerDoc } from './libs/swagger.js';
 import "./Components/Stock/stocksModels.js";
 import "./Components/Tools/toolsModels.js";
 import "./Components/Products/productsModels.js";
@@ -13,7 +14,7 @@ import './Components/Orders/ordersModels.js';
 import './Components/Invoices/invoicesModels.js';
 import './Components/Suppliers/suppliersModels.js';
 import './Components/SupplierMaterials/suppliersMaterialsModels.js';
-import './Components/SupplierMaterials/suppliersMaterialsModels.js';
+import './Components/SupplierMaterials/priceControlModels.js';
 import "./Components/Associations/productStocksModels.js";
 import "./Components/Associations/productToolsModels.js";
 import './Components/Associations/orderProductsModels.js'
@@ -29,6 +30,7 @@ import ordersRouter from './Components/Orders/ordersRouter.js';
 import supplierRouter from './Components/Suppliers/suppliersRouter.js';
 import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
 import purchasesRouter from './Components/Purchase/purchasesRouter.js';
+import invoicesRouter from './Components/Invoices/invoicesRouter.js';
 
 const app = express();
 dotenv.config();
@@ -46,10 +48,12 @@ app.use('/clients', clientsRouter);
 app.use('/orders', ordersRouter);
 app.use('/suppliers', supplierRouter);
 app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
+app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port http://localhost:${process.env.PORT}`);
+  swaggerDoc(app, process.env.PORT);
   });
 
 

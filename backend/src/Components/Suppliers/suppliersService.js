@@ -1,6 +1,6 @@
 import { Supplier } from "./suppliersModels.js";
 import { try_catch } from "../../utils/try_catch.js";
-import { supplier_materials_associations } from "../SupplierMaterials/suppliersMaterialsModels.js";
+import { Op } from "sequelize";
 import { Stock } from "../Stock/stocksModels.js";
 
 export class supplierService {
@@ -10,24 +10,24 @@ export class supplierService {
                 where: {
                     disabled: false
                 },
-                attributes: ['id_supplier', 'name_company_supplier', 'tax_address_supplier', 'distributor_name_supplier', 'number_phone_distributor_supplier']
+                attributes: ['id_supplier', 'name_company_supplier', 'number_phone_company_supplier', 'tax_address_supplier', 'distributor_name_supplier', 'number_phone_distributor_supplier']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningún proveedor en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningún proveedor en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los proveedores debido a una falla en el sistema');
         }
     }
     crearProveedor = async (data) => {
         try{
-            const resultado = await Supplier.create(data);
+            await Supplier.create(data);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201);
+            return try_catch.SERVICE_TRY_RES('La creación del proveedor finalizó exitosamente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del proveedor falló');
         }
     }
     deshabilitarProveedor = async (id_supplier) => {
@@ -40,10 +40,10 @@ export class supplierService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El proveedor con ID: ${id_supplier} fue deshabilitado con éxito`, 200); 
+            return try_catch.SERVICE_TRY_RES(`La deshabilitación del proveedor finalizó exitosamente`, 200); 
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación del proveedor falló');
         }
     }
     borrarProveedor = async (id_supplier) => {
@@ -54,10 +54,10 @@ export class supplierService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El proveedor con ID: ${id_supplier} fue eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`La eliminación del proveedor finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La elimación del proveedor falló');
         }
     }
     actualizarProveedor = async (id_supplier, data) => {
@@ -68,49 +68,48 @@ export class supplierService {
                 }
             });
 
-            const resultado = await Supplier.findOne({
-                where: {
-                    id_supplier
-                },
-                attributes: {
-                    exclude: ['createdAt', 'updateAt']
-                }
-            });
-
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES(`La actualización del proveedor finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del proveedor falló');
         }
     }
     filtrarProveedor = async (type, value) => {
         try{
-            let resultado = null;
-            if (type === 'id_supplier'){
-                resultado = await Supplier.findAll({
-                    where: {
-                        id_supplier: value
-                    },
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    },
-                    include: {
-                        model: Stock,
-                        attributes:["id_material", "name_material"],
-                        through: {
-                            attributes: ['amount_material', 'price_material', 'id_supplier']
-                        }
-                    },
-                    order: [['disabled', 'ASC']]
-                });
+            let objetoWhere = {};
+            if (type === 'id_supplier' || type === 'nameCompanyValidation' || type === 'cuitCompanyValidation'){
+                if(type === 'nameCompanyValidation') type = 'name_company_supplier';
+                if(type === 'cuitCompanyValidation') type = 'cuit_company_supplier';
+                objetoWhere[type] = {
+                    [Op.eq]: value
+                }
+            }else {
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%`
+                }
             };
 
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
+            const resultado = await Supplier.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Stock,
+                    attributes:["id_material", "name_material"],
+                    through: {
+                        attributes: ['amount_material', 'price_material', 'id_supplier']
+                    }
+                },
+                order: [['disabled', 'ASC']]
+            });
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204);
+
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
 }

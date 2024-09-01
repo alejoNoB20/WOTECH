@@ -15,39 +15,23 @@ export class StockService {
                     exclude: ['createdAt', 'updatedAt', 'description_material']
                 }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningún stock en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningún stock en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver todos los materiales debido a un falló en el sistema');
         }
     }
     crearStock = async (datos) => {
         try {
             if(!datos.amount_material) datos.amount_material = 0;
-            const resultado = await Stock.create(datos); 
+            await Stock.create(datos); 
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201);
-
-        }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
-        }
-    }
-    actualizarStock = async (id_material, data) => {
-        try {
-            await Stock.update(data, {
-                where: {
-                    id_material
-                }
-            });
-
-            const resultado = await this.filtrarMaterial('id_material', id_material);
-            
-            return try_catch.SERVICE_TRY_RES(resultado.msg, 200);
+            return try_catch.SERVICE_TRY_RES('La creación del stock finalizó exitosmente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del stock falló');
         }
     }
     deshabilitarStock = async (id_material) => {
@@ -60,10 +44,10 @@ export class StockService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El stock con ID: ${id_material} se deshabilito con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`La deshabilitación del stock con finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación del stock falló');
         }
     }
     borrarStock = async (id_material) => {
@@ -74,10 +58,24 @@ export class StockService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El stock con ID: ${id_material} fue eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`La eliminación del stock con finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del stock falló');
+        }
+    }
+    actualizarStock = async (id_material, data) => {
+        try {
+            await Stock.update(data, {
+                where: {
+                    id_material
+                }
+            });
+            
+            return try_catch.SERVICE_TRY_RES(`La actualización del stock finalizó exitosamente`, 200);
+
+        }catch(err) {
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del stock falló');
         }
     }
     filtrarMaterial = async (type, value) => {
@@ -117,12 +115,12 @@ export class StockService {
                 ],
                 order: [['disabled', 'ASC']] 
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
             
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
 };

@@ -4,12 +4,12 @@ const Order = new ordersService();
 
 // ---EXAMPLE---
 // {
-//     "id_client": 2,
+//     "id_client_fk": 2,
 //     "shipping_address_order": "",
 //     "delivery_day_order": "2024-08-08",
 //     "products": [
-//         {"id": 1, "price_product": 5000, "amount_product": 15},
-//         {"id": 2, "price_product": 5000, "amount_product": 12}
+//         {"id": 1, "price_product": 5000, "unit_product": 15},
+//         {"id": 2, "price_product": 5000, "unit_product": 12}
 //         ]
 // }
 
@@ -23,7 +23,7 @@ export class orderController {
             try_catch.CATCH_RES(res, err);
         }
     }
-    irPaginaCrear = async (req, res) => {
+    detallesProductos = async (req, res) => {
         try{    
             const resultado = await Order.mostrarProductos();
             try_catch.TRY_RES(res, resultado);
@@ -35,6 +35,15 @@ export class orderController {
     crear = async (req, res) => {
         try{
             const resultado = await Order.crearPedido(req.body);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    detalles = async (req, res) => {
+        try{
+            const resultado = await Order.filtrarPedidos('id_order', req.params.id_order);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

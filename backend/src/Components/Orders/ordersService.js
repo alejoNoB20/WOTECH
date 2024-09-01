@@ -1,35 +1,31 @@
 import { Orders } from "./ordersModels.js";
 import { Products } from "../Products/productsModels.js";
+import { productsService } from "../Products/productsService.js";
 import { Clients } from "../Clients/clientsModels.js";
+import { Stock } from "../Stock/stocksModels.js"
 import { order_Products_association } from "../Associations/orderProductsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 import { Op } from "sequelize";
+const Product = new productsService();
 
 export class ordersService {
     verTodo = async () => {
         try{
             const resultado = await Orders.findAll({
-                order: [['disabled', 'ASC'],['delivery_day_order', 'ASC']], 
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                where: {
+                    disabled: false
                 },
-                include: [{
-                    model: Products,
-                    through: {
-                        attributes: ['amount_product']
-                    },
-                    attributes: ['id_product', 'name_product']
-                }, {
-                    model: Clients,
-                    attributes: ['name_client'] 
-                }]
+                order: [['delivery_day_order', 'ASC']], 
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'shipping_address_order', 'id_client_fk', 'disabled']
+                }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningun pedido en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los pedidos debido a una falla en el sistema');
         }
     }
     mostrarProductos = async () => {
@@ -38,12 +34,12 @@ export class ordersService {
                 attributes: ['id_product', 'name_product', 'price_product'],
                 order: [['name_product', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningun producto en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los productos debido a una falla en el sistema');
         }
     }
     crearPedido = async (datos) => {
@@ -53,174 +49,208 @@ export class ordersService {
             dato.price_order = sum;
 
             const resultado = await Orders.create(dato);
-            if(!resultado) return try_catch.SERVICE_CATCH_RES(resultado);
 
-            const productsPromise = products.map(product => {
-                return order_Products_association.create({
-                        id_order: resultado.id_order,
-                        id_product: product.id,
-                        amount_product: product.amount_product
-                })
-            });
+            for(const product of products){
+                const producto = await Product.filtrarProducto('id_product', product.id);
+                
+                for(const material of producto.msg[0].stocks){
+                    const stock = await Stock.findOne({
+                        where: {
+                            id_material: material.id_material
+                        },
+                        attributes: ['amount_material']
+                    });
+                    
+                    const usedMaterial = stock.amount_material - product.unit_product * material.product_Stocks_association.how_much_contains_use;
+                    
+                    await Stock.update({
+                        amount_material: usedMaterial
+                    }, {
+                        where: {
+                            id_material: material.id_material
+                        }
+                    });
+                };
 
-            await Promise.all(productsPromise);
+                await order_Products_association.create({
+                        id_order_fk: resultado.id_order,
+                        id_product_fk: product.id,
+                        unit_product: product.unit_product
+                });
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201);
+            }
+
+            return try_catch.SERVICE_TRY_RES('La creación del pedido finalizó exitosamente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del pedido falló');
         }
     }
     deshabilitarPedido = async (id_order) => {
         try{
-            const findOrder = await Orders.findByPk(id_order);
-            if(!findOrder) return try_catch.SERVICE_CATCH_RES(findOrder, 'No se encontró ningún pedido con ese ID', 404); 
-            
-            const respuesta = await Orders.update({
+            await Orders.update({
                 disabled: true
             }, {
                 where: {
                     id_order
                 }
             });
-            if(!respuesta) return try_catch.SERVICE_CATCH_RES(respuesta, 'No se pudo desabilitar el pedido debido a un error en el servidor');
 
-            return try_catch.SERVICE_TRY_RES(`El pedido con ID: ${id_order} se cerró con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`El pedido se cerró con éxito`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'El pedido fallo al intentar cerrarlo');
         }
     }
-    borrarPedido = async (where) => {
+    borrarPedido = async (id_order) => {
         try{
-            const findOrder = await Orders.findOne({where});
-            if (!findOrder) return try_catch.SERVICE_CATCH_RES(findOrder, 'No se encontró ningún pedido con ese ID', 404); 
+            await Orders.destroy({
+                where: {
+                    id_order
+                }
+            });
 
-            await Orders.destroy({where});
-
-            return try_catch.SERVICE_TRY_RES(`El pedido con ID: ${where} eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES(`La eliminación del pedido finalizó exitosamente`, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del pedido falló');
         }
     }
     filtrarPedidos = async (type, value) => {
         try{
-            if(type === 'shipping_address_order'){
-                const resultado = await Orders.findAll({
-                    where: {
-                        shipping_address_order: {
-                            [Op.like]: `%${value}%`
-                        }
-                    }, 
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    },
-                    include: [{
-                        model: Products,
-                        through: {
-                            attributes: ['amount_product']
-                        },
-                        attributes: ['id_product', 'name_product']
-                    }, {
-                        model: Clients,
-                        attributes: ['name_client'] 
-                    }] 
-                });
-                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`); 
+            let objetoWhere = {};
 
-                return try_catch.SERVICE_TRY_RES(resultado, 302);
-
+            if(type === 'shipping_address_order' || type === 'id_client'){
+                objetoWhere[type] = {
+                    [Op.like]: `%${value}%` 
+                }
             }else {
-                const objetoWhere = {};
                 objetoWhere[type] = {
                     [Op.eq]: value 
                 }
-                const resultado = await Orders.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    },
-                    include: [{
-                        model: Products,
-                        through: {
-                            attributes: ['amount_product']
-                        },
-                        attributes: ['id_product', 'name_product']
-                    }, {
-                        model: Clients,
-                        attributes: ['name_client'] 
-                    }]
-                })
-                if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`); 
-
-                return try_catch.SERVICE_TRY_RES(resultado, 302);
                 
             };
 
+            const resultado = await Orders.findAll({
+                where: objetoWhere,
+                order: [['shipping_address_order', 'ASC']],
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: [{
+                    model: Products,
+                    through: {
+                        attributes: ['unit_product']
+                    },
+                    attributes: ['id_product', 'name_product']
+                }, {
+                    model: Clients,
+                    attributes: ['name_client'] 
+                }]
+            })
+            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204); 
+
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
+
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
     actualizarPedido = async (id_order, datos) => {
         try{
             const {products, ...dato} = datos;
 
-            const totalPrice = products.reduce((sumaParcial, product) => sumaParcial + product.price_product * product.amount_product, 0);
+            const totalPrice = products.reduce((sumaParcial, product) => sumaParcial + product.price_product * product.unit_product, 0);
             dato.price_order = totalPrice;
 
-            const orderUpdate = await Orders.findByPk(id_order,{
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'id_order']
-                }
-            });
+            const orderUpdate = await Orders.findByPk(id_order);
 
-            if(JSON.stringify(dato) !== JSON.stringify(orderUpdate)){
+            const validationBody = {"id_client_fk": orderUpdate.id_client_fk, "shipping_address_order": orderUpdate.shipping_address_order, "delivery_day_order": orderUpdate.delivery_day_order, "price_order": orderUpdate.price_order};
+
+            if(JSON.stringify(dato) !== JSON.stringify(validationBody)){
                 await Orders.update(dato, {
                     where: {
                         id_order
                     }
-                })
+                });
             };
 
             const olderAssociation = await order_Products_association.findAll({
                 where: {
-                    id_order
+                    id_order_fk: id_order
                 }
             });
 
             const Oldervalidation = olderAssociation.map(olderProduct => {
-                return ({id: olderProduct.id_product, amount_product: olderProduct.amount_product});
+                return ({id: olderProduct.id_product_fk, unit_product: olderProduct.unit_product});
             });
 
             const newValidation = products.map(newProduct => {
-                return ({id: newProduct.id, amount_product: newProduct.amount_product});
+                return ({id: newProduct.id, unit_product: newProduct.unit_product});
             });
 
             if(JSON.stringify(Oldervalidation) !== JSON.stringify(newValidation)){
+
+                for(const Association of olderAssociation){
+                    const producto = await Product.filtrarProducto('id_product', Association.id_product_fk);
+                    for(const material of producto.msg[0].stocks){
+                        const stock = await Stock.findOne({
+                            where: {
+                                id_material: material.id_material
+                            },
+                            attributes: ['amount_material']
+                        });
+                        
+                        const usedMaterial = stock.amount_material + Association.unit_product * material.product_Stocks_association.how_much_contains_use;
+                        
+                        await Stock.update({
+                            amount_material: usedMaterial
+                        }, {
+                            where: {
+                                id_material: material.id_material
+                            }
+                        });                        
+                    };
+                };
+
                 await order_Products_association.destroy({
                     where: {
-                        id_order
+                        id_order_fk: id_order
                     }
                 })
 
-                const promiseAsocciation = newValidation.map(product => {
-                    return order_Products_association.create({
-                            id_order,
-                            id_product: product.id,
-                            amount_product: product.amount_product
-                    })
-                })
-                
-                await Promise.all(promiseAsocciation);
+                for(const product of products){
+                    const producto = await Product.filtrarProducto('id_product', product.id);
+                    for(const material of producto.msg[0].stocks){
+                        const stock = await Stock.findOne({
+                            where: {
+                                id_material: material.id_material
+                            },
+                            attributes: ['amount_material']
+                        });
+                        
+                        const usedMaterial = stock.amount_material - product.unit_product * material.product_Stocks_association.how_much_contains_use;
+                        
+                        await Stock.update({
+                            amount_material: usedMaterial
+                        }, {
+                            where: {
+                                id_material: material.id_material
+                            }
+                        });
+                    };
+    
+                    await order_Products_association.create({
+                        id_order_fk: id_order,
+                        id_product_fk: product.id,
+                        unit_product: product.unit_product
+                })}
             };
 
-            const orderUpdated = await this.filtrarPedidos('id_order', id_order);
-
-            return try_catch.SERVICE_TRY_RES(orderUpdated, 200);
+            return try_catch.SERVICE_TRY_RES('La actualización del pedido finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del pedido falló');
         }
     }
 };

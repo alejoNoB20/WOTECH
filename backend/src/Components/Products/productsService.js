@@ -18,13 +18,37 @@ export class productsService {
                     exclude: ['createdAt', 'updatedAt', 'description_product']
                 },
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontró ningún producto en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los productos debido a una falla en el sistema');
         }   
+    }
+    datosParaCreacion = async () => {
+        try{
+            const stock = await Stock.findAll({
+                where: {
+                    disabled: false
+                },
+                attributes: ['id_material', 'name_material']
+            });
+            const tools = await Tools.findAll({
+                where: {
+                    disabled: false
+                },
+                attributes: ['id_tool', 'name_tool']
+            });
+            if(stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools}, 204);
+            if(tools.length === 0) return try_catch.SERVICE_TRY_RES({stock, tools: 'No se encontró ninguna herramienta en la base de datos'}, 204);
+            if(tools.length === 0 && stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools: 'No se encontró ninguna herramienta en la base de datos'}, 204);
+
+            return try_catch.SERVICE_TRY_RES({stock, tools}, 200);
+
+        }catch(err) {
+            return try_catch.SERVICE_CATCH_RES(err);
+        }
     }
     crearProducto = async (data) => {
         try {
@@ -55,10 +79,10 @@ export class productsService {
             });
             await Promise.all([...promiseTool, ...promiseMaterial]);
 
-            return try_catch.SERVICE_TRY_RES(newProduct, 201);
+            return try_catch.SERVICE_TRY_RES('La creación del producto finalizó exitosamente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación del producto falló');
         }
     }
     deshabilitarProducto = async (id_product) => {
@@ -71,10 +95,10 @@ export class productsService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El producto con ID:${id_product} deshabilitado con éxito`); 
+            return try_catch.SERVICE_TRY_RES('La deshabilitación del producto finalizó exitosamente', 200); 
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación del producto falló');
         }
     }
     eliminarProducto = async (id_product) => {
@@ -85,10 +109,32 @@ export class productsService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`El producto con ID:${id_product} ah sido eliminado con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES('La eliminación del producto finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del producto finalizó exitosamente');
+        }
+    }
+    datosParaActualizacion = async (id_product) => {
+        try{
+            const product = await this.filtrarProducto('id_product', id_product);
+            const stock = await Stock.findAll({
+                where: {
+                    disabled: false
+                },
+                attributes: ['id_material', 'name_material']
+            });
+            const tools = await Tools.findAll({
+                where: {
+                    disabled: false
+                },
+                attributes: ['id_tool', 'name_tool']
+            });
+
+            return try_catch.SERVICE_TRY_RES({product: product.msg, stock, tools}, 200);
+
+        }catch(err) {
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
     actualizarProducto = async (id_product, newData) => {
@@ -104,7 +150,7 @@ export class productsService {
             const olderTools = olderProduct.msg[0].tools.map(tool => {
                 return tool.id_tool
             });;
-
+            
             const validationProduct = {'name_product': olderProduct.msg[0].name_product, 'img_product': olderProduct.msg[0].img_product, 'description_product': olderProduct.msg[0].description_product, 'price_product': olderProduct.msg[0].price_product};
 
             if(JSON.stringify(data) !== JSON.stringify(validationProduct)){
@@ -157,12 +203,10 @@ export class productsService {
 
             }
 
-            const resultado = await this.filtrarProducto('id_product', id_product);
-
-            return try_catch.SERVICE_TRY_RES(resultado.msg, 200);
+            return try_catch.SERVICE_TRY_RES('La actualización del producto finalizó exitosamente', 200);
             
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización del producto falló');
         }
     }
     filtrarProducto = async (type, value) => {
@@ -199,12 +243,12 @@ export class productsService {
                 },
                 order: [['disabled', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada con ${type}: ${value} en la base de datos`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada con ${type}: ${value} en la base de datos`, 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
 }

@@ -1,3 +1,4 @@
+import { try_catch } from "../../utils/try_catch.js";
 import { clientsService } from "./clientsService.js";
 import { try_catch } from "../../utils/try_catch.js";
 const Clients = new clientsService();
@@ -19,7 +20,7 @@ export class clientsController {
             return try_catch.CATCH_RES(res, err)
         }
     }
-    borrar = async (req, res) => {
+    deshabilitar = async (req, res) => {
         try{
             const resultado = await Clients.borrarCliente(req.params);
             return try_catch.TRY_RES(res, resultado)
@@ -27,7 +28,7 @@ export class clientsController {
             return try_catch.CATCH_RES(res, err)
         }
     }
-    paginaActualizar = async (req, res) => {
+    eliminar = async (req, res) => {
         try{
             const resultado = await Clients.buscarUno(req.params.dni_client);
 

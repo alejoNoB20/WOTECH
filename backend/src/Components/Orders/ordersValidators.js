@@ -1,9 +1,9 @@
 import { validatorResult } from "../../libs/validationLib.js";
-import {body, query} from 'express-validator';
+import { body, query } from 'express-validator';
 
 export const ordersValidator = {
     createOrUpdateOrder: [
-        body('id_client')
+        body('id_client_fk')
             .exists()
             .notEmpty().withMessage('El campo ID CLIENTE es obligatorio').bail()
             .isNumeric().withMessage('El campo ID CLIENTE tiene que ser un número entero').bail()
@@ -25,10 +25,10 @@ export const ordersValidator = {
             .isArray({min: 1}).withMessage('El campo PRODUCTOS debe contener mínimo un ARRAY').bail()
             .custom((value) => {
                 value.forEach(product => {
-                    if(typeof product !== "object" || !product.id || !product.price_product || !amount_product){
+                    if(typeof product !== "object" || !product.id || !product.price_product || !product.unit_product){
                         throw new Error ('El formato del campo PRODUCTOS es inválido');
                     };
-                    if(!Number.isInteger(product.id) || !Number.isInteger(product.amount_product) || isNaN(product.price_product)){
+                    if(!Number.isInteger(product.id) || !Number.isInteger(product.unit_product) || isNaN(product.price_product)){
                         throw new Error ('LOS campos ID - CANTIDAD solo permite números enteros y PRECIO solo números');
                     };
                 });
