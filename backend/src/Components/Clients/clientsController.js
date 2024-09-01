@@ -22,14 +22,17 @@ export class clientsController {
     borrar = async (req, res) => {
         try{
             const resultado = await Clients.borrarCliente(req.params);
-            return try_catch.TRY_RES(res, {status: 200, msg: `Cliente con ID: ${req.params.id_client} eliminado con éxito`})
+            return try_catch.TRY_RES(res, resultado)
         }catch(err){        
             return try_catch.CATCH_RES(res, err)
         }
     }
     paginaActualizar = async (req, res) => {
         try{
-            const resultado = await Clients.buscarUno(req.params.id_client);
+            const resultado = await Clients.buscarUno(req.params.dni_client);
+
+            console.log(resultado);
+
             return try_catch.TRY_RES(res, resultado)
         }catch(err){
             return try_catch.CATCH_RES(res, err)
@@ -38,7 +41,9 @@ export class clientsController {
     }
     actualizar = async (req, res) => {
         try {
-            const resultado = await Clients.actualizarCliente(req.params.id_client, req.body);
+            const resultado = await Clients.actualizarCliente(req.params.dni_client, req.body);
+            console.log(resultado);
+            
             return try_catch.TRY_RES(res, resultado)
         }catch(err){
             return try_catch.CATCH_RES(res, err)
