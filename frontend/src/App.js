@@ -6,6 +6,7 @@ import UpdateStock from './pages/stock/UpdateStock'
 import GetStock from './pages/stock/GetStock';
 import GetTools from './pages/tools/GetTools';
 import UpdateTool from './pages/tools/UpdateTool';
+import AddTool from './pages/tools/AddTool';
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/stock/updatestock/:id" element={<UpdateStock />} />
         <Route path="/tools/gettools" element={<GetTools />} />
         <Route path="/tools/updatetool/:id" element={<UpdateTool />} />
+        <Route path="/tools/addtool" element={<AddTool/>}/>
       </Routes>
     </Layout>
 

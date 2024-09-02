@@ -5,7 +5,7 @@ const toolsController = new ToolsController();
 let toolsRouter = Router();
 
 toolsRouter.get('/', toolsController.verTodasHerramientas);
-toolsRouter.post('/create', toolsValidations.createTool, toolsController.pushHerramienta);
+toolsRouter.post('/create', toolsController.pushHerramienta);
 toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
 toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
 toolsRouter.get('/details/:id_tool', toolsController.detallesHerramienta);
