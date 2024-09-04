@@ -8,18 +8,21 @@
     "dev": "nodemon src/app.js"
   },
   "dependencies": {
+    "chai": "^5.1.1",
     "cors": "^2.8.5",
     "express": "~4.16.1",
     "express-validator": "^7.1.0",
     "mysql2": "^3.9.7",
     "path": "^0.12.7",
     "sequelize": "^6.37.3",
+    "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "debug": "^4.3.6",
     "dotenv": "^16.4.5",
+    "mocha": "^10.7.3",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.4",
     "sqlite3": "^5.1.7"
