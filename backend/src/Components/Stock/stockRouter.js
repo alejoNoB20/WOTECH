@@ -46,7 +46,7 @@ export default stockRouter;
  *                   measurement_material:
  *                     type: string
  *                     example: "Unidad" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -68,7 +68,7 @@ export default stockRouter;
  *       - Stock
  *     parameters:
  *       - in: path
- *         name: "Example: /stock/details/1" 
+ *         name: id_material
  *         schema:
  *           type: string
  *         required: true
@@ -245,13 +245,13 @@ export default stockRouter;
  *       - Stock
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_material', 'name_material, 'amount_material'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
@@ -265,7 +265,7 @@ export default stockRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/stock'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

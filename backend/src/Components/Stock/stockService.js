@@ -15,7 +15,7 @@ export class StockService {
                     exclude: ['createdAt', 'updatedAt', 'description_material']
                 }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningún stock en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningún stock en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -115,7 +115,7 @@ export class StockService {
                 ],
                 order: [['disabled', 'ASC']] 
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             

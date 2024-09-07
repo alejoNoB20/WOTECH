@@ -154,7 +154,7 @@ export default supplierMaterialsRouter;
  *       - SupplierMaterials
  *     parameters:
  *       - in: path
- *         name: "Example: /suppliers/supplierMaterials/priceControl/1" 
+ *         name: id_supplier_material
  *         schema:
  *           type: string
  *         required: true
@@ -178,7 +178,7 @@ export default supplierMaterialsRouter;
  *                   createdAt:
  *                     type: string
  *                     example: "2024-08-23T15:48:19.000Z"
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

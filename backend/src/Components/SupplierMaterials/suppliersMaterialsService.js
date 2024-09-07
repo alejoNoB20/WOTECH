@@ -66,7 +66,7 @@ export class supplierMaterialsService {
                 },
                 attributes: ['id_price_control', 'register_price_control', 'createdAt']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('Este producto no cuenta con precios actualizados', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('Este producto no cuenta con precios actualizados', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 

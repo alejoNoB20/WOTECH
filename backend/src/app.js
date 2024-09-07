@@ -37,13 +37,15 @@ dotenv.config();
 
 // CORS Config
 
-const corsConfig = {
-  origin: '*',
-  methods: ['GET', 'POST', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}
+// const corsConfig = {
+//   methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'], // Agrega el header aquí
+//   exposedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204
+// };
 
-app.use(cors(corsConfig));
+app.use(cors());
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -60,8 +62,8 @@ app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server running at port http://localhost:${process.env.PORT}`);
-  swaggerDoc(app, process.env.PORT);
+  console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
+  swaggerDoc(app, process.env.DB_SERVER_URL);
   });
 
 
