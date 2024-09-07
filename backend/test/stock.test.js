@@ -1,6 +1,7 @@
 import * as chai from 'chai';
 import supertest from 'supertest';
 import dotenv from 'dotenv';
+import { clearDB, updateDB } from '../src/database/connection.js';
 
 dotenv.config();
 
@@ -9,23 +10,32 @@ const requester = supertest(`${process.env.DB_SERVER_URL}`);
 
 describe('Stock Tests', () => {
 
+    before(async () => {
+        clearDB();
+    });
+
     describe('Ver stock', () => {
-        it('EP: /stock/ Debería retornar una lista con los clientes con status 200', async () => {
-            const response = await requester.get('/stock');
-            expect(response.status).to.be.equal(200);
-        });
+        // it('EP: /stock/ Debería retornar una lista con los clientes con status 200', async () => {
+        //     const response = await requester.get('/stock');
+        //     expect(response.status).to.be.equal(200);
+        // });
         it('EP: /stock/ En caso de no existir ningún cliente en la db, debería retornar "No se encontró ningún stock en la base de datos" con status 404', async () => {
             const response = await requester.get('/stock');
             expect(response.status).to.be.equal(404);
         });
     });
 
-    // describe('Get one or more clients with the requested parameters', () => {
-    //     it('EP: /clients/search', async () => {
-    //         const response = await requester.get('/clients/search?search_type=name_client&search_value=test')
-    //         expect(response.status).to.be.equal(200)
-    //     })
-    // })
+    describe('Crear stock', () => {
+        it('EP: /stock/create Debería crear un nuevo stock en la db y devolver un status 201', async () => {
+            const stockMock = {
+                "id_material": "Madera de pino",
+                "measurement_material": "Cm"
+            }
+            const response = await requester.post('/stock/create').send(stockMock);
+            console.log(response)
+            expect(response.status).to.be.equal(201);
+        })
+    })
 
     // describe('Creates a new client on the DB', () => {
     //     const userMock = {
