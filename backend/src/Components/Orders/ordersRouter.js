@@ -41,7 +41,7 @@ export default ordersRouter;
  *                   price_order:
  *                     type: integer
  *                     example: "135000"
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -63,7 +63,7 @@ export default ordersRouter;
  *       - Orders
  *     parameters:
  *       - in: path
- *         name: "Example: /orders/details/7" 
+ *         name: id_order
  *         schema:
  *           type: string
  *         required: true
@@ -109,7 +109,7 @@ export default ordersRouter;
  *                   price_product:
  *                     type: integer
  *                     example: 5000
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -297,13 +297,13 @@ export default ordersRouter;
  *       - Orders
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type 
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_order', 'id_client, 'shipping_address_order' 'delivery_day_order'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
@@ -317,7 +317,7 @@ export default ordersRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/orders'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

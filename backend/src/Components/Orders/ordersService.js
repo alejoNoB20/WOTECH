@@ -20,7 +20,7 @@ export class ordersService {
                     exclude: ['createdAt', 'updatedAt', 'shipping_address_order', 'id_client_fk', 'disabled']
                 }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -34,7 +34,7 @@ export class ordersService {
                 attributes: ['id_product', 'name_product', 'price_product'],
                 order: [['name_product', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -148,7 +148,7 @@ export class ordersService {
                     attributes: ['name_client'] 
                 }]
             })
-            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204); 
+            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404); 
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 

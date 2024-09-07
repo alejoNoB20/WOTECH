@@ -1,8 +1,10 @@
+import 'dotenv/config';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 const options = {
     definition: {
+        failOnErrors: true,
         openapi: '3.0.0',
         info: {
             title: 'Wotech - Carpentry Manager',
@@ -14,7 +16,7 @@ const options = {
             }
         },
         servers: [{
-                url: 'http://localhost:8080',
+                url: `${process.env.DB_SERVER_URL}`,
                 description: 'Servidor de desarrollo'
             }],
     },
@@ -23,11 +25,19 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-export const swaggerDoc = (app, port) => {
+export const swaggerDoc = (app, url) => {
     app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    console.log(`Documentación de API disponible en http://localhost:${port}/api-doc`);
+    console.log(`Documentación de API disponible en ${url}/api-doc`);
 };
 
+// , {
+//     swaggerOptions: {
+//     requestInterceptor: (req) => {
+//         req.headers['ngrok-skip-browser-warning'] = true;
+//         return req;
+//     }
+//     }
+// }
 
 
 
