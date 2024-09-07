@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { updateDB, clearDB } from './database/connection.js';
 import { swaggerDoc } from './libs/swagger.js';
 import "./Components/Stock/stocksModels.js";
 import "./Components/Tools/toolsModels.js";
@@ -31,21 +32,16 @@ import supplierRouter from './Components/Suppliers/suppliersRouter.js';
 import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
 import purchasesRouter from './Components/Purchase/purchasesRouter.js';
 import invoicesRouter from './Components/Invoices/invoicesRouter.js';
+import { clear } from 'console';
 
 const app = express();
 dotenv.config();
 
-// CORS Config
-
-// const corsConfig = {
-//   methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'], // Agrega el header aquí
-//   exposedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'],
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204
-// };
-
 app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader('ngrok-skip-browser-warning', 'true')
+  next()
+});
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -64,6 +60,10 @@ app.use('/purchase', purchasesRouter);
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
   swaggerDoc(app, process.env.DB_SERVER_URL);
+  // clearDB -> REINICIA LA BASE DE DATOS
+  // clearDB();
+  // updateDB -> ACTUALIZA LA BASE DE DATOS 
+  // updateDB();
   });
 
 

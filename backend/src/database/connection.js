@@ -6,4 +6,15 @@ export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
     dialect: 'mysql',
 });
 
-// sequelize.sync({alter: true}).then(() => console.log('DBActualizada')).catch(err => console.log(err));
+export const updateDB = () => {
+    sequelize.sync({alter: true})
+        .then(()=> console.log('DB Actualizada correctamente!'))
+            .catch(err => console.log(err));
+};
+
+export const clearDB = () => {
+    sequelize.sync({force: true})
+        .then(()=> console.log('DB Reiniciada correctamente!'))
+            .catch(err => console.log(err));
+};
+
