@@ -8,9 +8,9 @@ let clientsRouter = Router();
 clientsRouter.get('/', Clients.verTodos);
 // clientsRouter.get('/details/:id_client', Clients.detalles);
 clientsRouter.post('/create', clientsValidator.createClient, Clients.crear);
-clientsRouter.patch('/disabled/:id_client', Clients.deshabilitar);
-clientsRouter.delete('/delete/:id_client', Clients.eliminar);
-clientsRouter.patch('/update/:id_client', clientsValidator.updateClient, Clients.actualizar);
+clientsRouter.patch('/disabled/:dni_client', Clients.deshabilitar);
+clientsRouter.delete('/delete/:dni_client', Clients.eliminar);
+clientsRouter.patch('/update/:dni_client', clientsValidator.updateClient, Clients.actualizar);
 clientsRouter.get('/search', clientsValidator.searchClient,Clients.filtrar);
 
 

@@ -18,6 +18,7 @@ export class clientsService {
     crearCliente = async (data) => {
         try {
             const resultado = await Clients.create(data);
+            
             return try_catch.SERVICE_TRY_RES(resultado, 201);
         } catch (error) {
             
@@ -30,17 +31,13 @@ export class clientsService {
     
     borrarCliente = async (dni) => {
         try {
-            const { dni_client } = dni; 
-            
             const resultado = await Clients.update(
                 { disabled: 1 },
-                { where: { dni_client } } // Ahora se usa el valor correcto
+                { where: { dni_client: dni } } 
             );
-
             
             if(resultado[0] === 0){
-            return try_catch.SERVICE_CATCH_RES(true, 'DNI no encontrado', 404);
-
+                return try_catch.SERVICE_CATCH_RES(true, 'DNI no encontrado', 404);
             }
             
             return try_catch.SERVICE_TRY_RES(resultado, 200);
@@ -61,11 +58,15 @@ export class clientsService {
     }
     actualizarCliente = async (dni, newData) => {
         try{
-            await Clients.update(data, {
+            console.log(newData);
+            console.log(dni);
+            
+            const resultado = await Clients.update(newData, {
                 where: {
                     dni_client: dni
                 }
             })
+            
             if(resultado[0] === 1){
                 return try_catch.SERVICE_TRY_RES('Cliente actualizado', 200)
             }

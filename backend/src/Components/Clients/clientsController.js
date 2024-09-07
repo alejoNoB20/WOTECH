@@ -21,7 +21,8 @@ export class clientsController {
     }
     deshabilitar = async (req, res) => {
         try{
-            const resultado = await Clients.borrarCliente(req.params);
+            const resultado = await Clients.borrarCliente(req.params.dni_client);
+            
             return try_catch.TRY_RES(res, resultado)
         }catch(err){        
             return try_catch.CATCH_RES(res, err)
@@ -29,9 +30,7 @@ export class clientsController {
     }
     eliminar = async (req, res) => {
         try{
-            const resultado = await Clients.buscarUno(req.params.dni_client);
-
-            console.log(resultado);
+            const resultado = await Clients.eliminarCliente(req.params.dni_client);
 
             return try_catch.TRY_RES(res, resultado)
         }catch(err){
@@ -53,7 +52,7 @@ export class clientsController {
         try{
             const searchType = req.query.search_type;
             const searchValue = req.query.search_value;
-            const resultado = await Clients.filtrarBusqueda(searchType, searchValue);
+            const resultado = await Clients.filtrarClientes(searchType, searchValue);
             
             if(resultado.status === 404){
                 return try_catch.CATCH_RES(res, {msg: resultado.msg, status: 404})

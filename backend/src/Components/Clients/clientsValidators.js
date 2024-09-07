@@ -25,7 +25,7 @@ export const clientsValidator = {
     .notEmpty().withMessage('El campo DNI es obligatorio').bail()
     .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
     .custom(async (value, {req}) => {
-        const findSameDNI = await Client.filtrarBusqueda('dniClientValidator', value);
+        const findSameDNI = await Client.filtrarClientes('dniClientValidator', value);
         
         if (findSameDNI && findSameDNI.length > 0) {
             throw new Error('El número de DNI ya está registrado');

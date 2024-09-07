@@ -33,6 +33,7 @@ import purchasesRouter from './Components/Purchase/purchasesRouter.js';
 import invoicesRouter from './Components/Invoices/invoicesRouter.js';
 
 const app = express();
+app.use(cors());
 dotenv.config();
 
 app.use(cors())

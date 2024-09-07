@@ -5,7 +5,8 @@ import { try_catch } from '../../utils/try_catch.js';
 export class purchaseService {
     crearVenta = async (data) => {
         try{
-            for(const purchase of data.purchase){
+            
+            for(const purchase of data){
                 const materialSupplier = await supplier_materials_associations.findByPk(purchase.id_supplier_material);
                 const stock = await Stock.findByPk(materialSupplier.id_material);
                 
@@ -20,7 +21,7 @@ export class purchaseService {
                     })
             }
 
-            return try_catch.SERVICE_TRY_RES(`Compra realiza con éxito`, 201); 
+            return try_catch.SERVICE_TRY_RES(`Compra realizada con éxito`, 201); 
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La compra falló');

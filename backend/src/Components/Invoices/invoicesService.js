@@ -10,6 +10,7 @@ export class invoicesService {
                 },
                 attributes: ['id_invoice', 'invoice']
             });
+            
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se registran facturas de este proveedor', 204);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
