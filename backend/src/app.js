@@ -38,10 +38,6 @@ const app = express();
 dotenv.config();
 
 app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader('ngrok-skip-browser-warning', 'true')
-  next()
-});
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -59,9 +55,7 @@ app.use('/purchase', purchasesRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
-  swaggerDoc(app, process.env.DB_SERVER_URL);
-  // clearDB -> REINICIA LA BASE DE DATOS
-  // clearDB();
+  swaggerDoc(app);
   // updateDB -> ACTUALIZA LA BASE DE DATOS 
   // updateDB();
   });

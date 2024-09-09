@@ -16,7 +16,7 @@ const options = {
             }
         },
         servers: [{
-                url: `${process.env.DB_SERVER_URL}`,
+                url: `https://kind-crabs-flow.loca.lt`,
                 description: 'Servidor de desarrollo'
             }],
     },
@@ -25,9 +25,9 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options);
 
-export const swaggerDoc = (app, url) => {
+export const swaggerDoc = (app) => {
     app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    console.log(`Documentación de API disponible en ${url}/api-doc`);
+    console.log(`Documentación de API disponible en https://kind-crabs-flow.loca.lt/api-doc`);
 };
 
 // , {

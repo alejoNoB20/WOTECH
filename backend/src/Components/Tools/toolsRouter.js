@@ -256,7 +256,7 @@ export default toolsRouter;
  *         schema:
  *           type: string
  *         required: true
- *         description: "search_value indiqua el valor que deseamos buscar"
+ *         description: "search_value indiqua el valor que deseamos buscar (en el caso que el 'search_type' sea 'status_tool', los únicos valores válidos son 'Habilitado', 'En Arreglo', 'Inhabilitado', 'Perdido')"
  *     responses: 
  *       200: 
  *         description: "Se mostrarán las herramientas encontradas con los parámetros establecidos"
