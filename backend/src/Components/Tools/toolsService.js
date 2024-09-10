@@ -22,7 +22,7 @@ export class ToolsService {
     }
     crearHerramienta = async (data) => {
         try{
-            if(!data.status_tool) data.status_tool = 'Habilitado';
+            // if(!data.status_tool) data.status_tool = 'Habilitado';
             await Tools.create(data);
 
             return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosmente', 201);

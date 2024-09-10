@@ -1,30 +1,54 @@
 import * as chai from 'chai';
 import supertest from 'supertest';
-import app from '../src/app.js';
+import dotenv from 'dotenv';
+import { sequelize } from '../src/database/connection.js'
+import { clearDB } from '../src/database/connection.js'
+
+dotenv.config();
 
 const expect = chai.expect;
-const requester = supertest(app);
+const requester = supertest(`${process.env.DB_SERVER_URL}`);
 
 describe('Tools Tests', () => {
 
     describe('Ver herramientas', () => {
         it('EP: /tools/ En caso de no existir ninguna herramienta en la db, debería retornar un status 404', async () => {
-            const response = await requester.get('/tools');
+            const response = await requester.get('/tools')
             expect(response.status).to.be.equal(404);
         });
     });
-
+    before(async () => {
+        try {
+            await requester.post('/tools/clear-db').set('secret-key', "process.env.SECRET_KEY"); 
+            
+        } catch (error) {
+            console.error('Error al limpiar la base de datos:', error);
+        }
+    });
     describe('Crear herramientas', () => {
         it('EP: /tools/create Debería crear un nueva herramienta en la db y devolver un status 201', async () => {
             const toolMock = {
-                "name_tool": "Martillo",
+                "name_tool": "a",
                 "location_tool": "Mueble 1",
+                "status_tool": "Habilitado"
             }
             const response = await requester.post('/tools/create').send(toolMock);
+            
             expect(response.status).to.be.equal(201);
         })
     });
-
+    after(async () => {
+        try {
+            const toolMock = {
+                "name_tool": "aaa",
+                "location_tool": "Mueble 1",
+                "status_tool": "Habilitado"
+            }
+            await requester.post('/tools/create').send(toolMock);
+        } catch (error) {
+            console.error('Error al limpiar la base de datos:', error);
+        }
+    });
     describe('Ver herramientas', () => {
         it('EP: /tools/ Luego de haber creado una herramienta debería retornar una lista con las herramientas con status 200', async () => {
             const response = await requester.get('/tools');
