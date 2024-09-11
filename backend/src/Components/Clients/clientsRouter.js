@@ -45,7 +45,7 @@ export default clientsRouter;
  *                   type_client:
  *                     type: string
  *                     example: "Consumidor Final"
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -67,7 +67,7 @@ export default clientsRouter;
  *       - Clients
  *     parameters:
  *       - in: path
- *         name: "Example: /clients/details/2" 
+ *         name: id_client
  *         schema:
  *           type: string
  *         required: true
@@ -262,7 +262,7 @@ export default clientsRouter;
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'name_client', 'last_name_client, 'id_client' 'dni_client', 'cuil_or_cuit_client', 'type_client'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
@@ -276,7 +276,7 @@ export default clientsRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/clients'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

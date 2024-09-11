@@ -35,4 +35,10 @@ Orders.belongsTo(Clients, {
     targetKey: 'id_client'
 });
 
+Clients.hasMany(Orders, {
+    foreignKey: 'clientId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+
 Clients.hasMany(Orders, {foreignKey: 'id_client_fk'});

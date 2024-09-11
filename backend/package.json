@@ -24,6 +24,11 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "mocha": "^10.7.3"
+    "debug": "^4.3.6",
+    "dotenv": "^16.4.5",
+    "mocha": "^10.7.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4",
+    "sqlite3": "^5.1.7"
   }
 }

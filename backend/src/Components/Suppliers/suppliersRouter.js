@@ -49,7 +49,7 @@ export default supplierRouter;
  *                   number_phone_distributor_supplier:
  *                     type: string
  *                     example: "341 512-3456" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -71,7 +71,7 @@ export default supplierRouter;
  *       - Suppliers
  *     parameters:
  *       - in: path
- *         name: "Example: /suppliers/details/2" 
+ *         name: id_supplier 
  *         schema:
  *           type: string
  *         required: true

@@ -12,7 +12,7 @@ export class ToolsService {
                 },
                 attributes: ['id_tool', 'name_tool', 'status_tool', 'location_tool']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron herramientas registradas en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron herramientas registradas en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -22,7 +22,7 @@ export class ToolsService {
     }
     crearHerramienta = async (data) => {
         try{
-            if(!data.status_tool) data.status_tool = 'Habilitado';
+            // if(!data.status_tool) data.status_tool = 'Habilitado';
             await Tools.create(data);
 
             return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosmente', 201);
@@ -105,7 +105,7 @@ export class ToolsService {
                 },
                 order: [['disabled', 'ASC']]
             })
-            if(respuesta.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 204);
+            if(respuesta.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
 
             return try_catch.SERVICE_TRY_RES(respuesta, 200);
             

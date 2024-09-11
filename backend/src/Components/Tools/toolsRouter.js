@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { ToolsController } from "./toolsController.js";
 import { toolsValidations } from "./toolsValidators.js";
+import { sequelize } from "../../database/connection.js";
+import { checkSecret } from '../../middlewares/protectecRoutes.js'
 const toolsController = new ToolsController();
+
 let toolsRouter = Router();
 
 toolsRouter.get('/', toolsController.verTodasHerramientas);
@@ -11,7 +14,17 @@ toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
 toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
 toolsRouter.patch('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
 toolsRouter.get('/search',toolsValidations.searchTool, toolsController.buscarHerramienta);
-
+toolsRouter.post('/clear-db', checkSecret,async (req, res) => {
+    try {
+      await sequelize.sync({ force: true });
+    //   await sequelize.sync({alter: true});
+      
+      res.status(200).send('Base de datos reiniciada correctamente.');
+    } catch (error) {
+      console.error('Error al reiniciar la base de datos:', error);
+      res.status(500).send('Error al reiniciar la base de datos.');
+    }
+  });
 export default toolsRouter;
 
 /**
@@ -43,7 +56,7 @@ export default toolsRouter;
  *                   location_tool:
  *                     type: string
  *                     example: "Pared Derecha" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -65,7 +78,7 @@ export default toolsRouter;
  *       - Tools
  *     parameters:
  *       - in: path
- *         name: "Example: /tools/details/3" 
+ *         name: id_tool
  *         schema:
  *           type: string
  *         required: true
@@ -246,17 +259,17 @@ export default toolsRouter;
  *       - Tools
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type 
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_tool', 'name_tool, 'status_tool' 'location_tool', 'repair_shop_tool'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
- *         description: "search_value indiqua el valor que deseamos buscar"
+ *         description: "search_value indiqua el valor que deseamos buscar (en el caso que el 'search_type' sea 'status_tool', los únicos valores válidos son 'Habilitado', 'En Arreglo', 'Inhabilitado', 'Perdido')"
  *     responses: 
  *       200: 
  *         description: "Se mostrarán las herramientas encontradas con los parámetros establecidos"
@@ -266,7 +279,7 @@ export default toolsRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/tools'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

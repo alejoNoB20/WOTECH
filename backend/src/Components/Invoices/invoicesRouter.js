@@ -113,7 +113,7 @@ export default invoicesRouter;
  *               type: array
  *               items:
  *                $ref: '#/components/schemas/invoices'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

@@ -7,7 +7,7 @@ let stockRouter = Router();
 stockRouter.get('/', stockController.verTodos);
 stockRouter.get('/details/:id_material', stockController.detallesMaterial);
 stockRouter.post('/create', stockValidations.createStock, stockController.crear);
-stockRouter.patch('disabled/:id_material', stockController.deshabilitar);
+stockRouter.patch('/disabled/:id_material', stockController.deshabilitar);
 stockRouter.delete('/delete/:id_material', stockController.borrar);
 stockRouter.patch('/update/:id_material', stockValidations.updateStock, stockController.actualizar);
 stockRouter.get('/search', stockValidations.searchStock, stockController.filtrar);
@@ -46,7 +46,7 @@ export default stockRouter;
  *                   measurement_material:
  *                     type: string
  *                     example: "Unidad" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -68,7 +68,7 @@ export default stockRouter;
  *       - Stock
  *     parameters:
  *       - in: path
- *         name: "Example: /stock/details/1" 
+ *         name: id_material
  *         schema:
  *           type: string
  *         required: true
@@ -107,12 +107,15 @@ export default stockRouter;
  *             schema:
  *               type: object
  *               properties:
- *                 id_material: 
+ *                 name_material: 
  *                   type: string
  *                   example: "Madera de pino"
  *                 measurement_material: 
  *                   type: string
- *                   example: "Cm"
+ *                   example: "cm"
+ *                 description: 
+ *                   type: string
+ *                   example: "El valor de 'measurement_material' solo puede ser 'cm' o 'unidad'"
  *       400:
  *         description: "Error datos mal ingresados por el usuario, el mensaje de error dependerá del dato erróneo"
  *         content:
@@ -245,13 +248,13 @@ export default stockRouter;
  *       - Stock
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_material', 'name_material, 'amount_material'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
@@ -265,7 +268,7 @@ export default stockRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/stock'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

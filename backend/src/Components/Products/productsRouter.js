@@ -51,7 +51,7 @@ export default productsRouter;
  *                   disabled:
  *                     type: boolean
  *                     example: false 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -73,7 +73,7 @@ export default productsRouter;
  *       - Products
  *     parameters:
  *       - in: path
- *         name: "Example: /products/details/2" 
+ *         name: id_product
  *         schema:
  *           type: string
  *         required: true
@@ -130,8 +130,8 @@ export default productsRouter;
  *                       name_tool:
  *                         type: string
  *                         example: "Amoladora"
- *       204:
- *         description: "Existen tres formas de mostrar el 204, cuando no hay stock registrado, cuando no hay herramientas registradas y cuando no hay ninguna de las dos en la db"
+ *       404:
+ *         description: "Existen tres formas de mostrar el 404, cuando no hay stock registrado, cuando no hay herramientas registradas y cuando no hay ninguna de las dos en la db"
  *         content: 
  *           application/json:
  *             schema:
@@ -442,7 +442,7 @@ export default productsRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/tools'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
