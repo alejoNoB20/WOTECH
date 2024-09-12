@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import { Tools } from "./toolsModels.js";
+import { Products } from '../Products/productsModels.js';
 import { try_catch } from "../../utils/try_catch.js";
 
 export class ToolsService {
@@ -11,22 +12,23 @@ export class ToolsService {
                 },
                 attributes: ['id_tool', 'name_tool', 'status_tool', 'location_tool']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, 'No se encontraron herramientas registradas en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron herramientas registradas en la base de datos', 204);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 302);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver las herramientas debido a una falla en el sistema');
         }
     }
     crearHerramienta = async (data) => {
         try{
-            const resultado = await Tools.create(data);
+            if(!data.status_tool) data.status_tool = 'Habilitado';
+            await Tools.create(data);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 201);
+            return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosmente', 201);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La creación de la herramienta falló');
         }
     }
     deshabilitarHerramienta = async (id_tool) => {
@@ -39,24 +41,24 @@ export class ToolsService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`La herramienta ID: ${id_tool} ha sido desabilitada con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES('La deshabilitación de la herramienta finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación de la herramienta falló');
         }
     }
     borrarHerramienta = async (id_tool) => {
         try {
-            const resultado = await Tools.destroy({
+            await Tools.destroy({
                 where: {
                     id_tool
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`La herramienta con ID: ${id_tool} fue eliminada con éxito`, 200);
+            return try_catch.SERVICE_TRY_RES('La eliminación de la herramietna finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación de la herramienta falló');
         }
     }
     updateTool = async (id_tool, data) => {
@@ -67,53 +69,48 @@ export class ToolsService {
                 }
             })
 
-            const respuesta = await this.filtrarHerramienta('id_tool', id_tool);
-
-            return try_catch.SERVICE_TRY_RES(respuesta.msg, 200);
+            return try_catch.SERVICE_TRY_RES('La actualización de la herramienta finalizó exitosamente', 200);
 
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'La actualización de la herramienta falló');
         }
     }
     filtrarHerramienta = async (type, value) => {
         try {
+            let objetoWhere = {};
+            
             if (type === 'id_tool' || type === 'status_tool' || type === 'nameToolValidator'){
                 if(type === 'nameToolValidator') type = 'name_tool';
-                const objetoWhere = {};
+
                 objetoWhere[type] = {
                     [Op.eq]: value
                 };
-                
-                const respuesta = await Tools.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
-                    }
-                })
-                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontro nada en la base de datos con ${type}: ${value}`, 404);
-
-                return try_catch.SERVICE_TRY_RES(respuesta, 302);
-
             } else {
-                const objetoWhere = {};
                 objetoWhere[type] = {
                     [Op.like]: `%${value}%` 
                 };
-                
-                const respuesta = await Tools.findAll({
-                    where: objetoWhere,
-                    attributes: {
-                        exclude: ['createdAt', 'updatedAt']
+            }
+            
+            const respuesta = await Tools.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Products,
+                    attributes: ['id_product', 'name_product'],
+                    through: {
+                        attributes: []
                     }
-                });
-                if(respuesta.length === 0) return try_catch.SERVICE_CATCH_RES(respuesta, `No se encontra nada en la base de datos con ${type}: ${value}`, 404);
+                },
+                order: [['disabled', 'ASC']]
+            })
+            if(respuesta.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 204);
 
-                return try_catch.SERVICE_TRY_RES(respuesta, 302);
-
-            };
-
+            return try_catch.SERVICE_TRY_RES(respuesta, 200);
+            
         }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err);
         }
     }
 };

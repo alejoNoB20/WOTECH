@@ -33,6 +33,8 @@ export const order_Products_association = sequelize.define('order_Products_assoc
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     }
+}, {
+    timestamps: false
 })
 
 Orders.belongsToMany(Products, {through: order_Products_association, foreignKey: 'id_order_fk'});

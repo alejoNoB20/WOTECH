@@ -1,5 +1,5 @@
-import {validatorResult} from '../../libs/validationLib.js';
-import {query, body} from 'express-validator';
+import { validatorResult } from '../../libs/validationLib.js';
+import { query, body } from 'express-validator';
 import { productsService } from './productsService.js';
 const Product = new productsService();
 
@@ -12,7 +12,7 @@ export const productValidator = {
             .isLength({max: 80}).withMessage('El NOMBRE permite un máximo de 80 caracteres')
             .custom(async (value, {req}) => {
                 const findTheSame = await Product.filtrarProducto('nameProductValidator', req.body.name_product);
-                if(findTheSame) throw new Error ('Ya existe un producto con el mismo nombre');
+                if(findTheSame.status === 302) throw new Error ('Ya existe un producto con el mismo nombre');
                 return true
             }),
         
@@ -63,7 +63,7 @@ export const productValidator = {
             .isLength({max: 80}).withMessage('El NOMBRE permite un máximo de 80 caracteres')
             .custom(async (value, {req}) => {
                 const findTheSameName = await Product.filtrarProducto('nameProductValidator', req.body.name_product);
-                if(findTheSameName && findTheSameName.id_product != req.params.id_product) throw new Error ('Ya existe un producto con el mismo nombre');
+                if(findTheSameName.status === 302 && findTheSameName.msg[0].id_product != req.params.id_product) throw new Error ('Ya existe un producto con el mismo nombre');
                 return true
             }),
         
@@ -111,7 +111,7 @@ export const productValidator = {
             .trim()
             .exists()
             .notEmpty().withMessage('El tipo de filtro es obligatorio para buscar en una lista').bail()
-            .isIn(['name_product', 'id_product', 'id_tool', 'id_material']).withMessage('El tipo de filtro no es válido'),
+            .isIn(['name_product', 'id_product']).withMessage('El tipo de filtro no es válido'),
 
         query('search_value')
             .exists()

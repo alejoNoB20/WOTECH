@@ -1,3 +1,4 @@
+import { try_catch } from "../../utils/try_catch.js";
 import { clientsService } from "./clientsService.js";
 const Clients = new clientsService();
 
@@ -5,69 +6,55 @@ export class clientsController {
     verTodos = async (req, res) => {
         try {
             const resultado = await Clients.verClientes(); 
-            if (resultado.length === 0){
-                res.status(404).json({title: 'Control de clientes', message: 'No se encontró ningun cliente en la base de datos'});
-            } else {
-                res.status(200).json({title: 'Control de clientes', resultado})
-            }
-        }catch (err) {
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
+    detalles = async (req, res) => {
+        try{
+            const resultado = await Clients.filtrarClientes('id_client', req.params.id_client);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }
     }
     crear = async (req, res) => {
         try{
             const resultado = await Clients.crearCliente(req.body);
-            res.status(200).json({title: 'Cliente creado con éxito', resultado});
-        } catch(err){
-            console.log(err);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            return try_catch.CATCH_RES(res, err);
         }
     }
-    borrar = async (req, res) => {
+    deshabilitar = async (req, res) => {
         try{
-            await Clients.borrarCliente(req.params);
-            res.status(200).json({title: `Cliente con ID: ${req.params.id_client} eliminado con éxito`});
-        }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});            
+            const respuesta = await Clients.deshabilitarCliente(req.params.id_client);
+            try_catch.TRY_RES(res, respuesta);
+
+        }catch(err) {
+            return try_catch.CATCH_RES(res, err);
         }
     }
-    paginaActualizar = async (req, res) => {
+    eliminar = async (req, res) => {
         try{
-            const resultado = await Clients.buscarUno(req.params.id_client);
-            res.status(200).json({title: 'Actualizar cliente', resultado})
+            const resultado = await Clients.eliminarCliente(req.params.id_client);
+            try_catch.TRY_RES(res, resultado);
+
         }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+            try_catch.CATCH_RES(res, err);
         }
     }
     actualizar = async (req, res) => {
         try {
             const resultado = await Clients.actualizarCliente(req.params.id_client, req.body);
-            res.status(200).json({title: 'Cliente actualizado correctamente', resultado});
+            try_catch.TRY_RES(res, resultado);
+            
         }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+            try_catch.CATCH_RES(res, err);            
         }
     }
     filtrar = async (req, res) => {

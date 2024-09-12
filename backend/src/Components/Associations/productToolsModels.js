@@ -9,6 +9,8 @@ export const product_Tools_association = sequelize.define('product_Tools_associa
         primaryKey: true,
         autoIncrement: true
     }
+}, {
+    timestamps: false
 })
 
 Products.belongsToMany(Tools, {through: product_Tools_association, foreignKey: {

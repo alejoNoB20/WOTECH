@@ -24,6 +24,10 @@ export const Products = sequelize.define('products', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    map_product: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     disabled: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

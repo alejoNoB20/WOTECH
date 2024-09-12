@@ -14,6 +14,8 @@ export const product_Stocks_association = sequelize.define('product_Stocks_assoc
         type: DataTypes.INTEGER,
         allowNull: true
     }
+}, {
+    timestamps: false
 })
 
 Stock.belongsToMany(Products, {through: product_Stocks_association, foreignKey: {

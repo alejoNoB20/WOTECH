@@ -1,14 +1,14 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/connection.js";
-import { supplier_materials_associations } from "../SupplierMaterials/suppliersMaterialsModels.js";
+import { supplier_materials_associations } from "./suppliersMaterialsModels.js";
 
-export const Purchase = sequelize.define('purchase', {
-    id_purchase: {
+export const PriceControl = sequelize.define('priceControl', {
+    id_price_control: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    id_supplier_material: {
+    id_material_supplier_fk: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -18,18 +18,19 @@ export const Purchase = sequelize.define('purchase', {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     },
-    unit_material: {
-        type: DataTypes.INTEGER,
+    register_price_control: {
+        type: DataTypes.FLOAT,
         allowNull: false
     }
 }, {
-    timestamps: false,
-    tableName: 'purchase'
+    createdAt: true,
+    updatedAt: false,
+    deletedAt: false
 });
 
-supplier_materials_associations.hasMany(Purchase, {foreignKey: 'id_supplier_material'});
+supplier_materials_associations.hasMany(PriceControl, {foreignKey: 'id_material_supplier_fk'});
 
-Purchase.belongsTo(supplier_materials_associations, {
-    foreignKey: 'id_supplier_material',
+PriceControl.belongsTo(supplier_materials_associations, {
+    foreignKey: 'id_material_supplier_fk',
     targetKey: 'id_supplier_material'
 });

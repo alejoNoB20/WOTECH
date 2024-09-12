@@ -68,9 +68,7 @@ export class productsController {
     }
     irAPaginaCrear = async (req, res) => {
         try {
-            const Materiales = await Stock.verStock();
-            const Herramientas = await Tool.verHerramientas();
-            const resultado = {Materiales, Herramientas};
+            const resultado = await Product.datosParaCreacion();
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -86,6 +84,15 @@ export class productsController {
             try_catch.CATCH_RES(res, err);
         }
     }
+    deshabilitar = async (req, res) => {
+        try{
+            const resultado = await Product.deshabilitarProducto(req.params.id_product);
+            try_catch.TRY_RES(res, resultado);
+
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
     eliminar = async (req, res) => {
         try{
             const resultado = await Product.eliminarProducto(req.params.id_product);
@@ -97,10 +104,7 @@ export class productsController {
     }
     irPaginaActualizar = async (req, res) => {
         try {
-            const Producto = await Product.filtrarProducto('id_product', req.params.id_product);
-            const Materiales = await Stock.verStock();
-            const Herramientas = await Tool.verHerramientas();
-            const resultado = {Producto, Herramientas, Materiales};
+            const resultado = await Product.datosParaActualizacion(req.params.id_product);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

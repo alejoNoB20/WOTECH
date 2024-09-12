@@ -44,5 +44,4 @@ export const Tools = sequelize.define('tools', {
 },
     {
         tableName: 'tools',
-        sequelize,
     })
