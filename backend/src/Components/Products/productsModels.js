@@ -35,5 +35,4 @@ export const Products = sequelize.define('products', {
     }
 }, {
     tableName:'products',
-    sequelize
 })

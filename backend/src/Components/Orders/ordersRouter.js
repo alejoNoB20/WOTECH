@@ -6,7 +6,7 @@ const OrderController = new orderController();
 
 ordersRouter.get('/', OrderController.verPedidos);
 ordersRouter.get('/details/:id_order', OrderController.detalles);
-ordersRouter.get('/getCreate', OrderController.detallesProductos);
+ordersRouter.get('/getProducts', OrderController.detallesProductos);
 ordersRouter.post('/create', ordersValidator.createOrUpdateOrder, OrderController.crear);
 ordersRouter.patch('/disabled/:id_order', OrderController.deshabilitar);
 ordersRouter.delete('/delete/:id_order', OrderController.borrar);
@@ -85,7 +85,7 @@ export default ordersRouter;
  *               type: string
  *               example: "Hubo un error interno en el servidor"
  * 
- * /products/getCreate:
+ * /orders/getProducts:
  *   get:
  *     summary: "Obtener los ID, NOMBRES y PRECIOS de los Productos cargadas en la db para que el usuario pueda elegir que contiene el Pedido (no incluye ningun Producto deshabilitado)"
  *     tags: 

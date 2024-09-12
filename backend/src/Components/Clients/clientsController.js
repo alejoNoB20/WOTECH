@@ -61,21 +61,11 @@ export class clientsController {
         try{
             const searchType = req.query.search_type;
             const searchValue = req.query.search_value;
-            const resultado = await Clients.filtrarBusqueda(searchType, searchValue);
+            const resultado = await Clients.filtrarClientes(searchType, searchValue);
+            try_catch.TRY_RES(res, resultado);
 
-            if(resultado.length === 0){
-                res.status(404).json({title: `No se encontró ningún resultado con "${searchType}" "${searchValue}"`})
-            } else {
-                res.status(200).json({title: `Resultado encontrado con "${searchType}" "${searchValue}"`, resultado})
-            }
-        }catch(err){
-            let errorObject = null;
-            try{
-                errorObject = JSON.parse(err.message);
-            } catch(errParse){
-                errorObject = {message: 'El error no se pudo manejar correctamente', redirect: '/', text: 'Volver al inicio'};
-            }
-            res.status(400).render('error', {error: errorObject.message, redirect: errorObject.redirect, text: errorObject.text});               
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
         }        
     }
 }

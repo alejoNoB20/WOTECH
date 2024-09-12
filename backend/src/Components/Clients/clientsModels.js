@@ -41,7 +41,7 @@ export const Clients = sequelize.define('clients', {
         allowNull: false
     },
     cuil_or_cuit_client: {
-        type: DataTypes.STRING(11),
+        type: DataTypes.STRING(13),
         unique: true,
         allowNull: true
     },
