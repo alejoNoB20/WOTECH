@@ -7,7 +7,6 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "mocha"
-
   },
   "dependencies": {
     "chai": "^5.1.1",
@@ -16,7 +15,9 @@
     "express-validator": "^7.1.0",
     "mysql2": "^3.9.7",
     "path": "^0.12.7",
+    "rewire": "^7.0.0",
     "sequelize": "^6.37.3",
+    "sinon": "^18.0.0",
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
