@@ -4,7 +4,7 @@ import './navBar.css'; // Importar los estilos personalizados
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import SearchBar from '../searchBar/searchBar';
+import SearchBar from 'components/searchBar/searchBar';
 const NavBar = ({ logged }) => {
   const handleSearch = (query) => {
     console.log('Search query:', query)

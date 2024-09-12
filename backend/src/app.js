@@ -36,8 +36,8 @@ import { clear } from 'console';
 
 const app = express();
 dotenv.config();
-
 app.use(cors());
+
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
