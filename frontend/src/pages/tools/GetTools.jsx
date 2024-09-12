@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import Loader from "../../components/loader/Loader"
-import ItemToolList from "../../components/itemToolList/itemToolList"
+import Loader from "components/loader/Loader"
+import ItemToolList from "components/itemToolList/itemToolList"
 
 const GetTools = () => {
   const [tools, setTools] = useState([])
@@ -8,9 +8,9 @@ const GetTools = () => {
   useEffect(() => {
     setLoading(true)
     const fetchData = () => {
-      fetch("https://wotech.onrender.com/tools")
+      fetch("http://192.168.0.40:8083/tools")
         .then((response) => response.json())
-        .then((response) => setTools(response.resultado))
+        .then((response) => setTools(response))
         .finally(() => setLoading(false))
     }
     fetchData()

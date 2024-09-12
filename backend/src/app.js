@@ -34,8 +34,8 @@ import invoicesRouter from './Components/Invoices/invoicesRouter.js';
 
 const app = express();
 dotenv.config();
+app.use(cors());
 
-app.use(cors())
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));

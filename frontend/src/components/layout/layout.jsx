@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from '../navBar/navBar';
-import Sidebar from '../sideBar/sidebar';
-import Footer from '../footer/footer';
+import NavBar from 'components/navBar/navBar';
+import Sidebar from 'components/sideBar/sidebar';
+import Footer from 'components/footer/footer';
 import { useLocation } from 'react-router-dom';
 const Layout = ({ children, logged }) => {
     const location = useLocation()

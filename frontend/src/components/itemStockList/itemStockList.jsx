@@ -1,4 +1,4 @@
-import ItemStock from "../itemStock/itemStock";
+import ItemStock from "components/itemStock/itemStock";
 import './itemStockList.css'
 const ItemList = ({ items }) => {
     return (
