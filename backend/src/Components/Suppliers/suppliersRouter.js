@@ -84,7 +84,7 @@ export default supplierRouter;
  *             schema:
  *               type: array
  *               items: 
- *                 $ref: '#/components/schemas/supplier'
+ *                 $ref: '#/components/schemas/suppliers'
  *       500:
  *         description: "Error en el servidor"
  *         content: 
@@ -270,7 +270,7 @@ export default supplierRouter;
  *             schema:
  *               type: array
  *               items: 
- *                 $ref: '#/components/schemas/supplier'
+ *                 $ref: '#/components/schemas/suppliers'
  *       404:
  *         description: "Datos no encontrados"
  *         content: 
@@ -315,7 +315,7 @@ export default supplierRouter;
  * 
  * components:
  *   schemas:
- *     supplier:
+ *     suppliers:
  *       type: object
  *       required:
  *         - name_company_supplier

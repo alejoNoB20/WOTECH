@@ -192,7 +192,7 @@ export default productsRouter;
  *                         example: 28
  *                 description:
  *                   type: string 
- *                   example: "El parámetro 'tools' es un array donde cada elemento es el ID de una herramienta y el parámetro 'stocks' es un array donde cada elemento es un objeto con las claves 'id': contiene el ID de un stock, 'how_much_content': contiene las cantidades de dicho stock que se van a utilizar para la creación del producto"
+ *                   example: "El parámetro 'tools' es un array donde cada elemento es el ID de una herramienta y el parámetro 'materials' es un array donde cada elemento es un objeto con las claves 'id': contiene el ID de un stock, 'how_much_content': contiene las cantidades de dicho stock que se van a utilizar para la creación del producto"
  *       400:
  *         description: "Error datos mal ingresados por el usuario, el mensaje de error dependerá del dato erróneo"
  *         content:

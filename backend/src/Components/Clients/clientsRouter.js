@@ -323,6 +323,7 @@ export default clientsRouter;
  *       required:
  *         - name_client
  *         - last_name_client
+ *         - dni_client
  *         - province_client
  *         - direction_client
  *         - phone_number_client
