@@ -1,4 +1,4 @@
-import { supplier_materials_associations } from "../SupplierMaterials/suppliersMaterialsModels.js";
+import { supplierStockAssociations } from "../SupplierMaterials/suppliersMaterialsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 

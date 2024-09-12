@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { supplierMaterialsController } from "./suppliersMaterialsController.js";
+import { supplierMaterialsValidator } from "./suppliersMaterialsValidator.js";
 const supplierMaterials = new supplierMaterialsController();
 let supplierMaterialsRouter = Router();
 
-supplierMaterialsRouter.post('/create', supplierMaterials.crear);
-supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterials.modificar);
+supplierMaterialsRouter.get('/:id_supplier', supplierMaterials.ver);
+supplierMaterialsRouter.post('/create', supplierMaterialsValidator.createAndUpdateSupplierMaterial, supplierMaterials.crear);
+supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterialsValidator.createAndUpdateSupplierMaterial, supplierMaterials.modificar);
 supplierMaterialsRouter.patch('/disabled/:id_supplier_material', supplierMaterials.deshabilitar);
 supplierMaterialsRouter.get('/priceControl/:id_supplier_material', supplierMaterials.controlPrecios);
 
@@ -13,6 +15,59 @@ export default supplierMaterialsRouter;
 
 /**
  * @swagger
+ * /suppliers/supplierMaterials/{id_supplier}:
+ *   get:
+ *     summary: "Obtener todos los materiales asociados a un proveedor (solo se verán los materiales habilitados)"
+ *     tags: 
+ *       - SupplierMaterials
+ *     parameters:
+ *       - in: path
+ *         name: id_supplier 
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: "ID del proveedor"
+ *     responses: 
+ *       200: 
+ *         description: "Lista de materiales asociados"
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties: 
+ *                   id_supplier_material: 
+ *                     type: integer
+ *                     example: 2
+ *                   id_material_fk: 
+ *                     type: integer
+ *                     example: 2
+ *                   amount_material: 
+ *                     type: integer
+ *                     example: 200
+ *                   price_material: 
+ *                     type: integer
+ *                     example: 3200
+ *                   name_material:
+ *                     type: string
+ *                     example: "Bisagras de Latón"
+ * 
+ *       404:
+ *         description: "Datos no encontrados"
+ *         content: 
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Este proveedor aún no tiene materiales asociados"
+ *       500:
+ *         description: "Error en el servidor"
+ *         content: 
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "No se pueden ver los materiales asociados debido a una falla en el sistema"
+ * 
  * /suppliers/supplierMaterials/create:
  *   post:
  *    summary: "Crear un nuevo material de proveedor"
@@ -30,10 +85,10 @@ export default supplierMaterialsRouter;
  *             schema:
  *               type: object
  *               properties:
- *                 id_material: 
+ *                 id_material_fk: 
  *                   type: integer
  *                   example: 1
- *                 id_supplier: 
+ *                 id_supplier_fk: 
  *                   type: integer
  *                   example: 2
  *                 amount_material: 
@@ -154,7 +209,7 @@ export default supplierMaterialsRouter;
  *       - SupplierMaterials
  *     parameters:
  *       - in: path
- *         name: "Example: /suppliers/supplierMaterials/priceControl/1" 
+ *         name: id_supplier_material
  *         schema:
  *           type: string
  *         required: true
@@ -178,7 +233,7 @@ export default supplierMaterialsRouter;
  *                   createdAt:
  *                     type: string
  *                     example: "2024-08-23T15:48:19.000Z"
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

@@ -6,11 +6,11 @@ let productsRouter = Router();
 
 productsRouter.get('/', ProductsController.verTodos);
 productsRouter.get('/details/:id_product', ProductsController.detallesProducto);
-productsRouter.get('/getCreate', ProductsController.irAPaginaCrear);
+productsRouter.get('/getStockAndTools', ProductsController.irAPaginaCrear);
 productsRouter.post('/create', productValidator.createProduct,ProductsController.crear);
 productsRouter.patch('/disabled/:id_product', ProductsController.deshabilitar);
 productsRouter.delete('/delete/:id_product', ProductsController.eliminar);
-productsRouter.get('/getUpdate/:id_product', ProductsController.irPaginaActualizar);
+productsRouter.get('/getDataForUpdate/:id_product', ProductsController.irPaginaActualizar);
 productsRouter.patch('/update/:id_product', productValidator.updateProduct, ProductsController.actualizar);
 productsRouter.get('/search/', productValidator.searchProduct, ProductsController.filtrar);
 
@@ -51,7 +51,7 @@ export default productsRouter;
  *                   disabled:
  *                     type: boolean
  *                     example: false 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -73,7 +73,7 @@ export default productsRouter;
  *       - Products
  *     parameters:
  *       - in: path
- *         name: "Example: /products/details/2" 
+ *         name: id_product
  *         schema:
  *           type: string
  *         required: true
@@ -95,7 +95,7 @@ export default productsRouter;
  *               type: string
  *               example: "Hubo un error interno en el servidor"
  * 
- * /products/getCreate:
+ * /products/getStockAndTools:
  *   get:
  *     summary: "Obtener los ID y NOMBRES del Stock y Herramientas cargadas en la db para que el usuario pueda elegir lo que sea necesario utilizar en la creación de un producto (no incluye ningun Stock o Herramienta deshabilitada)"
  *     tags: 
@@ -130,8 +130,8 @@ export default productsRouter;
  *                       name_tool:
  *                         type: string
  *                         example: "Amoladora"
- *       204:
- *         description: "Existen tres formas de mostrar el 204, cuando no hay stock registrado, cuando no hay herramientas registradas y cuando no hay ninguna de las dos en la db"
+ *       404:
+ *         description: "Existen tres formas de mostrar el 404, cuando no hay stock registrado, cuando no hay herramientas registradas y cuando no hay ninguna de las dos en la db"
  *         content: 
  *           application/json:
  *             schema:
@@ -179,7 +179,7 @@ export default productsRouter;
  *                   items:
  *                     type: integer
  *                   example: [1, 2, 3]
- *                 stocks: 
+ *                 materials: 
  *                   type: array
  *                   items:
  *                     type: object
@@ -270,7 +270,7 @@ export default productsRouter;
  *               type: string
  *               example: "La eliminación del producto falló" 
  * 
- * /products/getUpdate/{id_product}:
+ * /products/getDataForUpdate/{id_product}:
  *   get:
  *     summary: "Trae toda la información del producto a actualizar además de los ID y NOMBRES del Stock y Herramientas cargadas en la db para que el usuario pueda cambiar o agregar lo que sea necesario para la actualización de dicho producto (no incluye ningun Stock o Herramienta deshabilitada)"
  *     tags: 
@@ -442,7 +442,7 @@ export default productsRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/tools'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

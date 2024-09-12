@@ -6,7 +6,7 @@ const OrderController = new orderController();
 
 ordersRouter.get('/', OrderController.verPedidos);
 ordersRouter.get('/details/:id_order', OrderController.detalles);
-ordersRouter.get('/getCreate', OrderController.detallesProductos);
+ordersRouter.get('/getProducts', OrderController.detallesProductos);
 ordersRouter.post('/create', ordersValidator.createOrUpdateOrder, OrderController.crear);
 ordersRouter.patch('/disabled/:id_order', OrderController.deshabilitar);
 ordersRouter.delete('/delete/:id_order', OrderController.borrar);
@@ -41,7 +41,7 @@ export default ordersRouter;
  *                   price_order:
  *                     type: integer
  *                     example: "135000"
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -63,7 +63,7 @@ export default ordersRouter;
  *       - Orders
  *     parameters:
  *       - in: path
- *         name: "Example: /orders/details/7" 
+ *         name: id_order
  *         schema:
  *           type: string
  *         required: true
@@ -85,7 +85,7 @@ export default ordersRouter;
  *               type: string
  *               example: "Hubo un error interno en el servidor"
  * 
- * /products/getCreate:
+ * /orders/getProducts:
  *   get:
  *     summary: "Obtener los ID, NOMBRES y PRECIOS de los Productos cargadas en la db para que el usuario pueda elegir que contiene el Pedido (no incluye ningun Producto deshabilitado)"
  *     tags: 
@@ -109,7 +109,7 @@ export default ordersRouter;
  *                   price_product:
  *                     type: integer
  *                     example: 5000
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -297,13 +297,13 @@ export default ordersRouter;
  *       - Orders
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type 
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_order', 'id_client, 'shipping_address_order' 'delivery_day_order'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
@@ -317,7 +317,7 @@ export default ordersRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/orders'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

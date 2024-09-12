@@ -12,7 +12,7 @@ export class clientsService {
                 },
                 attributes: ['id_client', 'name_client', 'last_name_client', 'type_client']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron Clientes en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron Clientes en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -86,7 +86,7 @@ export class clientsService {
                     [Op.eq]: value
                 } 
             };
-
+            
             const resultado = await Clients.findAll({
                 where: objetoWhere,
                 attributes: {
@@ -94,13 +94,10 @@ export class clientsService {
                 },
                 include: {
                     model: Orders,
-                    where: {
-                        disabled: false
-                    },
                     attributes: ['id_order', 'delivery_day_order']
                 }
             })
-            if(!resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             

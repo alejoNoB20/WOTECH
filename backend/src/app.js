@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { updateDB, clearDB } from './database/connection.js';
 import { swaggerDoc } from './libs/swagger.js';
 import "./Components/Stock/stocksModels.js";
 import "./Components/Tools/toolsModels.js";
@@ -31,6 +32,7 @@ import supplierRouter from './Components/Suppliers/suppliersRouter.js';
 import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
 import purchasesRouter from './Components/Purchase/purchasesRouter.js';
 import invoicesRouter from './Components/Invoices/invoicesRouter.js';
+import { clear } from 'console';
 
 const app = express();
 dotenv.config();
@@ -51,10 +53,10 @@ app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
 app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running at port http://localhost:${process.env.PORT}`);
-  swaggerDoc(app, process.env.PORT);
-  });
-
-
-export default app;
+const server = app.listen(process.env.PORT, async () => {
+  console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
+  swaggerDoc(app, process.env.DB_SERVER_URL);
+  // await updateDB();
+});
+  
+export {app, server};

@@ -8,6 +8,16 @@ export const Orders = sequelize.define('orders', {
         primaryKey: true,
         autoIncrement: true
     },
+    id_client_fk: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Clients,
+            key: 'id_client'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    },
     shipping_address_order: {
         type: DataTypes.STRING(100),
         allowNull: true
@@ -27,12 +37,8 @@ export const Orders = sequelize.define('orders', {
     }
 }, {
     tableName: 'orders',
-    sequelize
 })
 
-Orders.belongsTo(Clients, {
-    foreignKey: 'id_client_fk',
-    targetKey: 'id_client'
-});
+Orders.belongsTo(Clients, {foreignKey: 'id_client_fk'});
 
 Clients.hasMany(Orders, {foreignKey: 'id_client_fk'});

@@ -10,12 +10,12 @@ export class invoicesService {
                 },
                 attributes: ['id_invoice', 'invoice']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se registran facturas de este proveedor', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se registran facturas de este proveedor', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             
         }catch(err) {
-            return try_catch.SERVICE_CATCH_RES(err);
+            return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver las factruas debido a una falla en el sistema');
         }
     }
     agregarFactura = async (data) => {

@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../database/connection.js";
-import { supplier_materials_associations } from "./suppliersMaterialsModels.js";
+import { supplierStockAssociations } from "./suppliersMaterialsModels.js";
 
 export const PriceControl = sequelize.define('priceControl', {
     id_price_control: {
@@ -9,10 +9,10 @@ export const PriceControl = sequelize.define('priceControl', {
         autoIncrement: true
     },
     id_material_supplier_fk: {
-        type: DataTypes.INTEGER,
+        type: DataTypes. INTEGER,
         allowNull: false,
         references: {
-            model: 'supplier_Materials_associations',
+            model: supplierStockAssociations,
             key: 'id_supplier_material'
         },
         onDelete: 'CASCADE',
@@ -28,9 +28,6 @@ export const PriceControl = sequelize.define('priceControl', {
     deletedAt: false
 });
 
-supplier_materials_associations.hasMany(PriceControl, {foreignKey: 'id_material_supplier_fk'});
+PriceControl.belongsTo(supplierStockAssociations, {foreignKey: 'id_material_supplier_fk'});
 
-PriceControl.belongsTo(supplier_materials_associations, {
-    foreignKey: 'id_material_supplier_fk',
-    targetKey: 'id_supplier_material'
-});
+supplierStockAssociations.hasMany(PriceControl, {foreignKey: 'id_material_supplier_fk'});

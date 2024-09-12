@@ -8,11 +8,11 @@ export const Invoices = sequelize.define('invoice', {
         primaryKey: true,
         autoIncrement: true
     },
-    id_supplier: {
+    id_supplier_fk: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'supplier',
+            model: Supplier,
             key: 'id_supplier'
         }, 
         onDelete: 'CASCADE',
@@ -31,9 +31,6 @@ export const Invoices = sequelize.define('invoice', {
     tableName: 'invoice'
 });
 
-Invoices.belongsTo(Supplier, {
-    foreignKey: 'id_supplier',
-    targetKey: 'id_supplier'
-});
+Invoices.belongsTo(Supplier, {foreignKey: 'id_supplier_fk'});
 
 Supplier.hasMany(Invoices, {foreignKey: 'id_supplier'});

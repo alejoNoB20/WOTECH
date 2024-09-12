@@ -41,7 +41,6 @@ export const Tools = sequelize.define('tools', {
         allowNull: false,
         defaultValue: false
     }
-},
-    {
-        tableName: 'tools',
-    })
+},{
+    tableName: 'tools',
+});

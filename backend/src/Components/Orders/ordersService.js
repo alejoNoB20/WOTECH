@@ -3,7 +3,7 @@ import { Products } from "../Products/productsModels.js";
 import { productsService } from "../Products/productsService.js";
 import { Clients } from "../Clients/clientsModels.js";
 import { Stock } from "../Stock/stocksModels.js"
-import { order_Products_association } from "../Associations/orderProductsModels.js";
+import { orderProductsAssociation } from "../Associations/orderProductsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 import { Op } from "sequelize";
 const Product = new productsService();
@@ -20,7 +20,7 @@ export class ordersService {
                     exclude: ['createdAt', 'updatedAt', 'shipping_address_order', 'id_client_fk', 'disabled']
                 }
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -34,7 +34,7 @@ export class ordersService {
                 attributes: ['id_product', 'name_product', 'price_product'],
                 order: [['name_product', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningun producto en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -72,7 +72,7 @@ export class ordersService {
                     });
                 };
 
-                await order_Products_association.create({
+                await orderProductsAssociation.create({
                         id_order_fk: resultado.id_order,
                         id_product_fk: product.id,
                         unit_product: product.unit_product
@@ -148,7 +148,7 @@ export class ordersService {
                     attributes: ['name_client'] 
                 }]
             })
-            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 204); 
+            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404); 
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -175,7 +175,7 @@ export class ordersService {
                 });
             };
 
-            const olderAssociation = await order_Products_association.findAll({
+            const olderAssociation = await orderProductsAssociation.findAll({
                 where: {
                     id_order_fk: id_order
                 }
@@ -213,7 +213,7 @@ export class ordersService {
                     };
                 };
 
-                await order_Products_association.destroy({
+                await orderProductsAssociation.destroy({
                     where: {
                         id_order_fk: id_order
                     }
@@ -240,7 +240,7 @@ export class ordersService {
                         });
                     };
     
-                    await order_Products_association.create({
+                    await orderProductsAssociation.create({
                         id_order_fk: id_order,
                         id_product_fk: product.id,
                         unit_product: product.unit_product

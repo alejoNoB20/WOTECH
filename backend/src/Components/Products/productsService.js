@@ -2,8 +2,8 @@ import { Op } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
 import { Tools } from "../Tools/toolsModels.js";
-import { product_Stocks_association } from "../Associations/productStocksModels.js";
-import { product_Tools_association } from "../Associations/productToolsModels.js";
+import { productStocksAssociation } from "../Associations/productStocksModels.js";
+import { productToolsAssociation } from "../Associations/productToolsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 
 
@@ -18,7 +18,7 @@ export class productsService {
                     exclude: ['createdAt', 'updatedAt', 'description_product']
                 },
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -40,9 +40,9 @@ export class productsService {
                 },
                 attributes: ['id_tool', 'name_tool']
             });
-            if(stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools}, 204);
-            if(tools.length === 0) return try_catch.SERVICE_TRY_RES({stock, tools: 'No se encontró ninguna herramienta en la base de datos'}, 204);
-            if(tools.length === 0 && stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools: 'No se encontró ninguna herramienta en la base de datos'}, 204);
+            if(stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools}, 404);
+            if(tools.length === 0) return try_catch.SERVICE_TRY_RES({stock, tools: 'No se encontró ninguna herramienta en la base de datos'}, 404);
+            if(tools.length === 0 && stock.length === 0) return try_catch.SERVICE_TRY_RES({stock: 'No se encontró ningún stock en la base de datos', tools: 'No se encontró ninguna herramienta en la base de datos'}, 404);
 
             return try_catch.SERVICE_TRY_RES({stock, tools}, 200);
 
@@ -64,14 +64,14 @@ export class productsService {
             });
 
             const promiseTool = tools.map(tool => {
-                return product_Tools_association.create({
+                return productToolsAssociation.create({
                     id_tool_fk: tool,
                     id_product_fk: newProduct.id_product  
                 }); 
 
             });
             const promiseMaterial = materials.map(material => {
-                return product_Stocks_association.create({
+                return productStocksAssociation.create({
                     id_material_fk: material.id,
                     how_much_contains_use: material.how_much_content,
                     id_product_fk: newProduct.id_product
@@ -144,7 +144,7 @@ export class productsService {
             const olderProduct = await this.filtrarProducto('id_product', id_product);
 
             const olderMaterials = olderProduct.msg[0].stocks.map(stock => {
-                return {id: stock.id_material, how_much_content: stock.product_Stocks_association.how_much_contains_use}
+                return {id: stock.id_material, how_much_content: stock.productStocksAssociation.how_much_contains_use}
             });
 
             const olderTools = olderProduct.msg[0].tools.map(tool => {
@@ -167,14 +167,14 @@ export class productsService {
             }
 
             if(JSON.stringify(tools) !== JSON.stringify(olderTools)){
-                await product_Tools_association.destroy({
+                await productToolsAssociation.destroy({
                     where: {
                         id_product_fk: id_product
                     }
                 });
     
                 const promiseTool = tools.map(id_tool_fk => {
-                    return product_Tools_association.create({
+                    return productToolsAssociation.create({
                         id_product_fk: id_product,
                         id_tool_fk
                     })
@@ -186,13 +186,13 @@ export class productsService {
 
             if(JSON.stringify(materials) !== JSON.stringify(olderMaterials)){
 
-                await product_Stocks_association.destroy({
+                await productStocksAssociations_association.destroy({
                     where:{
                         id_product_fk: id_product
                     }
                 });
                 const promiseMaterial = materials.map(material =>{
-                    return product_Stocks_association.create({
+                    return productStocksAssociations_association.create({
                         id_product_fk: id_product,
                         id_material_fk: material.id,
                         how_much_contains_use: material.how_much_content
@@ -243,7 +243,7 @@ export class productsService {
                 },
                 order: [['disabled', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada con ${type}: ${value} en la base de datos`, 204);
+            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada con ${type}: ${value} en la base de datos`, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 

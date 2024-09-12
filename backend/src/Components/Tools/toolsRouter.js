@@ -43,7 +43,7 @@ export default toolsRouter;
  *                   location_tool:
  *                     type: string
  *                     example: "Pared Derecha" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -65,7 +65,7 @@ export default toolsRouter;
  *       - Tools
  *     parameters:
  *       - in: path
- *         name: "Example: /tools/details/3" 
+ *         name: id_tool
  *         schema:
  *           type: string
  *         required: true
@@ -246,17 +246,17 @@ export default toolsRouter;
  *       - Tools
  *     parameters:
  *       - in: query
- *         name: "search_type" 
+ *         name: search_type 
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_tool', 'name_tool, 'status_tool' 'location_tool', 'repair_shop_tool'"
  *       - in: query
- *         name: "search_value" 
+ *         name: search_value 
  *         schema:
  *           type: string
  *         required: true
- *         description: "search_value indiqua el valor que deseamos buscar"
+ *         description: "search_value indiqua el valor que deseamos buscar (en el caso que el 'search_type' sea 'status_tool', los únicos valores válidos son 'Habilitado', 'En Arreglo', 'Inhabilitado', 'Perdido')"
  *     responses: 
  *       200: 
  *         description: "Se mostrarán las herramientas encontradas con los parámetros establecidos"
@@ -266,7 +266,7 @@ export default toolsRouter;
  *               type: array
  *               items: 
  *                 $ref: '#/components/schemas/tools'
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:

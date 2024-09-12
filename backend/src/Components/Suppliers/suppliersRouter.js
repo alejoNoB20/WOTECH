@@ -49,7 +49,7 @@ export default supplierRouter;
  *                   number_phone_distributor_supplier:
  *                     type: string
  *                     example: "341 512-3456" 
- *       204:
+ *       404:
  *         description: "Datos no encontrados"
  *         content: 
  *           text/plain:
@@ -71,7 +71,7 @@ export default supplierRouter;
  *       - Suppliers
  *     parameters:
  *       - in: path
- *         name: "Example: /suppliers/details/2" 
+ *         name: id_supplier 
  *         schema:
  *           type: string
  *         required: true
@@ -243,6 +243,75 @@ export default supplierRouter;
  *             schema:
  *               type: string
  *               example: "La actualización del proveedor falló"
+ * 
+ * /suppliers/search: 
+ *   get:
+ *     summary: "Filtro de busqueda, donde ingresando ciertos parámetros te va a devolver 1 o más proveedores (el body del response va a ser igual de completo que el /suppliers/details/{id_supplier})"
+ *     tags: 
+ *       - Suppliers
+ *     parameters:
+ *       - in: query
+ *         name: search_type 
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: "search_type indiqua el tipo de filtro, pueden ser: 'name_company_supplier', 'distributor_name_supplier"
+ *       - in: query
+ *         name: search_value 
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: "search_value indiqua el valor que deseamos buscar"
+ *     responses: 
+ *       200: 
+ *         description: "Se mostrarán los proveedores encontrados con los parámetros establecidos"
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items: 
+ *                 $ref: '#/components/schemas/supplier'
+ *       404:
+ *         description: "Datos no encontrados"
+ *         content: 
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "No se encontro nada en la base de datos con ${search_type}: ${serach_value}"
+ *       400:
+ *         description: "Error datos mal ingresados por el usuario, el mensaje de error dependerá del dato erróneo"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       type:
+ *                         type: string
+ *                         example: "field"
+ *                       value:
+ *                         type: string
+ *                         example: ""
+ *                       msg:
+ *                         type: string
+ *                         example: "El valor del filtro es obligatorio para buscar en una lista"
+ *                       path:
+ *                         type: string
+ *                         example: "search_value"
+ *                       location:
+ *                         type: string
+ *                         example: "query"
+ *       500:
+ *         description: "Error en el servidor"
+ *         content: 
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: "Hubo un error interno en el servidor"
  * 
  * components:
  *   schemas:
