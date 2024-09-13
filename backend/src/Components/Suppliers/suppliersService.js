@@ -98,12 +98,11 @@ export class supplierService {
                     model: Stock,
                     attributes:["id_material", "name_material"],
                     through: {
-                        attributes: ['amount_material', 'price_material', 'id_supplier']
+                        attributes: ['amount_material', 'price_material', 'id_supplier_fk']
                     }
                 },
                 order: [['disabled', 'ASC']]
             });
-
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);

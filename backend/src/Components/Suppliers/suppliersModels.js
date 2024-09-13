@@ -54,11 +54,11 @@ export const Supplier = sequelize.define('supplier', {
         allowNull: true
     },
     delivery_days_suppier: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING,
         allowNull: true
     },
     payment_method_supplier: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING,
         allowNull: true
     },
     disabled: {

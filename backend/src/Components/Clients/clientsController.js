@@ -41,7 +41,6 @@ export class clientsController {
     actualizar = async (req, res) => {
         try {
             const resultado = await Clients.actualizarCliente(req.params.dni_client, req.body);
-            console.log(resultado);
             
             return try_catch.TRY_RES(res, resultado)
         }catch(err){

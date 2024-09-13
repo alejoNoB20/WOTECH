@@ -35,10 +35,9 @@ import invoicesRouter from './Components/Invoices/invoicesRouter.js';
 import { clear } from 'console';
 
 const app = express();
-app.use(cors());
 dotenv.config();
-
 app.use(cors());
+
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -54,12 +53,10 @@ app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
 app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, async () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
-  swaggerDoc(app);
-  // updateDB -> ACTUALIZA LA BASE DE DATOS 
-  // updateDB();
-  });
-
-
-export default app;
+  swaggerDoc(app, process.env.DB_SERVER_URL);
+  // await updateDB();
+});
+  
+export {app, server};

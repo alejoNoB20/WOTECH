@@ -58,9 +58,6 @@ export class clientsService {
     }
     actualizarCliente = async (dni, newData) => {
         try{
-            console.log(newData);
-            console.log(dni);
-            
             const resultado = await Clients.update(newData, {
                 where: {
                     dni_client: dni
@@ -79,6 +76,8 @@ export class clientsService {
     }
     filtrarClientes = async (type, value) => {
         try{
+            
+            
             if (type === 'name_client' || type === 'last_name_client' || type === 'type_client'){
                     const objetoWhere = {};
                     objetoWhere[type] = {
@@ -97,8 +96,8 @@ export class clientsService {
                         dni_client: value
                     }
                 })
-                if(resultado.length === 0){
-                    return try_catch.SERVICE_CATCH_RES(404, `No se encontró ningún resultado con "${type}" "${value}"`)
+                if(!resultado){
+                    return try_catch.SERVICE_CATCH_RES(404, `No se encontró ningún resultado con "${type}" "${value}"`, 404)
                 }
                 return try_catch.SERVICE_TRY_RES(resultado, 200)
             }  

@@ -9,14 +9,7 @@ export class try_catch {
     static SERVICE_TRY_RES = (message, HTTP_CODE) => {
         return {status: HTTP_CODE, success: true, msg: message};
     };
-    static SERVICE_CATCH_RES = (err, message = 'Hubo un error interno en el servidor', HTTP_CODE = 500) => {
-        console.log('+++++++++++++++++++');
-
-        console.log(err);
-        console.log(message);
-        console.log(HTTP_CODE);
-        console.log('+++++++++++++++++++');
-        
+    static SERVICE_CATCH_RES = (err, message = 'Hubo un error interno en el servidor', HTTP_CODE = 500) => {        
         return {status: HTTP_CODE, success: false, msg: message};
     };
 };

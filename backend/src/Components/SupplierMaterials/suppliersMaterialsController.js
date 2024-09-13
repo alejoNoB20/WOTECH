@@ -3,6 +3,15 @@ import { try_catch } from "../../utils/try_catch.js";
 const supplierMaterials = new supplierMaterialsService();
 
 export class supplierMaterialsController {
+    ver = async (req, res) => {
+        try{
+            const resultado = await supplierMaterials.verMaterialesAsociados(req.params.id_supplier);
+            try_catch.TRY_RES(res, resultado);
+            
+        }catch(err) {
+            try_catch.CATCH_RES(res, err);
+        }
+    }
     crear = async (req, res) => {
         try{
             const resultado = await supplierMaterials.crearMaterial(req.body);

@@ -2,8 +2,8 @@ import { Op } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
 import { Tools } from "../Tools/toolsModels.js";
-import { product_Stocks_association } from "../Associations/productStocksModels.js";
-import { product_Tools_association } from "../Associations/productToolsModels.js";
+import { productStocksAssociation } from "../Associations/productStocksModels.js";
+import { productToolsAssociation } from "../Associations/productToolsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 
 
@@ -71,6 +71,10 @@ export class productsService {
 
             for(let i = 0; i < tools.length; i++){
                 const toolExists = await Tools.findOne({ where: { id_tool: tools[i] } });
+                console.log('//////////////////');
+                console.log(await Tools.findOne({}));
+                console.log('//////////////////');
+                
                 if (!toolExists) {
                     return try_catch.SERVICE_CATCH_RES(null, `La herramienta con ID ${tools[i]} no existe`, 404);
                 }
@@ -78,14 +82,14 @@ export class productsService {
             }
 
             const promiseTool = tools.map(tool => {
-                return product_Tools_association.create({
+                return productToolsAssociation.create({
                     id_tool_fk: tool,
                     id_product_fk: newProduct.id_product  
                 }); 
 
             });
             const promiseMaterial = materials.map(material => {
-                return product_Stocks_association.create({
+                return productStocksAssociation.create({
                     id_material_fk: material.id,
                     how_much_contains_use: material.how_much_content,
                     id_product_fk: newProduct.id_product
@@ -164,22 +168,26 @@ export class productsService {
     }
     actualizarProducto = async (id_product, newData) => {
         try{
+            console.log('*****************************');
+            
             const existingProduct = await Products.findOne({ where: { id_product: id_product } });
             
             if (!existingProduct) {
                 return try_catch.SERVICE_CATCH_RES(null, 'El producto no existe', 404); 
             }
+            console.log('2*****************************');
             
             const {tools, materials, ...data} = newData;
             const olderProduct = await this.filtrarProducto('id_product', id_product);
 
             const olderMaterials = olderProduct.msg[0].stocks.map(stock => {
-                return {id: stock.id_material, how_much_content: stock.product_Stocks_association.how_much_contains_use}
+                return {id: stock.id_material, how_much_content: stock.productStocksAssociation.how_much_contains_use}
             });
 
             const olderTools = olderProduct.msg[0].tools.map(tool => {
                 return tool.id_tool
             });;
+            console.log('3*****************************');
             
             const validationProduct = {'name_product': olderProduct.msg[0].name_product, 'img_product': olderProduct.msg[0].img_product, 'description_product': olderProduct.msg[0].description_product, 'price_product': olderProduct.msg[0].price_product};
 
@@ -195,16 +203,17 @@ export class productsService {
                 });
 
             }
+            console.log('4*****************************');
 
             if(JSON.stringify(tools) !== JSON.stringify(olderTools)){
-                await product_Tools_association.destroy({
+                await productToolsAssociation.destroy({
                     where: {
                         id_product_fk: id_product
                     }
                 });
     
                 const promiseTool = tools.map(id_tool_fk => {
-                    return product_Tools_association.create({
+                    return productToolsAssociation.create({
                         id_product_fk: id_product,
                         id_tool_fk
                     })
@@ -214,28 +223,32 @@ export class productsService {
 
             }
 
+            console.log('5*****************************');
+
             if(JSON.stringify(materials) !== JSON.stringify(olderMaterials)){
 
-                await product_Stocks_association.destroy({
+                await productStocksAssociation.destroy({
                     where:{
                         id_product_fk: id_product
                     }
                 });
                 const promiseMaterial = materials.map(material =>{
-                    return product_Stocks_association.create({
+                    return productStocksAssociation.create({
                         id_product_fk: id_product,
                         id_material_fk: material.id,
                         how_much_contains_use: material.how_much_content
                     })
                 });
-
+                
                 await Promise.all(promiseMaterial);
+                console.log('6*****************************');
 
             }
 
-            return try_catch.SERVICE_TRY_RES('La actualización del producto finalizó exitosamente', 200);
+            return try_catch.SERVICE_TRY_RES(200,'La actualización del producto finalizó exitosamente', 200);
             
         }catch(err) {
+            console.error('Error details:', err);
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del producto falló');
         }
     }
