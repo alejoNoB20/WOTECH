@@ -12,7 +12,7 @@ const ErrorModal = () => {
 
   const errorMessages = {
     500: 'Error en el servidor. Por favor, inténtalo de nuevo más tarde.',
-    400: 'Error de validaciones. Revisa los errores abajo.',
+    400: 'Algún campo ingresado está vacío o contiene carácteres prohibidos.',
     404: 'Error de registro no encontrado o URL no encontrada.',
   };
 
@@ -21,7 +21,7 @@ const ErrorModal = () => {
       <div className="bg-white w-11/12 max-w-md p-6 rounded-lg shadow-lg relative">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">
-            {errorType} - {errorMessages[errorType] || 'Error desconocido'}
+            Error {errorType}: {errorMessages[errorType] || 'Error desconocido'}
           </h2>
           <button
             onClick={closeModal}

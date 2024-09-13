@@ -1,16 +1,17 @@
 import React, { useState } from "react"
 import { useModal } from "context/modalContext"
+import { useNavigate } from "react-router-dom"
 const AddTool = () => {
   const { openModal } = useModal()
   const [createdTool, setCreatedTool] = useState(false)
   const [formData, setFormData] = useState({
     status_tool: "Habilitado",
   })
-
-  const mostrarError = () => {
+  const navigate = useNavigate()
+  const mostrarError = (httpErr, errors) => {
     openModal({
-      errorType: 400,
-      validationErrors: ['ASD', 'DSA']
+      errorType: httpErr,
+      validationErrors: errors,
     })
   }
   const handleChange = (e) => {
@@ -34,28 +35,30 @@ const AddTool = () => {
       },
       body: JSON.stringify(formData),
     })
-      .then((response) => response.json())
+      .then(async (response) => {
+        if (!response.ok) {
+          return response.json().then((err) => {
+            throw err
+          })
+        }
+        response.json()
+      })
       .then((data) => {
         setCreatedTool(true)
+      })
+      .catch((e) => {
+        const errors = e.errors.map((error) => error.msg)
+        mostrarError(400, errors)
       })
   }
 
   if (createdTool) {
-    return <h1>Hola</h1>
+    navigate(`/tools/updateTool/${createdTool}`)
   }
 
   return (
     <div className="max-w-xl mx-auto bg-gray-100 p-6 mt-10 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Ingresar herramienta</h2>
-      <div className="p-4">
-      <h1 className="text-xl font-bold">Otra Página</h1>
-      <button
-        onClick={mostrarError}
-        className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Mostrar Error de Validación
-      </button>
-    </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="name_tool" className="block text-gray-700">
@@ -68,7 +71,6 @@ const AddTool = () => {
             value={formData.name_tool || ""}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
           />
         </div>
         <div className="mb-4">
