@@ -65,16 +65,7 @@ describe('Orders Tests', () => {
         });
     });
     
-    describe('GET: Ver productos (con registros)', () => {
-        it('EP: /orders/getProducts Debería devolver una lista con los productos cargados en db con un status 200', async () => {
-            const response = await requester.get('/orders/getProducts');
-
-            expect(response.status).to.be.equal(200);
-            expect(response.body).to.be.an('array');
-            expect(response.body[0].name_product).to.be.equal('Mesa');
-        });        
-    });
-
+    
     describe('POST: Crear pedido', () => {
         it('EP: /orders/create Debería crear un nuevo proveedor en la db y devolver un status 201', async () => {
             const orderMock = {
@@ -86,15 +77,25 @@ describe('Orders Tests', () => {
                     "unit_product": 10
                 }]
             };
-
+            
             const response = await requester.post('/orders/create').send(orderMock);
             const amount_material_verification = await requester.get('/stock/details/1');
-
+            
             expect(response.status).to.be.equal(201);
             expect(response.body).to.be.equal('La creación del pedido finalizó exitosamente');
             expect(amount_material_verification.status).to.be.equal(200);
             expect(amount_material_verification.body[0].amount_material).to.be.equal(-280);
         });
+    });
+    
+    describe('GET: Ver productos (con registros)', () => {
+        it('EP: /orders/getProducts Debería devolver una lista con los productos cargados en db con un status 200', async () => {
+            const response = await requester.get('/orders/getProducts');
+
+            expect(response.status).to.be.equal(200);
+            expect(response.body).to.be.an('array');
+            expect(response.body[0].name_product).to.be.equal('Mesa');
+        });        
     });
 
     describe('GET: Ver pedidos (con registros)', () => {

@@ -2,16 +2,15 @@ import { try_catch } from '../../utils/try_catch.js';
 import { Invoices } from './invoicesModels.js';
 
 export class invoicesService {
-    verFacturas = async (id_supplier) => {
+    verFacturas = async (id_supplier_fk) => {
         try{
             const resultado = await Invoices.findAll({
                 where: {
-                    id_supplier
+                    id_supplier_fk
                 },
                 attributes: ['id_invoice', 'invoice']
             });
-            
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se registran facturas de este proveedor', 204);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se registran facturas de este proveedor', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             

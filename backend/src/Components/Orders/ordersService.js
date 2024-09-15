@@ -1,3 +1,4 @@
+
 import { Orders } from "./ordersModels.js";
 import { Products } from "../Products/productsModels.js";
 import { productsService } from "../Products/productsService.js";
@@ -61,7 +62,7 @@ export class ordersService {
                         attributes: ['amount_material']
                     });
                     
-                    const usedMaterial = stock.amount_material - product.unit_product * material.product_Stocks_association.how_much_contains_use;
+                    const usedMaterial = stock.amount_material - product.unit_product * material.productStocksAssociation.how_much_contains_use;
                     
                     await Stock.update({
                         amount_material: usedMaterial
@@ -201,7 +202,7 @@ export class ordersService {
                             attributes: ['amount_material']
                         });
                         
-                        const usedMaterial = stock.amount_material + Association.unit_product * material.product_Stocks_association.how_much_contains_use;
+                        const usedMaterial = stock.amount_material + Association.unit_product * material.productStocksAssociation.how_much_contains_use;
                         
                         await Stock.update({
                             amount_material: usedMaterial
@@ -229,7 +230,7 @@ export class ordersService {
                             attributes: ['amount_material']
                         });
                         
-                        const usedMaterial = stock.amount_material - product.unit_product * material.product_Stocks_association.how_much_contains_use;
+                        const usedMaterial = stock.amount_material - product.unit_product * material.productStocksAssociation.how_much_contains_use;
                         
                         await Stock.update({
                             amount_material: usedMaterial

@@ -1,3 +1,4 @@
+
 import { Op } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
@@ -52,15 +53,9 @@ export class productsService {
     }
     crearProducto = async (data) => {
         try {
-            
             const tools = data.tools;
             const materials = data.materials;
-            const existingProduct = await Products.findOne({ where: { name_product: data.name_product } });
-            console.log(existingProduct);
-            
-            if (existingProduct) {
-                return try_catch.SERVICE_CATCH_RES(null, 'El producto ya existe', 409); 
-            }
+
             const newProduct = await Products.create({
                 name_product: data.name_product,
                 img_product: data.img_product,
@@ -68,18 +63,6 @@ export class productsService {
                 price_product: data.price_product,
                 map_product: data.map_product
             });
-
-            for(let i = 0; i < tools.length; i++){
-                const toolExists = await Tools.findOne({ where: { id_tool: tools[i] } });
-                console.log('//////////////////');
-                console.log(await Tools.findOne({}));
-                console.log('//////////////////');
-                
-                if (!toolExists) {
-                    return try_catch.SERVICE_CATCH_RES(null, `La herramienta con ID ${tools[i]} no existe`, 404);
-                }
-
-            }
 
             const promiseTool = tools.map(tool => {
                 return productToolsAssociation.create({
@@ -95,7 +78,7 @@ export class productsService {
                     id_product_fk: newProduct.id_product
                 });
             });
-            // await Promise.all([...promiseTool, ...promiseMaterial]);
+            await Promise.all([...promiseTool, ...promiseMaterial]);
 
             return try_catch.SERVICE_TRY_RES('La creación del producto finalizó exitosamente', 201);
 
@@ -105,20 +88,14 @@ export class productsService {
     }
     deshabilitarProducto = async (id_product) => {
         try{
-            const existingProduct = await Products.findOne({ where: { id_product: id_product } });
-            
-            if (!existingProduct) {
-                return try_catch.SERVICE_CATCH_RES(null, 'El producto no existe', 204); 
-            }
             await Products.update({
-                disabled: 1
+                disabled: true
             }, {
                 where: {
-                    id_product: id_product
+                    id_product
                 }
             });
-            console.log(id_product);
-            
+
             return try_catch.SERVICE_TRY_RES('La deshabilitación del producto finalizó exitosamente', 200); 
 
         }catch(err) {
@@ -127,11 +104,6 @@ export class productsService {
     }
     eliminarProducto = async (id_product) => {
         try{
-            const existingProduct = await Products.findOne({ where: { id_product: id_product } });
-            
-            if (!existingProduct) {
-                return try_catch.SERVICE_CATCH_RES(null, 'El producto no existe', 404); 
-            }
             await Products.destroy({
                 where: {
                     id_product
@@ -168,16 +140,8 @@ export class productsService {
     }
     actualizarProducto = async (id_product, newData) => {
         try{
-            console.log('*****************************');
-            
-            const existingProduct = await Products.findOne({ where: { id_product: id_product } });
-            
-            if (!existingProduct) {
-                return try_catch.SERVICE_CATCH_RES(null, 'El producto no existe', 404); 
-            }
-            console.log('2*****************************');
-            
             const {tools, materials, ...data} = newData;
+
             const olderProduct = await this.filtrarProducto('id_product', id_product);
 
             const olderMaterials = olderProduct.msg[0].stocks.map(stock => {
@@ -187,7 +151,6 @@ export class productsService {
             const olderTools = olderProduct.msg[0].tools.map(tool => {
                 return tool.id_tool
             });;
-            console.log('3*****************************');
             
             const validationProduct = {'name_product': olderProduct.msg[0].name_product, 'img_product': olderProduct.msg[0].img_product, 'description_product': olderProduct.msg[0].description_product, 'price_product': olderProduct.msg[0].price_product};
 
@@ -201,9 +164,7 @@ export class productsService {
                         id_product
                     }
                 });
-
             }
-            console.log('4*****************************');
 
             if(JSON.stringify(tools) !== JSON.stringify(olderTools)){
                 await productToolsAssociation.destroy({
@@ -223,8 +184,6 @@ export class productsService {
 
             }
 
-            console.log('5*****************************');
-
             if(JSON.stringify(materials) !== JSON.stringify(olderMaterials)){
 
                 await productStocksAssociation.destroy({
@@ -239,25 +198,19 @@ export class productsService {
                         how_much_contains_use: material.how_much_content
                     })
                 });
-                
+
                 await Promise.all(promiseMaterial);
-                console.log('6*****************************');
 
             }
 
-            return try_catch.SERVICE_TRY_RES(200,'La actualización del producto finalizó exitosamente', 200);
+            return try_catch.SERVICE_TRY_RES('La actualización del producto finalizó exitosamente', 200);
             
         }catch(err) {
-            console.error('Error details:', err);
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del producto falló');
         }
     }
     filtrarProducto = async (type, value) => {
         try {
-            console.log(type);
-            console.log(value);
-            console.log(type === 'nameProductValidator');
-            
             let objetoWhere = {};
             if(type === 'id_product' || type === 'nameProductValidator'){
                 if(type === 'nameProductValidator') type = 'name_product';
@@ -299,5 +252,3 @@ export class productsService {
         }
     }
 }
-
-
