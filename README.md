@@ -2,7 +2,7 @@
 
 This is a project designed for a familiar carpentry
 ##  Team
-The sowftare was developed by three students of Software Development: Alejo Viviani, Taiel Sagretti and Nicolas Raffagnini.
+The software was developed by three students of Software Development: Alejo Viviani, Taiel Sagretti and Nicolas Raffagnini.
 
 | Member             | Role               | LinkedIn                                                                                               | GitHub                                                                                                                  |
 | ------------------ | ------------------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |

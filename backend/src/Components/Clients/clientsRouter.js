@@ -78,7 +78,7 @@ export default clientsRouter;
  *             schema:
  *               type: array
  *               items: 
- *                 $ref: '#/components/schemas/client'
+ *                 $ref: '#/components/schemas/clients'
  *       500:
  *         description: "Error en el servidor"
  *         content: 

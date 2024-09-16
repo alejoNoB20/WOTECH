@@ -1,9 +1,9 @@
 # INTRODUCCIÓN
-A lo largo de este Readme vas a enteder como trabaja el Back-End de nuestro proyecto y como configurarlo. 
-Sin nada más, empezemos!
+A lo largo de este Readme vas a entender como trabaja el Back-End de nuestro proyecto y como configurarlo. 
+Sin nada más, empecemos!
 
 ## Guía 
-Asumimos que el repositorio ya se encuentra clonado y estas dentro de la carpeta /backend.
+Asumimos que el repositorio ya se encuentra clonado y estás dentro de la carpeta /backend.
 
 ### 1. Instalar dependencias
 ```bash
@@ -23,7 +23,7 @@ DB_HOST= 'Server HOST'
 Para este proyecto usamos como gestor de DB MySQL y como ORM a Sequelize, necesitas conectarte a este tipo de DB.
 
 ### 4. Iniciar el servidor
-Si estas en Windows necesitas instalar un paquete gestor de base de datos como puede ser XAMPP, y iniciar la DB local MySQL (debes crear la DB antes de conectar con el backend porque en caso contrario no sincronizaras la DB), para luego conectar con el Back-End.
+Si estás en Windows necesitas instalar un paquete gestor de base de datos como puede ser XAMPP, y iniciar la DB local MySQL (debes crear la DB antes de conectar con el backend porque en caso contrario no sincronizaras la DB), para luego conectar con el Back-End.
 
 ### 5. Iniciar Wotech
 Puedes iniciarlo de 2 maneras:
@@ -38,7 +38,7 @@ npm run dev
 La diferencia entre ambos modos, es que 'dev' corre con nodemon y vigila cada cambio que puedes ejecutar en tu código en cambio 'start' no.
 
 ## Ya lo tienes. 
-Ya está todo listo para que empiezes a usar Wotech, para entender como funciona el sistema te brindaremos toda la information sobre los EndPoints.
+Ya está todo listo para que empiezes a usar Wotech, para entender como funciona el sistema te brindaremos toda la información sobre los EndPoints.
 
 # Veamos las rutas 
 
@@ -70,7 +70,7 @@ Ejemplo 2: localhost:8080/stock/update/1
 Devuelve una lista con todos los stock registrados.
 
 #### 1.2. ```/details/:id_material``` (Método: GET) 
-Muestra con mayor detalle las caracteristicas de un stock.
+Muestra con mayor detalle las características de un stock.
 
 #### 1.3. ```/create``` (Método: POST)
 Te permite crear un nuevo stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
@@ -81,7 +81,7 @@ EJEMPLO: {
   "measurement_material": "cm",
 }
 ```
-NOTA: El campo measurement_material solo permite los siguietnes valores: 'cm' y 'unidad'
+NOTA: El campo measurement_material solo permite los siguientes valores: 'cm' y 'unidad'
 
 #### 1.4. ```/disabled/:id_material``` (Método: PATCH)
 Con este endpoint puedes deshabilitar un stock.
@@ -93,11 +93,11 @@ Con este endpoint borras definitivamente un stock de la DB.
 Permite actualizar la información de un stock.
 
 #### 1.7. ```/search``` (Método: GET)
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de materiales en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de materiales en específico. Por ejemplo:
 ```
 search_type=name_material&search_value=wood
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'id_material', 'name_material', 'amount_material'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_material', 'name_material', 'amount_material'
 
 -search_value indica el valor de los que buscas.
     
@@ -108,7 +108,7 @@ search_type=name_material&search_value=wood
 Devuelve una lista con todos las herramientas registradas.
 
 #### 2.2. ```/details/:id_tool``` (Método: GET)
-Muestra con mayor detalle las caracteristicas de una herramienta.
+Muestra con mayor detalle las características de una herramienta.
 
 #### 2.3. ```/create``` (Método: POST)
 Te permite crear una nueva herramienta. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
@@ -132,11 +132,11 @@ Con este endpoint borras definitivamente una herramienta de la DB.
 Permite actualizar la información de una herramienta.
 
 #### 2.7. ```/search``` (Método: GET)
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de herramientas en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de herramientas en específico. Por ejemplo:
 ```
 search_type=name_tool&search_value=hammer
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'id_tool', 'name_tool', 'status_tool', 'location_tool', 'repair_shop_tool'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_tool', 'name_tool', 'status_tool', 'location_tool', 'repair_shop_tool'
 
 -search_value indica el valor de los que buscas.
 
@@ -176,7 +176,7 @@ Con este endpoint puedes deshabilitar un producto.
 Con este endpoint borras definitivamente un producto de la DB.
 
 #### 3.7. ```/details/:id_product``` (Método: GET)
-Muestra con mayor detalle las caracteristicas de un producto.
+Muestra con mayor detalle las características de un producto.
 
 #### 3.6. ```/getDataForUpdate/:id_product``` (Método: GET)
 Devuelve información necesaria sobre stock, tools y el producto en cuestión registradas en la DB para brindar al Front-End.
@@ -185,11 +185,11 @@ Devuelve información necesaria sobre stock, tools y el producto en cuestión re
 Permite actualizar la información de un producto.
 
 #### 3.9. ```/search``` (Método: GET)
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de productos en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de productos en específico. Por ejemplo:
 ```
 search_type=name_product&search_value=table
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'name_product', 'id_product'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_product', 'id_product'
 
 -search_value indica el valor de los que buscas.
 
@@ -213,7 +213,7 @@ EJEMPLO: {
 ```
 
 #### 4.3. ```/details/:dni_client``` (Método: GET)
-Muestra con mayor detalle las caracteristicas de un cliente.
+Muestra con mayor detalle las características de un cliente.
 
 #### 4.4.  ```disabled/:dni_client``` (Método: POST) 
 Con este endpoint puedes deshabilitar un cliente.
@@ -225,11 +225,11 @@ Con este endpoint borras definitivamente un cliente de la DB.
 Permite actualizar la información de un cliente.
 
 #### 4.7. ```/search``` (Método: GET) 
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de clientes en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de clientes en específico. Por ejemplo:
 ```
 search_type=name_cliente&search_value=John
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'name_client', 'last_name_client', 'id_client', 'dni_client', 'cuil_or_cuit_client', 'type_client'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_client', 'last_name_client', 'id_client', 'dni_client', 'cuil_or_cuit_client', 'type_client'
 
 -search_value indica el valor de los que buscas.
 
@@ -242,7 +242,7 @@ Devuelve una lista con todos los pedidos registrados.
 Devuelve información necesaria sobre los productos registradas en la DB para brindar al Front-End.
 
 #### 5.3. ```/create``` (Método: POST)
-Te permite crear un nuevo pedido el cual tiendo en cuenta los materiales que son necesarios para su creación, restando automáticamente la cantidad total de nuestro stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
+Te permite crear un nuevo pedido el cual teniendo en cuenta los materiales que son necesarios para su creación, restando automáticamente la cantidad total de nuestro stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
 ```
 EJEMPLO: {
@@ -257,7 +257,7 @@ EJEMPLO: {
   ]
 }
 ```
-NOTA: El parámetro 'products' es un array en el cual sus items son objetos, cada objeto contiene 'id': id del producto, 'price_product': precio del producto, 'unit_product': las cantidades del producto dentro del pedido
+NOTA: El parámetro 'products' es un array en el cual sus items son objetos, cada objeto contiene 'id': id del producto, 'price_product': precio del producto, 'unit_product': las cantidades del producto en el pedido
 
 #### 5.4. ```/disabled/:id_order``` (Método: PATCH)
 Con este endpoint puedes deshabilitar una pedido.
@@ -266,17 +266,17 @@ Con este endpoint puedes deshabilitar una pedido.
 Con este endpoint borras definitivamente un pedido de la DB.
 
 #### 5.6. ```/details/:id_order``` (Método: GET)
-Muestra con mayor detalle las caracteristicas de un pedido.
+Muestra con mayor detalle las características de un pedido.
 
 #### 5.7. ```/update/:id_order``` (Método: PATCH)
 Permite actualizar la información de un pedido.
 
 #### 5.8. ```/search``` (Método: GET)
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de pedido en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de pedido en específico. Por ejemplo:
 ```
 search_type=id_order&search_value=1
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'id_order', 'id_client', 'shipping_address_order' ,'delivery_day_order'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_order', 'id_client', 'shipping_address_order' ,'delivery_day_order'
 
 -search_value indica el valor de los que buscas.
 
@@ -303,22 +303,22 @@ Con este endpoint puedes deshabilitar una proveedor.
 Con este endpoint borras definitivamente un proveedor de la DB.
 
 #### 6.5. ```/details/id_supplier``` (Método: GET)
-Muestra con mayor detalle las caracteristicas de un proveedor.
+Muestra con mayor detalle las características de un proveedor.
 
 #### 6.6. ```/update/:id_supplier``` (Método: PATCH)
 Permite actualizar la información de un proveedor.
 
 #### 6.7. ```/search``` (Método: GET)
-Filtro de busqueda, que mediante el uso de querys devuelve una lista de proveedores en específico. Por ejemplo:
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de proveedores en específico. Por ejemplo:
 ```
-search_type=name_company_supplier&PepsiCo
+search_type=name_company_supplier&search_value=PepsiCo  
 ```
--search_type indica el campo de tipo de busqueda, permite los siguientes valores: 'name_company_supplier', 'distributor_name_supplier'
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_company_supplier', 'distributor_name_supplier'  
 
 -search_value indica el valor de los que buscas.
 
 ## 7. suppliers/suppliersMaterials
-Esta ruta se utiliza para interactuar con los materiales que vende cada proveedor
+Esta ruta se utiliza para interactuar con los materiales que vende cada proveedor.
 
 #### 7.1. ```/:id_supplier``` (Método: GET)
 Devuelve una lista con todos los materiales asociados a un proveedor registrados.
@@ -481,4 +481,4 @@ cuil_or_cuit_client
 disabled
 ```
 
-Esto es todo lo que trae implementado Wotech (por el momento) así que estas listo para empezar a usarlo!
+Esto es todo lo que trae implementado Wotech (por el momento) así que estás listo para empezar a usarlo!

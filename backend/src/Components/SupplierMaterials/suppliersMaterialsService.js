@@ -40,25 +40,25 @@ export class supplierMaterialsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La creación del material de proveedor falló');
         }
     }
-    modificarMaterial = async (id_supplier_material_fk, data) => {
+    modificarMaterial = async (id_supplier_material, data) => {
         try{
             const material = await supplierStockAssociations.findOne({
                 where: {
-                    id_supplier_material_fk
+                    id_supplier_material
                 },
                 attributes: ['amount_material', 'price_material', 'id_supplier_fk']
             });
 
             if(material.price_material != data.price_material){
                 await PriceControl.create({
-                    id_material_supplier_fk,
+                    id_material_supplier_fk: id_supplier_material,
                     register_price_control: material.price_material
                 })
             };
 
             supplierStockAssociations.update(data, {
                 where: {
-                    id_supplier_material_fk
+                    id_supplier_material
                 }
             });
             

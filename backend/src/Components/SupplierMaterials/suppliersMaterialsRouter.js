@@ -263,7 +263,7 @@ export default supplierMaterialsRouter;
  *           example: 1
  *         id_supplier_fk: 
  *           type: integer
- *           example: 2
+ *           example: 2                                
  *         amount_material: 
  *           type: integer
  *           example: 500

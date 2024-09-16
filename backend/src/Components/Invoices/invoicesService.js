@@ -2,11 +2,11 @@ import { try_catch } from '../../utils/try_catch.js';
 import { Invoices } from './invoicesModels.js';
 
 export class invoicesService {
-    verFacturas = async (id_supplier) => {
+    verFacturas = async (id_supplier_fk) => {
         try{
             const resultado = await Invoices.findAll({
                 where: {
-                    id_supplier
+                    id_supplier_fk
                 },
                 attributes: ['id_invoice', 'invoice']
             });
