@@ -78,7 +78,7 @@ export default clientsRouter;
  *             schema:
  *               type: array
  *               items: 
- *                 $ref: '#/components/schemas/client'
+ *                 $ref: '#/components/schemas/clients'
  *       500:
  *         description: "Error en el servidor"
  *         content: 
@@ -323,6 +323,7 @@ export default clientsRouter;
  *       required:
  *         - name_client
  *         - last_name_client
+ *         - dni_client
  *         - province_client
  *         - direction_client
  *         - phone_number_client

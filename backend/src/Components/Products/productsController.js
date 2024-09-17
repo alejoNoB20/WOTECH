@@ -61,6 +61,7 @@ export class productsController {
     detallesProducto = async (req, res) => {
         try {
             const resultado = await Product.filtrarProducto('id_product', req.params.id_product);
+            
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

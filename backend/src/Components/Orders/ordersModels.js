@@ -39,6 +39,6 @@ export const Orders = sequelize.define('orders', {
     tableName: 'orders',
 })
 
-Orders.belongsTo(Clients, {foreignKey: 'id_client_fk'});
-
 Clients.hasMany(Orders, {foreignKey: 'id_client_fk'});
+
+Orders.belongsTo(Clients, {foreignKey: 'id_client_fk'});

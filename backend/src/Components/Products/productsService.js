@@ -1,3 +1,4 @@
+
 import { Op } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
@@ -163,7 +164,6 @@ export class productsService {
                         id_product
                     }
                 });
-
             }
 
             if(JSON.stringify(tools) !== JSON.stringify(olderTools)){
@@ -186,13 +186,13 @@ export class productsService {
 
             if(JSON.stringify(materials) !== JSON.stringify(olderMaterials)){
 
-                await productStocksAssociations_association.destroy({
+                await productStocksAssociation.destroy({
                     where:{
                         id_product_fk: id_product
                     }
                 });
                 const promiseMaterial = materials.map(material =>{
-                    return productStocksAssociations_association.create({
+                    return productStocksAssociation.create({
                         id_product_fk: id_product,
                         id_material_fk: material.id,
                         how_much_contains_use: material.how_much_content
@@ -252,5 +252,3 @@ export class productsService {
         }
     }
 }
-
-

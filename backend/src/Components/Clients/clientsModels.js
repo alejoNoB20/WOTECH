@@ -18,7 +18,7 @@ export const Clients = sequelize.define('clients', {
     dni_client: {
         type: DataTypes.STRING(8),
         unique: true,
-        allowNull: true
+        allowNull: false
     },
     province_client: {
         type: DataTypes.STRING,

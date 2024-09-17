@@ -29,7 +29,7 @@ export default invoicesRouter;
  *             schema:
  *               type: object
  *               properties:
- *                 id_supplier: 
+ *                 id_supplier_fk: 
  *                   type: integer
  *                   example: 1
  *                 invoice: 
@@ -139,7 +139,7 @@ export default invoicesRouter;
  *         id_invoice: 
  *           type: integer
  *           example: 1
- *         id_supplier: 
+ *         id_supplier_fk: 
  *           type: integer
  *           example: 2
  *         invoice: 

@@ -253,16 +253,17 @@ export default supplierMaterialsRouter;
  *     supplierMaterials:
  *       type: object
  *       required:
- *         - id_supplier
+ *         - id_material_fk
+ *         - id_supplier_fk
  *         - amount_material
  *         - price_material
  *       properties:
- *         id_material: 
+ *         id_material_fk: 
  *           type: integer
  *           example: 1
- *         id_supplier: 
+ *         id_supplier_fk: 
  *           type: integer
- *           example: 2
+ *           example: 2                                
  *         amount_material: 
  *           type: integer
  *           example: 500
