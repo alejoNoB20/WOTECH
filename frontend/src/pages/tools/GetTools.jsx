@@ -1,20 +1,64 @@
 import React, { useEffect, useState } from "react"
 import Loader from "components/loader/Loader"
 import ItemToolList from "components/itemToolList/itemToolList"
+import { useLocation } from "react-router-dom"
+import { useModal } from "context/modalContext"
 
 const GetTools = () => {
   const [tools, setTools] = useState([])
   const [loading, setLoading] = useState(true)
+  const location = useLocation()
+  const { openModal } = useModal()
+
   useEffect(() => {
-    setLoading(true)
-    const fetchData = () => {
-      fetch("http://192.168.0.40:8083/tools")
-        .then((response) => response.json())
-        .then((response) => setTools(response))
-        .finally(() => setLoading(false))
+    const fetchData = async () => {
+      setLoading(true)
+
+      const queryParams = new URLSearchParams(location.search)
+      const query = queryParams.get("search_type") || "" 
+      const option = queryParams.get("search_value") || ""
+
+      let url = "http://192.168.0.40:8083/tools"
+      
+      if (query && option) {
+        url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`
+      }
+
+      const mostrarError = (httpErr, errors) => {
+        openModal({
+          errorType: httpErr,
+          validationErrors: errors,
+        })
+      }
+
+      try {
+        const response = await fetch(url)
+        const resp = await response.json()
+
+        
+        if (!response.ok) {
+          if (response.status === 400) {
+            const errors = resp.errors.map((error) => error.msg)
+            mostrarError(response.status, errors)
+            return
+          }
+          if (response.status === 404) {
+            mostrarError(response.status, [resp])
+            return
+          }
+        }
+
+        setTools(resp)
+      } catch (error) {
+        console.error("Error en el fetch:", error)
+      } finally {
+        setLoading(false) 
+      }
     }
-    fetchData()
-  }, [])
+
+    fetchData() 
+  }, [location.search]) 
+
   return <>{loading ? <Loader /> : <ItemToolList tools={tools} />}</>
 }
 

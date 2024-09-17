@@ -28,32 +28,72 @@ const AddTool = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await fetch("http://192.168.0.40:8083/tools/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          return response.json().then((err) => {
-            throw err
-          })
+
+    try {
+      const response = await fetch("http://192.168.0.40:8083/tools/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+      const convertedResp = await response.json()
+      if(!response.ok){
+        if(response.status === 400){
+          const errors = convertedResp.errors.map((error)=> error.msg)
+          mostrarError(response.status, errors)
+          return
         }
-        response.json()
-      })
-      .then((data) => {
-        setCreatedTool(true)
-      })
-      .catch((e) => {
-        const errors = e.errors.map((error) => error.msg)
-        mostrarError(400, errors)
-      })
+        if(response.status === 404){
+          mostrarError(response.status, [convertedResp])
+          return
+        }
+        
+      }
+      if(response.status === 201){
+        navigate('/tools/gettools')
+      }
+      if(response.status === 500){
+        console.log(response)
+      }
+    } catch (error) {
+      
+    }
+
+    // await fetch("http://192.168.0.40:8083/tools/create", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then(async (response) => {
+    //     if (!response.ok) {
+    //       return response.json().then((err) => {
+    //         throw err
+    //       })
+    //     }
+    //     response.json()
+    //   })
+    //   .then((data) => {
+    //     setCreatedTool(true)
+    //   })
+    //   .catch((e) => {
+    //     const errors = e.errors.map((error) => error.msg)
+    //     console.log(errors)
+    //     mostrarError(400, errors)
+    //   })
   }
 
   if (createdTool) {
-    navigate(`/tools/updateTool/${createdTool}`)
+    const fetchData = async () => {
+      const response = await fetch("http://192.168.0.40:8083/tools/gettools")
+      const resp = await response.json()
+      return resp
+    }
+    console.log(fetchData())
+
+    // navigate(`/tools/updateTool/${resp}`)
   }
 
   return (

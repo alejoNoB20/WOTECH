@@ -9,7 +9,7 @@ const ErrorModal = () => {
   if (!showModal) return null;
 
   const { errorType, validationErrors = [] } = modalProps;
-
+  console.log(validationErrors)
   const errorMessages = {
     500: 'Error en el servidor. Por favor, inténtalo de nuevo más tarde.',
     400: 'Algún campo ingresado está vacío o contiene carácteres prohibidos.',
@@ -31,7 +31,7 @@ const ErrorModal = () => {
           </button>
         </div>
 
-        {errorType === 400 && validationErrors.length > 0 && (
+        {validationErrors.length > 0 && (
           <ul className="list-disc list-inside text-red-500 text-sm mb-4">
             {validationErrors.map((error, index) => (
               <li key={index}>{error}</li>

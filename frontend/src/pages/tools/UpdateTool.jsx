@@ -42,6 +42,7 @@ const UpdateTool = () => {
     .then(async response => {
       if (!response.ok) {
         return response.json().then(err => {
+          console.log(err)
           throw err
         })
       }
