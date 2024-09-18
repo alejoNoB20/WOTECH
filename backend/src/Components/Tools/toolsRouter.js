@@ -336,6 +336,9 @@ export default toolsRouter;
  *         name_tool:
  *           type: string
  *           example: "Amoladora"
+ *         img_tool:
+ *           type: string
+ *           example: "url de la imagen de la herramienta..."
  *         description_tool:
  *           type: string
  *           example: "Amoladora marca BOSCH" 
