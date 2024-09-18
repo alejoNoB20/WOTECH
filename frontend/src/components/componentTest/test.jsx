@@ -1,28 +1,27 @@
-// OtraPagina.js
-import React from "react"
-import { useModal } from "context/modalContext"
+// App.js
+import { useNotifications } from 'context/notificationsContext';
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Test = () => {
-  const { openModal } = useModal()
+function TestComponent() {
+  const notify = useNotifications();
 
-  const mostrarError = () => {
-    openModal({
-      errorType: 400,
-      validationErrors: ["Nombre es requerido", "El email no es válido"],
-    })
-  }
+  const handleSuccess = () => {
+    notify('success', '¡Operación exitosa!');
+  };
+
+  const handleFail = () => {
+    notify('fail', '¡Algo salió mal!');
+  };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold">Otra Página</h1>
-      <button
-        onClick={mostrarError}
-        className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-      >
-        Mostrar Error de Validación
-      </button>
+    <div>
+      <h1>Home Page</h1>
+      <button onClick={handleSuccess}>Mostrar Éxito</button>
+      <button onClick={handleFail}>Mostrar Error</button>
     </div>
-  )
+  );
 }
 
-export default Test
+export default TestComponent;

@@ -13,7 +13,7 @@ export const Products = sequelize.define('products', {
         allowNull: false
     },
     img_product: {
-        type: DataTypes.TEXT('medium'),
+        type: DataTypes.STRING,
         allowNull: true
     },
     description_product: {

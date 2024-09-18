@@ -7,6 +7,10 @@ export const Tools = sequelize.define('tools', {
         primaryKey: true,
         autoIncrement: true
     },
+    img_tool: {
+        type: DataTypes.STRING,
+        allowNull:true
+    },
     name_tool: {
         type: DataTypes.STRING(50),
         unique: true,

@@ -39,9 +39,10 @@ const UpdateTool = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(tool),
     })
-    .then(response => {
+    .then(async response => {
       if (!response.ok) {
         return response.json().then(err => {
+          console.log(err)
           throw err
         })
       }
@@ -79,9 +80,9 @@ const UpdateTool = () => {
       case "En Arreglo":
         return "text-blue-600"
       case "Perdido":
-        return "text-gray-600"
+        return "text-gray-400"
       default:
-        return "text-gray-600"
+        return "text-gray-400"
     }
   }
 

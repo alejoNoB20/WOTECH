@@ -1,8 +1,6 @@
 import { purchaseService } from "./purchasesService.js";
-import { supplierService } from "../Suppliers/suppliersService.js";
 import { try_catch } from "../../utils/try_catch.js";
 const Purchase = new purchaseService();
-const Supplier = new supplierService(); 
 
 export class purchaseController {
     venta = async (req, res) => {

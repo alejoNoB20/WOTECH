@@ -18,9 +18,11 @@ export const updateDB = async () => {
 
 export const clearDB = async () => {
     try{
-        await sequelize.sync({force: true});
+        await sequelize.drop();
+        await sequelize.sync({ force: true });
         console.log('DB Reiniciada correctamente!');
     }catch(err) {
         console.log('Error a la hora de reiniciar la DB: ', err);
     }
 };
+
