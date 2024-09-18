@@ -1,19 +1,24 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react"
+import { useNavigate } from "react-router-dom"
 
 const ItemTool = ({ tool }) => {
-  const { name_tool, status_tool, location_tool, id_tool } = tool;
-  const navigate = useNavigate();
+  const { name_tool, status_tool, location_tool, id_tool, img_url } = tool
+  const navigate = useNavigate()
 
   const handleToolClick = (id) => {
-    navigate(`/tools/updatetool/${id}`);
-  };
+    navigate(`/tools/updatetool/${id}`)
+  }
 
   // Ajuste para manejar los diferentes colores según el estado
   const statusColor =
-    status_tool === "Habilitado" ? "text-green-600" : status_tool === "Deshabilitado"
-      ? "text-red-600" : status_tool === "En arreglo"
-      ? "text-blue-600": "";
+    status_tool === "Habilitado"
+      ? "text-green-600"
+      : status_tool === "Inhabilitado"
+      ? "text-red-600"
+      : status_tool === "En Arreglo"
+      ? "text-blue-600"
+      : status_tool === "Perdido" ? "text-gray-400"
+      : ""
 
   return (
     <div
@@ -22,7 +27,7 @@ const ItemTool = ({ tool }) => {
     >
       <div className="flex-2">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"
+          src={img_url ||"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"}
           alt={name_tool}
           className="object-cover w-full h-full"
         />
@@ -39,7 +44,7 @@ const ItemTool = ({ tool }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ItemTool;
+export default ItemTool
