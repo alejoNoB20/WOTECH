@@ -1,0 +1,6 @@
+input[readonly] {
+    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo oscurecido */
+}
+textarea[readonly] {
+    background-color: rgba(0, 0, 0, 0.1); /* Color de fondo oscurecido */
+}

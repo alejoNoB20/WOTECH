@@ -15,13 +15,15 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1",
     "react-scripts": "^5.0.1",
+    "react-toastify": "^10.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clean": "rimraf ./build && rimraf ./.cache && rimraf ./node_modules/.cache"
   },
   "eslintConfig": {
     "extends": [
