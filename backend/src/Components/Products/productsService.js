@@ -1,4 +1,3 @@
-
 import { Op } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
@@ -6,6 +5,7 @@ import { Tools } from "../Tools/toolsModels.js";
 import { productStocksAssociation } from "../Associations/productStocksModels.js";
 import { productToolsAssociation } from "../Associations/productToolsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
+import { uploadImage } from "../../libs/Cloudinary.js";
 
 
 export class productsService {
@@ -16,7 +16,7 @@ export class productsService {
                     disabled: false
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'description_product']
+                    exclude: ['createdAt', 'updatedAt', 'description_product', 'map_product']
                 },
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 404);
@@ -53,6 +53,30 @@ export class productsService {
     }
     crearProducto = async (data) => {
         try {
+            // Clodinary Module - Products
+            let imageError = {status: false};
+            if(!data.img_product){
+                data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+            }else {
+                const saveImage = await uploadImage(data.img_product, 'Productos');
+                if(saveImage.success){
+                    data.img_product = saveImage.msg;
+                }else {
+                    imageError = {status: true, msg: 'La creación del producto finalizó exitosamente, pero ocurrió un error al querer guardar la imagen del producto'};
+                    data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+                };
+            };
+            
+            // Clodinary Module - Map_products
+            if(data.map_product){
+                const saveImage = await uploadImage(data.map_product, 'Planos_Productos');
+                if(saveImage.success){
+                    data.map_product = saveImage.msg;
+                }else {
+                    imageError = {status: true, msg: 'La creación del producto finalizó exitosamente, pero ocurrió un error al querer guardar el plano del producto'};
+                };
+            };
+
             const tools = data.tools;
             const materials = data.materials;
 
@@ -80,7 +104,11 @@ export class productsService {
             });
             await Promise.all([...promiseTool, ...promiseMaterial]);
 
-            return try_catch.SERVICE_TRY_RES('La creación del producto finalizó exitosamente', 201);
+            if(!imageError.status){
+                return try_catch.SERVICE_TRY_RES('La creación del producto finalizó exitosamente', 201);
+            }else {
+                return try_catch.SERVICE_TRY_RES(imageError.msg, 500);                  
+            };
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La creación del producto falló');
@@ -140,7 +168,29 @@ export class productsService {
     }
     actualizarProducto = async (id_product, newData) => {
         try{
+            let imageError = {status: false};
             const {tools, materials, ...data} = newData;
+
+            // Clodinary Module - Producuts
+            if(data.img_product !== "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"){
+                const saveImage = await uploadImage(data.img_product, 'Productos');
+                    if(saveImage.success){
+                        data.img_product = saveImage.msg;
+                    }else {
+                        imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar la imagen del producto'};
+                        data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+                    };
+            };         
+            
+            // Clodinary Module - Map_products
+            if(data.map_product){
+                const saveImage = await uploadImage(data.map_product, 'Planos_Productos');
+                if(saveImage.success){
+                    data.map_product = saveImage.msg;
+                }else {
+                    imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar el plano del producto'};
+                };
+            };
 
             const olderProduct = await this.filtrarProducto('id_product', id_product);
 
@@ -203,7 +253,11 @@ export class productsService {
 
             }
 
-            return try_catch.SERVICE_TRY_RES('La actualización del producto finalizó exitosamente', 200);
+            if(!imageError.status){
+                return try_catch.SERVICE_TRY_RES('La actualización del producto finalizó exitosamente', 200);
+            }else {
+                return try_catch.SERVICE_TRY_RES(imageError.msg, 500);                
+            };
             
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del producto falló');

@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { Tools } from "./toolsModels.js";
 import { Products } from '../Products/productsModels.js';
 import { try_catch } from "../../utils/try_catch.js";
+import { uploadImage } from "../../libs/Cloudinary.js";
 
 export class ToolsService {
     verHerramientas = async () => {
@@ -10,7 +11,7 @@ export class ToolsService {
                 where: {
                     disabled: false
                 },
-                attributes: ['id_tool', 'name_tool', 'status_tool', 'location_tool']
+                attributes: ['id_tool', 'name_tool', 'img_tool', 'status_tool', 'location_tool']
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron herramientas registradas en la base de datos', 404);
 
@@ -22,10 +23,29 @@ export class ToolsService {
     }
     crearHerramienta = async (data) => {
         try{
+            let imageError = false;
             if(!data.status_tool) data.status_tool = 'Habilitado';
+
+            // Clodinary Module
+            if(!data.img_tool){
+                data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+            }else {
+                const saveImage = await uploadImage(data.img_tool, 'Herramientas');
+                if(saveImage.success){
+                    data.img_tool = saveImage.msg;
+                }else {
+                    imageError = true;
+                    data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+                };
+            };
+
             await Tools.create(data);
 
-            return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosmente', 201);
+            if (!imageError){
+                return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosmente', 201);
+            }else {
+                return try_catch.SERVICE_TRY_RES('La creación de la herramienta finalizó exitosamente, pero ocurrió un error al querer guardar la imagen', 500);                
+            };
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La creación de la herramienta falló');
@@ -63,13 +83,32 @@ export class ToolsService {
     }
     updateTool = async (id_tool, data) => {
         try {
+            let imageError = false;
+
+            // Clodinary Module
+            if(!data.img_tool){
+                data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+            }else {
+                const saveImage = await uploadImage(data.img_tool, 'Herramientas');
+                    if(saveImage.success){
+                        data.img_tool = saveImage.msg;
+                    }else {
+                        imageError = true;
+                        data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+                    };
+            };
+
             await Tools.update(data, {
                 where: {
                     id_tool
                 }
-            })
-
-            return try_catch.SERVICE_TRY_RES('La actualización de la herramienta finalizó exitosamente', 200);
+            });
+            
+            if(!imageError){
+                return try_catch.SERVICE_TRY_RES('La actualización de la herramienta finalizó exitosamente', 200);
+            }else {
+                return try_catch.SERVICE_TRY_RES('La actualización de la herramienta finalizó exitosamente, pero ocurrió un error al querer guardar la imagen', 500);                
+            }
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización de la herramienta falló');
