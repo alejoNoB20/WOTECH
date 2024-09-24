@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useModal } from "context/modalContext"
 import { useNavigate } from "react-router-dom"
 import { useNotifications } from "context/notificationsContext"
+
 const AddTool = () => {
   const { openModal } = useModal()
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const AddTool = () => {
   })
   const navigate = useNavigate()
   const notify = useNotifications()
+
   const mostrarError = (httpErr, errors) => {
     openModal({
       errorType: httpErr,
@@ -18,17 +20,21 @@ const AddTool = () => {
   }
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setFormData({
-      ...formData,
-      [name]:
-        type === "checkbox"
-          ? checked
-            ? "Habilitado"
-            : "Deshabilitado"
-          : value,
-    })
+    const { name, value, type, checked, files } = e.target
+
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0]
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? (checked ? "Habilitado" : "Deshabilitado") : value,
+      })
+    }
   }
+
   const handleSuccess = () => {
     notify("success", "¡Operación exitosa!")
   }
@@ -36,17 +42,30 @@ const AddTool = () => {
   const handleFail = () => {
     notify("fail", "¡Algo salió mal!")
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const data = new FormData()
+    for (const key in formData){
+      if(formData.hasOwnProperty(key) && key !== "img_tool"){
+        const value = formData[key]
+        if(value !== undefined){
+          data.append(key, value)
+        }
+      }
+    }
+
+    if (formData.img_tool) {
+      data.append("img_tool", formData.img_tool)
+    }
 
     try {
       const response = await fetch("http://localhost:8080/tools/create", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data
       })
+
       const convertedResp = await response.json()
       if (!response.ok) {
         if (response.status === 400) {
@@ -61,6 +80,7 @@ const AddTool = () => {
           return
         }
       }
+
       if (response.status === 201) {
         handleSuccess()
         navigate("/tools/gettools")
@@ -69,7 +89,10 @@ const AddTool = () => {
         handleFail()
         navigate("/tools/gettools")
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error:", error)
+      handleFail()
+    }
   }
 
   return (
@@ -110,7 +133,7 @@ const AddTool = () => {
               type="checkbox"
               id="status_tool"
               name="status_tool"
-              checked={formData.status_tool || false}
+              checked={formData.status_tool === "Habilitado"}
               onChange={handleChange}
               className="my-2 ml-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
@@ -119,7 +142,7 @@ const AddTool = () => {
 
         <div className="mb-4">
           <label htmlFor="location_tool" className="block text-gray-700">
-            Ubicacion
+            Ubicación
           </label>
           <input
             type="text"
@@ -131,19 +154,20 @@ const AddTool = () => {
             required
           />
         </div>
+
         <div className="mb-4">
-          <label htmlFor="location_tool" className="block text-gray-700">
+          <label htmlFor="img_tool" className="block text-gray-700">
             Imagen:
           </label>
           <input
             type="file"
             id="img_tool"
             name="img_tool"
-            value={formData.img_tool || ""}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
+
         <button
           type="submit"
           className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

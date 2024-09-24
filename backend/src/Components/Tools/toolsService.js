@@ -30,7 +30,9 @@ export class ToolsService {
             if(!data.img_tool){
                 data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
+
                 const saveImage = await uploadImage(data.img_tool, 'Herramientas');
+
                 if(saveImage.success){
                     data.img_tool = saveImage.msg;
                 }else {

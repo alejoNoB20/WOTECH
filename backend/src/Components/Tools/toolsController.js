@@ -1,5 +1,6 @@
 import { ToolsService } from "./toolsService.js"
 import { try_catch } from "../../utils/try_catch.js"
+import { uploadImage } from "../../libs/Cloudinary.js"
 const Tool = new ToolsService()
 
 // ---EXAMPLE 1---
@@ -48,8 +49,10 @@ export class ToolsController {
   }
   pushHerramienta = async (req, res) => {
     try {
-      if (req.body.img_tool) {
-        req.body.img_tool = req.body.img_tool.replace(/\\/g, '/')
+      if(req.file){
+        const b64 = Buffer.from(req.file.buffer).toString("base64")
+        let dataURI = "data:" + req.file.mimetype + ";base64," + b64
+        req.body.img_tool = dataURI
       }
 
       const resultado = await Tool.crearHerramienta(req.body)
