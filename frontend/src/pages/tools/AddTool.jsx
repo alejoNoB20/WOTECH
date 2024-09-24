@@ -1,19 +1,22 @@
 import React, { useState } from "react"
 import { useModal } from "context/modalContext"
 import { useNavigate } from "react-router-dom"
+import { useNotifications } from "context/notificationsContext"
 const AddTool = () => {
   const { openModal } = useModal()
-  const [createdTool, setCreatedTool] = useState(false)
   const [formData, setFormData] = useState({
     status_tool: "Habilitado",
+    img_tool: null
   })
   const navigate = useNavigate()
+  const notify = useNotifications()
   const mostrarError = (httpErr, errors) => {
     openModal({
       errorType: httpErr,
       validationErrors: errors,
     })
   }
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setFormData({
@@ -26,11 +29,18 @@ const AddTool = () => {
           : value,
     })
   }
+  const handleSuccess = () => {
+    notify("success", "¡Operación exitosa!")
+  }
+
+  const handleFail = () => {
+    notify("fail", "¡Algo salió mal!")
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-      const response = await fetch("http://192.168.0.40:8083/tools/create", {
+      const response = await fetch("http://localhost:8080/tools/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,62 +48,28 @@ const AddTool = () => {
         body: JSON.stringify(formData),
       })
       const convertedResp = await response.json()
-      if(!response.ok){
-        if(response.status === 400){
-          const errors = convertedResp.errors.map((error)=> error.msg)
+      if (!response.ok) {
+        if (response.status === 400) {
+          const errors = convertedResp.errors.map((error) => error.msg)
           mostrarError(response.status, errors)
+          handleFail()
           return
         }
-        if(response.status === 404){
+        if (response.status === 404) {
           mostrarError(response.status, [convertedResp])
+          handleFail()
           return
         }
-        
       }
-      if(response.status === 201){
-        navigate('/tools/gettools')
+      if (response.status === 201) {
+        handleSuccess()
+        navigate("/tools/gettools")
       }
-      if(response.status === 500){
-        console.log(response)
+      if (response.status === 500) {
+        handleFail()
+        navigate("/tools/gettools")
       }
-    } catch (error) {
-      
-    }
-
-    // await fetch("http://192.168.0.40:8083/tools/create", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then(async (response) => {
-    //     if (!response.ok) {
-    //       return response.json().then((err) => {
-    //         throw err
-    //       })
-    //     }
-    //     response.json()
-    //   })
-    //   .then((data) => {
-    //     setCreatedTool(true)
-    //   })
-    //   .catch((e) => {
-    //     const errors = e.errors.map((error) => error.msg)
-    //     console.log(errors)
-    //     mostrarError(400, errors)
-    //   })
-  }
-
-  if (createdTool) {
-    const fetchData = async () => {
-      const response = await fetch("http://192.168.0.40:8083/tools/gettools")
-      const resp = await response.json()
-      return resp
-    }
-    console.log(fetchData())
-
-    // navigate(`/tools/updateTool/${resp}`)
+    } catch (error) {}
   }
 
   return (
@@ -111,6 +87,7 @@ const AddTool = () => {
             value={formData.name_tool || ""}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            required
           />
         </div>
         <div className="mb-4">
@@ -152,6 +129,19 @@ const AddTool = () => {
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="location_tool" className="block text-gray-700">
+            Imagen:
+          </label>
+          <input
+            type="file"
+            id="img_tool"
+            name="img_tool"
+            value={formData.img_tool || ""}
+            onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <button

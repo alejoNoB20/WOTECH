@@ -2,7 +2,7 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 
 const ItemTool = ({ tool }) => {
-  const { name_tool, status_tool, location_tool, id_tool, img_url } = tool
+  const { name_tool, status_tool, location_tool, id_tool, img_tool } = tool
   const navigate = useNavigate()
 
   const handleToolClick = (id) => {
@@ -27,7 +27,7 @@ const ItemTool = ({ tool }) => {
     >
       <div className="flex-2">
         <img
-          src={img_url ||"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"}
+          src={img_tool ||"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"}
           alt={name_tool}
           className="object-cover w-full h-full"
         />

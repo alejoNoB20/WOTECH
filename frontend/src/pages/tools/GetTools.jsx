@@ -57,7 +57,7 @@ const GetTools = () => {
     }
 
     fetchData() 
-  }, [location.search]) 
+  }, [location.search, openModal]) 
 
   return <>{loading ? <Loader /> : <ItemToolList tools={tools} />}</>
 }

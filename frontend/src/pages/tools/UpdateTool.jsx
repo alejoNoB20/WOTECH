@@ -33,7 +33,6 @@ const UpdateTool = () => {
   }
 
   const handleUpdate = async () => {
-    console.log(tool.repair_date_tool)
     await fetch(`${process.env.REACT_APP_API_URL}/tools/update/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -42,7 +41,6 @@ const UpdateTool = () => {
     .then(async response => {
       if (!response.ok) {
         return response.json().then(err => {
-          console.log(err)
           throw err
         })
       }
@@ -52,9 +50,10 @@ const UpdateTool = () => {
       console.log('Datos recibidos:', data)
     })
     .catch(error => {
-      error.errors.forEach(err => {
-        console.log(`Error en ${err.location}: ${err.msg}`)
-      })
+      console.log(error)
+      // error.errors.forEach(err => {
+      //   console.log(`Error en ${err.location}: ${err.msg}`)
+      // })
     })
   }
 
@@ -98,7 +97,7 @@ const UpdateTool = () => {
               <div className="flex justify-center mb-6">
                 <img
                   src={
-                    tool.tool_img_url ||
+                    tool.img_tool ||
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"
                   }
                   alt={tool.name_tool || "Imagen de la herramienta"}
@@ -252,16 +251,16 @@ const UpdateTool = () => {
                   <div>
                     <label
                       className="block text-gray-700 text-sm font-semibold mb-2"
-                      htmlFor="tool_img_url"
+                      htmlFor="img_tool"
                     >
                       URL de imagen:
                     </label>
                     <input
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-                      id="tool_img_url"
-                      name="tool_img_url"
+                      id="img_tool"
+                      name="img_tool"
                       type="text"
-                      value={tool.tool_img_url || ""}
+                      value={tool.img_tool || ""}
                       onChange={handleChange}
                     />
                   </div>
