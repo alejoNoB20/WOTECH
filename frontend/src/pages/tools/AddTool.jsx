@@ -61,7 +61,7 @@ const AddTool = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/tools/create", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tools/create`, {
         method: "POST",
         body: data
       })

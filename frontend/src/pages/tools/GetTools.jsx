@@ -18,7 +18,7 @@ const GetTools = () => {
       const query = queryParams.get("search_type") || "" 
       const option = queryParams.get("search_value") || ""
 
-      let url = "http://192.168.0.40:8083/tools"
+      let url = `${process.env.REACT_APP_API_URL}/tools`
       
       if (query && option) {
         url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`

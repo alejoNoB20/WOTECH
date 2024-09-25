@@ -14,7 +14,7 @@ const UpdateTool = () => {
   useEffect(() => {
     setLoading(true)
     const fetchData = () => {
-      fetch(`http://192.168.0.40:8083/tools/details/${id}`)
+      fetch(`${process.env.REACT_APP_API_URL}/tools/details/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setTool(response[0])
