@@ -37,9 +37,6 @@ export default stockRouter;
  *                   name_material:
  *                     type: string
  *                     example: "Clavos 15mm"
- *                   description_material:
- *                     type: string
- *                     example: "Comprado en Pedro SRL" 
  *                   amount_material:
  *                     type: integer
  *                     example: 250
@@ -346,7 +343,7 @@ export default stockRouter;
  *             name_product:
  *               type: string
  *               example: "Ropero Grande"
- *             product_Stocks_association: 
+ *             productStocksAssociation: 
  *               type: object
  *               properties:
  *                 how_much_contains_use:

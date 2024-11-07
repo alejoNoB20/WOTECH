@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-import ItemList from '../../components/itemStockList/itemStockList'
-import Loader from "../../components/loader/Loader"
-
-
+import ItemList from 'components/itemStockList/itemStockList'
+import Loader from "components/loader/Loader"
 
 const GetStock = () => {
     const [items, setItems] = useState([])
@@ -11,9 +9,9 @@ const GetStock = () => {
     useEffect(() => {
         setLoading(true)
         const fetchData = () => {
-            fetch('https://wotech.onrender.com/stock')
+            fetch(`${process.env.REACT_APP_API_URL}/stock`)
                 .then(response => response.json())
-                .then(response => setItems(response.resultado))
+                .then(response => setItems(response))
                 .finally(()=> setLoading(false))
         }
         fetchData()

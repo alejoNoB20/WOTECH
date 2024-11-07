@@ -53,24 +53,14 @@ export const stockValidations = {
                         throw new Error('El nombre del stock permite un máximo de 50 caracteres')
                     }
                 }
-<<<<<<< HEAD:backend/src/validations/stockValidators.js
-                if(req.query.search_type !== "name_material"){
-                    if(!Number(value) || (value % 1) !== 0){
-                        throw new Error('Los campos ID - CANTIDAD - PRECIO DE COMPRA solo reciben números enteros')
-=======
                 if(req.query.search_type === 'id_material' || req.query.search_type === 'amount_material'){
                     const valueFloat = parseFloat(value);
                     if(!Number.isInteger(valueFloat) || valueFloat < 1){
                         throw new Error('Los campos CANTIDAD - ID solo reciben números enteros')
->>>>>>> developer:backend/src/Components/Stock/stockValidators.js
                     }
                 }
                 return true
             }),
-<<<<<<< HEAD:backend/src/validations/stockValidators.js
-=======
-
->>>>>>> developer:backend/src/Components/Stock/stockValidators.js
             (req, res, next) =>{
                 validatorResult(req, res, next);
             }

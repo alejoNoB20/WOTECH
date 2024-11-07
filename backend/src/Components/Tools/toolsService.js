@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import { Tools } from "./toolsModels.js";
 import { Products } from '../Products/productsModels.js';
 import { try_catch } from "../../utils/try_catch.js";
-import { uploadImage } from "../../libs/Cloudinary.js";
+import { uploadImage, destroyImage } from "../../libs/Cloudinary.js";
 
 export class ToolsService {
     verHerramientas = async () => {
@@ -84,17 +84,28 @@ export class ToolsService {
     updateTool = async (id_tool, data) => {
         try {
             let imageError = false;
+            let beforeUpdateImg;
 
             // Clodinary Module
             if(!data.img_tool){
                 data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
+                const toolUpdate = await Tools.findByPk(id_tool, {
+                    attributes: ['img_tool']
+                });
+                beforeUpdateImg = toolUpdate.img_tool;
+
                 const saveImage = await uploadImage(data.img_tool, 'Herramientas');
                     if(saveImage.success){
+                        console.log(saveImage.msg)
+                        console.log(beforeUpdateImg)
+                        if(beforeUpdateImg !== saveImage.msg){
+                            await destroyImage(beforeUpdateImg);
+                        };
                         data.img_tool = saveImage.msg;
                     }else {
                         imageError = true;
-                        data.img_tool = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+                        data.img_tool = beforeUpdateImg || 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
                     };
             };
 

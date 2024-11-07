@@ -169,12 +169,23 @@ export class productsService {
     actualizarProducto = async (id_product, newData) => {
         try{
             let imageError = {status: false};
+            let beforeUpdateImg;
             const {tools, materials, ...data} = newData;
 
             // Clodinary Module - Producuts
-            if(data.img_product !== "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"){
+            if(!data.img_product){
+                data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
+            }else {
+                const productUpdate = await Products.findByPk(id_product, {
+                    attributes: ['img_product']
+                });
+                beforeUpdateImg = productUpdate.img_product;
+
                 const saveImage = await uploadImage(data.img_product, 'Productos');
                     if(saveImage.success){
+                        if(beforeUpdateImg !== saveImage.msg){
+                            await destroyImage(beforeUpdateImg);
+                        };
                         data.img_product = saveImage.msg;
                     }else {
                         imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar la imagen del producto'};

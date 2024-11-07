@@ -7,11 +7,8 @@ const ItemList = ({ items }) => {
                 <tr>
                     <th className="text-left">ID</th>
                     <th className="text-left">Nombre</th>
-                    <th className="text-left">Descripcion</th>
-                    <th className="text-left">Cantidad por unidad</th>
-                    <th className="text-left">Contiene</th>
-                    <th className="text-left">Cantidad total</th>
-                    <th className="text-left">Precio por unidad</th>
+                    <th className="text-left">Cantidades</th>
+                    <th className="text-left">Unidad de medida</th>
                 </tr>
             </thead>
             <tbody className="table-hover">

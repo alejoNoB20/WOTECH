@@ -14,7 +14,7 @@ const UpdateTool = () => {
   useEffect(() => {
     setLoading(true)
     const fetchData = () => {
-      fetch(`http://192.168.0.40:8083/tools/details/${id}`)
+      fetch(`${process.env.REACT_APP_API_URL}/tools/details/${id}`)
         .then((response) => response.json())
         .then((response) => {
           setTool(response[0])
@@ -98,7 +98,7 @@ const UpdateTool = () => {
               <div className="flex justify-center mb-6">
                 <img
                   src={
-                    tool.tool_img_url ||
+                    tool.img_tool ||
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"
                   }
                   alt={tool.name_tool || "Imagen de la herramienta"}
@@ -258,10 +258,10 @@ const UpdateTool = () => {
                     </label>
                     <input
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-                      id="tool_img_url"
-                      name="tool_img_url"
+                      id="img_tool"
+                      name="img_tool"
                       type="text"
-                      value={tool.tool_img_url || ""}
+                      value={tool.img_tool || "https://res.cloudinary.com/dz2df15nx/image/upload/v1726615786/incognita_ulfteb.png"}
                       onChange={handleChange}
                     />
                   </div>

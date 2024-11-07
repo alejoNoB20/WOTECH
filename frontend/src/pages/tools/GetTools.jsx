@@ -18,8 +18,7 @@ const GetTools = () => {
       const query = queryParams.get("search_type") || "" 
       const option = queryParams.get("search_value") || ""
 
-      let url = "https://cat-rational-insect.ngrok-free.app/tools"
-      
+      let url = `${process.env.REACT_APP_API_URL}/tools`
       if (query && option) {
         url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`
       }
@@ -34,8 +33,7 @@ const GetTools = () => {
       try {
         const response = await fetch(url)
         const resp = await response.json()
-
-        
+      
         if (!response.ok) {
           if (response.status === 400) {
             const errors = resp.errors.map((error) => error.msg)

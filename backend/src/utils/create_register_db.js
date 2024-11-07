@@ -437,164 +437,164 @@ try{
       }
     ]);
 
-    await Products.bulkCreate([
-      {
-        "name_product": "Mesa de Madera",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Mesa de madera maciza con acabado en barniz.",
-        "price_product": 5000,
-        "map_product": "Mesa rectangular de 1.80m x 0.90m",
-        "tools": [1, 2],
-        "materials": [
-          {
-            "id": 1,
-            "how_much_content": 10
-          },
-          {
-            "id": 3,
-            "how_much_content": 5
-          }
-        ]
-      },
-      {
-        "name_product": "Silla de Oficina",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Silla ergonómica con soporte lumbar y ruedas.",
-        "price_product": 2500,
-        "map_product": "Silla ajustable con base en aluminio",
-        "tools": [3, 4],
-        "materials": [
-          {
-            "id": 2,
-            "how_much_content": 4
-          }
-        ]
-      },
-      {
-        "name_product": "Estantería de Metal",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Estantería metálica de 5 niveles con capacidad para 200kg.",
-        "price_product": 3500,
-        "map_product": "Estantería con estantes ajustables",
-        "tools": [5],
-        "materials": [
-          {
-            "id": 1,
-            "how_much_content": 6
-          }
-        ]
-      },
-      {
-        "name_product": "Armario de Oficina",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Armario con puertas corredizas y estantes internos.",
-        "price_product": 6000,
-        "map_product": "Armario con cerradura y manijas de acero",
-        "tools": [6],
-        "materials": [
-          {
-            "id": 2,
-            "how_much_content": 8
-          },
-          {
-            "id": 4,
-            "how_much_content": 4
-          }
-        ]
-      },
-      {
-        "name_product": "Sofá de Cuero",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Sofá de 3 plazas en cuero con relleno de espuma.",
-        "price_product": 8000,
-        "map_product": "Sofá con estructura de madera y cojines desmontables",
-        "tools": [7],
-        "materials": [
-          {
-            "id": 1,
-            "how_much_content": 12
-          }
-        ]
-      },
-      {
-        "name_product": "Mesita de Noche",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Mesita de noche con un cajón y estante inferior.",
-        "price_product": 1200,
-        "map_product": "Mesita con acabado en laca blanca",
-        "tools": [8],
-        "materials": [
-          {
-            "id": 3,
-            "how_much_content": 3
-          }
-        ]
-      },
-      {
-        "name_product": "Lámpara de Pie",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Lámpara de pie ajustable con luz LED.",
-        "price_product": 1500,
-        "map_product": "Lámpara con base de acero y brazo flexible",
-        "tools": [1, 4],
-        "materials": [
-          {
-            "id": 2,
-            "how_much_content": 1
-          }
-        ]
-      },
-      {
-        "name_product": "Escritorio de Trabajo",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Escritorio de trabajo con múltiples compartimentos para almacenamiento.",
-        "price_product": 4000,
-        "map_product": "Escritorio con superficie de vidrio templado",
-        "tools": [2, 5],
-        "materials": [
-          {
-            "id": 1,
-            "how_much_content": 7
-          },
-          {
-            "id": 4,
-            "how_much_content": 2
-          }
-        ]
-      },
-      {
-        "name_product": "Cama Matrimonial",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Cama matrimonial con estructura de madera y colchón incluido.",
-        "price_product": 7000,
-        "map_product": "Cama con cabecero acolchado",
-        "tools": [6],
-        "materials": [
-          {
-            "id": 3,
-            "how_much_content": 10
-          }
-        ]
-      },
-      {
-        "name_product": "Mesa de Comedor",
-        "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
-        "description_product": "Mesa de comedor extensible con capacidad para 8 personas.",
-        "price_product": 5500,
-        "map_product": "Mesa de madera con extensión central",
-        "tools": [7, 8],
-        "materials": [
-          {
-            "id": 2,
-            "how_much_content": 5
-          },
-          {
-            "id": 4,
-            "how_much_content": 3
-          }
-        ]
-      }
-    ]);
+    // await Products.bulkCreate([
+    //   {
+    //     "name_product": "Mesa de Madera",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Mesa de madera maciza con acabado en barniz.",
+    //     "price_product": 5000,
+    //     "map_product": "",
+    //     "tools": [1, 2],
+    //     "materials": [
+    //       {
+    //         "id": 1,
+    //         "how_much_content": 10
+    //       },
+    //       {
+    //         "id": 3,
+    //         "how_much_content": 5
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Silla de Oficina",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Silla ergonómica con soporte lumbar y ruedas.",
+    //     "price_product": 2500,
+    //     "map_product": "",
+    //     "tools": [3, 4],
+    //     "materials": [
+    //       {
+    //         "id": 2,
+    //         "how_much_content": 4
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Estantería de Metal",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Estantería metálica de 5 niveles con capacidad para 200kg.",
+    //     "price_product": 3500,
+    //     "map_product": "",
+    //     "tools": [5],
+    //     "materials": [
+    //       {
+    //         "id": 1,
+    //         "how_much_content": 6
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Armario de Oficina",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Armario con puertas corredizas y estantes internos.",
+    //     "price_product": 6000,
+    //     "map_product": "",
+    //     "tools": [6],
+    //     "materials": [
+    //       {
+    //         "id": 2,
+    //         "how_much_content": 8
+    //       },
+    //       {
+    //         "id": 4,
+    //         "how_much_content": 4
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Sofá de Cuero",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Sofá de 3 plazas en cuero con relleno de espuma.",
+    //     "price_product": 8000,
+    //     "map_product": "",
+    //     "tools": [7],
+    //     "materials": [
+    //       {
+    //         "id": 1,
+    //         "how_much_content": 12
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Mesita de Noche",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Mesita de noche con un cajón y estante inferior.",
+    //     "price_product": 1200,
+    //     "map_product": "",
+    //     "tools": [8],
+    //     "materials": [
+    //       {
+    //         "id": 3,
+    //         "how_much_content": 3
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Lámpara de Pie",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Lámpara de pie ajustable con luz LED.",
+    //     "price_product": 1500,
+    //     "map_product": "",
+    //     "tools": [1, 4],
+    //     "materials": [
+    //       {
+    //         "id": 2,
+    //         "how_much_content": 1
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Escritorio de Trabajo",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Escritorio de trabajo con múltiples compartimentos para almacenamiento.",
+    //     "price_product": 4000,
+    //     "map_product": "",
+    //     "tools": [2, 5],
+    //     "materials": [
+    //       {
+    //         "id": 1,
+    //         "how_much_content": 7
+    //       },
+    //       {
+    //         "id": 4,
+    //         "how_much_content": 2
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Cama Matrimonial",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Cama matrimonial con estructura de madera y colchón incluido.",
+    //     "price_product": 7000,
+    //     "map_product": "",
+    //     "tools": [6],
+    //     "materials": [
+    //       {
+    //         "id": 3,
+    //         "how_much_content": 10
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "name_product": "Mesa de Comedor",
+    //     "img_product": "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png",
+    //     "description_product": "Mesa de comedor extensible con capacidad para 8 personas.",
+    //     "price_product": 5500,
+    //     "map_product": "",
+    //     "tools": [7, 8],
+    //     "materials": [
+    //       {
+    //         "id": 2,
+    //         "how_much_content": 5
+    //       },
+    //       {
+    //         "id": 4,
+    //         "how_much_content": 3
+    //       }
+    //     ]
+    //   }
+    // ]);
 
     await supplierStockAssociations.bulkCreate([
       {

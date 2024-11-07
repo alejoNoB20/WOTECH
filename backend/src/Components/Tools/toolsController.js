@@ -1,5 +1,6 @@
 import { ToolsService } from "./toolsService.js";
 import { try_catch } from "../../utils/try_catch.js"; 
+
 const Tool = new ToolsService();
 
 // ---EXAMPLE 1---
@@ -47,6 +48,11 @@ export class ToolsController {
     }
     pushHerramienta = async (req, res) => {
         try {
+            // Parse IMG_URL Direction
+            if(req.body.img_tool){
+                req.body.img_tool = req.body.img_tool.replace("\\", "/");
+            };
+
             const resultado = await Tool.crearHerramienta(req.body);
             try_catch.TRY_RES(res, resultado);
             
