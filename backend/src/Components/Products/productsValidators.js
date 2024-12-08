@@ -12,7 +12,7 @@ export const productValidator = {
             .isLength({max: 80}).withMessage('El NOMBRE permite un máximo de 80 caracteres')
             .custom(async (value, {req}) => {
                 const findTheSame = await Product.filtrarProducto('nameProductValidator', req.body.name_product);
-                if(findTheSame.status === 302) throw new Error ('Ya existe un producto con el mismo nombre');
+                if(findTheSame.status === 200) throw new Error ('Ya existe un producto con el mismo nombre');
                 return true
             }),
         
@@ -63,7 +63,7 @@ export const productValidator = {
             .isLength({max: 80}).withMessage('El NOMBRE permite un máximo de 80 caracteres')
             .custom(async (value, {req}) => {
                 const findTheSameName = await Product.filtrarProducto('nameProductValidator', req.body.name_product);
-                if(findTheSameName.status === 302 && findTheSameName.msg[0].id_product != req.params.id_product) throw new Error ('Ya existe un producto con el mismo nombre');
+                if(findTheSameName.status === 200 && findTheSameName.msg[0].id_product != req.params.id_product) throw new Error ('Ya existe un producto con el mismo nombre');
                 return true
             }),
         

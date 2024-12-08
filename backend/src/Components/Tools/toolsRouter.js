@@ -3,13 +3,14 @@ import { ToolsController } from "./toolsController.js";
 import { toolsValidations } from "./toolsValidators.js";
 import { sequelize } from "../../database/connection.js";
 import { checkSecret } from '../../middlewares/protectecRoutes.js'
+import { upload } from "../../middlewares/multer.js";
 const toolsController = new ToolsController();
 
 let toolsRouter = Router();
 
 toolsRouter.get('/', toolsController.verTodasHerramientas);
 toolsRouter.get('/details/:id_tool', toolsController.detallesHerramienta);
-toolsRouter.post('/create', toolsValidations.createTool, toolsController.pushHerramienta);
+toolsRouter.post('/create', upload.single("img_tool"), toolsValidations.createTool , toolsController.pushHerramienta);
 toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
 toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
 toolsRouter.patch('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);

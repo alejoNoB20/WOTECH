@@ -28,7 +28,7 @@ export class StockService {
             if(!datos.amount_material) datos.amount_material = 0;
             await Stock.create(datos); 
 
-            return try_catch.SERVICE_TRY_RES('La creación del stock finalizó exitosmente', 201);
+            return try_catch.SERVICE_TRY_RES('La creación del stock finalizó exitosamente', 201);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La creación del stock falló');
@@ -44,7 +44,7 @@ export class StockService {
                 }
             });
 
-            return try_catch.SERVICE_TRY_RES(`La deshabilitación del stock con finalizó exitosamente`, 200);
+            return try_catch.SERVICE_TRY_RES(`La deshabilitación del stock finalizó exitosamente`, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La deshabilitación del stock falló');

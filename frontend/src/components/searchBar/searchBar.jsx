@@ -22,8 +22,9 @@ const SearchBar = ({ onSearch }) => {
         ]);
       } else if (location.pathname.startsWith('/stock')) {
         setOptions([
-          { value: 'option3', label: 'Opción 1 para Ruta 2' },
-          { value: 'option4', label: 'Opción 2 para Ruta 2' },
+          { value: 'id_material', label: 'ID' },
+          { value: 'name_material', label: 'Nombre' },
+          { value: 'amount_material', label: 'Cantidad de Stock' },
         ]);
       } else if (location.pathname.startsWith('/products')) {
         setOptions([

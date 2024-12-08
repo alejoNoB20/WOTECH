@@ -15,6 +15,7 @@ export class StockController {
     }
     crear = async (req, res) => {
         try {
+            console.log(req.body);
             const resultado = await stock.crearStock(req.body);
             try_catch.TRY_RES(res, resultado);
 
@@ -24,6 +25,7 @@ export class StockController {
     }
     deshabilitar = async (req, res) => {
         try{
+            console.log(req.params)
             const resultado = await stock.deshabilitarStock(req.params.id_material);
             try_catch.TRY_RES(res, resultado);
             

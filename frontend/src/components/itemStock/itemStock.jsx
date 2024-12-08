@@ -6,7 +6,7 @@ const ItemStock = ({ item }) => {
     const { id_material, name_material, amount_material, measurement_material } = item
     const navigate = useNavigate();
     const handleRowClick = (id) => {
-        navigate(`/stock/updatestock/${id}`);
+        navigate(`/stock/detailstock/${id}`);
     };
     return (
         <tr key={id_material} onClick={() => handleRowClick(id_material)} className="cursor-pointer">

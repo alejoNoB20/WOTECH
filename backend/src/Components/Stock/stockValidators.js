@@ -23,8 +23,6 @@ export const stockValidations = {
 
         body('amount_material')
             .optional()
-            .exists()
-            .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
         body('measurement_material')
@@ -84,8 +82,6 @@ export const stockValidations = {
 
         body('amount_material')
             .optional()
-            .exists()
-            .notEmpty().withMessage('El campo CANTIDAD es obligatorio').bail()
             .isInt().withMessage('El campo CANTIDAD solo recibe números enteros'),
 
         body('measurement_material')

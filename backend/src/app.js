@@ -57,6 +57,7 @@ app.use('/purchase', purchasesRouter);
 const server = app.listen(process.env.PORT, async () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
   swaggerDoc(app, process.env.DB_SERVER_URL);
+  // createRegistersDB();
 });
   
 export {app, server};

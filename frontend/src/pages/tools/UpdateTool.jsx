@@ -33,7 +33,6 @@ const UpdateTool = () => {
   }
 
   const handleUpdate = async () => {
-    console.log(tool.repair_date_tool)
     await fetch(`${process.env.REACT_APP_API_URL}/tools/update/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -42,7 +41,6 @@ const UpdateTool = () => {
     .then(async response => {
       if (!response.ok) {
         return response.json().then(err => {
-          console.log(err)
           throw err
         })
       }
@@ -52,9 +50,10 @@ const UpdateTool = () => {
       console.log('Datos recibidos:', data)
     })
     .catch(error => {
-      error.errors.forEach(err => {
-        console.log(`Error en ${err.location}: ${err.msg}`)
-      })
+      console.log(error)
+      // error.errors.forEach(err => {
+      //   console.log(`Error en ${err.location}: ${err.msg}`)
+      // })
     })
   }
 
@@ -99,7 +98,7 @@ const UpdateTool = () => {
                 <img
                   src={
                     tool.img_tool ||
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"
+                    "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
                   }
                   alt={tool.name_tool || "Imagen de la herramienta"}
                   className="w-full h-auto max-w-xs rounded-lg shadow-md"
@@ -252,7 +251,7 @@ const UpdateTool = () => {
                   <div>
                     <label
                       className="block text-gray-700 text-sm font-semibold mb-2"
-                      htmlFor="tool_img_url"
+                      htmlFor="img_tool"
                     >
                       URL de imagen:
                     </label>
@@ -261,7 +260,7 @@ const UpdateTool = () => {
                       id="img_tool"
                       name="img_tool"
                       type="text"
-                      value={tool.img_tool || "https://res.cloudinary.com/dz2df15nx/image/upload/v1726615786/incognita_ulfteb.png"}
+                      value={tool.img_tool || ""}
                       onChange={handleChange}
                     />
                   </div>

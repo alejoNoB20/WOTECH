@@ -19,6 +19,7 @@ const GetTools = () => {
       const option = queryParams.get("search_value") || ""
 
       let url = `${process.env.REACT_APP_API_URL}/tools`
+      
       if (query && option) {
         url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`
       }
@@ -55,7 +56,7 @@ const GetTools = () => {
     }
 
     fetchData() 
-  }, [location.search]) 
+  }, [location.search, openModal]) 
 
   return <>{loading ? <Loader /> : <ItemToolList tools={tools} />}</>
 }

@@ -1,99 +1,98 @@
 import React, { useState } from "react"
 import { useModal } from "context/modalContext"
 import { useNavigate } from "react-router-dom"
+import { useNotifications } from "context/notificationsContext"
+
 const AddTool = () => {
   const { openModal } = useModal()
-  const [createdTool, setCreatedTool] = useState(false)
   const [formData, setFormData] = useState({
     status_tool: "Habilitado",
+    img_tool: null
   })
   const navigate = useNavigate()
+  const notify = useNotifications()
+
   const mostrarError = (httpErr, errors) => {
     openModal({
       errorType: httpErr,
       validationErrors: errors,
     })
   }
+
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setFormData({
-      ...formData,
-      [name]:
-        type === "checkbox"
-          ? checked
-            ? "Habilitado"
-            : "Deshabilitado"
-          : value,
-    })
+    const { name, value, type, checked, files } = e.target
+
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0]
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? (checked ? "Habilitado" : "Deshabilitado") : value,
+      })
+    }
   }
+
+  const handleSuccess = () => {
+    notify("success", "¡Operación exitosa!")
+  }
+
+  const handleFail = () => {
+    notify("fail", "¡Algo salió mal!")
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    const data = new FormData()
+    for (const key in formData){
+      if(formData.hasOwnProperty(key) && key !== "img_tool"){
+        const value = formData[key]
+        if(value !== undefined){
+          data.append(key, value)
+        }
+      }
+    }
+
+    if (formData.img_tool) {
+      data.append("img_tool", formData.img_tool)
+    }
+
     try {
-      const response = await fetch("http://192.168.0.40:8083/tools/create", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tools/create`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data
       })
+
       const convertedResp = await response.json()
-      if(!response.ok){
-        if(response.status === 400){
-          const errors = convertedResp.errors.map((error)=> error.msg)
+      if (!response.ok) {
+        if (response.status === 400) {
+          const errors = convertedResp.errors.map((error) => error.msg)
           mostrarError(response.status, errors)
+          handleFail()
           return
         }
-        if(response.status === 404){
+        if (response.status === 404) {
           mostrarError(response.status, [convertedResp])
+          handleFail()
           return
         }
-        
       }
-      if(response.status === 201){
-        navigate('/tools/gettools')
+
+      if (response.status === 201) {
+        handleSuccess()
+        navigate("/tools/gettools")
       }
-      if(response.status === 500){
-        console.log(response)
+      if (response.status === 500) {
+        handleFail()
+        navigate("/tools/gettools")
       }
     } catch (error) {
-      
+      console.error("Error:", error)
+      handleFail()
     }
-
-    // await fetch("http://192.168.0.40:8083/tools/create", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then(async (response) => {
-    //     if (!response.ok) {
-    //       return response.json().then((err) => {
-    //         throw err
-    //       })
-    //     }
-    //     response.json()
-    //   })
-    //   .then((data) => {
-    //     setCreatedTool(true)
-    //   })
-    //   .catch((e) => {
-    //     const errors = e.errors.map((error) => error.msg)
-    //     console.log(errors)
-    //     mostrarError(400, errors)
-    //   })
-  }
-
-  if (createdTool) {
-    const fetchData = async () => {
-      const response = await fetch("http://192.168.0.40:8083/tools/gettools")
-      const resp = await response.json()
-      return resp
-    }
-    console.log(fetchData())
-
-    // navigate(`/tools/updateTool/${resp}`)
   }
 
   return (
@@ -111,6 +110,7 @@ const AddTool = () => {
             value={formData.name_tool || ""}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            required
           />
         </div>
         <div className="mb-4">
@@ -133,7 +133,7 @@ const AddTool = () => {
               type="checkbox"
               id="status_tool"
               name="status_tool"
-              checked={formData.status_tool || false}
+              checked={formData.status_tool === "Habilitado"}
               onChange={handleChange}
               className="my-2 ml-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
@@ -142,7 +142,7 @@ const AddTool = () => {
 
         <div className="mb-4">
           <label htmlFor="location_tool" className="block text-gray-700">
-            Ubicacion
+            Ubicación
           </label>
           <input
             type="text"
@@ -154,11 +154,25 @@ const AddTool = () => {
             required
           />
         </div>
+
+        <div className="mb-4">
+          <label htmlFor="img_tool" className="block text-gray-700">
+            Imagen:
+          </label>
+          <input
+            type="file"
+            id="img_tool"
+            name="img_tool"
+            onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
         <button
           type="submit"
           className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          Crear Material
+          Crear Herramienta
         </button>
       </form>
     </div>

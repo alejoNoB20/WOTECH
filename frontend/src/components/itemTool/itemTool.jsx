@@ -27,7 +27,7 @@ const ItemTool = ({ tool }) => {
     >
       <div className="flex-2">
         <img
-          src={img_tool}
+          src={img_tool ||"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"}
           alt={name_tool}
           className="object-cover w-full h-full"
         />
