@@ -11,8 +11,8 @@ const Layout = ({ children, logged }) => {
             { name: "Agregar material", path: "/stock/addstock" },
         ],
         "/products": [
-            { name: "Agregar productos", path: "/addproducts" },
-            { name: "Actualizar productos", path: "/updateproducts" },
+            { name: "Ver productos", path: "/products/getproducts" },
+            { name: "Crear producto", path: "/products/addproduct" },
         ],
         "/orders": [
             { name: "Crear orden", path: "/createorder" },

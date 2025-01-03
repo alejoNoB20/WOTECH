@@ -11,7 +11,7 @@ const Sidebar = ({ links }) => {
           <NavLink 
             key={index} 
             to={link.path} 
-             
+            
             className="block text-gray-300 hover:text-white"
           >
             {link.name}

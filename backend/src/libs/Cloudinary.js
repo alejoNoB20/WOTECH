@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 })
 
-export const uploadImage = async (file, folder = "Wotech Assets") => {
+export const uploadImage = async (file, id_name, folder = "Wotech Assets") => {
   try {
     switch (folder) {
       case "Herramientas":
@@ -27,8 +27,8 @@ export const uploadImage = async (file, folder = "Wotech Assets") => {
     const result = await cloudinary.uploader.upload(file, {
       auto_tagging: 0.75,
       resource_type: "auto",
-      use_filename: true,
-      unique_filename: false,
+      unique_filename: true,
+      public_id: id_name,
       folder,
     })
 

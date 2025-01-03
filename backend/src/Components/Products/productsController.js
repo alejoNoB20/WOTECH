@@ -1,5 +1,6 @@
 import { productsService } from "./productsService.js";
 import { try_catch } from "../../utils/try_catch.js";
+import { imageURLTrasnform } from "../../utils/image_URL_transform.js";
 
 const Product = new productsService();
 
@@ -24,6 +25,14 @@ export class productsController {
     }
     crear = async (req, res) => {
         try {
+            if(req.files.img_product){
+                const imgURL = imageURLTrasnform(req.files.img_product[0]);
+                req.body.img_product = {url: imgURL, name: req.files.img_product[0].originalname};
+            }
+            if(req.files.map_product){
+                const mapURL = imageURLTrasnform(req.files.map_product[0]);
+                req.body.map_product = {url: mapURL, name: req.files.map_product[0].originalname}; 
+            }
             const resultado = await Product.crearProducto(req.body);
             try_catch.TRY_RES(res, resultado);
 

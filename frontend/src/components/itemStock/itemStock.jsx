@@ -10,10 +10,10 @@ const ItemStock = ({ item }) => {
     };
     return (
         <tr key={id_material} onClick={() => handleRowClick(id_material)} className="cursor-pointer">
-            <td className="text-left">{id_material}</td>
-            <td className="text-left">{name_material}</td>
-            <td className="text-left">{amount_material}</td>
-            <td className="text-left">{measurement_material}</td>
+            <td className="text-left font-medium">{id_material}</td>
+            <td className="text-left font-medium">{name_material}</td>
+            <td className="text-left font-medium">{amount_material}</td>
+            <td className="text-left font-medium">{measurement_material}</td>
         </tr>
     )
 }

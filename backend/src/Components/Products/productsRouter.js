@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { productsController } from "./productsController.js";
 import { productValidator } from "./productsValidators.js";
+import { upload } from "../../middlewares/multer.js";
 const ProductsController = new productsController();
 let productsRouter = Router();
 
 productsRouter.get('/', ProductsController.verTodos);
 productsRouter.get('/details/:id_product', ProductsController.detallesProducto);
 productsRouter.get('/getStockAndTools', ProductsController.irAPaginaCrear);
-productsRouter.post('/create', productValidator.createProduct,ProductsController.crear);
+productsRouter.post('/create', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.createProduct, ProductsController.crear);
 productsRouter.patch('/disabled/:id_product', ProductsController.deshabilitar);
 productsRouter.delete('/delete/:id_product', ProductsController.eliminar);
 productsRouter.get('/getDataForUpdate/:id_product', ProductsController.irPaginaActualizar);
@@ -45,9 +46,6 @@ export default productsRouter;
  *                   price_product:
  *                     type: integer
  *                     example: 5000 
- *                   map_product:
- *                     type: string
- *                     example: "url del plano del producto..." 
  *                   disabled:
  *                     type: boolean
  *                     example: false 

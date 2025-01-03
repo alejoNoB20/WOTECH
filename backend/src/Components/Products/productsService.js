@@ -58,7 +58,7 @@ export class productsService {
             if(!data.img_product){
                 data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
-                const saveImage = await uploadImage(data.img_product, 'Productos');
+                const saveImage = await uploadImage(data.img_product.url, data.img_product.name, 'Productos');
                 if(saveImage.success){
                     data.img_product = saveImage.msg;
                 }else {
@@ -69,7 +69,7 @@ export class productsService {
             
             // Clodinary Module - Map_products
             if(data.map_product){
-                const saveImage = await uploadImage(data.map_product, 'Planos_Productos');
+                const saveImage = await uploadImage(data.map_product.url, data.map_product.name, 'Planos_Productos');
                 if(saveImage.success){
                     data.map_product = saveImage.msg;
                 }else {
@@ -77,8 +77,8 @@ export class productsService {
                 };
             };
 
-            const tools = data.tools;
-            const materials = data.materials;
+            const tools = JSON.parse(data.tools);
+            const materials = JSON.parse(data.materials);
 
             const newProduct = await Products.create({
                 name_product: data.name_product,

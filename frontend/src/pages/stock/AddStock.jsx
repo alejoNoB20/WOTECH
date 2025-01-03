@@ -79,7 +79,7 @@ const AddStock = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-gray-100 p-6 mt-10 rounded-lg shadow-md">
+    <div className="max-w-xl mx-auto bg-gray-100 p-4 rounded-lg shadow-md">
       <div className="">
         <h2 className="text-2xl font-bold mb-4">Crear Material</h2>
         <form onSubmit={handleSubmit} >

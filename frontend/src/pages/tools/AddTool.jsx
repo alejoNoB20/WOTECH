@@ -55,11 +55,11 @@ const AddTool = () => {
         }
       }
     }
-
+    
     if (formData.img_tool) {
       data.append("img_tool", formData.img_tool)
     }
-
+    
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/tools/create`, {
         method: "POST",

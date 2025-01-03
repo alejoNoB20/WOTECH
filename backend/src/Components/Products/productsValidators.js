@@ -19,6 +19,9 @@ export const productValidator = {
         body('img_product')
             .optional(),
 
+        body('map_product')
+            .optional(),
+
         body('description_product')
             .optional()
             .isLength({max: 100}).withMessage('El campo DESCRIPCIÓN permite un máxmio de 100 caracteres'),
@@ -31,9 +34,8 @@ export const productValidator = {
         body('materials')
             .exists()
             .notEmpty().withMessage('El campo MATERIALES es obligatorio').bail()
-            .isArray({min: 1}).withMessage('El campo MATERIALES recibe un arreglo con objetos').bail()
             .custom((value, {req}) => {
-                value.forEach(material => {
+                JSON.parse(value).forEach(material => {
                     if(typeof material !== 'object' || !material.id || !material.how_much_content) throw new Error('El campo MATERIALES no es válido');
                     if(!Number.isInteger(material.id) || material.id < 1 || !Number.isInteger(material.how_much_content) || material.how_much_content < 1) throw new Error('El ID y CONTENIDO solo reciben números enteros positivos');
                 })
@@ -43,9 +45,8 @@ export const productValidator = {
         body('tools')
             .exists()
             .notEmpty().withMessage('El campo HERRAMIENTAS es obligatorio').bail()
-            .isArray({min: 1}).withMessage('El campo HERRAMIENTAS recibe un arreglo con números').bail()
             .custom((value, {req}) => {
-                value.forEach(tool => {
+                JSON.parse(value).forEach(tool => {
                     if(!Number.isInteger(tool) || tool < 1) throw new Error('El campo HERRAMIENTAS solo recibe números enteros positivos');
                 })
                 return true
@@ -79,28 +80,30 @@ export const productValidator = {
             .notEmpty().withMessage('El campo PRECIO es obligatorio').bail()
             .isNumeric().withMessage('El campo PRECIO solo recibe números'),
 
-        body('materials')
-            .exists()
-            .notEmpty().withMessage('El campo MATERIALES es obligatorio').bail()
-            .isArray({min: 1}).withMessage('El campo MATERIALES recibe un arreglo con objetos').bail()
-            .custom((value, {req}) => {
-                value.forEach(material => {
-                    if(typeof material !== 'object' || !material.id || !material.how_much_content) throw new Error('El campo MATERIALES no es válido');
-                    if(!Number.isInteger(material.id) || material.id < 1 || !Number.isInteger(material.how_much_content) || material.how_much_content < 1) throw new Error('El ID y CONTENIDO solo reciben números enteros positivos');
-                })
-                return true
-            }),
+        // ARREGLAR VALIDACION DE MATERIALES Y HERRAMIENTAS
+
+        // body('materials')
+        //     .exists()
+        //     .notEmpty().withMessage('El campo MATERIALES es obligatorio').bail()
+        //     .isArray({min: 1}).withMessage('El campo MATERIALES recibe un arreglo con objetos').bail()
+        //     .custom((value, {req}) => {
+        //         value.forEach(material => {
+        //             if(typeof material !== 'object' || !material.id || !material.how_much_content) throw new Error('El campo MATERIALES no es válido');
+        //             if(!Number.isInteger(material.id) || material.id < 1 || !Number.isInteger(material.how_much_content) || material.how_much_content < 1) throw new Error('El ID y CONTENIDO solo reciben números enteros positivos');
+        //         })
+        //         return true
+        //     }),
         
-        body('tools')
-            .exists()
-            .notEmpty().withMessage('El campo HERRAMIENTAS es obligatorio').bail()
-            .isArray({min: 1}).withMessage('El campo HERRAMIENTAS recibe un arreglo con números').bail()
-            .custom((value, {req}) => {
-                value.forEach(tool => {
-                    if(!Number.isInteger(tool) || tool < 1) throw new Error('El campo HERRAMIENTAS solo recibe números enteros positivos');
-                })
-                return true
-            }),
+        // body('tools')
+        //     .exists()
+        //     .notEmpty().withMessage('El campo HERRAMIENTAS es obligatorio').bail()
+        //     .isArray({min: 1}).withMessage('El campo HERRAMIENTAS recibe un arreglo con números').bail()
+        //     .custom((value, {req}) => {
+        //         value.forEach(tool => {
+        //             if(!Number.isInteger(tool) || tool < 1) throw new Error('El campo HERRAMIENTAS solo recibe números enteros positivos');
+        //         })
+        //         return true
+        //     }),
 
         (req, res, next) => {
             validatorResult(req, res, next);

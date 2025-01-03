@@ -214,7 +214,7 @@ const UpdateStock = () => {
             </div>
           </div>
         ): (
-            <div className="max-w-xl mx-auto bg-gray-100 p-6 mt-10 rounded-lg shadow-md">
+            <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-2xl font-bold mb-4">Actualizar material: {material.name_material}</h2>
               <form onSubmit={handleUpdate} >
                 <div className="mb-4">
@@ -229,7 +229,7 @@ const UpdateStock = () => {
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-2">
                   <label htmlFor="description_material" className="block text-gray-700">Descripción</label>
                   <textarea
                     id="description_material"
@@ -240,7 +240,7 @@ const UpdateStock = () => {
                   />
                 </div>
       
-                <div className="mb-4">
+                <div className="mb-2">
                   <label htmlFor="measurement_material" className="block text-gray-700">Unidad de medida
                     <select
                       id="measurement_material"
