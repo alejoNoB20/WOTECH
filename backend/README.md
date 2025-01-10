@@ -21,6 +21,12 @@ DB_NAME
 DB_USER
 DB_PASSWORD
 DB_HOST
+DB_SERVER_URL
+// (opcional) //
+CLOUD_NAME
+API_KEY
+API_SECRET
+CLOUDINARY_URL
 ```
 
 ### 3. Connect to a database
@@ -92,15 +98,11 @@ With this endpoint you make a material unavailable to use.
 
 This is the endpoint that deletes a material from the database.
 
-#### 1.6. ```/update/:id_material``` (Method: GET)
-
-The response gives you the material that you are searching for.
-
-#### 1.7. ```/update/:id_material``` (Method: PATCH)
+#### 1.6. ```/update/:id_material``` (Method: PATCH)
 
 Allows you to update a material information.
 
-#### 1.8. ```/search``` (Method: GET)
+#### 1.7. ```/search``` (Method: GET)
 
 Gives you the material that you are searching for. You have to use params. For example:
 
@@ -153,7 +155,7 @@ You can search, with query params, multiple tools.
 
 Shows all the products.
 
-#### 3.2. ```/getCreate``` (Method: GET)
+#### 3.2. ```/getStockAndTools``` (Method: GET)
 
 Connects the database with the frontend to show the information.
 
@@ -178,19 +180,15 @@ Endpoint used to set a product as unavailable (logical delete).
 
 Endpoint used to delete a product from the database.
 
-#### 3.7. ```/details/:id_product``` (Method: GET)
+#### 3.6. ```/details/:id_product``` (Method: GET)
 
 Sends to the client the details of the product that matches with the ID.
 
-#### 3.6. ```/getUpdate/:id_product``` (Method: GET)
-
-Sends to the client the details of the product that matches with the ID and allows you to change it.
-
-#### 3.8. ```/update/:id_product``` (Method: PATCH)
+#### 3.7. ```/update/:id_product``` (Method: PATCH)
 
 With this endpoint, you can update a product.
 
-#### 3.9. ```/search``` (Method: GET)
+#### 3.8. ```/search``` (Method: GET)
 
 Returns all the products that matches with the query params.
 
@@ -205,32 +203,31 @@ The response of this endpoint is all the clients on the database
 With this endpoint you can create a new client on the database. To create a client, you need to acomplish the next fields:
 
 ```text
-*name_client
-*last_name_client
-*dni_client (8 characters and unique) 
-*province_client (should be one province of Argentina)
-*direction_client (the address)
-*mail_client
+name_client
+last_name_client
+province_client
+direction_client
 phone_number_client
-*type_client (One of the following options: Empresa, Consumidor Final, Otro)
-*cuil_or_cuit_client (11 characters)
+type_client 
 ```
 
-The fields with * are mandatory.
-
-#### 4.3.  ```delete/:dni_client``` (Method: POST)
+#### 4.3.  ```delete/:id_client``` (Method: POST)
 
 :dni_client it's the parameter, here you have to write the DNI of a client already registered.
 
-#### 4.4. ```/update/:dni_client``` (Method: GET)
-
-:dni_client it's the parameter, here you have to write the DNI of a client already registered. In this case, this endpoint was created to work with the front-end, so it just gives you the information.
-
-#### 4.5. ```/update/:dni_client``` (Method: POST)
+#### 4.4. ```/update/:id_client``` (Method: PATCH)
 
 :dni_client it's the parameter, here you have to write the DNI of a client already registered. This endpoint allows you to send the fields that you want to change in the database.
 
-#### 4.6. ```/search``` (Method: GET)
+#### 4.5. ```/details/:id_client``` (Method: GET)
+
+Shows the characteristics of a client in greater detail.
+
+#### 4.6. ```/disabled/:id_client``` (Method: PATCH)
+
+With this endpoint you can disable a client.
+
+#### 4.7. ```/search``` (Method: GET)
 
 Here, you are going to work with params. Here is an example of how you should write the params for this endpoint:
 
@@ -248,7 +245,7 @@ Here, you are going to work with params. Here is an example of how you should wr
 
 Returns all the orders from the customers.
 
-#### 5.2. ```/getCreate``` (Method: GET)
+#### 5.2. ```/getProducts``` (Method: GET)
 
 Connects the database with the frontend, returning the order.
 
@@ -295,18 +292,8 @@ Endpoint to create a new supplier with the next fields:
 
 ```text
 name_company_supplier
-reason_social_supplier
-cuit_company_supplier
-description_supplier
 tax_address_supplier
 number_phone_company_supplier
-mail_company_supplier
-website_company_supplier
-distributor_name_supplier
-number_phone_distributor_supplier
-mail_distributor_supplier
-delivery_days_suppier
-payment_method_supplier
 ```
 
 #### 6.3. ```/disabled/:id_supplier``` (Method: PATCH)
@@ -333,19 +320,31 @@ Returns all the matches with the query params.
 
 This route is used to interact with the materials sold by each supplier.
 
-### 7.1. ```/create``` (Method: POST)
+### 7.1. ```/:id_supplier``` (Method: GET)
+
+Returns a list with all the materials associated with a registered supplier.
+
+### 7.2. ```/create``` (Method: POST)
 
 The endpoint used to created the associations.
 
-#### 7.2. ```/update/:id_supplier_material``` (Method: PATCH)
+```text
+id_material_fk
+id_supplier_fk
+amount_material
+price_material
+```
+
+
+#### 7.3. ```/update/:id_supplier_material``` (Method: PATCH)
 
 Modifie the associations.
 
-#### 7.3. ```/disabled/:id_supplier_material``` (Method: PATCH)
+#### 7.4. ```/disabled/:id_supplier_material``` (Method: PATCH)
 
 Set an association as unavailable.
 
-#### 7.4. ```/priceControl/:id_supplier_material``` (Method: GET)
+#### 7.5. ```/priceControl/:id_supplier_material``` (Method: GET)
 
 It shows the associations that a supplier has.
 

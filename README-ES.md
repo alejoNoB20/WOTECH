@@ -65,7 +65,7 @@ El resto de las instrucciones se encuentran distribuidas en sus readme en espec√
 
 - [English Version](https://github.com/alejoNoB20/WOTECH/tree/developer/frontend/README.md)
 
-- [Spanish Version](https://github.com/alejoNoB20/WOTECH/tree/developer/frontend/README-ES.md) (En construcci√≥n)
+- [Spanish Version](https://github.com/alejoNoB20/WOTECH/tree/developer/frontend/README-ES.md)
 
 ## Agradecimientos
 

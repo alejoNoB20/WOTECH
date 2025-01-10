@@ -2,6 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Guide
+
+We assume that the repository is already cloned, and you are inside the `/frontend` folder.
+
+### 1. Install dependencies
+```bash
+npm install
+```
+
+### 2. Create a .env file with the following fields
+```makefile
+REACT_APP_API_URL= 'URL where the DB is running, e.g.: (http://localhost:3030)'
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

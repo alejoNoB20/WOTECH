@@ -17,6 +17,13 @@ DB_NAME= 'Nombre de la base de datos'
 DB_USER= 'Nombre de usuario de la base de datos'
 DB_PASSWORD= 'Contraseña de la base de datos'
 DB_HOST= 'Server HOST'
+DB_SERVER_URL= 'http://(DB_HOST):(PORT)'
+// Datos de conexión con el gestor de imagenes CLOUDINARY (opcional)
+// "Tener en cuenta que en caso de no conectar con la DB de imagenes no podrá ver ni guardar ningun tipo de imagen"
+CLOUD_NAME= 'Nombre de la nube'
+API_KEY= 'Llave de la nube'
+API_SECRET= 'Llave secreta de la nube'
+CLOUDINARY_URL= 'URL de tu nube'
 ```
 
 ### 3. Conectarse a la base de datos
@@ -175,16 +182,13 @@ Con este endpoint puedes deshabilitar un producto.
 #### 3.5. ```/delete/:id_product``` (Método: DELETE)
 Con este endpoint borras definitivamente un producto de la DB.
 
-#### 3.7. ```/details/:id_product``` (Método: GET)
+#### 3.6. ```/details/:id_product``` (Método: GET)
 Muestra con mayor detalle las características de un producto.
 
-#### 3.6. ```/getDataForUpdate/:id_product``` (Método: GET)
-Devuelve información necesaria sobre stock, tools y el producto en cuestión registradas en la DB para brindar al Front-End.
-
-#### 3.8. ```/update/:id_product``` (Método: PATCH)
+#### 3.7. ```/update/:id_product``` (Método: PATCH)
 Permite actualizar la información de un producto.
 
-#### 3.9. ```/search``` (Método: GET)
+#### 3.8. ```/search``` (Método: GET)
 Filtro de búsqueda, que mediante el uso de querys devuelve una lista de productos en específico. Por ejemplo:
 ```
 search_type=name_product&search_value=table
@@ -212,16 +216,16 @@ EJEMPLO: {
 }
 ```
 
-#### 4.3. ```/details/:dni_client``` (Método: GET)
+#### 4.3. ```/details/:id_client``` (Método: GET)
 Muestra con mayor detalle las características de un cliente.
 
-#### 4.4.  ```disabled/:dni_client``` (Método: POST) 
+#### 4.4.  ```disabled/:id_client``` (Método: POST) 
 Con este endpoint puedes deshabilitar un cliente.
 
-#### 4.5. ```/delete/:dni_client``` (Método: DELETE) 
+#### 4.5. ```/delete/:id_client``` (Método: DELETE) 
 Con este endpoint borras definitivamente un cliente de la DB.
 
-#### 4.6. ```/update/:dni_client``` (Método: POST) 
+#### 4.6. ```/update/:id_client``` (Método: POST) 
 Permite actualizar la información de un cliente.
 
 #### 4.7. ```/search``` (Método: GET) 
