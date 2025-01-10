@@ -25,11 +25,11 @@ export class productsController {
     }
     crear = async (req, res) => {
         try {
-            if(req.files.img_product || typeof(req.files.img_product) !== 'string'){
+            if(req.files.img_product){
                 const imgURL = imageURLTrasnform(req.files.img_product[0]);
                 req.body.img_product = {url: imgURL, name: req.files.img_product[0].originalname};
             };
-            if(req.files.map_product || typeof(req.files.map_product) !== 'string'){
+            if(req.files.map_product){
                 const mapURL = imageURLTrasnform(req.files.map_product[0]);
                 req.body.map_product = {url: mapURL, name: req.files.map_product[0].originalname}; 
             };

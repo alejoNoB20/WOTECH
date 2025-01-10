@@ -3,6 +3,7 @@ import Loader from "../../components/loader/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faArrowAltCircleLeft, faFileImage, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useModal } from "../../context/modalContext";
 import { useNotifications } from "../../context/notificationsContext";
 
@@ -208,6 +209,37 @@ const DetailsProduct = () => {
         const toolSelectedList = [...toolSelected];
         const removeTool = toolSelectedList.filter((toolSelected)=> toolSelected.id_tool !== eliminatedTool.id_tool);
         setToolSelected(removeTool);
+    };
+
+    const handleDisable = async (e) => {
+        try{
+            const confirmDelete = window.confirm(
+                `¿Estás seguro de que quieres eliminar el producto "${product.name_product}"?`
+            );
+            if(confirmDelete){
+                setLoader(true);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/products/disabled/${id}`, {
+                    method: 'PATCH',
+                    headers: { "Content-Type": "application/json" }
+                });
+                const responseJSON = await response.json();
+                if(!response.ok){
+                    if(response.status === 500){
+                        setLoader(false);
+                        handleFail(responseJSON);
+                        navigate("/products/getproducts");
+                        return;
+                    };
+                }else {
+                    setLoader(false);
+                    handleSuccess(responseJSON);
+                    navigate("/products/getproducts");
+                    return;        
+                };
+            }
+        }catch(err){
+            console.log(err);
+        }
     };
 
     const handleSubmit = async () => {        
@@ -623,13 +655,20 @@ const DetailsProduct = () => {
 
                         {/* Botonera */}
                         <section className="flex flex-row my-4">
-                            <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded"
+                            <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={handleSubmit} 
                             >
                             <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
                                 Actualizar Producto
                             </button>
-                            <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded"
+                            <button
+                                onClick={handleDisable}
+                                className="mx-auto px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
+                            >
+                                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                Eliminar
+                            </button>
+                            <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={()=> setModel(false)} 
                             >
                             <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />

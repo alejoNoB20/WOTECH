@@ -41,10 +41,6 @@ const GetTools = () => {
             mostrarError(response.status, errors)
             return
           }
-          if (response.status === 404) {
-            mostrarError(response.status, [resp])
-            return
-          }
         }
 
         setTools(resp)

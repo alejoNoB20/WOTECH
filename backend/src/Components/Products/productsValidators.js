@@ -125,7 +125,7 @@ export const productValidator = {
                 } 
                 if(req.query.search_type === 'id_product' || req.query.search_type === 'id_material' || req.query.search_type === 'id_tool'){
                     const number = parseFloat(value);
-                    if(!Number.isInteger(number) || number < 1) throw new Error('El valor del filtro no es válido');
+                    if(!Number.isInteger(number) || number < 1 || isNaN(number)) throw new Error('El valor del filtro no es válido');
                 }
                 return true
             }),

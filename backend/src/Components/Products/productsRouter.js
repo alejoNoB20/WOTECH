@@ -340,7 +340,7 @@ export default productsRouter;
  *             schema:
  *               type: array
  *               items: 
- *                 $ref: '#/components/schemas/tools'
+ *                 $ref: '#/components/schemas/products'
  *       404:
  *         description: "Datos no encontrados"
  *         content: 

@@ -3,13 +3,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate, useParams } from "react-router-dom"
 import Loader from "components/loader/Loader"
 import { faPen, faTrash, faFloppyDisk } from "@fortawesome/free-solid-svg-icons"
+import { useModal } from "../../context/modalContext"
+import { useNotifications } from "../../context/notificationsContext"
 
 const UpdateTool = () => {
   const [loading, setLoading] = useState(true)
   const [tool, setTool] = useState({})
   const [showForm, setShowForm] = useState(false)
+  const { openModal } = useModal();
+  const notify = useNotifications();
   const { id } = useParams()
   const navigate = useNavigate()
+
+  const mostrarError = (httpErr, errors) => {
+    openModal({
+        errorType: httpErr,
+        validationErrors: errors,
+    })
+  };
+
+  const handleSuccess = (msg) => {
+      notify("success", msg)
+  };
+
+  const handleFail = (msg) => {
+      notify("fail", msg)
+  };
 
   useEffect(() => {
     setLoading(true)
@@ -62,12 +81,33 @@ const UpdateTool = () => {
       `¿Estás seguro de que quieres eliminar la herramienta "${tool.name_tool}"?`
     )
     if (confirmDelete) {
-      await fetch(`${process.env.REACT_APP_API_URL}/tools/disabled/${id}`, {
+      setLoading(true);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/tools/disabled/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" }
-      })
-      navigate("/tools/gettools")
+      });
+      const responseJSON = await response.json();
+
+      if(!response.ok){
+        if(response.status === 500){
+            setLoading(false);
+            handleFail(responseJSON);
+            navigate("/tools/gettools");
+            return;
+        }else {
+            setLoading(false);
+            handleFail(responseJSON);
+            navigate("/tools/gettools");
+            return
+        }
+      }else {
+          setLoading(false);
+          handleSuccess(responseJSON);
+          navigate("/tools/gettools");
+          return;        
+      }
     }
+
   }
 
   const getStatusColor = (status) => {

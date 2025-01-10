@@ -34,7 +34,6 @@ const GetProducts = () => {
 
                 const response = await fetch(url);
                 const responseJSON = await response.json();
-                console.log(responseJSON)
                 setList(responseJSON);
 
                 if(!response.ok){
@@ -42,9 +41,6 @@ const GetProducts = () => {
                         const errors = responseJSON.errors.map((error) => error.msg)
                         mostrarError(response.status, errors);
                         return;
-                    }else if (response.status === 404){
-                        mostrarError(response.status, [responseJSON]);
-                        return
                     }
                 }
                 }catch(err){

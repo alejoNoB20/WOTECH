@@ -24,7 +24,7 @@ const Product = ({product}) => {
                 </h4>
             </div>
             <div className="container flex flex-col items-center text-center">
-                {map_product !== "" ? (
+                {map_product !== null ? (
                     <button className="flex px-5 py-2 mt-16 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg" onClick={() => handleButtonClick(id_product)}>
                         Ver plano
                     </button>

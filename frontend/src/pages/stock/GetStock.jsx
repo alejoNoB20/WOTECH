@@ -42,9 +42,6 @@ const GetStock = () => {
                         const errors = responseJSON.errors.map((error) => error.msg)
                         mostrarError(response.status, errors);
                         return;
-                    }else if (response.status === 404){
-                        mostrarError(response.status, [responseJSON]);
-                        return
                     }
                 }
             }catch(err) {
