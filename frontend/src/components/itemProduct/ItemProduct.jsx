@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
 const Product = ({product}) => {
-    const { id_product, name_product, img_product, price_product} = product;
+    const { id_product, name_product, img_product, price_product, map_product} = product;
     const navigate = useNavigate();
 
     const handleDetailsClick = (id) => {
-        return navigate(`product/detailproduct/${id}`);
+        return navigate(`/products/detailproduct/${id}`);
     };
 
     const handleButtonClick = (id) => {
-        return navigate(`product/map/${id}`)
+        return navigate(`/products/map/${id}`)
     };
 
     return (
@@ -24,9 +24,15 @@ const Product = ({product}) => {
                 </h4>
             </div>
             <div className="container flex flex-col items-center text-center">
-                <button className="flex px-5 py-2 mt-16 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg" onClick={() => handleButtonClick(id_product)}>
-                    Ver plano
-                </button>
+                {map_product !== "" ? (
+                    <button className="flex px-5 py-2 mt-16 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg" onClick={() => handleButtonClick(id_product)}>
+                        Ver plano
+                    </button>
+                ) : (
+                    <button className="flex px-5 py-2 mt-16 bg-gray-700 text-white rounded-lg" disabled>
+                        Ver plano
+                    </button>
+                )}
             </div>
         </div>
     )

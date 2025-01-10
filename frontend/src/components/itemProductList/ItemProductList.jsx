@@ -1,7 +1,7 @@
 import Product from "../../components/itemProduct/ItemProduct";
 
 const ItemList = ({list}) => {
-    if(list.length === 0){
+    if(!list){
         return (
             <div className="mx-auto max-w-4xl flex justify-center text-center bg-white rounded-s-lg">
                 <h2 className="text-gray-100 font-normal">No se encontraron productos cargados en la base de datos</h2>

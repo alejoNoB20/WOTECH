@@ -8,7 +8,7 @@ const SearchBar = ({ onSearch }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
   const location = useLocation(); // Obtén la ruta actual
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Función para cargar opciones dependiendo de la ruta o subruta
   useEffect(() => {
     const fetchOptionsByRoute = () => {
@@ -28,8 +28,8 @@ const SearchBar = ({ onSearch }) => {
         ]);
       } else if (location.pathname.startsWith('/products')) {
         setOptions([
-          { value: 'option5', label: 'Opción 1 para Ruta 3' },
-          { value: 'option6', label: 'Opción 2 para Ruta 3' },
+          { value: 'id_product', label: 'ID' },
+          { value: 'name_product', label: 'Nombre' },
         ]);
       } else if (location.pathname.startsWith('/ruta4')) {
         setOptions([
@@ -44,7 +44,7 @@ const SearchBar = ({ onSearch }) => {
     fetchOptionsByRoute();
   }, [location.pathname]); // Actualiza las opciones cuando la ruta cambia
 
-  const formRef = useRef(null)
+  const formRef = useRef(null);
   
   const handleInputChange = (e) => {
     setQuery(e.target.value);
@@ -57,8 +57,6 @@ const SearchBar = ({ onSearch }) => {
   const handleSearch = async (e) => {
     e.preventDefault();
     navigate(`/${location.pathname.split('/')[1]}/search?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
-
-
   };
   if(options.length === 0){
     return

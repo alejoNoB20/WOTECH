@@ -198,7 +198,7 @@ const UpdateTool = () => {
                     {tool.products.map((product) => (
                       <a
                         key={product.id_product}
-                        href={`/path-to-product/${product.id_product}`} // Reemplaza con la ruta deseada
+                        href={`/products/detailproduct/${product.id_product}`}
                         className="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-sm"
                       >
                         {product.name_product}

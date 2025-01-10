@@ -114,12 +114,12 @@ const UpdateStock = () => {
     }
   }
 
-  const handleProductRedirect = async () => {
-    navigate('/products/getproducts');
+  const handleProductRedirect = async (e) => {
+    navigate(`/products/detailproduct/${e.target.value}`);
   };
 
-  const handleSupplierRedirect = async () => {
-    navigate('/suppliers/getsuppliers');
+  const handleSupplierRedirect = async (e) => {
+    navigate(`/suppliers/detailsupplier/${e.target.value}`);
   };
 
   return (

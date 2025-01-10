@@ -11,8 +11,7 @@ productsRouter.get('/getStockAndTools', ProductsController.irAPaginaCrear);
 productsRouter.post('/create', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.createProduct, ProductsController.crear);
 productsRouter.patch('/disabled/:id_product', ProductsController.deshabilitar);
 productsRouter.delete('/delete/:id_product', ProductsController.eliminar);
-productsRouter.get('/getDataForUpdate/:id_product', ProductsController.irPaginaActualizar);
-productsRouter.patch('/update/:id_product', productValidator.updateProduct, ProductsController.actualizar);
+productsRouter.patch('/update/:id_product', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.updateProduct, ProductsController.actualizar);
 productsRouter.get('/search/', productValidator.searchProduct, ProductsController.filtrar);
 
 export default productsRouter;
@@ -267,104 +266,6 @@ export default productsRouter;
  *             schema:
  *               type: string
  *               example: "La eliminación del producto falló" 
- * 
- * /products/getDataForUpdate/{id_product}:
- *   get:
- *     summary: "Trae toda la información del producto a actualizar además de los ID y NOMBRES del Stock y Herramientas cargadas en la db para que el usuario pueda cambiar o agregar lo que sea necesario para la actualización de dicho producto (no incluye ningun Stock o Herramienta deshabilitada)"
- *     tags: 
- *       - Products
- *     responses: 
- *       200: 
- *         description: "Informacuón del producto + Lista de Stock y Herramientas"
- *         content: 
- *           application/json:
- *             schema:
- *               type: object
- *               properties: 
- *                 product: 
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_product:
- *                         type: integer
- *                         example: 2
- *                       name_product:
- *                         type: string
- *                         example: "Mesa"
- *                       img_product:
- *                         type: string
- *                         example: "url de la imagen del producto..." 
- *                       description_product:
- *                         type: string
- *                         example: "Mesa de 1/2 metro de alto, usa 4 patas de madera de pino..."
- *                       price_product:
- *                         type: integer
- *                         example: 5000
- *                       map_product:
- *                         type: string
- *                         example: "url del plano del producto..." 
- *                       disabled:
- *                         type: boolean
- *                         example: false  
- *                       stocks:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             id_material: 
- *                               type: integer
- *                               example: 1
- *                             name_material:
- *                               type: string
- *                               example: "Clavos 15mm"
- *                             product_Stocks_association:
- *                               type: object
- *                               properties:
- *                                 how_much_contains_use:
- *                                   type: integer
- *                                   example: 10
- *                       tools:
- *                         type: array
- *                         items:
- *                           type: object
- *                           properties:
- *                             id_tool: 
- *                               type: integer
- *                               example: 2
- *                             name_tool:
- *                               type: string
- *                               example: "Martillo de bola"                   
- *                 stock:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_material:
- *                         type: integer
- *                         example: 1
- *                       name_material:
- *                         type: string
- *                         example: "Clavos 15mm"
- *                 tools:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id_tool:
- *                         type: integer
- *                         example: 3
- *                       name_tool:
- *                         type: string
- *                         example: "Amoladora"
- *       500:
- *         description: "Error en el servidor"
- *         content: 
- *           text/plain:
- *             schema:
- *               type: string
- *               example: "Hubo un error interno en el servidor"
- *  
  * /products/update/{id_products}:
  *   patch:
  *     summary: "Actualizar un producto"

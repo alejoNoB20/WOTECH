@@ -25,14 +25,14 @@ export class productsController {
     }
     crear = async (req, res) => {
         try {
-            if(req.files.img_product){
+            if(req.files.img_product || typeof(req.files.img_product) !== 'string'){
                 const imgURL = imageURLTrasnform(req.files.img_product[0]);
                 req.body.img_product = {url: imgURL, name: req.files.img_product[0].originalname};
-            }
-            if(req.files.map_product){
+            };
+            if(req.files.map_product || typeof(req.files.map_product) !== 'string'){
                 const mapURL = imageURLTrasnform(req.files.map_product[0]);
                 req.body.map_product = {url: mapURL, name: req.files.map_product[0].originalname}; 
-            }
+            };
             const resultado = await Product.crearProducto(req.body);
             try_catch.TRY_RES(res, resultado);
 
@@ -58,15 +58,6 @@ export class productsController {
             try_catch.CATCH_RES(res, err);
         }
     }
-    irPaginaActualizar = async (req, res) => {
-        try {
-            const resultado = await Product.datosParaActualizacion(req.params.id_product);
-            try_catch.TRY_RES(res, resultado);
-
-        }catch(err) {
-            try_catch.CATCH_RES(res, err);            
-        }
-    }
     detallesProducto = async (req, res) => {
         try {
             const resultado = await Product.filtrarProducto('id_product', req.params.id_product);
@@ -79,7 +70,16 @@ export class productsController {
     }
     actualizar = async (req, res) => {
         try{
-            const resultado = await Product.actualizarProducto(req.params.id_product, req.body);
+            if(req.files.img_product){
+                const imgURL = imageURLTrasnform(req.files.img_product[0]);
+                req.body.img_product = {url: imgURL, name: req.files.img_product[0].originalname};
+            };
+            if(req.files.map_product){
+                const mapURL = imageURLTrasnform(req.files.map_product[0]);
+                req.body.map_product = {url: mapURL, name: req.files.map_product[0].originalname}; 
+            };
+            const {stocks, ...updateProduct} = req.body;
+            const resultado = await Product.actualizarProducto(req.params.id_product, updateProduct);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

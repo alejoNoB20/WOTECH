@@ -5,7 +5,7 @@ import { Tools } from "../Tools/toolsModels.js";
 import { productStocksAssociation } from "../Associations/productStocksModels.js";
 import { productToolsAssociation } from "../Associations/productToolsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
-import { uploadImage } from "../../libs/Cloudinary.js";
+import { uploadImage, destroyImage } from "../../libs/Cloudinary.js";
 
 
 export class productsService {
@@ -16,7 +16,7 @@ export class productsService {
                     disabled: false
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'description_product', 'map_product']
+                    exclude: ['createdAt', 'updatedAt', 'description_product']
                 },
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 404);
@@ -144,44 +144,25 @@ export class productsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del producto finalizó exitosamente');
         }
     }
-    datosParaActualizacion = async (id_product) => {
-        try{
-            const product = await this.filtrarProducto('id_product', id_product);
-            const stock = await Stock.findAll({
-                where: {
-                    disabled: false
-                },
-                attributes: ['id_material', 'name_material']
-            });
-            const tools = await Tools.findAll({
-                where: {
-                    disabled: false
-                },
-                attributes: ['id_tool', 'name_tool']
-            });
-
-            return try_catch.SERVICE_TRY_RES({product: product.msg, stock, tools}, 200);
-
-        }catch(err) {
-            return try_catch.SERVICE_CATCH_RES(err);
-        }
-    }
-    actualizarProducto = async (id_product, newData) => {
+    actualizarProducto = async (id_product, data) => {
         try{
             let imageError = {status: false};
             let beforeUpdateImg;
-            const {tools, materials, ...data} = newData;
+            let beforeUpdateMap;
+            const tools = JSON.parse(data.tools);
+            const materials = JSON.parse(data.materials);
 
-            // Clodinary Module - Producuts
+            // Clodinary Module - img_product
             if(!data.img_product){
                 data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
-                const productUpdate = await Products.findByPk(id_product, {
-                    attributes: ['img_product']
-                });
-                beforeUpdateImg = productUpdate.img_product;
-
-                const saveImage = await uploadImage(data.img_product, 'Productos');
+                if(typeof(data.img_product) !== 'string'){
+                    const productUpdate = await Products.findByPk(id_product, {
+                        attributes: ['img_product']
+                    });
+                    beforeUpdateImg = productUpdate.img_product;
+    
+                    const saveImage = await uploadImage(data.img_product.url, data.img_product.name, 'Productos');
                     if(saveImage.success){
                         if(beforeUpdateImg !== saveImage.msg){
                             await destroyImage(beforeUpdateImg);
@@ -191,16 +172,26 @@ export class productsService {
                         imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar la imagen del producto'};
                         data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
                     };
+                }
             };         
             
-            // Clodinary Module - Map_products
+            // Clodinary Module map_product
             if(data.map_product){
-                const saveImage = await uploadImage(data.map_product, 'Planos_Productos');
-                if(saveImage.success){
-                    data.map_product = saveImage.msg;
-                }else {
-                    imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar el plano del producto'};
-                };
+                if(typeof(data.map_product) !== 'string'){
+                    const productUpdate = await Products.findByPk(id_product, {
+                        attributes: ['map_product']
+                    });
+                    beforeUpdateMap = productUpdate.map_product;
+                    const saveMap = await uploadImage(data.map_product.url, data.map_product.name, 'Planos_Productos');
+                    if(saveMap.success){
+                        if(beforeUpdateMap !== saveMap.msg){
+                            await destroyImage(beforeUpdateMap);
+                        };
+                        data.img_product = saveImage.msg;
+                    }else {
+                        imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar el plano del producto'};
+                    };
+                }
             };
 
             const olderProduct = await this.filtrarProducto('id_product', id_product);
