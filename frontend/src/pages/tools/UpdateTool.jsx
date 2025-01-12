@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate, useParams } from "react-router-dom"
 import Loader from "components/loader/Loader"
-import { faPen, faTrash, faFloppyDisk } from "@fortawesome/free-solid-svg-icons"
+import { faPen, faTrash, faFloppyDisk, faL } from "@fortawesome/free-solid-svg-icons"
 import { useModal } from "../../context/modalContext"
 import { useNotifications } from "../../context/notificationsContext"
 
@@ -10,6 +10,7 @@ const UpdateTool = () => {
   const [loading, setLoading] = useState(true)
   const [tool, setTool] = useState({})
   const [showForm, setShowForm] = useState(false)
+  const [changeImg, setChangeImg] = useState(false);
   const { openModal } = useModal();
   const notify = useNotifications();
   const { id } = useParams()

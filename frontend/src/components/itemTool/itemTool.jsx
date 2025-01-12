@@ -29,7 +29,7 @@ const ItemTool = ({ tool }) => {
         <img
           src={img_tool ||"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Hand_tools.jpg/1200px-Hand_tools.jpg"}
           alt={name_tool}
-          className="object-cover w-full h-full"
+          className="object-contain w-full h-full"
         />
       </div>
       <div className="flex-3 p-2">

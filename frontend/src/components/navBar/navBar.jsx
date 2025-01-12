@@ -23,11 +23,20 @@ const NavBar = ({ logged }) => {
           <NavLink to="/stock/getstock" className="hover:text-gray-400 active:text-red-500">
             Materiales
           </NavLink>
+          <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500">
+            Herramientas
+          </NavLink>
           <NavLink to="/products/getproducts" className="hover:text-gray-400 active:text-red-500">
             Productos
           </NavLink>
-          <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500">
-            Herramientas
+          <NavLink to="/clients/getclients" exact className="hover:text-gray-400 active:text-red-500">
+            Clientes
+          </NavLink>
+          <NavLink to="/suppliers/getsuppliers" exact className="hover:text-gray-400 active:text-red-500">
+            Proveedores
+          </NavLink>
+          <NavLink to="/orders/getorders" exact className="hover:text-gray-400 active:text-red-500">
+            Pedidos
           </NavLink>
           <NavLink to="/user">
             <FontAwesomeIcon icon={faUser} className='w-6 h-6' />

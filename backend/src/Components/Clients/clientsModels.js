@@ -13,12 +13,11 @@ export const Clients = sequelize.define('clients', {
     }, 
     last_name_client: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: true
     },
     dni_client: {
         type: DataTypes.STRING(8),
-        unique: true,
-        allowNull: false
+        allowNull: true
     },
     province_client: {
         type: DataTypes.STRING,
@@ -42,7 +41,6 @@ export const Clients = sequelize.define('clients', {
     },
     cuil_or_cuit_client: {
         type: DataTypes.STRING(13),
-        unique: true,
         allowNull: true
     },
     disabled: {

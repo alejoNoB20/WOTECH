@@ -23,6 +23,7 @@ export class clientsController {
     }
     crear = async (req, res) => {
         try{
+            console.log(req.body)
             const resultado = await Clients.crearCliente(req.body);
             try_catch.TRY_RES(res, resultado);
 

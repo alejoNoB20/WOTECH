@@ -107,9 +107,6 @@ export default clientsRouter;
  *                 name_client: 
  *                   type: string
  *                   example: "John"
- *                 last_name_client: 
- *                   type: string
- *                   example: "Travolta"
  *                 province_client: 
  *                   type: string
  *                   example: "Buenos Aires"
@@ -322,8 +319,6 @@ export default clientsRouter;
  *       type: object
  *       required:
  *         - name_client
- *         - last_name_client
- *         - dni_client
  *         - province_client
  *         - direction_client
  *         - phone_number_client

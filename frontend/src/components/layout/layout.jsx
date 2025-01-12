@@ -22,6 +22,10 @@ const Layout = ({ children, logged }) => {
             { name: "Ver herramientas", path: "/tools/gettools" },
             { name: "Crear herramienta", path: "/tools/addtool" },
         ],
+        "/clients": [
+            { name: "Ver clientes", path: "/clients/getclients" },
+            { name: "Registrar Cliente", path: "/clients/addclient" },
+        ],
     };
     const currentBasePath = `/${location.pathname.split('/')[1]}`
     const links = routeLinks[currentBasePath] || []

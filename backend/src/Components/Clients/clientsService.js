@@ -12,7 +12,7 @@ export class clientsService {
                 },
                 attributes: ['id_client', 'name_client', 'last_name_client', 'type_client']
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron Clientes en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron clientes registrados en la base de datos', 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 
@@ -84,7 +84,11 @@ export class clientsService {
                 if(type === 'dniClientValidator') type = 'dni_client';
                 objetoWhere[type] = {
                     [Op.eq]: value
-                } 
+                };
+                if(type === 'cuilOrCuitClient') type = 'cuil_or_cuit_client';
+                objetoWhere[type] = {
+                    [Op.eq]: value
+                };
             };
             
             const resultado = await Clients.findAll({

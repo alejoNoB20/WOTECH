@@ -12,15 +12,14 @@ export const clientsValidator = {
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('last_name_client')
+            .optional()
             .trim()
-            .exists()
-            .notEmpty().withMessage('El campo APELLIDO es obligatorio').bail()
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('dni_client')
             .optional()
             .trim()
-            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
+            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe contener 8 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findSameDNI = await Client.filtrarClientes('dniClientValidator', req.body.dni_client);
 
@@ -59,7 +58,9 @@ export const clientsValidator = {
 
         body('cuil_or_cuit_client')
             .optional()
-            .isLength({min: 13, max: 13}).withMessage('El campo CUIL O CUIT DEL CLIENTE solo permite 13 caracteres'),
+            .isNumeric().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
+            .isInt().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
+            .isLength({min: 11, max: 11}).withMessage('El campo CUIL O CUIT DEL CLIENTE debe contener 11 números'),
 
         (req, res, next) => {
             validatorResult(req, res, next);
@@ -73,17 +74,16 @@ export const clientsValidator = {
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('last_name_client')
+            .optional()
             .trim()
-            .exists()
-            .notEmpty().withMessage('El campo APELLIDO es obligatorio').bail()
             .isLength({max: 100}).withMessage('El campo NOMBRE permite un máximo de 100 caracteres'),
 
         body('dni_client')
             .optional()
             .trim()
-            .isLength({min: 8, max: 8}).withMessage('El campo DNI debe tener 8 carateres').bail()
             .custom(async (value, {req}) => {
                 const findSameDNI = await Client.filtrarClientes('dniClientValidator', req.body.dni_client);
+                if(value !== "" && value.length !== 8) throw new Error('El campo DNI debe contener 8 caracteres');
                 if (findSameDNI.status == 200 && findSameDNI.msg[0].dni_client != req.body.dni_client) throw new Error('El número de DNI ya está registrado');
                 return true;
             }),
@@ -119,9 +119,13 @@ export const clientsValidator = {
 
         body('cuil_or_cuit_client')
             .optional()
-            .isNumeric().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
-            .isInt().withMessage('El campo CUIL O CUIT DEL CLIENTE solo recibe números enteros').bail()
-            .isLength({min: 11, max: 11}).withMessage('El campo CUIL O CUIT DEL CLIENTE permite un máximo de 11 caracteres númericos'),
+            .trim()
+            .custom(async (value, {req}) => {
+                const findSameCUIT = await Client.filtrarClientes('cuilOrCuitClient', req.body.cuil_or_cuit_client);
+                if(value !== "" && value.length !== 11) throw new Error('El campo CUIL O CUIT DEL CLIENTE debe contener 11 números');
+                if (findSameCUIT.status == 200 && findSameCUIT.msg[0].cuil_or_cuit_client != req.body.cuil_or_cuit_client) throw new Error('El número de CUIT o CUIL ya está registrado');
+                return true;
+            }),
 
         (req, res, next) => {
             validatorResult(req, res, next);
@@ -149,7 +153,7 @@ export const clientsValidator = {
                     const valueFloat = parseFloat(value);
                     if(!Number.isInteger(valueFloat) || valueFloat < 1) throw new Error ('Los campos ID - DNI - CUIL O CUIT DEL CLIENTE solo reciben números entereros positivos');
                     if(req.query.search_type === 'dni_client' && value.length != 8) throw new Error ('El campo DNI solo permite 8 carateres');
-                    if(req.query.search_type === 'cuil_or_cuit_client' && value.length != 13) throw new Error ('El campo CUIL O CUIT DEL CLIENTE solo permite 13 carateres');
+                    if(req.query.search_type === 'cuil_or_cuit_client' && value.length != 13) throw new Error ('El campo CUIL O CUIT DEL CLIENTE solo permite 11 números');
                 }
                 return true
             }),

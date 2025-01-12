@@ -31,10 +31,14 @@ const SearchBar = ({ onSearch }) => {
           { value: 'id_product', label: 'ID' },
           { value: 'name_product', label: 'Nombre' },
         ]);
-      } else if (location.pathname.startsWith('/ruta4')) {
+      } else if (location.pathname.startsWith('/clients')) {
         setOptions([
-          { value: 'option7', label: 'Opción 1 para Ruta 4' },
-          { value: 'option8', label: 'Opción 2 para Ruta 4' },
+          { value: 'id_client', label: 'ID' },
+          { value: 'name_client', label: 'Nombre' },
+          { value: 'last_name_client', label: 'Apellido' },
+          { value: 'dni_client', label: 'DNI' },
+          { value: 'cuil_or_cuit_client', label: 'CUIL o CUIT' },
+          { value: 'type_client', label: 'TIPO' },
         ]);
       } else {
         setOptions([]); // Opciones vacías si la ruta no coincide
@@ -62,7 +66,7 @@ const SearchBar = ({ onSearch }) => {
     return
   }
   return (
-    <form ref={formRef} onSubmit={handleSearch} className="flex items-center space-x-4">
+    <form ref={formRef} onSubmit={handleSearch} className="flex items-center space-x-4 w-auto">
       <div className="relative">
         <input
           type="text"
@@ -80,7 +84,7 @@ const SearchBar = ({ onSearch }) => {
       <select
         value={selectedOption}
         onChange={handleSelectChange}
-        className="border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" 
+        className="flex w-auto border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" 
         // required
       >
         <option value="">Selecciona una opción</option>

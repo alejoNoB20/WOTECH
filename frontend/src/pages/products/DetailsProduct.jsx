@@ -674,7 +674,6 @@ const DetailsProduct = () => {
                             <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
                                 Volver a detalles
                             </button>
-
                         </section>
                     </section>
                 )}
