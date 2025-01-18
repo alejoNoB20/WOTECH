@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import Loader from "../../components/loader/Loader";
+import Loader from "@components/loader/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faArrowAltCircleLeft, faFileImage, faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useModal } from "../../context/modalContext";
-import { useNotifications } from "../../context/notificationsContext";
+import { useModal } from "@context/modalContext";
+import { useNotifications } from "@context/notificationsContext";
 
 const DetailsProduct = () => {
     const [loader, setLoader] = useState(true);

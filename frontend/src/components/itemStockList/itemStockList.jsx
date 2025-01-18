@@ -1,4 +1,4 @@
-import ItemStock from "components/itemStock/itemStock";
+import ItemStock from "@components/itemStock/itemStock";
 import './itemStockList.css'
 const ItemList = ({ items }) => {
     return (
@@ -11,10 +11,10 @@ const ItemList = ({ items }) => {
                 <table className="table-fill">
                     <thead>
                         <tr>
-                            <th className="text-left">ID</th>
-                            <th className="text-left">Nombre</th>
-                            <th className="text-left">Cantidades</th>
-                            <th className="text-left">Unidad de medida</th>
+                            <th className="text-center">ID</th>
+                            <th className="text-center">Nombre</th>
+                            <th className="text-center">Cantidades</th>
+                            <th className="text-center">Unidad de medida</th>
                         </tr>
                     </thead>
                     <tbody className="table-hover">

@@ -16,6 +16,9 @@ import Home from "./pages/home/Home"
 import GetClients from "./pages/clients/GetClients"
 import AddClient from "./pages/clients/AddClient"
 import DetailClient from "./pages/clients/DetailClient"
+import GetSuppliers from "./pages/suppliers/GetSuppliers"
+import AddSuppliers from "./pages/suppliers/AddSuppliers"
+import DetailsSupplier from "./pages/suppliers/DetailsSupplier"
 import TestComponent from "components/componentTest/test"
 import { NotificationsProvider } from "./context/notificationsContext"
 import { ToastContainer } from "react-toastify"
@@ -43,6 +46,9 @@ function App() {
         <Route path="/clients/addclient" element={<AddClient />} />
         <Route path="/clients/detailclient/:id" element={<DetailClient />}/>
         <Route path="/clients/search" element={<GetClients />} />
+        <Route path="/suppliers/getsuppliers" element={<GetSuppliers />} />
+        <Route path="/suppliers/addsuppliers" element={<AddSuppliers />} />
+        <Route path="/suppliers/datailssupplier/:id" element={<DetailsSupplier />}/>
         <Route path="/" element={<Home/>}/>
         <Route path="/test" element={<TestComponent/>}/>
       </Routes>

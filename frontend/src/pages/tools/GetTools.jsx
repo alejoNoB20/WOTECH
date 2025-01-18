@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import Loader from "components/loader/Loader"
-import ItemToolList from "components/itemToolList/itemToolList"
+import Loader from "@components/loader/Loader"
+import ItemToolList from "@components/itemToolList/itemToolList"
 import { useLocation } from "react-router-dom"
-import { useModal } from "context/modalContext"
+import { useModal } from "@context/modalContext"
 
 const GetTools = () => {
   const [tools, setTools] = useState([])

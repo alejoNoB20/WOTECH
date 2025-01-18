@@ -1,4 +1,4 @@
-import { ItemClient } from "../itemClient/ItemClient";
+import { ItemClient } from "@components/itemClient/ItemClient";
 
 export const ItemClientList = ({clients}) => {
     return(
@@ -11,10 +11,10 @@ export const ItemClientList = ({clients}) => {
                 <table className="table-fill">
                 <thead>
                     <tr>
-                        <th className="text-left">ID</th>
-                        <th className="text-left">Nombre</th>
-                        <th className="text-left">Apellido</th>
-                        <th className="text-left">Tipo de Cliente</th>
+                        <th className="text-center">ID</th>
+                        <th className="text-center">Nombre</th>
+                        <th className="text-center">Apellido</th>
+                        <th className="text-center">Tipo de Cliente</th>
                     </tr>
                 </thead>
                 <tbody className="table-hover">

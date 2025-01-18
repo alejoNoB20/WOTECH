@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import ItemList from 'components/itemStockList/itemStockList'
-import Loader from "components/loader/Loader"
+import ItemList from '@components/itemStockList/itemStockList'
+import Loader from "@components/loader/Loader"
 import { useLocation, useNavigate } from "react-router-dom";
-import { useModal } from "../../context/modalContext";
+import { useModal } from "@context/modalContext";
 
 const GetStock = () => {
     const [items, setItems] = useState([]);

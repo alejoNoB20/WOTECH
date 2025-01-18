@@ -1,5 +1,5 @@
 // App.js
-import { useNotifications } from 'context/notificationsContext';
+import { useNotifications } from '@context/notificationsContext';
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 

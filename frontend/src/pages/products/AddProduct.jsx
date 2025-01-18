@@ -1,8 +1,8 @@
-import Loader from "../../components/loader/Loader";
+import Loader from "@components/loader/Loader";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate} from "react-router-dom";
-import { useModal } from "../../context/modalContext";
-import { useNotifications } from "../../context/notificationsContext";
+import { useModal } from "@context/modalContext";
+import { useNotifications } from "@context/notificationsContext";
 
 const AddProducts = () => {
     const [loader, setLoader] = useState(false);

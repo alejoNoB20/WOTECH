@@ -5,8 +5,8 @@ const supplierMaterials = new supplierMaterialsController();
 let supplierMaterialsRouter = Router();
 
 supplierMaterialsRouter.get('/:id_supplier', supplierMaterials.ver);
-supplierMaterialsRouter.post('/create', supplierMaterialsValidator.createAndUpdateSupplierMaterial, supplierMaterials.crear);
-supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterialsValidator.createAndUpdateSupplierMaterial, supplierMaterials.modificar);
+supplierMaterialsRouter.post('/create', supplierMaterials.crear);
+supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterials.modificar);
 supplierMaterialsRouter.patch('/disabled/:id_supplier_material', supplierMaterials.deshabilitar);
 supplierMaterialsRouter.get('/priceControl/:id_supplier_material', supplierMaterials.controlPrecios);
 

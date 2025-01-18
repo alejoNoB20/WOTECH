@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Loader from "../../components/loader/Loader";
-import { useModal } from "../../context/modalContext";
-import { ItemClientList } from "../../components/itemClientList/ItemClientList";
+import Loader from "@components/loader/Loader";
+import { useModal } from "@context/modalContext";
+import { ItemClientList } from "@components/itemClientList/ItemClientList";
 
 const GetClients = () => {
     const [loader, setLoader] = useState(false);

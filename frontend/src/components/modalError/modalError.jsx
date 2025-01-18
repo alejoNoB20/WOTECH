@@ -1,7 +1,7 @@
 // ErrorModal.js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useModal } from 'context/modalContext';
+import { useModal } from '@context/modalContext';
 const ErrorModal = () => {
   const { showModal, modalProps, closeModal } = useModal();
 

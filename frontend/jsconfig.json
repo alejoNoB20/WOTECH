@@ -3,10 +3,12 @@
       "baseUrl": "./src",
       "paths": {
         "@components/*": ["components/*"],
+        "@pages/*": ["pages/*"],
+        "@context/*": ["context/*"],
         "@/*":[ "./*"]
       }
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "config-overrides.js"]
   }
   

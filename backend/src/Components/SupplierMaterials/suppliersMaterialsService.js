@@ -32,7 +32,9 @@ export class supplierMaterialsService {
     }
     crearMaterial = async (data) => {
         try{
-            await supplierStockAssociations.create(data);
+            for(const supplierStock of data){
+                await supplierStockAssociations.create(supplierStock);
+            }
 
             return try_catch.SERVICE_TRY_RES('La creación del material de proveedor finalizó exitosamente', 201); 
 
@@ -40,38 +42,77 @@ export class supplierMaterialsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La creación del material de proveedor falló');
         }
     }
-    modificarMaterial = async (id_supplier_material, data) => {
-        try{
-            const material = await supplierStockAssociations.findOne({
-                where: {
-                    id_supplier_material
-                },
-                attributes: ['amount_material', 'price_material', 'id_supplier_fk']
+    modificarMaterial = async (id_supplier_fk, data) => {
+        try {
+            // Obtener los materiales asociados al proveedor
+            const materialAssociation = await supplierStockAssociations.findAll({
+                where: { id_supplier_fk },
             });
-
-            if(material.price_material != data.price_material){
-                await PriceControl.create({
-                    id_material_supplier_fk: id_supplier_material,
-                    register_price_control: material.price_material
-                })
-            };
-
-            supplierStockAssociations.update(data, {
-                where: {
-                    id_supplier_material
+    
+            // Preparar las promesas para las actualizaciones y creaciones
+            const updatePromises = [];
+            const createPromises = [];
+            const disabledMaterials = new Set(materialAssociation.map((mat) => mat.id_material_fk));
+    
+            for (const material of data) {
+                const { name_material, ...usingUpdatedData } = material;
+                const materialFilter = materialAssociation.find(
+                    (mat) => mat.id_material_fk === material.id_material_fk
+                );
+    
+                if (materialFilter) {
+                    const { id_supplier_material, ...usingData } = materialFilter.dataValues;
+    
+                    // Verificar cambios
+                    if (JSON.stringify(usingData) !== JSON.stringify(usingUpdatedData)) {
+                        if (usingData.price_material !== usingUpdatedData.price_material) {
+                            updatePromises.push(
+                                PriceControl.create({
+                                    id_material_supplier_fk: id_supplier_material,
+                                    register_price_control: usingData.price_material,
+                                })
+                            );
+                        }
+    
+                        updatePromises.push(
+                            supplierStockAssociations.update(usingUpdatedData, {
+                                where: { id_supplier_material },
+                            })
+                        );
+                    }
+    
+                    // Eliminar del conjunto de materiales deshabilitados
+                    disabledMaterials.delete(material.id_material_fk);
+                } else {
+                    // Crear nuevo material
+                    createPromises.push(supplierStockAssociations.create(material));
                 }
-            });
-            
-
-            return try_catch.SERVICE_TRY_RES('La actualización del material de proveedor finalizó exitosamente', 200);
-            
-        }catch(err) {
+            }
+    
+            // Deshabilitar los materiales restantes que no están en `data`
+            for (const id_material_fk of disabledMaterials) {
+                updatePromises.push(
+                    supplierStockAssociations.update(
+                        { disabled: true },
+                        { where: { id_material_fk } }
+                    )
+                );
+            }
+    
+            // Ejecutar todas las promesas
+            await Promise.all([...updatePromises, ...createPromises]);
+    
+            return try_catch.SERVICE_TRY_RES(
+                'La actualización del material de proveedor finalizó exitosamente',
+                200
+            );
+        } catch (err) {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del material de proveedor falló');
         }
-    }
+    };
     deshabilitarMaterial = async (id_supplier_material) => {
         try{
-            supplierStockAssociations.update({
+            await supplierStockAssociations.update({
                 disabled: true
             }, {
                 where: {

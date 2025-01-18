@@ -40,7 +40,12 @@ const SearchBar = ({ onSearch }) => {
           { value: 'cuil_or_cuit_client', label: 'CUIL o CUIT' },
           { value: 'type_client', label: 'TIPO' },
         ]);
-      } else {
+      } else if (location.pathname.startsWith('/suppliers')) {
+        setOptions([
+          { value: 'name_company_supplier', label: 'Nombre del proveedor' },
+          { value: 'distributor_name_supplier', label: 'Nombre del distribuidor' },
+        ]);
+      }else {
         setOptions([]); // Opciones vacías si la ruta no coincide
       }
     };

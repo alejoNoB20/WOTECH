@@ -157,7 +157,7 @@ export const supplierValidator = {
             .isEmail().withMessage('El formato del campo MAIL DEL DISTRIBUIDOR no es válido').bail()
             .isLength({max: 255}).withMessage('El campo MAIL DEL DISTRIBUIDO puede contener un máximo de 255 caracteres'),
 
-            body('delivery_days_suppier')
+        body('delivery_days_suppier')
             .optional()
             .trim()
             .isLength({max: 155}).withMessage('El campo DÍAS DE ENTREGA puede contener un máximo de 155 caracteres'),

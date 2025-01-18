@@ -1,4 +1,4 @@
-import Product from "../../components/itemProduct/ItemProduct";
+import Product from "@components/itemProduct/ItemProduct";
 
 const ItemList = ({list}) => {
     return(

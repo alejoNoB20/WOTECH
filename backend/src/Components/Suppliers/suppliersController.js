@@ -41,7 +41,7 @@ export class supplierController {
     }
     detalles = async (req, res) => {
         try{
-            const resultado = await Supplier.filtrarProveedor('id_supplier', req.params.id_supplier);
+            const resultado = await Supplier.filtrarProveedor('id_supplier_details', req.params.id_supplier);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

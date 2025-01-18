@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Loader from "../../components/loader/Loader";
-import { useNotifications } from "../../context/notificationsContext";
-import { useModal } from "../../context/modalContext";
+import Loader from "@components/loader/Loader";
+import { useNotifications } from "@context/notificationsContext";
+import { useModal } from "@context/modalContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";

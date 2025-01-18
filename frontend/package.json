@@ -19,9 +19,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "clean": "rimraf ./build && rimraf ./.cache && rimraf ./node_modules/.cache"
   },
@@ -45,7 +45,9 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@craco/craco": "^7.1.0",
     "autoprefixer": "^10.4.19",
+    "customize-cra": "^1.0.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4"
   }

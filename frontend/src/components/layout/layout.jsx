@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from 'components/navBar/navBar';
-import Sidebar from 'components/sideBar/sidebar';
-import Footer from 'components/footer/footer';
+import NavBar from '@components/navBar/navBar';
+import Sidebar from '@components/sideBar/sidebar';
+import Footer from '@components/footer/footer';
 import { useLocation } from 'react-router-dom';
 const Layout = ({ children, logged }) => {
     const location = useLocation()
@@ -15,8 +15,8 @@ const Layout = ({ children, logged }) => {
             { name: "Crear producto", path: "/products/addproduct" },
         ],
         "/orders": [
-            { name: "Crear orden", path: "/createorder" },
-            { name: "Ver ordenes", path: "/vieworders" },
+            { name: "Crear orden", path: "/orders/getorders" },
+            { name: "Ver ordenes", path: "/orders/addorders" },
         ],
         "/tools": [
             { name: "Ver herramientas", path: "/tools/gettools" },
@@ -24,7 +24,12 @@ const Layout = ({ children, logged }) => {
         ],
         "/clients": [
             { name: "Ver clientes", path: "/clients/getclients" },
-            { name: "Registrar Cliente", path: "/clients/addclient" },
+            { name: "Registrar cliente", path: "/clients/addclient" },
+        ],
+        "/suppliers": [
+            { name: "Ver proveedores", path: "/suppliers/getsuppliers" },
+            { name: "Registrar proveedor", path: "/suppliers/addsuppliers" },
+            { name: "Compra de materiales", path: "/suppliers/purchases" },
         ],
     };
     const currentBasePath = `/${location.pathname.split('/')[1]}`

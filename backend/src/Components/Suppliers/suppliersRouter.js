@@ -9,7 +9,7 @@ supplierRouter.get('/details/:id_supplier', Supplier.detalles);
 supplierRouter.post('/create', supplierValidator.createSupplier, Supplier.crear);
 supplierRouter.patch('/disabled/:id_supplier', Supplier.deshabilitar);
 supplierRouter.delete('/delete/:id_supplier', Supplier.borrar);
-supplierRouter.patch('/update/:id_supplier', supplierValidator.updateSupplier, Supplier.actualizar);
+supplierRouter.patch('/update/:id_supplier', Supplier.actualizar);
 supplierRouter.get('/search', Supplier.filtrar);
 
 export default supplierRouter;

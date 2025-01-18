@@ -23,7 +23,9 @@ export class supplierMaterialsController {
     }
     modificar = async (req, res) => {
         try{
-            const resultado = await supplierMaterials.modificarMaterial(req.params.id_supplier_material, req.body);
+            // REFERIENCIA DEL ID DEL PROVEEDOR
+            const id_supplier_fk = req.body[0].id_supplier_fk;
+            const resultado = await supplierMaterials.modificarMaterial(id_supplier_fk, req.body);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

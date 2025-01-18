@@ -1,4 +1,4 @@
-import ItemTool from "components/itemTool/itemTool"
+import ItemTool from "@components/itemTool/itemTool"
 
 const ItemToolList = ({ tools }) => {
     return(

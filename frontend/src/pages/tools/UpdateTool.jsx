@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate, useParams } from "react-router-dom"
-import Loader from "components/loader/Loader"
-import { faPen, faTrash, faFloppyDisk, faL, faFileImage, faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons"
-import { useModal } from "../../context/modalContext"
-import { useNotifications } from "../../context/notificationsContext"
+import Loader from "@components/loader/Loader"
+import { faPen, faTrash, faFloppyDisk, faFileImage, faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons"
+import { useModal } from "@context/modalContext"
+import { useNotifications } from "@context/notificationsContext"
 
 const UpdateTool = () => {
   const [loading, setLoading] = useState(true);

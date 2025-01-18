@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { useModal } from "context/modalContext"
+import { useModal } from "@context/modalContext"
 import { useNavigate } from "react-router-dom"
-import { useNotifications } from "context/notificationsContext"
+import { useNotifications } from "@context/notificationsContext"
 
 const AddTool = () => {
   const { openModal } = useModal()

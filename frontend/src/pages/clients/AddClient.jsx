@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useModal } from "../../context/modalContext";
-import { useNotifications } from "../../context/notificationsContext";
-import Loader from "../../components/loader/Loader";
+import { useModal } from "@context/modalContext";
+import { useNotifications } from "@context/notificationsContext";
+import Loader from "@components/loader/Loader";
 
 const AddClient = () => {
     const [client, setClient] = useState({});
@@ -127,7 +127,7 @@ const AddClient = () => {
                     <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5 ">
                         {/* TITULO */}
                         <h2 className="text-2xl font-bold mb-4 mx-5">
-                            Registrar Proveedor
+                            Registrar Cliente
                         </h2>
                         {/* COLUMNA DE INPUTS */}
                         <div className="flex flex-row mx-3">

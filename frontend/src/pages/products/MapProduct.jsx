@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../../components/loader/Loader";
+import { useParams } from "react-router-dom";
+import Loader from "@components/loader/Loader";
 
 const MapProduct = () => {
     const [product, setProduct] = useState({});
     const [loader, setLoader] = useState(true);
     const { id } = useParams();
-    const navigate = useNavigate();   
 
     useEffect(()=> {
         const fetchData = async () => {

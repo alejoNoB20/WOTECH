@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate, useParams } from 'react-router-dom';
-import Loader from 'components/loader/Loader';
+import Loader from '@components/loader/Loader';
 import { faPen, faTrash, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { useModal } from 'context/modalContext';
-import { useNotifications } from "context/notificationsContext";
+import { useModal } from '@context/modalContext';
+import { useNotifications } from "@context/notificationsContext";
 import './updateStock.css';
 
 const UpdateStock = () => {

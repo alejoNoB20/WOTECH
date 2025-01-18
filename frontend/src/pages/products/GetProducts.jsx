@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Loader from "../../components/loader/Loader";
-import ItemList from "../../components/itemProductList/ItemProductList";
+import Loader from "@components/loader/Loader";
+import ItemList from "@components/itemProductList/ItemProductList";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useModal } from "../../context/modalContext";
+import { useModal } from "@context/modalContext";
 
 const GetProducts = () => {
     const [list, setList] = useState([]);
