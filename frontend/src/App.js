@@ -22,6 +22,7 @@ import DetailsSupplier from "./pages/suppliers/DetailsSupplier"
 import TestComponent from "components/componentTest/test"
 import { NotificationsProvider } from "./context/notificationsContext"
 import { ToastContainer } from "react-toastify"
+import PurchaseMaterials from "@pages/suppliers/PurchaseMaterials"
 
 function App() {
   return (
@@ -49,7 +50,10 @@ function App() {
         <Route path="/suppliers/getsuppliers" element={<GetSuppliers />} />
         <Route path="/suppliers/addsuppliers" element={<AddSuppliers />} />
         <Route path="/suppliers/datailssupplier/:id" element={<DetailsSupplier />}/>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/suppliers/search" element={<GetSuppliers />} />
+        <Route path="/suppliers/search" element={<GetSuppliers />} />
+        <Route path="/suppliers/purchase" element={<PurchaseMaterials />}/>
+        <Route path="/" element={<Home />}/>
         <Route path="/test" element={<TestComponent/>}/>
       </Routes>
         <ToastContainer 

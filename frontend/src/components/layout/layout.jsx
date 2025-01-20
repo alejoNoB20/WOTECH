@@ -29,7 +29,7 @@ const Layout = ({ children, logged }) => {
         "/suppliers": [
             { name: "Ver proveedores", path: "/suppliers/getsuppliers" },
             { name: "Registrar proveedor", path: "/suppliers/addsuppliers" },
-            { name: "Compra de materiales", path: "/suppliers/purchases" },
+            { name: "Compra de materiales", path: "/suppliers/purchase" },
         ],
     };
     const currentBasePath = `/${location.pathname.split('/')[1]}`

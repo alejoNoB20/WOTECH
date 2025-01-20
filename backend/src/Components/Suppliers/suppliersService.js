@@ -97,9 +97,6 @@ export class supplierService {
                 include: {
                     model: Stock,
                     attributes:["id_material", "name_material"],
-                    through: {
-                        attributes: ['amount_material', 'price_material', 'id_supplier_fk']
-                    }
                 },
                 order: [['disabled', 'ASC']]
             });
