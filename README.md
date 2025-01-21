@@ -2,7 +2,7 @@
 
 ## ¿Qué es Wotech?
 
-Wotech es un proyecto escolar diseñado para mejorar una carpintería familiar. Se trata de un software de gestión con el objetivo de optimizar tiempos, controlar materiales, controlar pedidos, entre muchas otras cosas. 
+Wotech es un proyecto diseñado para mejorar la eficacia y eficiencia de una carpintería. Se trata de un software de gestión con el objetivo de optimizar tiempos, controlar materiales, controlar pedidos, entre muchas otras cosas. 
 
 ## ¿Qué puede hacer Wotech?
 
