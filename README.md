@@ -26,7 +26,6 @@ The software is designed by three web development students: Alejo Viviani, Taiel
 | Alejo Viviani      | Front-End and Back-end           | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/alejo-viviani/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/alejoNoB20) |
 | Nicolas Raffagnini | Front-End and Back-end | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/nicolas-raffagnini/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/nico-raffa)                                            
 
-=======
 ## Tools and Languages Used
 
 - ![Javascript](https://img.shields.io/badge/Javascript-black?logo=javascript)**Javascript**
@@ -70,5 +69,5 @@ The rest of the instructions are distributed in their specific README files.
 ## Acknowledgments
 
 If you liked our work, we would greatly appreciate your support by giving the repository a star. We welcome any corrections or suggestions, as they help us continuously improve as developers. Thank you very much for your attention.
->>>>>>> developer
+
 
