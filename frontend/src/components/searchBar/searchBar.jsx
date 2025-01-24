@@ -45,6 +45,13 @@ const SearchBar = ({ onSearch }) => {
           { value: 'name_company_supplier', label: 'Nombre del proveedor' },
           { value: 'distributor_name_supplier', label: 'Nombre del distribuidor' },
         ]);
+      } else if (location.pathname.startsWith('/orders')) {
+        setOptions([
+          { value: 'id_order', label: 'ID del pedido' },
+          { value: 'id_client', label: 'ID del cliente' },
+          { value: 'shipping_address_order', label: 'Dirección de envío' },
+          { value: 'delivery_day_order', label: 'Día de entrega' },
+        ]);
       }else {
         setOptions([]); // Opciones vacías si la ruta no coincide
       }

@@ -188,7 +188,7 @@ const AddProducts = () => {
                     formData.append(key, "");
                 }
             };
-            console.log(finalProduct)
+
             try{
                 setLoader(true);
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/products/create`, {
@@ -227,8 +227,8 @@ const AddProducts = () => {
                 }
 
             }catch(err) {
+                console.log(err);
                 handleFail('Ups!, un error ocurrio a la hora de manejar la información, inténtalo nuevamente');
-                navigate('/products/getproducts');
             }
     };
 

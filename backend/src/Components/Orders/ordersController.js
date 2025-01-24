@@ -2,17 +2,6 @@ import { ordersService } from "./ordersService.js";
 import { try_catch } from "../../utils/try_catch.js";
 const Order = new ordersService();
 
-// ---EXAMPLE---
-// {
-//     "id_client_fk": 2,
-//     "shipping_address_order": "",
-//     "delivery_day_order": "2024-08-08",
-//     "products": [
-//         {"id": 1, "price_product": 5000, "unit_product": 15},
-//         {"id": 2, "price_product": 5000, "unit_product": 12}
-//         ]
-// }
-
 export class orderController {
     verPedidos = async (req, res) => {
         try{
@@ -23,9 +12,9 @@ export class orderController {
             try_catch.CATCH_RES(res, err);
         }
     }
-    detallesProductos = async (req, res) => {
+    detallesProductosClientes = async (req, res) => {
         try{    
-            const resultado = await Order.mostrarProductos();
+            const resultado = await Order.mostrarProductosClientes();
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

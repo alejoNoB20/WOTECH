@@ -1,35 +1,38 @@
-import { useEffect, useState } from "react";
 import Loader from "@components/loader/Loader";
-import ItemList from "@components/itemProductList/ItemProductList";
-import { useLocation } from "react-router-dom";
 import { useModal } from "@context/modalContext";
+import { useNotifications } from "@context/notificationsContext";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import ItemOrderList from "@components/itemOrderList/ItemOrderList";
 
-const GetProducts = () => {
+
+const GetOrders = () => {
     const [list, setList] = useState([]);
     const [loader, setLoader] = useState(false);
-    const location = useLocation();
     const { openModal } = useModal();
+    const notify = useNotifications();
+    const location = useLocation();
 
     useEffect(()=> {
         const fetchData = async () => {
-            setLoader(true);
             try{
+                setLoader(true);
                 const queryParams = new URLSearchParams(location.search);
                 const query = queryParams.get("search_type") || "" ;
                 const option = queryParams.get("search_value") || "";
     
-                let url = `${process.env.REACT_APP_API_URL}/products`;
+                let url = `${process.env.REACT_APP_API_URL}/orders`;
                 
                 if (query && option) {
                     url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
                 };
 
-                const mostrarError = (httpErr, errors) => {
-                    openModal({
+                const Modal = (httpErr, errors) => {
+                    openModal ({
                         errorType: httpErr,
                         validationErrors: errors,
-                    })
-                };    
+                    });
+                }
 
                 const response = await fetch(url);
                 const responseJSON = await response.json();
@@ -38,30 +41,34 @@ const GetProducts = () => {
                 if(!response.ok){
                     if(response.status === 400){
                         const errors = responseJSON.errors.map((error) => error.msg)
-                        mostrarError(response.status, errors);
+                        Modal(response.status, errors);
                         return;
                     }
                 }
-                }catch(err){
-                    console.log(err);
-                }finally{
-                    setLoader(false);
+
+            }catch(err){
+                const handleFail = (msg) => {
+                    notify("fail", msg);
                 }
-            };
-            
+                console.log(err);
+                handleFail("Ops! un error inesperado ah ocurrido a la hora de procesar la información");
+            }finally{
+                setLoader(false);
+            }
+        };
         fetchData();
-        
-    }, [location.search, openModal]);
-    
+
+    }, [location.search, openModal, notify]);
+
     return(
         <>
             {loader ? (
                 <Loader/>
             ) : (
-                <ItemList list = {list}/>
+                <ItemOrderList list={list}/>
             )}
         </>
-    );
+    )
 };
 
-export default GetProducts;
+export default GetOrders;

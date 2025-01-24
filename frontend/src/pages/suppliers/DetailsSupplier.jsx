@@ -313,7 +313,7 @@ const DetailsSupplier = () => {
                                     <h2 className="text-2xl font-bold mb-4 mx-5">
                                         Detalles del proveedor: {supplier.name_company_supplier} {supplier.reason_social_supplier && `(${supplier.reason_social_supplier})`}
                                     </h2>
-                                    {/* COLUMNA D   E INPUTS */}
+                                    {/* COLUMNA DE INPUTS */}
                                     <div className="flex flex-row mx-3">
                                         {/* COLUMNA Nº 1 */}
                                         <div className="flex flex-col p-2 mx-5 w-full">

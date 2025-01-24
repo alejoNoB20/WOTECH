@@ -273,7 +273,7 @@ const DetailsProduct = () => {
                 body: formData,
             });
             const responseJSON = await response.json();
-            console.log(responseJSON);
+
             switch (response.status) {
                 case 200:
                     setLoader(false);
@@ -286,11 +286,6 @@ const DetailsProduct = () => {
                     mostrarError(response.status, errors);
                     handleFail(responseJSON);
                     return;
-                case 404:
-                    setLoader(false);
-                    mostrarError(response.status, [responseJSON]);
-                    handleFail(responseJSON);
-                    return
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
@@ -304,8 +299,9 @@ const DetailsProduct = () => {
             }
 
         }catch(err) {
+            console.log(err);
             handleFail('Ups!, un error ocurrio a la hora de manejar la información, inténtalo nuevamente');
-            navigate('/products/getproducts');
+            setLoader(false);
         }
 };
 

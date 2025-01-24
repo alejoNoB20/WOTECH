@@ -16,8 +16,8 @@ export const ordersValidator = {
 
         body('delivery_day_order')
             .exists()
-            .notEmpty().withMessage('El campo DÍA DE ENTREGA es obligatorio').bail()
-            .isDate().withMessage('El campo DÍA DE ENTREGA no es válido'),
+            .trim()
+            .notEmpty().withMessage('El campo DÍA DE ENTREGA es obligatorio').bail(),
 
         body('products')
             .exists()
@@ -25,10 +25,10 @@ export const ordersValidator = {
             .isArray({min: 1}).withMessage('El campo PRODUCTOS debe contener mínimo un ARRAY').bail()
             .custom((value) => {
                 value.forEach(product => {
-                    if(typeof product !== "object" || !product.id || !product.price_product || !product.unit_product){
+                    if(typeof product !== "object" || !product.id_product || !product.price_product || !product.unit_product){
                         throw new Error ('El formato del campo PRODUCTOS es inválido');
                     };
-                    if(!Number.isInteger(product.id) || !Number.isInteger(product.unit_product) || isNaN(product.price_product)){
+                    if(!Number.isInteger(product.id_product) || !Number.isInteger(product.unit_product) || isNaN(product.price_product)){
                         throw new Error ('LOS campos ID - CANTIDAD solo permite números enteros y PRECIO solo números');
                     };
                 });

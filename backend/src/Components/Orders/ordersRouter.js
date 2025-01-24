@@ -6,7 +6,7 @@ const OrderController = new orderController();
 
 ordersRouter.get('/', OrderController.verPedidos);
 ordersRouter.get('/details/:id_order', OrderController.detalles);
-ordersRouter.get('/getProducts', OrderController.detallesProductos);
+ordersRouter.get('/getProductsAndClients', OrderController.detallesProductosClientes);
 ordersRouter.post('/create', ordersValidator.createOrUpdateOrder, OrderController.crear);
 ordersRouter.patch('/disabled/:id_order', OrderController.deshabilitar);
 ordersRouter.delete('/delete/:id_order', OrderController.borrar);

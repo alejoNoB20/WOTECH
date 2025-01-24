@@ -189,7 +189,7 @@ const PurchaseMaterials = () => {
                         </div>
                         {/* LISTA DE MATERIALES DEL PROVEEDOR */}
                         {supplier && (
-                            <div className="flex flex-row">
+                            <div className="flex flex-row justify-center">
                                 {/* SELECCION DE MATERIAL */}
                                 <div className="mx-2 mb-3">
                                     <label htmlFor="supplier" className="block text-gray-400">Lista de materiales del proveedor:</label>
@@ -235,7 +235,7 @@ const PurchaseMaterials = () => {
                                 </div>
                                 {/* BOTON DE SELECCION */}
                                 <button 
-                                    className="rounded-lg bg-green-700 text-white mr-2 p-2 border border-gray-300 hover:bg-green-800"
+                                    className="rounded-lg bg-green-700 text-white px-2 border border-gray-300 hover:bg-green-800"
                                     onClick={handleAddMaterial}                            
                                 >
                                     Agregar

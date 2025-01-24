@@ -1,28 +1,31 @@
 import { Route, Routes } from "react-router-dom"
 import "./App.css"
-import Layout from "./components/layout/layout"
-import AddStock from "./pages/stock/AddStock"
-import UpdateStock from "./pages/stock/DetailsStock"
-import GetStock from "./pages/stock/GetStock"
-import GetTools from "./pages/tools/GetTools"
-import UpdateTool from "./pages/tools/UpdateTool"
-import AddTool from "./pages/tools/AddTool"
-import GetProducts from "./pages/products/GetProducts"
-import AddProducts from "./pages/products/AddProduct"
-import DetailsProduct from "./pages/products/DetailsProduct"
-import MapProduct from "./pages/products/MapProduct"
+import Layout from "@components/layout/layout"
+import AddStock from "@pages/stock/AddStock"
+import UpdateStock from "@pages/stock/DetailsStock"
+import GetStock from "@pages/stock/GetStock"
+import GetTools from "@pages/tools/GetTools"
+import UpdateTool from "@pages/tools/UpdateTool"
+import AddTool from "@pages/tools/AddTool"
+import GetProducts from "@pages/products/GetProducts"
+import AddProducts from "@pages/products/AddProduct"
+import DetailsProduct from "@pages/products/DetailsProduct"
+import MapProduct from "@pages/products/MapProduct"
 import ErrorModal from "components/modalError/modalError"
-import Home from "./pages/home/Home"
-import GetClients from "./pages/clients/GetClients"
-import AddClient from "./pages/clients/AddClient"
-import DetailClient from "./pages/clients/DetailClient"
-import GetSuppliers from "./pages/suppliers/GetSuppliers"
-import AddSuppliers from "./pages/suppliers/AddSuppliers"
-import DetailsSupplier from "./pages/suppliers/DetailsSupplier"
-import TestComponent from "components/componentTest/test"
-import { NotificationsProvider } from "./context/notificationsContext"
-import { ToastContainer } from "react-toastify"
+import Home from "@pages/home/Home"
+import GetClients from "@pages/clients/GetClients"
+import AddClient from "@pages/clients/AddClient"
+import DetailClient from "@pages/clients/DetailClient"
+import GetSuppliers from "@pages/suppliers/GetSuppliers"
+import AddSuppliers from "@pages/suppliers/AddSuppliers"
+import DetailsSupplier from "@pages/suppliers/DetailsSupplier"
 import PurchaseMaterials from "@pages/suppliers/PurchaseMaterials"
+import GetOrders from "@pages/orders/GetOrders"
+import AddOrders from "@pages/orders/AddOrders"
+import DetailsOrders from "@pages/orders/DetailsOrders"
+import TestComponent from "@components/componentTest/test"
+import { NotificationsProvider } from "@context/notificationsContext"
+import { ToastContainer } from "react-toastify"
 
 function App() {
   return (
@@ -51,8 +54,11 @@ function App() {
         <Route path="/suppliers/addsuppliers" element={<AddSuppliers />} />
         <Route path="/suppliers/datailssupplier/:id" element={<DetailsSupplier />}/>
         <Route path="/suppliers/search" element={<GetSuppliers />} />
-        <Route path="/suppliers/search" element={<GetSuppliers />} />
         <Route path="/suppliers/purchase" element={<PurchaseMaterials />}/>
+        <Route path="/orders/getorders" element={<GetOrders />}/>
+        <Route path="/orders/search" element={<GetOrders />} />
+        <Route path="/orders/addorders" element={<AddOrders />}/>
+        <Route path="/orders/detailsorders/:id" element={<DetailsOrders />}/>
         <Route path="/" element={<Home />}/>
         <Route path="/test" element={<TestComponent/>}/>
       </Routes>
