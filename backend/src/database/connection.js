@@ -9,7 +9,16 @@ export const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,
 
 export const updateDB = async () => {
     try{
-        await sequelize.sync({alter: true});
+        await sequelize.sync({ alter: true });
+        console.log('DB creada correctamente!');
+    }catch(err) {
+        console.log('Error a la hora de actualiza la DB: ', err);
+    }
+};
+
+export const createDB = async () => {
+    try{
+        await sequelize.sync({ alter: true });
         console.log('DB Actualizada correctamente!');
     }catch(err) {
         console.log('Error a la hora de actualiza la DB: ', err);

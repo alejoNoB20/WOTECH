@@ -15,5 +15,5 @@ export const ItemClient = ({client}) => {
             <td className="text-left font-medium">{client.last_name_client}</td>
             <td className="text-left font-medium">{client.type_client}</td>
         </tr>
-    )
+    );
 };

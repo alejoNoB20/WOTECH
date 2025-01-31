@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import { updateDB, clearDB } from './database/connection.js';
+import { updateDB, clearDB, createDB } from './database/connection.js';
 import { createRegistersDB } from './utils/create_register_db.js';
 import { swaggerDoc } from './libs/swagger.js';
 import "./Components/Stock/stocksModels.js";
@@ -57,7 +57,7 @@ app.use('/purchase', purchasesRouter);
 const server = app.listen(process.env.PORT, async () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
   swaggerDoc(app, process.env.DB_SERVER_URL);
-  // createRegistersDB();
+  createDB();
 });
   
 export {app, server};
