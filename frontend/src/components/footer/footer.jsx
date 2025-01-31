@@ -1,26 +1,29 @@
-import React from 'react';
+import React from "react"
 
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-6 w-full">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center">
-          <div className="text-sm">
-            © 2024 Mi Sitio Web. Todos los derechos reservados.
-          </div>
+        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+          <div className="text-sm text-center sm:text-left">© 2024 Mi Sitio Web. Todos los derechos reservados.</div>
           <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22.675 0h-21.35c-.734 0-1.325.591-1.325 1.325v21.351c0 .733.591 1.324 1.325 1.324h11.495v-9.283h-3.125v-3.622h3.125v-2.672c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.142v3.242l-1.917.001c-1.503 0-1.794.714-1.794 1.762v2.313h3.588l-.467 3.622h-3.121v9.283h6.116c.734 0 1.325-.591 1.325-1.325v-21.35c0-.734-.591-1.325-1.325-1.325z" />
-              </svg>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-400 transition-colors duration-200"
+            >
+              <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.016-.608 1.794-1.574 2.163-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-2.719 0-4.92 2.201-4.92 4.917 0 .385.045.76.127 1.122-4.088-.205-7.72-2.164-10.148-5.144-.423.726-.666 1.569-.666 2.465 0 1.701.866 3.197 2.181 4.075-.803-.025-1.56-.246-2.22-.616v.062c0 2.375 1.69 4.356 3.934 4.807-.411.111-.844.171-1.291.171-.316 0-.623-.031-.923-.087.623 1.943 2.432 3.355 4.575 3.394-1.675 1.313-3.791 2.098-6.084 2.098-.395 0-.786-.023-1.17-.068 2.169 1.392 4.747 2.207 7.523 2.207 9.025 0 13.964-7.479 13.964-13.964 0-.213-.005-.426-.014-.637.961-.694 1.793-1.562 2.449-2.549z" />
               </svg>
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-400 transition-colors duration-200"
+            >
+              <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.31.975.975 1.248 2.242 1.31 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.31 3.608-.975.975-2.242 1.248-3.608 1.31-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.31-.975-.975-1.248-2.242-1.31-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.31-3.608.975-.975 2.242-1.248 3.608-1.31 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.67.013-4.947.072-1.429.064-2.836.386-3.897 1.447-1.061 1.061-1.383 2.468-1.447 3.897-.059 1.276-.072 1.688-.072 4.947s.013 3.67.072 4.947c.064 1.429.386 2.836 1.447 3.897 1.061 1.061 2.468 1.383 3.897 1.447 1.276.059 1.688.072 4.947.072s3.67-.013 4.947-.072c1.429-.064 2.836-.386 3.897-1.447 1.061-1.061 1.383-2.468 1.447-3.897.059-1.276.072-1.688.072-4.947s-.013-3.67-.072-4.947c-.064-1.429-.386-2.836-1.447-3.897-1.061-1.061-2.468-1.383-3.897-1.447-1.276-.059-1.688-.072-4.947-.072z" />
                 <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 1 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 1 0 0-2.881z" />
               </svg>
@@ -29,7 +32,8 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
+
