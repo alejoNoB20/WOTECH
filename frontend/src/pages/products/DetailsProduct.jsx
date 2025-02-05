@@ -9,6 +9,7 @@ import { useNotifications } from "@context/notificationsContext";
 
 const DetailsProduct = () => {
     const [loader, setLoader] = useState(true);
+    const [isMobile, setIsMobile] = useState(null);
     const [changeImg, setChangeImg] = useState(false);
 
     const [product, setProduct] = useState({});
@@ -46,6 +47,21 @@ const DetailsProduct = () => {
         notify("fail", msg)
     };
 
+    
+    useEffect(()=> {
+
+        const checkMobile = () => {
+            setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+        };
+
+        checkMobile();
+
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+
+    }, []);
+    
     useEffect(()=> {
         const fetchData = async () =>{
             try{
@@ -312,131 +328,142 @@ const DetailsProduct = () => {
             ) : (
                 <>
                 {!model ? (
-                <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-                    {/* Imagen de la herramienta */}
-                    <div className="flex justify-center mb-6">
-                        <img
-                        src={
-                            product.img_product ||
-                            "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
-                        }
-                        alt={product.name_product || "Imagen de la herramienta"}
-                        className="w-full h-auto max-w-xs rounded-lg shadow-md"
-                        />
-                    </div>
-
-                    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-6">
-                        <div className="flex flex-row">
+                    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+                        {/* Imagen de la herramienta */}
+                        <div className="flex justify-center mb-6">
+                            <img
+                                src={
+                                product.img_product ||
+                                "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
+                                }
+                                alt={product.name_product || "Imagen de la herramienta"}
+                                className="w-full h-auto max-w-xs rounded-lg shadow-md"
+                            />
+                        </div>
+                    
+                        {/* Contenedor principal */}
+                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-6">
+                        {/* Contenedor de columnas (se convierte en fila en pantallas grandes) */}
+                        <div className="flex flex-col md:flex-row gap-6">
                             {/* Columna Izquierda */}
-                            <div className="flex flex-col m-auto">
-                                <div className="space-y-4">
-                                    {/* Nombre */}
-                                    <div className="space-y-1">
-                                        <div className="flex items-center justify-between">
-                                        <h4 className="text-gray-400 text-xs font-semibold">Nombre:</h4>
-                                        </div>
-                                        <p className="text-gray-800 text-lg">
-                                        {product.name_product || "No disponible"}
-                                        </p>
-                                    </div>
-
-                                    {/* Descripción */}
-                                    <div className="space-y-1">
-                                        <h4 className="text-gray-400 text-xs font-semibold">
-                                        Descripción:
-                                        </h4>
-                                        <p className="text-gray-800 text-lg">
-                                        {product.description_product || "Sin descripción"}
-                                        </p>
-                                    </div>
-
-                                    {/* Plano del producto */}
-                                    <div className="space-y-1">
-                                        <h4 className="text-gray-400 text-xs font-semibold">
-                                        Plano del producto:
-                                        </h4>
-                                        {product.map_product ? (
-                                        <button className="flex px-5 py-2 mt-16 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg" onClick={() => handleButtonClick(product.id_product)}>
-                                            Ver plano
-                                        </button>
-                                        ) : (
-                                        <p className="text-gray-800 text-lg">"No disponible"</p>
-                                        )}
-                                    </div>
+                            <div className="flex flex-col flex-1 space-y-4">
+                            {/* Nombre */}
+                            <div className="space-y-1">
+                                <div className="flex items-center justify-between">
+                                <h4 className="text-gray-400 text-xs font-semibold">Nombre:</h4>
                                 </div>
+                                <p className="text-gray-800 text-lg">
+                                {product.name_product || "No disponible"}
+                                </p>
                             </div>
-
-                            <div className="flex flex-col m-auto">
-                                {/* Columna Derecha */}
-                                <div className="space-y-4">
-                                    {/* Precio */}
-                                    <div className="space-y-1">
-                                        <h4 className="text-gray-400 text-xs font-semibold">Precio:</h4>
-                                        <p className="text-gray-800 text-lg">
-                                        $ {product.price_product || "No disponible"}
-                                        </p>
-                                    </div>
-
-                                    {/* Lista de materiales */}
-                                    <div className="space-y-1">
-                                        <h4 className="text-gray-400 text-xs font-semibold">
-                                        Lista de materiales:
-                                        </h4>
-                                        <select name="materialList" id="materialList" defaultValue="none" onChange={handleMaterialRedirect}>
-                                        <option value="none">
-                                            Seleccionar material para ver su descripción...
-                                        </option>
-                                        {product.stocks.length > 0 &&
-                                            product.stocks.map((material) => (
-                                            <option
-                                                value={material.id_material}
-                                                key={material.id_material}
-                                            >
-                                                {material.id_material} | {material.name_material}{" "}
-                                                {`(${material.productStocksAssociation.how_much_contains_use})`}
-                                            </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    {/* Lista de herramientas */}
-                                    <div className="space-y-1">
-                                        <h4 className="text-gray-400 text-xs font-semibold">
-                                        Lista de herramientas:
-                                        </h4>
-                                        <select name="toolList" id="toolList" defaultValue="none" onChange={handleToolRedirect}>
-                                        <option value="none">
-                                            Seleccionar herramienta para ver su descripción...
-                                        </option>
-                                        {product.tools.length > 0 &&
-                                            product.tools.map((tool) => (
-                                            <option value={tool.id_tool} key={tool.id_tool}>
-                                                {tool.id_tool} | {tool.name_tool}
-                                            </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
+                    
+                            {/* Descripción */}
+                            <div className="space-y-1">
+                                <h4 className="text-gray-400 text-xs font-semibold">Descripción:</h4>
+                                <p className="text-gray-800 text-lg">
+                                {product.description_product || "Sin descripción"}
+                                </p>
+                            </div>
+                    
+                            {/* Plano del producto */}
+                            <div className="space-y-1">
+                                <h4 className="text-gray-400 text-xs font-semibold">
+                                Plano del producto:
+                                </h4>
+                                {product.map_product ? (
+                                <button
+                                    className="flex px-5 py-2 mt-4 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg"
+                                    onClick={() => handleButtonClick(product.id_product)}
+                                >
+                                    Ver plano
+                                </button>
+                                ) : (
+                                <p className="text-gray-800 text-lg">No disponible</p>
+                                )}
+                            </div>
+                            </div>
+                    
+                            {/* Columna Derecha */}
+                            <div className="flex flex-col flex-1 space-y-4">
+                            {/* Precio */}
+                            <div className="space-y-1">
+                                <h4 className="text-gray-400 text-xs font-semibold">Precio:</h4>
+                                <p className="text-gray-800 text-lg">
+                                $ {product.price_product || "No disponible"}
+                                </p>
+                            </div>
+                    
+                            {/* Lista de materiales */}
+                            <div className="space-y-1">
+                                <h4 className="text-gray-400 text-xs font-semibold">
+                                Lista de materiales:
+                                </h4>
+                                <select
+                                name="materialList"
+                                id="materialList"
+                                defaultValue="none"
+                                onChange={handleMaterialRedirect}
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                <option value="none">
+                                    Seleccionar material para ver su descripción...
+                                </option>
+                                {product.stocks.length > 0 &&
+                                    product.stocks.map((material) => (
+                                    <option
+                                        value={material.id_material}
+                                        key={material.id_material}
+                                    >
+                                        {material.id_material} | {material.name_material}{" "}
+                                        {`(${material.productStocksAssociation.how_much_contains_use})`}
+                                    </option>
+                                    ))}
+                                </select>
+                            </div>
+                    
+                            {/* Lista de herramientas */}
+                            <div className="space-y-1">
+                                <h4 className="text-gray-400 text-xs font-semibold">
+                                Lista de herramientas:
+                                </h4>
+                                <select
+                                name="toolList"
+                                id="toolList"
+                                defaultValue="none"
+                                onChange={handleToolRedirect}
+                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                <option value="none">
+                                    Seleccionar herramienta para ver su descripción...
+                                </option>
+                                {product.tools.length > 0 &&
+                                    product.tools.map((tool) => (
+                                    <option value={tool.id_tool} key={tool.id_tool}>
+                                        {tool.id_tool} | {tool.name_tool}
+                                    </option>
+                                    ))}
+                                </select>
+                            </div>
                             </div>
                         </div>
-
+                    
                         {/* Botón Actualizar */}
                         <button
-                        onClick={handleUpdate}
-                        className="mx-auto px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
+                            onClick={handleUpdate}
+                            className="mx-auto px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
                         >
-                        <FontAwesomeIcon icon={faPenToSquare} className="mr-2" />
+                            <FontAwesomeIcon icon={faPenToSquare} className="mr-2" />
                             Actualizar herramienta
                         </button>
+                        </div>
                     </div>
-                </div>
                 ) : (
                     <section className="w-full h-full flex-col bg-gray-100 px-6 py-2 mt-2 rounded-lg shadow-md">
                         <h2 className="text-2xl font-bold mb-4">Actualizar producto: {updateProduct.name_product}</h2>
                         {/* Inputs e imagen */}
-                        <div className="flex flex-row">
+                        <div className="flex flex-row space-x-4">
                             {/* Imagen */}
-                            <div className="flex flex-col m-auto text-center justify-center">
+                            <div className="flex flex-col text-center justify-center m-auto">
                                 <button className="rounded-lg text-white bg-indigo-600 hover:bg-indigo-800 font-bold mx-auto py-2 px-4" onClick={()=>{!changeImg ? setChangeImg(true) : setChangeImg(false)}}>
                                 <FontAwesomeIcon icon={faFileImage} className="mr-2"/>
                                     Cambiar Imagen
@@ -497,6 +524,7 @@ const DetailsProduct = () => {
                                 </div>
                             </div>
                         </div>
+
                         {/* Descripción */}
                         <div className="mb-2 px-10">
                             <label htmlFor="description_product" className="block text-gray-700">
@@ -512,7 +540,7 @@ const DetailsProduct = () => {
                         </div>
                         
                         {/* Materiales y herramientas */}
-                        <div className="flex flex-row mt-4 ml-10 mb-4">
+                        <div className="flex flex-col md:flex-row md:ml-10 mt-4 mb-4 justify-center items-center">
                             {/* Materiales */}
                             <div className="flex flex-col">
                                 <div className="flex flex-row">
@@ -647,28 +675,28 @@ const DetailsProduct = () => {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                        </div>                            
 
                         {/* Botonera */}
-                        <section className="flex flex-row my-4">
-                            <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
+                        <section className="flex flex-row my-4 space-x-4 w-full justify-center items-center">
+                            <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={handleSubmit} 
                             >
                             <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
-                                Actualizar Producto
+                                Actualizar 
                             </button>
                             <button
                                 onClick={handleDisable}
-                                className="mx-auto px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
+                                className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 justify-center items-center"
                             >
                                 <FontAwesomeIcon icon={faTrash} className="mr-2" />
                                 Eliminar
                             </button>
-                            <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
+                            <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
                             onClick={()=> setModel(false)} 
                             >
                             <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
-                                Volver a detalles
+                                Volver
                             </button>
                         </section>
                     </section>

@@ -37,7 +37,7 @@ import { clear } from 'console';
 
 const app = express();
 dotenv.config();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 app.use(logger('dev'));
 app.use(json());
@@ -57,7 +57,7 @@ app.use('/purchase', purchasesRouter);
 const server = app.listen(process.env.PORT, async () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
   swaggerDoc(app, process.env.DB_SERVER_URL);
-  createDB();
+  // createRegistersDB()
 });
   
 export {app, server};

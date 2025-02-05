@@ -237,12 +237,12 @@ const AddProducts = () => {
             {loader ? (
                 <Loader />
             ) : (
-                <div className="w-auto h-auto mx-auto bg-gray-100 px-6 py-2 mt-2 rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-4">Ingresar producto</h2>
+                <div className="w-full h-full bg-gray-100 px-6 py-2 mt-2 rounded-lg shadow-md">
+                    <h2 className="text-2xl font-bold mb-4 text-center">Ingresar producto</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="flex flex-row">
+                        <div className="flex flex-col md:flex-row">
                             {/* Primera columna */}
-                            <div className="flex flex-col px-10 w-full">
+                            <div className="flex flex-col px-5 md:px-10 w-full">
                                 <div className="mb-4">
                                     <label htmlFor="name_product" className="block text-gray-700">
                                         Nombre:
@@ -278,7 +278,7 @@ const AddProducts = () => {
                             </div>
     
                             {/* Segunda columna */}
-                            <div className="flex flex-col w-full px-10">
+                            <div className="flex flex-col w-full px-5 md_px-10">
                                 <div className="mb-2">
                                     <label htmlFor="img_product" className="block text-gray-700">
                                         Imagen del producto:
@@ -307,7 +307,7 @@ const AddProducts = () => {
                         </div>
     
                         {/* Descripción */}
-                        <div className="mb-2 px-10">
+                        <div className="mb-2 px-5 md:px-10">
                             <label htmlFor="description_product" className="block text-gray-700">
                                 Descripción:
                             </label>
@@ -322,23 +322,23 @@ const AddProducts = () => {
                     </form>
     
                     {/* Materiales y herramientas */}
-                    <div className="flex flex-row mt-4 ml-10 mb-4">
+                    <div className="flex flex-col md:flex-row md:ml-10 mt-4 mb-4 justify-center items-center">
                         {/* Materiales */}
                         <div className="flex flex-col">
                             <div className="flex flex-row">
                                 <label htmlFor="stockList" className="text-gray-700 mb-2">
                                     Lista de stock:
                                 </label>
-                                <label htmlFor="quantity" className="text-gray-700 mb-2 pl-32">
+                                <label htmlFor="quantity" className="text-gray-700 mb-2 pl-28">
                                     Cantidad:
                                 </label>
                             </div>
-                            <div className="flex flex-row mb-4">
+                            <div className="flex flex-row mb-4 space-x-2">
                                 <select
                                     ref={selectRef}
                                     name="stockList"
                                     id="stockList"
-                                    className="text-gray-700 rounded-lg mr-2 p-2 border border-gray-300"
+                                    className="text-gray-700 rounded-lg mr-2 px-3 border border-gray-300 w-48 max-w-lg"
                                     defaultValue="none"
                                     onChange={(e) =>
                                         handleRef("material", stock.find((material) => material.id_material === parseInt(e.target.value)))
@@ -365,12 +365,12 @@ const AddProducts = () => {
                                     min={0}
                                     name="quantity"
                                     id="quantity"
-                                    className="text-gray-700 rounded-lg border border-gray-300 mr-2 px-3 max-w-24"
+                                    className="text-gray-700 rounded-lg border border-gray-300 mr-2 px-3 w-14 max-w-24"
                                     onChange={(e) => handleRef("quantity", parseInt(e.target.value))}
                                     required
                                 />
                                 <button
-                                    className="rounded-lg bg-green-700 text-white mr-2 p-2 border border-gray-300 hover:bg-green-800"
+                                    className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800"
                                     onClick={handleAddMaterial}
                                 >
                                     Agregar

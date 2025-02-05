@@ -78,34 +78,32 @@ const SearchBar = ({ onSearch }) => {
     return
   }
   return (
-    <form ref={formRef} onSubmit={handleSearch} className="flex items-center space-x-4 w-auto">
-      <div className="relative">
+    <form ref={formRef} onSubmit={handleSearch} className="flex items-center sm:mx-3 lg:mx-14">
+      <div className="flex mx-full space-x-2 lg:space-x-4">
         <input
           type="text"
           value={query}
           onChange={handleInputChange}
           placeholder="Buscar..."
-          className="w-full m-0 p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
+          className="w-auto min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
         />
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <FontAwesomeIcon icon={faSearch} className="text-gray-500" />
-        </div>
+
+        {/* Select con opciones dinámicas basadas en la ruta */}
+        <select
+          value={selectedOption}
+          onChange={handleSelectChange}
+          className="flex w-auto min-w-44 border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-xs" 
+          // required
+        >
+          <option value="">Opciones de busqueda</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value} className='text-gray-700'>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Select con opciones dinámicas basadas en la ruta */}
-      <select
-        value={selectedOption}
-        onChange={handleSelectChange}
-        className="flex w-auto border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700" 
-        // required
-      >
-        <option value="">Selecciona una opción</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value} className='text-gray-700'>
-            {option.label}
-          </option>
-        ))}
-      </select>
     </form>
   );
 };
