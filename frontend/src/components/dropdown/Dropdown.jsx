@@ -18,7 +18,7 @@ const Dropdown = ({ links }) => {
 
     return(
         <>
-            {!isOpen ? (
+            {isOpen ? (
                 <div className="fixed inset-0 bg-black bg-opacity-75 z-20 transition">
                     <div className="fixed w-full bg-gray-700 text-white top-0 z-40">
                         <div className="flex flex-row items-center">
