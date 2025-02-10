@@ -166,13 +166,13 @@ const PurchaseMaterials = () => {
                 // FONDO
                 <section className="flex w-full h-full justify-center bg-gray-200">
                     {/* SECCION PRINCIPAL */}
-                    <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
-                        <h2 className="text-2xl font-bold mb-4 mx-5">
+                    <section className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-9 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
+                        <h2 className="text-2xl font-bold mb-4 mx-5 text-center">
                             Seccion Compra de materiales:
                         </h2>
                         {/* LISTA DE PROVEEDORES */}
                         <div className="mb-6">
-                            <label htmlFor="supplierList" className="block text-gray-400">Lista de proveedores:</label>
+                            <label htmlFor="supplierList" className="block text-gray-500">Lista de proveedores: *</label>
                             <select 
                             name="supplierList" 
                             id="supplierList"
@@ -189,20 +189,20 @@ const PurchaseMaterials = () => {
                         </div>
                         {/* LISTA DE MATERIALES DEL PROVEEDOR */}
                         {supplier && (
-                            <div className="flex flex-row justify-center">
+                            <div className="flex flex-row justify-center gap-2 mx-2 mb-4">
                                 {/* SELECCION DE MATERIAL */}
-                                <div className="mx-2 mb-3">
-                                    <label htmlFor="supplier" className="block text-gray-400">Lista de materiales del proveedor:</label>
+                                <div className="flex flex-col">
+                                    <label htmlFor="supplier" className="block text-gray-500">Materiales: *</label>
                                     <select 
                                     name="supplier" 
                                     id="supplier"
-                                    className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                                     defaultValue="none"
                                     onChange={(e)=> setSelectRef(supplier.stocks.find((material) => material.id_material === Number(e.target.value)))}
                                     value={selectRef?.id_material || "none"}
                                     >
                                         <option value="none" id="none">Seleccionar material...</option>
-                                        {supplier.stocks?.length > 0 && supplier.stocks.map((material)=> (
+                                        {Array.isArray(supplier.stocks) && supplier.stocks?.length > 0 && supplier.stocks.map((material)=> (
                                             <>
                                                 {!material.supplierStockAssociations.disabled && (
                                                     !material.disabled ? (
@@ -221,21 +221,21 @@ const PurchaseMaterials = () => {
                                 </div>
                                 {/* INPUT CANTIDADES */}
                                 <div className="mx-2">
-                                    <label htmlFor="amountMaterial" className="block text-gray-400">Cantidades:</label>
+                                    <label htmlFor="amountMaterial" className="block text-gray-500">Cantidades: *</label>
                                     <input 
                                     type="number"
                                     defaultValue={0}
                                     name="amountMaterial"
                                     id="amountMaterial"
                                     min={0}
-                                    className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 w-24 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                                     onChange={(e)=> setAmountRef(Number(e.target.value))}
                                     value={amountRef}
                                     />
                                 </div>
                                 {/* BOTON DE SELECCION */}
                                 <button 
-                                    className="rounded-lg bg-green-700 text-white px-2 border border-gray-300 hover:bg-green-800"
+                                    className="rounded-lg bg-green-700 text-white px-2 border border-gray-300 hover:bg-green-800 mt-7"
                                     onClick={handleAddMaterial}                            
                                 >
                                     Agregar

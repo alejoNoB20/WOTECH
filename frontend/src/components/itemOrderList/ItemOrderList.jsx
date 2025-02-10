@@ -8,11 +8,11 @@ const ItemOrderList = ({list}) => {
                 <h1 className="text-black text-xl my-auto">{list}</h1>
             </div>
             ) : (
-                <div className="p-6 bg-gray-200 container grid gap-6">
-                {list.map((order)=> (
-                        <ItemOrder key={order.id_order} order={order}/>
-                    ))
-                }
+                <div className="flex w-full h-full justify-center bg-gray-200">
+                    {list.map((order)=> (
+                            <ItemOrder key={order.id_order} order={order}/>
+                        ))
+                    }
                 </div>
             )}
         </>

@@ -180,15 +180,15 @@ const DetailClient = () => {
                     {!modal ? (
                         <section className="flex w-full h-full justify-center bg-gray-200">
                             {/* SECCION PRINCIPAL */}
-                            <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
+                            <section className="flex flex-col bg-white rounded-xl shadow-xl mx-6 mb:my-6 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20 justify-center items-center mb:text-center">
                                 {/* TITULO */}
-                                <h2 className="text-2xl font-bold mb-4 mx-5">
+                                <h2 className="text-2xl font-bold mb-4 text-center">
                                     Detalles del cliente: {client.name_client} {client.last_name_client}
                                 </h2>
                                 {/* COLUMNA DE INPUTS */}
-                                <div className="flex flex-row mx-3">
+                                <div className="flex flex-col md:flex-row gap-2">
                                     {/* COLUMNA Nº 1 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* NOMBRE */}
                                         <div className="mb-4">
                                             <h4 className="text-gray-400 text-xs font-semibold">Nombre:</h4>
@@ -212,7 +212,7 @@ const DetailClient = () => {
                                         </div>
                                     </div>
                                     {/* COLUMNA Nº2 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* NUMERO DE TELEFONO */}
                                         <div className="mb-4">
                                             <h4 className="text-gray-400 text-xs font-semibold">Número de teléfono:</h4>
@@ -236,7 +236,7 @@ const DetailClient = () => {
                                         </div>
                                     </div>
                                     {/* COLUMNA Nº3 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* PROVINCIA */}
                                         <div className="mb-4">
                                             <h4 className="text-gray-400 text-xs font-semibold">Provincia:</h4>
@@ -273,15 +273,15 @@ const DetailClient = () => {
                     ) : (
                         <section className="flex w-full h-full justify-center bg-gray-200">
                             {/* SECCION PRINCIPAL */}
-                            <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5 ">
+                            <section className="flex flex-col bg-white rounded-xl shadow-xl mx-6 mb:my-6 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20 justify-center items-center mb:text-center">
                                 {/* TITULO */}
                                 <h2 className="text-2xl font-bold mb-4 mx-5">
                                     Actualizar cliente: {updatedClient.name_client} {updatedClient.last_name_client}
                                 </h2>
                                 {/* COLUMNA DE INPUTS */}
-                                <div className="flex flex-row mx-3">
+                                <div className="flex flex-col md:flex-row gap-2">
                                     {/* COLUMNA Nº 1 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* NOMBRE */}
                                         <div className="mb-4">
                                             <label htmlFor="name_client" className="block text-gray-700">Nombre: *</label>
@@ -320,7 +320,7 @@ const DetailClient = () => {
                                         </div>
                                     </div>
                                     {/* COLUMNA Nº2 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* NUMERO DE TELEFONO */}
                                         <div className="mb-4">
                                             <label htmlFor="phone_number_client" className="block text-gray-700">Número de teléfono: *</label>
@@ -364,7 +364,7 @@ const DetailClient = () => {
                                         </div>                                          
                                     </div>
                                     {/* COLUMNA Nº3 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 md:mx-5">
                                         {/* PROVINCIAS */}
                                         <div className="mb-4">
                                             <label htmlFor="province_client" className="block text-gray-700">Provincia: *</label>
@@ -409,25 +409,22 @@ const DetailClient = () => {
                                     </div>
                                 </div>
                                 {/* BOTONERA */}
-                                <section className="flex flex-row my-4">
+                                <section className="flex flex-row my-4 gap-3 md:gap-14">
                                     <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={handleSubmit} 
                                     >
-                                    <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
-                                        Actualizar Producto
+                                        Actualizar
                                     </button>
                                     <button
                                         onClick={handleDisable}
                                         className="mx-auto px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
                                     >
-                                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
                                         Eliminar
                                     </button>
                                     <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={()=> setModal(false)} 
                                     >
-                                    <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
-                                        Volver a detalles
+                                        Volver
                                     </button>
                                 </section>
                             </section>

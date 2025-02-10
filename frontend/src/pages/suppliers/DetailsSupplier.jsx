@@ -308,15 +308,15 @@ const DetailsSupplier = () => {
                         {!modal ? (
                             <section className="flex w-full h-full justify-center bg-gray-200">
                                 {/* SECCION PRINCIPAL */}
-                                <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
+                                <section className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-4 mb:px-5 mb:py-5 md:py-5 md:my-3 md:px-20 justify-center items-center mb:text-center">
                                     {/* TITULO */}
-                                    <h2 className="text-2xl font-bold mb-4 mx-5">
+                                    <h2 className="text-2xl font-bold mb-4 text-center">
                                         Detalles del proveedor: {supplier.name_company_supplier} {supplier.reason_social_supplier && `(${supplier.reason_social_supplier})`}
                                     </h2>
                                     {/* COLUMNA DE INPUTS */}
-                                    <div className="flex flex-row mx-3">
+                                    <div className="flex flex-col md:flex-row mx-3">
                                         {/* COLUMNA Nº 1 */}
-                                        <div className="flex flex-col p-2 mx-5 w-full">
+                                        <div className="flex flex-col md:p-2 md:w-full">
                                             {/* NOMBRE */}
                                             <div className="mb-4">
                                                 <h4 className="text-gray-400 text-xs font-semibold">Nombre:</h4>
@@ -347,7 +347,7 @@ const DetailsSupplier = () => {
                                             </div>
                                         </div>
                                         {/* COLUMNA Nº2 */}
-                                        <div className="flex flex-col p-2 mx-5 w-full">
+                                        <div className="flex flex-col md:p-2 md:w-full">
                                             {/* NUMERO DE TELEFONO */}
                                             <div className="mb-4">
                                                 <h4 className="text-gray-400 text-xs font-semibold">Número de teléfono:</h4>
@@ -378,7 +378,7 @@ const DetailsSupplier = () => {
                                             </div>
                                         </div>
                                         {/* COLUMNA Nº3 */}
-                                        <div className="flex flex-col p-2 mx-5 w-full">
+                                        <div className="flex flex-col md:p-2 md:w-full">
                                             {/* NUMERO DE TELEFONO DEL DISTRIBUIDOR */}
                                             <div className="mb-4">
                                                 <h4 className="text-gray-400 text-xs font-semibold">Número del distribuidor:</h4>
@@ -410,7 +410,7 @@ const DetailsSupplier = () => {
                                         </div>
                                     </div>
                                     {/* LISTA DE MATERIALES DE PROVEEDORES */}
-                                    <div className="flex flex-col mb-4 w-auto mx-40">
+                                    <div className="flex flex-col mb-4 w-auto md:mx-40">
                                         <h4 className="text-gray-400 text-xs font-semibold">Lista de materiales que vende {supplier.name_company_supplier}:</h4>
                                         <select 
                                         name="priceControl"
@@ -445,15 +445,15 @@ const DetailsSupplier = () => {
                         ) : (
                             <section className="flex w-full h-full justify-center bg-gray-200">
                             {/* SECCION PRINCIPAL */}
-                            <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5 ">
+                            <section className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-9 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
                                 {/* TITULO */}
                                 <h2 className="text-2xl font-bold mb-4 mx-5">
                                     Actualizar Proveedor: {updatedSupplier.name_company_supplier} {updatedSupplier.reason_social_supplier && `(${updatedSupplier.reason_social_supplier})`}
                                 </h2>
                                 {/* COLUMNA DE INPUTS */}
-                                <div className="flex flex-row mx-3">
+                                <div className="flex flex-col md:flex-row">
                                     {/* COLUMNA Nº 1 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 mx-5">
                                         {/* NOMBRE */}
                                         <div className="mb-4">
                                             <label htmlFor="name_company_supplier" className="block text-gray-700">Nombre: *</label>
@@ -502,7 +502,7 @@ const DetailsSupplier = () => {
                                         </div>                                  
                                     </div>
                                     {/* COLUMNA Nº2 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 mx-5">
                                         {/* NUMERO DE TELEFONO */}
                                         <div className="mb-4">
                                             <label htmlFor="number_phone_company_supplier" className="block text-gray-700">Número de teléfono: *</label>
@@ -550,7 +550,7 @@ const DetailsSupplier = () => {
                                         </div>
                                     </div>
                                     {/* COLUMNA Nº3 */}
-                                    <div className="flex flex-col p-2 mx-5">
+                                    <div className="flex flex-col md:p-2 mx-5">
                                         {/* NUMERO DE TELEFONO DEL DISTRIBUIDOR */}
                                         <div className="mb-4">
                                             <label htmlFor="number_phone_distributor_supplier" className="block text-gray-700">Número del distribuidor:</label>
@@ -592,7 +592,7 @@ const DetailsSupplier = () => {
                                             id="payment_method_supplier"
                                             value={updatedSupplier.payment_method_supplier || ""}
                                             defaultValue={null}
-                                            className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                                             onChange={(e)=> setUpdatedSupplier({...updatedSupplier, payment_method_supplier: e.target.value})}
                                             >
                                                 <option value={null}>Seleccionar método de pago...</option>
@@ -604,7 +604,7 @@ const DetailsSupplier = () => {
                                     </div>
                                 </div>
                                 {/* DESCRIPCION */}
-                                <div className="mb-4">
+                                <div className="mb-4 mx-7">
                                     <label htmlFor="description_supplier" className="block text-gray-700">
                                         Descripción del proveedor:
                                     </label>
@@ -617,10 +617,10 @@ const DetailsSupplier = () => {
                                         />
                                 </div>
                                 {/* SELECCION DE MATERIALES DE PROVEEDORES */}
-                                <div className="flex flex-row w-full mb-3">
+                                <div className="flex flex-col md:flex-row w-full mb-3 gap-2 md:gap-5 md:justify-center md:items-center">
                                     {/* MATERIALES */}
-                                    <div className="flex flex-col mx-3">
-                                        <label htmlFor="supplierMaterials" className="block text-gray-700">Productos que vende este proveedor:</label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="supplierMaterials" className="block text-gray-700">Productos de venta:</label>
                                         <select 
                                         name="supplierMaterials" 
                                         id="supplierMaterials"
@@ -646,28 +646,28 @@ const DetailsSupplier = () => {
                                         </select>
                                     </div>
                                     {/* CANTIDADES */}
-                                    <div className="flex flex-col mx-3">
-                                        <label htmlFor="amountMaterial" className="block text-gray-700">Cantidades: </label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="amountMaterial" className="block text-gray-700">Cantidades:</label>
                                         <input 
                                         type="number"
                                         ref={amountRef}
                                         min={0}
-                                        className="mt-1 w-auto px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="mt-1 w-full md:w-20 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         onChange={(e) =>
                                             handleRef("amount", parseInt(e.target.value))
                                         }
                                         />
                                     </div>
                                     {/* PRECIO */}
-                                    <div className="flex flex-col mx-3">
-                                        <label htmlFor="amountMaterial" className="block text-gray-700">Precio: </label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="amountMaterial" className="block text-gray-700">Precio:</label>
                                         <div className="flex flex-row justify-center text-center">
                                             <h2 className="block text-gray-700 mt-1 py-2">$</h2>
                                             <input 
                                             type="number"
                                             ref={priceRef}
                                             min={0}
-                                            className="mt-1 w-auto ml-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            className="mt-1 w-full md:w-auto ml-1 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                             onChange={(e) =>
                                                 handleRef("price", parseInt(e.target.value))
                                             }    
@@ -676,7 +676,7 @@ const DetailsSupplier = () => {
                                     </div>
                                     {/* BOTON DE AGREGAR */}
                                     <button 
-                                    className="rounded-lg bg-green-700 text-white mr-2 p-2 border border-gray-300 hover:bg-green-800"
+                                    className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800 md:mt-7"
                                     onClick={handleAddMaterial}                            
                                     >
                                         Agregar
@@ -719,21 +719,18 @@ const DetailsSupplier = () => {
                                     <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={handleSubmit} 
                                     >
-                                    <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
-                                        Actualizar Proveedor
+                                        Actualizar 
                                     </button>
                                     <button
                                         onClick={handleDisable}
                                         className="mx-auto px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
                                     >
-                                        <FontAwesomeIcon icon={faTrash} className="mr-2" />
                                         Eliminar
                                     </button>
                                     <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={()=> setModal(false)} 
                                     >
-                                    <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
-                                        Volver a detalles
+                                        Volver
                                     </button>
                                 </section>
                             </section>

@@ -1,6 +1,22 @@
 import { ItemClient } from "@components/itemClient/ItemClient";
+import { useState,useEffect } from "react";
 
 export const ItemClientList = ({clients}) => {
+    const [isMobile, setIsMobile] = useState();
+
+    useEffect(()=> {
+        const checkMobile = () => {
+            setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+        };
+
+        checkMobile();
+
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+
+    }, []);
+
     return(
         <>
             {typeof(clients) === 'string' ? (
@@ -8,13 +24,13 @@ export const ItemClientList = ({clients}) => {
                     <h1 className="text-black text-xl my-auto">{clients}</h1>
                 </div>
             ) : (
-                <table className="table-fill">
+                <table className="w-full h-full">
                 <thead>
                     <tr>
                         <th className="text-center">ID</th>
                         <th className="text-center">Nombre</th>
                         <th className="text-center">Apellido</th>
-                        <th className="text-center">Tipo de Cliente</th>
+                        {!isMobile && (<th className="text-center">Tipo de Cliente</th>)}
                     </tr>
                 </thead>
                 <tbody className="table-hover">

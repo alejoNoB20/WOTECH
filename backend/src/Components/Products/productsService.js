@@ -156,8 +156,7 @@ export class productsService {
             if(!data.img_product){
                 data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
-                if(typeof(data.img_product) !== 'string'){
-                    console.log('entra aca')
+                if(data.img_product && typeof(data.img_product) !== 'string'){
                     const productUpdate = await Products.findByPk(id_product, {
                         attributes: ['img_product']
                     });
@@ -178,7 +177,7 @@ export class productsService {
             
             // Clodinary Module map_product
             if(data.map_product){
-                if(typeof(data.map_product) !== 'string'){
+                if(data.map_product && typeof(data.map_product) !== 'string'){
                     const productUpdate = await Products.findByPk(id_product, {
                         attributes: ['map_product']
                     });
@@ -188,7 +187,7 @@ export class productsService {
                         if(beforeUpdateMap !== saveMap.msg){
                             await destroyImage(beforeUpdateMap);
                         };
-                        data.img_product = saveImage.msg;
+                        data.map_product = saveMap.msg;
                     }else {
                         imageError = {status: true, msg: 'La actualización del producto finalizó exitosamente, pero ocurrió un error al querer guardar el plano del producto'};
                     };
@@ -211,6 +210,7 @@ export class productsService {
                 await Products.update({
                         name_product: data.name_product,
                         img_product: data.img_product,
+                        map_product: data.map_product,
                         description_product: data.description_product
                 }, {
                     where: {

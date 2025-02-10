@@ -325,7 +325,7 @@ const DetailsProduct = () => {
                                     "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
                                     }
                                     alt={product.name_product || "Imagen de la herramienta"}
-                                    className="rounded-lg mb-4 mb:max-w-40 mb:max-h-40 shadow-xl md:object-contain"
+                                    className="rounded-lg mb-4 max-w-40 max-h-40 md:max-w-56 md:max-h-56 shadow-xl"
                                 />
                             </div>
                             {/* Datos Nombre, Plano, Precio */}
@@ -446,7 +446,7 @@ const DetailsProduct = () => {
                                 {changeImg ? (
                                     <input type="file" className="mt-3 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm my-3" id="img_product" name="img_product" onChange={handleChange}/>
                                 ) : (
-                                    <img id="img" src={product.img_product} alt={`Imagen de ${product.name_product}`} className="rounded-lg mb-4 mb:max-w-40 mb:max-h-40 shadow-xl md:object-contain" onClick={()=> console.log(product)}/>
+                                    <img id="img" src={product.img_product} alt={`Imagen de ${product.name_product}`} className="rounded-lg mb-4 max-w-40 max-h-40 md:max-w-56 md:max-h-56 shadow-xl" onClick={()=> console.log(product)}/>
                                 )}
                             </div>
                             {/* Inputs */}

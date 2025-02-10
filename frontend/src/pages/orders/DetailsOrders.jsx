@@ -280,15 +280,15 @@ const DetailsOrders = () => {
                     <section className="flex w-full h-full justify-center bg-gray-200">
                         {!modal ? (
                             // PRINCIPAL
-                            <section className="flex flex-col bg-white rounded-xl shadow-xl p-4 m-5">
+                            <section className="flex flex-col bg-white rounded-xl shadow-xl mx-6 mb:my-6 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
                                 {/* TITULO */}
-                                <h2 className="text-2xl justify-center text-center font-bold mb-4 mx-5">
+                                <h2 className="text-2xl justify-center text-center font-bold mb-4">
                                     Detalles del pedido {order.id_order}:
                                 </h2>                               
                                 {/* COLUMNAS DE INPUTS */}
-                                <div className="flex fle-row w-full justify-center">
+                                <div className="flex fle-row w-full justify-center space-x-3 md:space-x-20">
                                     {/* COLUMNA Nº1 */}
-                                    <div className="flex flex-col mb-4 mx-10">
+                                    <div className="flex flex-col mb-4">
                                         {/* NOMBRE DEL CLIENTE */}
                                         <div className="flex flex-col mb-4">
                                             <h4 className="text-gray-500 font-semibold">Nombre del cliente:</h4>
@@ -298,19 +298,19 @@ const DetailsOrders = () => {
                                         </div>
                                         {/* PRECIO DEL PEDIDO */}
                                         <div className="flex flex-col mb-4">
-                                            <h4 className="text-gray-500 font-semibold">Precio total del pedido:</h4>
+                                            <h4 className="text-gray-500 font-semibold">Precio del pedido:</h4>
                                             <p className="text-gray-800 text-lg">
                                                 $ {order.price_order}
                                             </p>
                                         </div>
                                     </div>
                                     {/* COLUMNA Nº 2 */}
-                                    <div className="flex flex-col mx-10">
+                                    <div className="flex flex-col">
                                         {/* NOMBRE DEL CLIENTE */}
                                         <div className="flex flex-col mb-4">
                                             <h4 className="text-gray-500 font-semibold">Lugar de envío: </h4>
                                             <p className="text-gray-800 text-lg">
-                                                {order.shipping_address_order || "No disponible"}
+                                                {order.shipping_address_order || "No disponible"}   
                                             </p>
                                         </div>
                                         {/* DIA DE ENTREGA */}
@@ -323,7 +323,7 @@ const DetailsOrders = () => {
                                     </div>
                                 </div>
                                 {/* LISTA DE PRODUCTOS QUE TIENE EL PEDIDO */}
-                                <div className="flex flex-col justify-center mb-4 mx-10">
+                                <div className="flex flex-col justify-center mb-4">
                                     <label htmlFor="products" className="text-gray-500 font-semibold">Lista de productos:</label>
                                     <select 
                                     name="products" 
@@ -338,14 +338,14 @@ const DetailsOrders = () => {
                                     </select>
                                 </div>
                                 {/* LISTA DE MATERIALES Y HERRAMIENTAS UTILIZADAS EN EL PEDIDO */}
-                                <div className="flex flex-row mb-4">
+                                <div className="flex flex-row mb-4 justify-center items-center gap-3">
                                     {/* MATERIALES USADOS */}
-                                    <div className="flex flex-col mx-10">
-                                        <label htmlFor="materialUsed" className="text-gray-500 font-semibold">Total de materiales a utilizar del pedido:</label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="materialUsed" className="text-gray-500 font-semibold">Materiales totales:</label>
                                         <select 
                                         name="materialUsed" 
                                         id="materialUsed"
-                                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                                         >
                                             {materialUsed.length > 0 && materialUsed.map((material)=> (
                                                 <option value={material.id_material} key={material.id_material}>
@@ -355,12 +355,12 @@ const DetailsOrders = () => {
                                         </select>
                                     </div>
                                     {/* HERRAMIENTAS USADAS */}
-                                    <div className="flex flex-col mx-10">
-                                        <label htmlFor="toolUsed" className="text-gray-500 font-semibold">Total de herramientas a utilizar del pedido:</label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="toolUsed" className="text-gray-500 font-semibold">Herramientas:</label>
                                         <select 
                                         name="toolUsed" 
                                         id="toolUsed"
-                                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                                         >
                                             {toolUsed.length > 0 && toolUsed.map((tool)=> (
                                                 <option value={tool.id_tool} key={tool.id_tool}>
@@ -371,33 +371,30 @@ const DetailsOrders = () => {
                                     </div>
                                 </div>
                                 {/* BOTONERA */}
-                                <section className="flex flex-row justify-center">
-                                    <button className="mx-4 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-500"
+                                <section className="flex flex-row justify-center gap-2">
+                                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-500 font-bold"
                                     onClick={handleUpdate} 
                                     >
-                                    <FontAwesomeIcon icon={faPenToSquare} className="mr-2" />
-                                        Modificar Pedido
+                                        Modificar
                                     </button>
-                                    <button className="mx-4 bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg"
+                                    <button className="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={handleFinish} 
                                     >
-                                    <FontAwesomeIcon icon={faCheck} className="mr-2" />
-                                        Pedido Entregado
+                                        Entregado
                                     </button>
                                     <button
                                         onClick={handleDelete}
-                                        className="mx-4 px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-500"
+                                        className="px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-500"
                                     >
-                                        <FontAwesomeIcon icon={faXmark} className="mr-2" />
-                                        Cancelar Pedido
+                                        Cancelar 
                                     </button>
                                 </section>
                             </section>
                         ) : (
                             // PRINCIPAL
-                            <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
+                            <section className="flex flex-col bg-white rounded-xl shadow-xl mx-6 mb:my-6 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
                                 {/* TITULO */}
-                                <h2 className="text-2xl font-bold mb-4 mx-5">
+                                <h2 className="text-2xl font-bold mb-4 text-center">
                                     Actualizar pedido {updatedOrder.id_order}
                                 </h2>     
                                 {/* INPUTS */}
@@ -447,15 +444,15 @@ const DetailsOrders = () => {
                                     />
                                 </div>
                                 {/* SELECCIONAR PRODUCTOS */}
-                                <div className="flex flex-row mb-4">
+                                <div className="flex flex-row mb-4 gap-2">
                                     {/* SELECTOR */}
-                                    <div className="mx-4">
-                                        <label htmlFor="products" className="text-gray-700">Lista de productos: *</label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="products" className="text-gray-700">Productos: *</label>
                                         <select 
                                         defaultValue={"none"}
                                         name="products" 
                                         id="products"
-                                        className="mt-1 block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="mt-1 block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                                         value={productRef.id_product || "none"}
                                         onChange={(e)=> setProductRef(productList.find((product)=> product.id_product === Number(e.target.value)))}
                                         >
@@ -487,26 +484,26 @@ const DetailsOrders = () => {
                                         </select>
                                     </div>
                                     {/* INPUT DE UNIDADES DE VENTA DEL PRODUCTO */}
-                                    <div className="flex flex-col mx-4">
-                                        <label htmlFor="unit" className="text-gray-700">Cantidades: *</label>
+                                    <div className="flex flex-col">
+                                        <label htmlFor="unit" className="text-gray-700">Cantidad: *</label>
                                         <input 
                                         type="number"
                                         min={0}
                                         value={UnitRef || 0}
                                         onChange={(e)=> setUnitRef(Number(e.target.value))} 
-                                        className="text-gray-700 rounded-lg border border-gray-300 mr-2 px-3 max-w-24"
+                                        className="mt-1 w-20 md:w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                                         />
                                     </div>
                                     <button
-                                        className="rounded-lg bg-green-700 text-white mr-2 p-2 border border-gray-300 hover:bg-green-800"
+                                        className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800 mt-6"
                                         onClick={handleAddProduct}
                                     >
                                         Agregar
                                     </button>
                                 </div>
                                 {/* PRODUCTOS SELECCIONADO */}
-                                {updatedOrder.products?.length > 0 && updatedOrder.products.map((product)=> (
-                                    <div key={product.id_product} className="flex flex-row mb-3">
+                                {Array.isArray(updatedOrder.products) && updatedOrder.products?.length > 0 && updatedOrder.products.map((product)=> (
+                                    <div key={product.id_product} className="flex flex-row mb-4">
                                         <div className="flex flex-row px-5">
                                             <h3 className="text-gray-700">
                                                 - {product.name_product} ({product.orderProductsAssociation.unit_product})
@@ -523,18 +520,16 @@ const DetailsOrders = () => {
                                     </div>                        
                                 ))}
                                 {/* Botonera */}
-                                <section className="flex flex-row my-4">
+                                <section className="flex flex-row gap-3">
                                     <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                                     onClick={handleSubmit} 
                                     >
-                                    <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
-                                        Modificar pedido
+                                        Modificar
                                     </button>
-                                    <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
+                                    <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-6 rounded-lg"
                                     onClick={()=> setModal(false)} 
                                     >
-                                    <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
-                                        Volver a detalles
+                                        Volver
                                     </button>
                                 </section>
                             </section>

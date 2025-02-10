@@ -153,9 +153,9 @@ const AddOrders = () => {
             // FONDO
             <section className="flex w-full h-full justify-center bg-gray-200">
                 {/* SECCION PRINCIPAL */}
-                <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
+                <section className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-8 mb:px-5 mb:py-5 md:py-5 md:my-3 md:px-20">
                     {/* TITULO */}
-                    <h2 className="text-2xl font-bold mb-4 mx-5">
+                    <h2 className="text-2xl font-bold mb-4 text-center">
                         Crear pedido
                     </h2>     
                     {/* INPUTS */}
@@ -203,15 +203,15 @@ const AddOrders = () => {
                         />
                     </div>
                     {/* SELECCIONAR PRODUCTOS */}
-                    <div className="flex flex-row mb-4">
+                    <div className="flex flex-row mb-4 gap-2">
                         {/* SELECTOR */}
-                        <div className="mx-4">
-                            <label htmlFor="products" className="text-gray-700">Lista de productos: *</label>
+                        <div className="flex flex-col">
+                            <label htmlFor="products" className="text-gray-700">Productos: *</label>
                             <select 
                             defaultValue={"none"}
                             name="products" 
                             id="products"
-                            className="mt-1 block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                             value={productRef.id_product || "none"}
                             onChange={(e)=> setProductRef(productList.find((product)=> product.id_product === Number(e.target.value)))}
                             >
@@ -243,18 +243,18 @@ const AddOrders = () => {
                             </select>
                         </div>
                         {/* INPUT DE UNIDADES DE VENTA DEL PRODUCTO */}
-                        <div className="flex flex-col mx-4">
-                            <label htmlFor="unit" className="text-gray-700">Cantidades: *</label>
+                        <div className="flex flex-col">
+                            <label htmlFor="unit" className="text-gray-700">Cantidad: *</label>
                             <input 
                             type="number"
                             min={0}
                             value={UnitRef || 0}
                             onChange={(e)=> setUnitRef(Number(e.target.value))} 
-                            className="text-gray-700 rounded-lg border border-gray-300 mr-2 px-3 max-w-24"
+                            className="mt-1 w-20 md:w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                             />
                         </div>
                         <button
-                            className="rounded-lg bg-green-700 text-white mr-2 p-2 border border-gray-300 hover:bg-green-800"
+                            className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800 mt-6"
                             onClick={handleAddProduct}
                         >
                             Agregar

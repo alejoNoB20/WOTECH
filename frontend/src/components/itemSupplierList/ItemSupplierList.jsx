@@ -1,6 +1,20 @@
 import ItemSupplier from "@components/ItemSupplier/ItemSupplier";
-
+import { useEffect, useState } from "react";
 const ItemSupplierList = ({list}) => {
+    const [isMobile, setIsMobile] = useState();
+
+    useEffect(()=> {
+        const checkMobile = () => {
+            setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+        };
+
+        checkMobile();
+
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+
+    }, []);
 
     return(
         <>
@@ -9,15 +23,19 @@ const ItemSupplierList = ({list}) => {
                     <h1 className="text-black text-xl my-auto">{list}</h1>
                 </div>
             ) : (
-                <table className="table-fill">
+                <table className="w-full h-full">
                 <thead >
                     <tr>
                         <th className="text-center">ID</th>
                         <th className="text-center">Nombre del proveedor</th>
-                        <th className="text-center">Número del proveedor</th>
                         <th className="text-center">Dirección del proveedor</th>
-                        <th className="text-center">Nombre del distribuidor</th>
-                        <th className="text-center">Número del distribuidor</th>
+                        {!isMobile && (
+                            <>
+                                <th className="text-center">Número del proveedor</th>
+                                <th className="text-center">Nombre del distribuidor</th>
+                                <th className="text-center">Número del distribuidor</th>
+                            </>
+                        )}
                     </tr>
                 </thead>
                 <tbody className="table-hover">

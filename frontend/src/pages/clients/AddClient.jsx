@@ -124,15 +124,15 @@ const AddClient = () => {
             ) : (
                 <section className="flex w-full h-full justify-center bg-gray-200">
                     {/* SECCION PRINCIPAL */}
-                    <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5 ">
+                    <section className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-8 mb:px-5 mb:py-5 md:py-5 md:my-3 md:px-20 justify-center items-center mb:text-center">
                         {/* TITULO */}
-                        <h2 className="text-2xl font-bold mb-4 mx-5">
+                        <h2 className="text-2xl font-bold mb-4 text-center">
                             Registrar Cliente
                         </h2>
                         {/* COLUMNA DE INPUTS */}
-                        <div className="flex flex-row mx-3">
+                        <div className="flex flex-col md:flex-row gap-2 mx-8">
                             {/* COLUMNA Nº 1 */}
-                            <div className="flex flex-col p-2 mx-5">
+                            <div className="flex flex-col md:p-2 md:mx-5">
                                 {/* NOMBRE */}
                                 <div className="mb-4">
                                     <label htmlFor="name_client" className="block text-gray-700">Nombre: *</label>
@@ -170,7 +170,7 @@ const AddClient = () => {
                                 </div>
                             </div>
                             {/* COLUMNA Nº2 */}
-                            <div className="flex flex-col p-2 mx-5">
+                            <div className="flex flex-col md:p-2 md:mx-5">
                                 {/* NUMERO DE TELEFONO */}
                                 <div className="mb-4">
                                     <label htmlFor="phone_number_client" className="block text-gray-700">Número de teléfono: *</label>
@@ -212,7 +212,7 @@ const AddClient = () => {
                                 </div>                                          
                             </div>
                             {/* COLUMNA Nº3 */}
-                            <div className="flex flex-col p-2 mx-5">
+                            <div className="flex flex-col md:p-2 md:mx-5">
                                 {/* PROVINCIAS */}
                                 <div className="mb-4">
                                     <label htmlFor="province_client" className="block text-gray-700">Provincia: *</label>

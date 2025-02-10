@@ -101,11 +101,11 @@ const AddSuppliers = () => {
                     {/* SECCION PRINCIPAL */}
                     <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
                         {/* TITULO */}
-                        <h2 className="text-2xl font-bold mb-4 mx-5">
+                        <h2 className="text-2xl font-bold mb-4 text-center">
                             Registrar Proveedor
                         </h2>
                         {/* COLUMNA DE INPUTS */}
-                        <div className="flex flex-row mx-3">
+                        <div className="flex flex-col md:flex-row mx-3">
                             {/* COLUMNA Nº 1 */}
                             <div className="flex flex-col p-2 mx-5">
                                 {/* NOMBRE */}
@@ -245,10 +245,10 @@ const AddSuppliers = () => {
                                     name="payment_method_supplier" 
                                     id="payment_method_supplier"
                                     defaultValue={null}
-                                    className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                                     onChange={(e)=> setSupplier({...supplier, payment_method_supplier: e.target.value})}
                                     >
-                                        <option value={null}>Seleccionar método de pago...</option>
+                                        <option value={null}>Seleccionar tipo de pago...</option>
                                         {payMethod.map((method)=> (
                                             <option key={method} value={method}>{method}</option>
                                         ))}
