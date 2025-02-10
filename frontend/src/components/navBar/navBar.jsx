@@ -34,8 +34,10 @@ const NavBar = ({ logged }) => {
       <div className=" flex navbar bg-gray-700 text-white p-7 fixed w-full top-0 z-10">
         <div className="flex justify-between items-center">
           <div className="text-lg font-semibold">Wotech</div>
-          <SearchBar ref={formRef} onSearch={handleSearch} />
-          <div className="flex lg:space-x-3 ml-auto">
+          <div className="flex-grow mx-4">
+            <SearchBar ref={formRef} onSearch={handleSearch} />
+          </div>
+          <div className="flex-grow md:space-x-3">
             <NavLink to="/" exact className="hover:text-gray-400 active:text-red-500">
               Inicio
             </NavLink>

@@ -15,7 +15,6 @@ export class StockController {
     }
     crear = async (req, res) => {
         try {
-            console.log(req.body);
             const resultado = await stock.crearStock(req.body);
             try_catch.TRY_RES(res, resultado);
 

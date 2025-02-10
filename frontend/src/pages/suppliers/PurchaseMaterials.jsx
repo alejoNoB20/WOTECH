@@ -180,7 +180,7 @@ const PurchaseMaterials = () => {
                             onChange={handleSupplierList}
                             >
                                 <option value="none">Seleccionar proveedor...</option>
-                                {supplierList.length > 0 && supplierList.map((Supplier)=> (
+                                {Array.isArray(supplierList) && supplierList.length > 0 && supplierList.map((Supplier)=> (
                                     <option value={Supplier.id_supplier} key={Supplier.id_supplier}>
                                         - {Supplier.id_supplier} | {Supplier.name_company_supplier} ({Supplier.tax_address_supplier})
                                     </option>

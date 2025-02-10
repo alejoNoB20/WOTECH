@@ -4,7 +4,7 @@ export const ItemClientList = ({clients}) => {
     return(
         <>
             {typeof(clients) === 'string' ? (
-                <div className="flex w-full h-full justify-center text-center bg-gray-200">
+                <div className="flex w-full mb:py-64 px-5 md:h-full justify-center text-center bg-gray-200">
                     <h1 className="text-black text-xl my-auto">{clients}</h1>
                 </div>
             ) : (

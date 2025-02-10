@@ -5,7 +5,7 @@ const ItemSupplierList = ({list}) => {
     return(
         <>
             {typeof(list) === 'string' ? (
-                <div className="flex w-full h-full justify-center text-center bg-gray-200">
+                <div className="flex w-full mb:py-64 px-5 md:h-full justify-center text-center bg-gray-200">
                     <h1 className="text-black text-xl my-auto">{list}</h1>
                 </div>
             ) : (

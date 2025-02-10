@@ -216,7 +216,7 @@ const AddOrders = () => {
                             onChange={(e)=> setProductRef(productList.find((product)=> product.id_product === Number(e.target.value)))}
                             >
                                 <option value="none">Seleccionar producto...</option>
-                                {productList.length > 0 && productList.map((product)=> {
+                                {Array.isArray(productList) && productList.length > 0 && productList.map((product)=> {
                                     if(product.disabled){
                                         return (
                                             <option 

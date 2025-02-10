@@ -157,6 +157,7 @@ export class productsService {
                 data.img_product = 'https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png';
             }else {
                 if(typeof(data.img_product) !== 'string'){
+                    console.log('entra aca')
                     const productUpdate = await Products.findByPk(id_product, {
                         attributes: ['img_product']
                     });

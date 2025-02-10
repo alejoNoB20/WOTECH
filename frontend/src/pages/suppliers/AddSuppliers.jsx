@@ -99,7 +99,7 @@ const AddSuppliers = () => {
             ) : (
                 <section className="flex w-full h-full justify-center bg-gray-200">
                     {/* SECCION PRINCIPAL */}
-                    <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5 ">
+                    <section className="flex flex-col bg-white rounded-xl shadow-xl p-10 m-5">
                         {/* TITULO */}
                         <h2 className="text-2xl font-bold mb-4 mx-5">
                             Registrar Proveedor
