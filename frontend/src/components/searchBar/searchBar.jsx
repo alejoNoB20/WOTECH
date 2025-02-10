@@ -68,40 +68,46 @@ const SearchBar = ({ onSearch }) => {
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
+    handleSearch(e);
   };
 
   const handleSearch = async (e) => {
-    e.preventDefault();
-    navigate(`/${location.pathname.split('/')[1]}/search?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
+    if(selectedOption !== 'none' && query){
+      e.preventDefault();
+      navigate(`/${location.pathname.split('/')[1]}/search?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
+    }
   };
+
   if(options.length === 0){
     return
   }
+
   return (
     <form ref={formRef} onSubmit={handleSearch} className="flex items-center sm:mx-3 lg:mx-14">
       <div className="flex mx-full space-x-2 lg:space-x-4">
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Buscar..."
-          className="w-auto min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
-        />
-
         {/* Select con opciones dinámicas basadas en la ruta */}
         <select
           value={selectedOption}
           onChange={handleSelectChange}
-          className="flex w-auto min-w-44 border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-xs" 
+          className="flex w-40 md:min-w-44 border border-gray-300 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 text-xs" 
           // required
         >
-          <option value="">Opciones de busqueda</option>
+          <option value="none">Opciones de busqueda</option>
           {options.map((option) => (
             <option key={option.value} value={option.value} className='text-gray-700'>
               {option.label}
             </option>
           ))}
         </select>
+        
+        <input
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onBlur={handleSearch}
+          placeholder="Buscar..."
+          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
+        />
       </div>
 
     </form>

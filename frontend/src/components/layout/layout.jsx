@@ -17,15 +17,15 @@ const Layout = ({ children, logged }) => {
         ],
         "/products": [
             { name: "Ver productos", path: "/products/getproducts" },
-            { name: "Crear producto", path: "/products/addproduct" },
+            { name: "Agregar producto", path: "/products/addproduct" },
         ],
         "/orders": [
-            { name: "Ver ordenes", path: "/orders/getorders" },
-            { name: "Crear orden", path: "/orders/addorders" },
+            { name: "Ver pedidos", path: "/orders/getorders" },
+            { name: "Crear pedido", path: "/orders/addorders" },
         ],
         "/tools": [
             { name: "Ver herramientas", path: "/tools/gettools" },
-            { name: "Crear herramienta", path: "/tools/addtool" },
+            { name: "Agregar herramienta", path: "/tools/addtool" },
         ],
         "/clients": [
             { name: "Ver clientes", path: "/clients/getclients" },

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate, useParams } from "react-router-dom"
 import Loader from "@components/loader/Loader"
-import { faPen, faTrash, faFloppyDisk, faFileImage, faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons"
+import { faPen, faFileImage } from "@fortawesome/free-solid-svg-icons"
 import { useModal } from "@context/modalContext"
 import { useNotifications } from "@context/notificationsContext"
+import { format } from "@formkit/tempo"
 
 const UpdateTool = () => {
   const [loading, setLoading] = useState(true);
@@ -56,6 +57,10 @@ const UpdateTool = () => {
     }
     fetchData()
   }, [id, navigate])
+
+  const handleProductRedirect = (e) => {
+    navigate(`/products/detailproduct/${e.target.value}`)
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -162,9 +167,9 @@ const UpdateTool = () => {
       case "En Arreglo":
         return "text-blue-600"
       case "Perdido":
-        return "text-gray-400"
+        return "text-gray-500"
       default:
-        return "text-gray-400"
+        return "text-gray-500"
     }
   }
 
@@ -173,94 +178,119 @@ const UpdateTool = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="w-full h-full flex-col bg-gray-100 px-6 py-2 mt-2 rounded-lg shadow-md">
+        // FONDO
+        <div className="flex w-full h-full justify-center bg-gray-200">
           {!showForm ? (
             <div>
-              {/* Imagen de la herramienta */}
-              <div className="flex justify-center mb-6">
-                <img
-                  src={
-                    tool.img_tool ||
-                    "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
-                  }
-                  alt={tool.name_tool || "Imagen de la herramienta"}
-                  className="w-full h-auto max-w-xs rounded-lg shadow-md"
-                />
-              </div>
-
-              <div className="bg-white p-6 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Columna Izquierda */}
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-gray-400 text-xs font-semibold">
-                        Nombre:
-                      </h4>
+              {/* PRINCIPAL */}
+              <div className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center items-center py-4 m-7 md:m-3 md:px-14">
+                {/* TITULO */}
+                <h2 className="text-2xl font-bold mb-4 text-center">Detalles de la herramienta: {tool.name_tool}</h2>
+                <div className="flex mb:flex-col md:flex-row justify-center items-center md:space-x-12">
+                  {/* Imagen de la herramienta */}
+                  <div className="flex justify-center mb-4">
+                    <img
+                      src={
+                        tool.img_tool ||
+                        "https://res.cloudinary.com/dz2df15nx/image/upload/t_Incognity/v1726615786/incognita_ulfteb.png"
+                      }
+                      alt={tool.name_tool || "Imagen de la herramienta"}
+                      className="rounded-lg mb-4 mb:max-w-40 mb:max-h-40 shadow-xl md:object-contain"
+                    />
+                  </div>
+                  {/* DATOS NOMBRE, UBICACION Y ESTADO */}
+                  <div className="flex flex-col space-x-4 mb-4">
+                    <div className="flex flex-row md:flex-col space-x-4 mb-2">
+                      {/* NOMBRE */}
+                      <div className="flex flex-col">
+                        <h4 className="text-gray-500 text-xs font-semibold">
+                          Nombre:
+                        </h4>
+                        <p className="text-gray-800 text-lg">
+                          {tool.name_tool || "No disponible"}
+                        </p>
+                      </div>
+                      {/* ESTADO */}
+                      <div className="flex flex-col">
+                        <h4 className="text-gray-500 text-xs font-semibold">
+                          Estado:
+                        </h4>
+                        <p className={getStatusColor(tool.status_tool)}>
+                          {tool.status_tool || "No disponible"}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-gray-800 text-lg">
-                      {tool.name_tool || "No disponible"}
-                    </p>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Descripción:
-                    </h4>
-                    <p className="text-gray-800 text-lg">
-                      {tool.description_tool || "Sin descripción"}
-                    </p>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Ubicación:
-                    </h4>
-                    <p className="text-gray-800 text-lg">
-                      {tool.location_tool || "No disponible"}
-                    </p>
-                  </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Estado:
-                    </h4>
-                    <p className={getStatusColor(tool.status_tool)}>
-                      {tool.status_tool || "No disponible"}
-                    </p>
+                    {/* UBICACION */}
+                    <div className="flex flex-col">
+                      <h4 className="text-gray-500 text-xs font-semibold">
+                        Ubicación:
+                      </h4>
+                      <p className="text-gray-800 text-lg">
+                        {tool.location_tool || "No disponible"}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                {/* DESCRIPCION */}
+                <div className="flex flex-col mb-4">
+                  <h4 className="text-gray-500 text-xs font-semibold">
+                    Descripción:
+                  </h4>
+                  <p className="text-gray-800 text-lg rounded-lg text-center max-w-xs md:max-w-sm break-words">
+                    {tool.description_tool || "Sin descripción"}
+                  </p>
+                </div>
 
-                {/* Columna Derecha */}
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Taller de reparación:
-                    </h4>
-                    <p className="text-gray-800 text-lg">
-                      {tool.repair_shop_tool || "No disponible"}
-                    </p>
+                {/* DATOS DE REPARACION */}
+                {tool.status_tool === 'En Arreglo' && (
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h4 className="text-gray-500 text-xs font-semibold">
+                        Taller de reparación:
+                      </h4>
+                      <p className="text-gray-800 text-lg">
+                        {tool.repair_shop_tool || "No disponible"}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <h4 className="text-gray-500 text-xs font-semibold">
+                        Fecha de reparación:
+                      </h4>
+                      <p className="text-gray-800 text-lg">
+                        {format(tool.repair_date_tool, 'DD/MM/YYYY') || "No disponible"}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <h4 className="text-gray-500 text-xs font-semibold">
+                        Buscar reparación:
+                      </h4>
+                      <p className="text-gray-800 text-lg">
+                        {format(tool.search_repair_tool, 'DD/MM/YYYY') || "No disponible"}
+                      </p>
+                    </div>
                   </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Fecha de reparación:
+                )}
+                  {/* PRODUCTOS ASOCIADOS */}
+                  <div className="flex flex-col mb-4">
+                    <h4 className="text-gray-500 text-sm font-semibold text-center">
+                      Productos que utilizan {tool.name_tool}:
                     </h4>
-                    <p className="text-gray-800 text-lg">
-                      {tool.repair_date_tool
-                        ? new Date(tool.repair_date_tool).toLocaleDateString()
-                        : "No disponible"}
-                    </p>
+                    <select name="products" className="mt-1 block w-full px-2 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mb:text-xs">
+                      <option value="none" selected>Lista de productos</option>
+                      {Array.isArray(tool) && tool.products.length > 0 && tool.products.map((product) => (
+                        <option 
+                        key={product.id_product} 
+                        value={product.id_product}
+                        onClick={handleProductRedirect}
+                        >
+                          {product.id_product} | {product.name_product}
+                        </option>
+                      ))};
+                    </select> 
                   </div>
-
-                  <div className="space-y-1">
-                    <h4 className="text-gray-400 text-xs font-semibold">
-                      Buscar reparación:
-                    </h4>
-                    <p className="text-gray-800 text-lg">
-                      {tool.search_repair_tool || "No disponible"}
-                    </p>
-                  </div>
-
+                  {/* BOTON */}
                   <button
                     onClick={() => setShowForm(true)}
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
@@ -268,60 +298,41 @@ const UpdateTool = () => {
                     <FontAwesomeIcon icon={faPen} className="mr-2" />
                     Actualizar herramienta
                   </button>
-                </div>
               </div>
 
-              {/* Productos Abajo de Todo */}
-              {tool.products && tool.products.length > 0 && (
-                <div className="mt-8">
-                  <h4 className="text-gray-700 text-sm font-semibold text-center">
-                    Productos relacionados:
-                  </h4>
-                  <div className="flex flex-wrap gap-2 mt-2 justify-center">
-                    {tool.products.map((product) => (
-                      <a
-                        key={product.id_product}
-                        href={`/products/detailproduct/${product.id_product}`}
-                        className="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg text-sm"
-                      >
-                        {product.name_product}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           ) : (
             <>
               {/* Formulario de Edición */}
-                <div className="flex flex-col bg-white rounded-xl shadow-xl px-10 py-3">
+                <div className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center justify-center py-4 my-7 md:m-3 md:space-x-8">
                   {/* Titulo */}
-                  <h2 className="text-2xl font-bold mb-4 mx-5">
+                  <h2 className="text-2xl font-bold mb-4 mx-5 justify-center">
                       Detalles de la herramienta: {updateTool.name_tool}
                   </h2>                
                   {/* Inputs */}
-                  <div className="flex flex-row mx-3">
+                  <div className="flex flex-col md:flex-row mx-3">
                     {/* Imagen */}
-                    <div className="flex flex-col w-auto min-w-[340px] px-10 justify-center text-center">
-                        <button className="rounded-lg text-white bg-indigo-600 hover:bg-indigo-800 font-bold mx-auto py-2 px-10" onClick={()=> {!changeImg ? setChangeImg(true) : setChangeImg(false)}}>
+                    <div className="flex flex-col w-auto min-w-[340px] px-10 justify-center text-center items-center">
+                        <button className="rounded-lg text-white bg-indigo-600 hover:bg-indigo-800 font-bold mx-auto mb-2 py-2 px-10" onClick={()=> {!changeImg ? setChangeImg(true) : setChangeImg(false)}}>
                         <FontAwesomeIcon icon={faFileImage} className="mr-2"/>
                             Cambiar Imagen
                         </button>
                         {changeImg ? (
-                            <input type="file" className="mt-3 block w-full px-3 py-2 bg-white border border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm my-3" id="img_product" name="img_product" onChange={handleChange}/>
+                            <input type="file" className="mb-4 mb:w-30 md:w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mb:text-xs" id="img_product" name="img_product" onChange={handleChange}/>
                         ) : (
-                            <img id="img" src={updateTool.img_tool} alt={`Imagen de ${updateTool.name_tool}`} className="border-2 border-gray-400 rounded-lg object-contain my-3"/>
+                            <img id="img" src={updateTool.img_tool} alt={`Imagen de ${updateTool.name_tool}`} className="rounded-lg mb-4 mb:max-w-40
+                            mb:max-h-40 shadow-xl md:object-contain"/>
                         )}
                     </div>                
                     {/* Columna nº1 */}
-                    <div className="flex flex-col w-full mx-10">
+                    <div className="flex w-full flex-col mb:items-center space-y-4 mb-4 md:space-y-7 md:mx-10 items-center">
                       {/* Nombre */}
-                      <div className="my-5">
+                      <div className="flex flex-col">
                         <label
                           className="block text-gray-700 text-sm font-semibold mb-2"
                           htmlFor="name_tool"
                         >
-                          Nombre de la herramienta:
+                          Nombre de la herramienta: *
                         </label>
                         <input
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -330,15 +341,16 @@ const UpdateTool = () => {
                           type="text"
                           value={updateTool.name_tool || ""}
                           onChange={handleChange}
+                          required
                         />
                       </div>
                       {/* Ubicacion */}
-                      <div className="my-5">
+                      <div className="flex flex-col">
                         <label
                           className="block text-gray-700 text-sm font-semibold mb-2"
                           htmlFor="location_tool"
                         >
-                          Ubicación de la herramienta:
+                          Ubicación de la herramienta: *
                         </label>
                         <input
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -350,12 +362,12 @@ const UpdateTool = () => {
                         />
                         </div>
                         {/* Estado de la herramienta */}
-                        <div className="my-5">
+                        <div className="flex flex-col">
                           <label
                             className="block text-gray-700 text-sm font-semibold mb-2"
                             htmlFor="status_tool"
                           >
-                            Estado de la herramienta:
+                            Estado de la herramienta: *
                           </label>
                           <select
                             id="status_tool"
@@ -397,7 +409,7 @@ const UpdateTool = () => {
                           className="block text-gray-700 text-sm font-semibold mb-2"
                           htmlFor="repair_shop_tool"
                         >
-                          Taller de reparación:
+                          Taller de reparación: *
                         </label>
                         <input
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -414,7 +426,7 @@ const UpdateTool = () => {
                           className="block text-gray-700 text-sm font-semibold mb-2"
                           htmlFor="repair_date_tool"
                         >
-                          Fecha de reparación:
+                          Fecha de reparación: *
                         </label>
                         <input
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -431,7 +443,7 @@ const UpdateTool = () => {
                           className="block text-gray-700 text-sm font-semibold mb-2"
                           htmlFor="search_repair_tool"
                         >
-                          Buscar reparación:
+                          Buscar reparación: *
                         </label>
                         <input
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
@@ -445,25 +457,22 @@ const UpdateTool = () => {
                     </div>
                   )}
                   {/* Botonera */}
-                  <section className="flex flex-row">
-                      <button className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
+                  <section className="flex flex-row space-x-4 md:space-x-14 justify-center">
+                      <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-lg"
                       onClick={handleUpdate} 
                       >
-                      <FontAwesomeIcon icon={faFloppyDisk} className="mr-2" />
-                        Actualizar Herramienta
+                        Actualizar
                       </button>
                       <button
                       onClick={handleDisable}
-                      className="mx-auto px-4 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
+                      className="px-5 py-2 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700"
                       >
-                      <FontAwesomeIcon icon={faTrash} className="mr-2" />
                         Eliminar
                       </button>
-                      <button className="mx-auto bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded-lg"
+                      <button className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-6 rounded-lg"
                       onClick={()=> setShowForm(false)} 
                       >
-                      <FontAwesomeIcon icon={faArrowAltCircleLeft} className="mr-2" />
-                        Volver a detalles
+                        Volver
                       </button>
                   </section>
                 </div>

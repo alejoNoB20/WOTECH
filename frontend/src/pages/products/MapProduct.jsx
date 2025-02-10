@@ -30,7 +30,7 @@ const MapProduct = () => {
             {loader ? (
                 <Loader/>
             ) : (
-                <section className="flex w-full h-full justify-center">
+                <section className="flex w-full h-full justify-center mb:mt-2">
                     <img src={product.map_product} alt={`Plano de ${product.name_product}`}/>
                 </section>
             )}
