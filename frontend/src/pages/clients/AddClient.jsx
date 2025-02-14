@@ -23,7 +23,7 @@ const AddClient = () => {
         };
 
     const handleSuccess = (text) => {
-    notify('success', text);
+        notify('success', text);
     };
     
     const handleFail = (text) => {

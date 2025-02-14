@@ -3,6 +3,7 @@ import logger from 'morgan';
 import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { updateDB, clearDB, createDB } from './database/connection.js';
@@ -33,11 +34,16 @@ import supplierRouter from './Components/Suppliers/suppliersRouter.js';
 import supplierMaterialsRouter from './Components/SupplierMaterials/suppliersMaterialsRouter.js';
 import purchasesRouter from './Components/Purchase/purchasesRouter.js';
 import invoicesRouter from './Components/Invoices/invoicesRouter.js';
+import userRouter from './Components/Users/usersRouter.js';
 import { clear } from 'console';
 
 const app = express();
 dotenv.config();
-app.use(cors({ origin: '*' }));
+app.use(cookieParser());
+app.use(cors({ 
+  origin: ['http://localhost:3000', 'http://192.168.100.27:3000', 'https://wotech-carpentry-manager.vercel.app', "https://wotech-free.vercel.app"] ,
+  credentials: true
+}));
 
 app.use(logger('dev'));
 app.use(json());
@@ -53,11 +59,12 @@ app.use('/suppliers', supplierRouter);
 app.use('/suppliers/supplierMaterials', supplierMaterialsRouter);
 app.use('/suppliers/invoices', invoicesRouter);
 app.use('/purchase', purchasesRouter);
+app.use('/users', userRouter);
 
 const server = app.listen(process.env.PORT, async () => {
   console.log(`Server running at port ${process.env.DB_SERVER_URL}`);
   swaggerDoc(app, process.env.DB_SERVER_URL);
-  // clearDB()
+  createDB()
 });
   
 export {app, server};

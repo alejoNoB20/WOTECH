@@ -1,5 +1,6 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 import "./App.css"
+import LogIn from "@pages/logIn/LogIn"
 import Layout from "@components/layout/layout"
 import AddStock from "@pages/stock/AddStock"
 import UpdateStock from "@pages/stock/DetailsStock"
@@ -22,17 +23,68 @@ import DetailsSupplier from "@pages/suppliers/DetailsSupplier"
 import PurchaseMaterials from "@pages/suppliers/PurchaseMaterials"
 import GetOrders from "@pages/orders/GetOrders"
 import AddOrders from "@pages/orders/AddOrders"
+import UserInfo from "@pages/user/UserInfo"
 import DetailsOrders from "@pages/orders/DetailsOrders"
 import TestComponent from "@components/componentTest/test"
 import { NotificationsProvider } from "@context/notificationsContext"
 import { ToastContainer } from "react-toastify"
+import { useEffect, useState } from "react"
 
 function App() {
+  const [logged, setLogged] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(()=> {
+    const checkSession = async () => {
+      try{
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/verify`, {
+          method: 'GET',
+          credentials: true
+        });
+
+        if(response === 200){
+          setLogged(true);
+        }else {
+          setLogged(false);
+        };
+
+      }catch(err){
+        console.error("Error verificando la sesión:", err);
+        setLogged(false);
+      }
+    }
+    checkSession();
+
+  }, []);
+
+  const handleLoginSuccess = () => {
+    setLogged(true);
+    navigate('/home');
+  };
+
+  if(!logged){
+    return(
+        <NotificationsProvider>
+          <LogIn onLoginSuccess={handleLoginSuccess}/>
+          <ToastContainer 
+            position="bottom-right" 
+            autoClose={5000}
+            hideProgressBar={false}
+            closeOnClick
+            pauseOnHover
+            draggable
+          />
+        </NotificationsProvider>
+    )
+  };
+
   return (
-    <Layout logged={true}>
+    <Layout>
       <ErrorModal/>
       <NotificationsProvider>
       <Routes>
+        <Route path="/home" element={<Home />}/>
+        <Route path="/user" element={<UserInfo />}/>
         <Route path="/stock/getstock" element={<GetStock />} />
         <Route path="/stock/addstock" element={<AddStock />} />
         <Route path="/stock/detailstock/:id" element={<UpdateStock />} />
@@ -59,7 +111,6 @@ function App() {
         <Route path="/orders/search" element={<GetOrders />} />
         <Route path="/orders/addorders" element={<AddOrders />}/>
         <Route path="/orders/detailsorders/:id" element={<DetailsOrders />}/>
-        <Route path="/" element={<Home />}/>
         <Route path="/test" element={<TestComponent/>}/>
       </Routes>
         <ToastContainer 

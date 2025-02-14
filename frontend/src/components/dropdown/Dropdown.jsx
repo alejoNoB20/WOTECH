@@ -57,7 +57,7 @@ const Dropdown = ({ links }) => {
                                 <div className="flex flex-col text-center" onClick={toggleDropdown}>
                                     <p className="text-orange-400 text-xl">SECCIONES</p>
                                     <div className="flex flex-col space-y-4 text-xl">
-                                        <NavLink to="/" exact className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>
+                                        <NavLink to="/home" exact className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>
                                             Inicio
                                         </NavLink>
                                         <NavLink to="/stock/getstock" className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>

@@ -2,7 +2,6 @@ import { Router } from "express";
 import { ToolsController } from "./toolsController.js";
 import { toolsValidations } from "./toolsValidators.js";
 import { sequelize } from "../../database/connection.js";
-import { checkSecret } from '../../middlewares/protectecRoutes.js'
 import { upload } from "../../middlewares/multer.js";
 const toolsController = new ToolsController();
 
@@ -15,17 +14,7 @@ toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
 toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
 toolsRouter.patch('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
 toolsRouter.get('/search',toolsValidations.searchTool, toolsController.buscarHerramienta);
-toolsRouter.post('/clear-db', checkSecret,async (req, res) => {
-    try {
-      await sequelize.sync({ force: true });
-    //   await sequelize.sync({alter: true});
-      
-      res.status(200).send('Base de datos reiniciada correctamente.');
-    } catch (error) {
-      console.error('Error al reiniciar la base de datos:', error);
-      res.status(500).send('Error al reiniciar la base de datos.');
-    }
-  });
+
 export default toolsRouter;
 
 /**

@@ -5,7 +5,7 @@ import Footer from '@components/footer/footer';
 import Dropdown from '@components/dropdown/Dropdown';
 import { useLocation } from 'react-router-dom';
 
-const Layout = ({ children, logged }) => {
+const Layout = ({ children }) => {
 
     const [isMobile, setIsMobile] = useState(null);
 
@@ -40,18 +40,18 @@ const Layout = ({ children, logged }) => {
     const currentBasePath = `/${location.pathname.split('/')[1]}`;
     const links = routeLinks[currentBasePath] || [];
     const finalLinks = [{name: "Inicio", path: "/"}, ...links];
-
+    
     useEffect(()=> {
 
-    const checkMobile = () => {
-        setIsMobile(window.matchMedia('(max-width: 640px)').matches);
-    };
+        const checkMobile = () => {
+            setIsMobile(window.matchMedia('(max-width: 640px)').matches);
+            };
 
-    checkMobile();
+            checkMobile();
 
-    window.addEventListener('resize', checkMobile);
+            window.addEventListener('resize', checkMobile);
 
-    return () => window.removeEventListener('resize', checkMobile);
+            return () => window.removeEventListener('resize', checkMobile);
 
     }, []);
 
@@ -67,7 +67,7 @@ const Layout = ({ children, logged }) => {
                     </main>
             ) : (
                 <div className="flex flex-col min-h-screen">
-                    <NavBar logged={logged} />
+                    <NavBar />
                     <div className="flex flex-grow mt-16">
                         <Sidebar links={finalLinks} />
                         <main className="flex-grow p-10 ml-64">

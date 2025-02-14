@@ -1,9 +1,14 @@
-const SECRET_KEY = process.env.SECRET_KEY;
+import jwt from 'jsonwebtoken';
 
-export const checkSecret = (req, res, next) => {
-    const secret = req.headers['secret-key'];
-    if (secret !== SECRET_KEY) {
-        return res.status(403).send('Forbidden');
-    }
-    next();
+export const checkToken = (req, res, next) => {
+    const token = req.cookies.token;
+
+    if (!token) return res.status(401).send('Acceso denegado');
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) return res.status(403).send('Token inválido o expirado');
+
+        req.user = decoded;
+        next();
+    });
 };
