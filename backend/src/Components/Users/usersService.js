@@ -46,7 +46,7 @@ export class userService {
 
             // EN CASO QUE LA CONTRASEÑA GENERA Y GUARDA UN TOKEN DE SEGURIDAD EN UNA COOKIE
             const token = jwt.sign({
-                    id: response.id_user, username: username_user, type: type_user
+                    id: response.id_user, username: response.username_user, type: response.type_user
                 }, 
                 process.env.SECRET_KEY,
                 {expiresIn: '1h'}

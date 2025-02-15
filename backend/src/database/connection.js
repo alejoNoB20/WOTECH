@@ -25,10 +25,10 @@ export const updateDB = async () => {
     }
 };
 
-export const createDB = async () => {
+export const connectDB = async () => {
     try{
         await sequelize.sync({ alter: true });
-        console.log('DB Actualizada correctamente!');
+        console.log('Conectado correctamente a la DB!');
     }catch(err) {
         console.log('Error a la hora de actualiza la DB: ', err);
     }
