@@ -8,7 +8,7 @@ Wotech is a project designed to improve the efficiency and effectiveness of a ca
 
 #### 🔗 [Wotech (Test Version)](https://wotech-free.vercel.app/home)
 
-#### ⚠️ IMPORTANT::
+#### ⚠️ IMPORTANT:
 - 🚀 The deployment is hosted on free platforms, so it may take a few seconds to load.
 - 🔑 Access credentials:
   - Username: admin
