@@ -1,8 +1,11 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="h-full bg-gray-100 p-6">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900 text-center">
@@ -12,35 +15,25 @@ const Home = () => {
       </header>
 
       <main className="max-w-7xl mx-auto mt-6">
-        <div className="bg-white shadow rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Bienvenido, USER
-          </h2>
-          <p className="mt-2 text-gray-600">
-            Gestiona tus materiales, herramientas y proveedores de manera
-            eficiente con Wotech.
-          </p>
-        </div>
-
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Acciones rápidas */}
           <div className="bg-white shadow rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-gray-900 text-center">
               Acciones Rápidas
             </h3>
             <ul className="mt-4 space-y-4">
               <li>
-                <button className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg">
+                <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg" onClick={()=> navigate('/orders/addorders')}>
+                  Agregar Pedido
+                </button>
+              </li>
+              <li>
+                <button className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg" onClick={()=> navigate('/stock/addstock')}>
                   Agregar Material
                 </button>
               </li>
               <li>
-                <button className="w-full py-2 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg">
-                  Ver Herramientas
-                </button>
-              </li>
-              <li>
-                <button className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg">
+                <button className="w-full py-2 px-4 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg" onClick={()=> navigate('/suppliers/addsuppliers')}>
                   Registrar Proveedor
                 </button>
               </li>
@@ -87,11 +80,6 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-center">
-          <button className="py-2 px-4 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg">
-            Ver Todos los Detalles
-          </button>
-        </div>
       </main>
     </div>
   )

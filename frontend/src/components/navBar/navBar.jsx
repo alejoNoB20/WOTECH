@@ -30,7 +30,7 @@ const NavBar = () => {
   return (
     <>
       {!isMobile && (
-      <div className="flex text-xs lg:text-lg items-center justify-between bg-gray-700 text-white p-4 fixed w-full top-0 z-10 py-7">
+      <div className="flex text-xs lg:text-lg items-center justify-between bg-gray-700 text-white px-4 py-7 fixed w-full top-0 z-10 border-b-2">
         <div className="text-lg font-semibold">Wotech</div>
         <div className="flex-grow">
           <SearchBar ref={formRef} onSearch={handleSearch} />

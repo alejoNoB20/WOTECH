@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'mb': {'min': '375px', 'max': '500px'}
+        'mb': {'min': '375px', 'max': '900px'}
       }
     },
   },

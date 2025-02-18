@@ -2,11 +2,12 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNotifications } from "@context/notificationsContext";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Loader from '@components/loader/Loader'
 import backGroundImage from "@assets/BackGround.jpg";
 import logoImage from "@assets/PinosRosarioLogo.jpg";
 
 const LogIn = ({ onLoginSuccess }) => {
-
+    const [loading, setLoading] = useState(false);
     const [account, setAccount] = useState({});
     const [typePassword, setTypePassword] = useState('password');
     const notify = useNotifications();
@@ -28,6 +29,7 @@ const LogIn = ({ onLoginSuccess }) => {
 
     const handleClick = async () => {
         try{
+            setLoading(true);
             const bodyResponse = account;
 
             const response = await fetch(`${process.env.REACT_APP_API_URL}/users/login`, {
@@ -42,21 +44,26 @@ const LogIn = ({ onLoginSuccess }) => {
 
             switch (response.status) {
                 case 400:
+                    setLoading(false);
                     handleFail(responseJSON);
                     break;
                 case 404:
+                    setLoading(false);
                     handleFail(responseJSON);                
                     break;
                 case 200:
+                    setLoading(false);
                     handleSuccess(responseJSON);
                     onLoginSuccess();
                     break;
                 default:
+                    setLoading(false);
                     handleFail(responseJSON);                
                     break;
             }
         }catch(err){
             console.log(err);
+            setLoading(false);
             handleFail('Ah ocurrido un error al momento de procesar la información');                
         };
     };
@@ -64,6 +71,9 @@ const LogIn = ({ onLoginSuccess }) => {
     return (
         // FONDO
         <>
+            {loading && (
+                <Loader/>
+            )}
             <div className="flex w-screen h-screen justify-center items-center">
                 <img src={backGroundImage} alt="Fondo" className="object-cover bg-center h-screen w-screen fixed inset-0 opacity-60 z-0"/>
                 {/* MAIN */}

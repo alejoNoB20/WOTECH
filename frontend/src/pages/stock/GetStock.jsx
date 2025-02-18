@@ -57,13 +57,12 @@ const GetStock = () => {
 
     return (
         <>
-        {loading? (
+        {loading && (
             <Loader/>
-        ):(
-            <div className="bg-gray-200 h-full">
-                <ItemList items = {items}/>
-            </div>
         )}
+        <div className="bg-gray-200 h-full">
+            <ItemList items = {items}/>
+        </div>
         </>
     )
 }

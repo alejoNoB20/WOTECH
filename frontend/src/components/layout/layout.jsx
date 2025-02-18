@@ -39,7 +39,7 @@ const Layout = ({ children }) => {
     };
     const currentBasePath = `/${location.pathname.split('/')[1]}`;
     const links = routeLinks[currentBasePath] || [];
-    const finalLinks = [{name: "Inicio", path: "/"}, ...links];
+    const finalLinks = [{name: "Inicio", path: "/home"}, ...links];
     
     useEffect(()=> {
 

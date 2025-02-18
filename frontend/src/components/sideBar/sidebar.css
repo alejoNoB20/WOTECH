@@ -1,10 +1,10 @@
 /* sidebar.css */
 .sidebar {
     width: 250px;
-    height: calc(80vh - 4rem); /* Ajustar la altura para que comience debajo de la navbar */
+    height: calc(80vh); /* Ajustar la altura para que comience debajo de la navbar */
     position: fixed;
     text-align: center;
-    top: 6.3em; /* La altura de la navbar */
+    top: 6em; /* La altura de la navbar */
     left: 0;
   }
   
