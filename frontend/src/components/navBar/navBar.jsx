@@ -39,7 +39,7 @@ const NavBar = () => {
           <NavLink to="/home" exact className="hover:text-gray-400 active:text-red-500">
             Inicio
           </NavLink>
-          <NavLink to="/stock/getstock" className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/stock/getstock/1" className="hover:text-gray-400 active:text-red-500">
             Materiales
           </NavLink>
           <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500">

@@ -25,7 +25,7 @@ const ItemList = ({ items }) => {
                     <h1 className="text-black text-xl my-auto">{items}</h1>
                 </div>
             ) : (
-                <table className="w-full h-full">
+                <table className="w-full h-full border border-gray-300">
                     <thead>
                         <tr>
                             <th className="text-center">ID</th>

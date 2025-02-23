@@ -37,12 +37,12 @@ function App() {
   useEffect(()=> {
     const checkSession = async () => {
       try{
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/verify`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/users/auth/verify`, {
           method: 'GET',
-          credentials: true
+          credentials: 'include'
         });
 
-        if(response === 200){
+        if(response.status === 200){
           setLogged(true);
         }else {
           setLogged(false);
@@ -85,10 +85,10 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />}/>
         <Route path="/user" element={<UserInfo />}/>
-        <Route path="/stock/getstock" element={<GetStock />} />
+        <Route path="/stock/getstock/:page" element={<GetStock />} />
         <Route path="/stock/addstock" element={<AddStock />} />
         <Route path="/stock/detailstock/:id" element={<UpdateStock />} />
-        <Route path="/stock/search" element={<GetStock />}/>
+        <Route path="/stock/search/:page" element={<GetStock />}/>
         <Route path="/tools/gettools" element={<GetTools />} />
         <Route path="/tools/search" element={<GetTools />} />
         <Route path="/tools/updatetool/:id" element={<UpdateTool />} />

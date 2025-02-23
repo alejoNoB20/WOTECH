@@ -5,19 +5,28 @@ import { Products } from "../Products/productsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
 
 export class StockService {
-    verStock = async () => {
+    verStock = async (page) => {
         try {
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxStock = await Stock.count();
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+
             const resultado = await Stock.findAll({
                 where: {
                     disabled: false
                 },
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'description_material']
-                }
+                },
+                limit,
+                offset
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontró ningún stock en la base de datos', 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxStock / limit)}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver todos los materiales debido a un falló en el sistema');
@@ -78,7 +87,7 @@ export class StockService {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del stock falló');
         }
     }
-    filtrarMaterial = async (type, value) => {
+    filtrarMaterial = async (page, type, value) => {
         try {  
             let objetoWhere = {};
 
@@ -93,6 +102,15 @@ export class StockService {
                     [Op.like]: `%${value}%`
                 }; 
             }
+
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxStock = await Stock.count({
+                where: objetoWhere
+            });
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
 
             const resultado = await Stock.findAll({
                 where: objetoWhere,
@@ -113,12 +131,14 @@ export class StockService {
                         }
                     }
                 ],
-                order: [['disabled', 'ASC']] 
+                order: [['disabled', 'ASC']],
+                limit,
+                offset
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
-            
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxStock / limit)}, 200);            
+
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err);
         }

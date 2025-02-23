@@ -74,7 +74,7 @@ const SearchBar = ({ onSearch }) => {
   const handleSearch = async (e) => {
     if(selectedOption !== 'none' && query){
       e.preventDefault();
-      navigate(`/${location.pathname.split('/')[1]}/search?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
+      navigate(`/${location.pathname.split('/')[1]}/search/1?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
     }
   };
 
@@ -106,7 +106,7 @@ const SearchBar = ({ onSearch }) => {
           onChange={handleInputChange}
           onBlur={handleSearch}
           placeholder="Buscar..."
-          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-black bg-white"
+          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-white text-xs"
         />
       </div>
 

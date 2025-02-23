@@ -56,7 +56,8 @@ export class userService {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "Strict",
-                maxAge: 60 * 60 * 1000,
+                expires: new Date(Date.now() + 900000),
+                priority: "high"
             });
 
             return try_catch.SERVICE_TRY_RES('Has iniciado sesión correctamente!', 200);

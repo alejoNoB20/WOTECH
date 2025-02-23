@@ -4,13 +4,13 @@ import { stockValidations } from "./stockValidators.js";
 const stockController = new StockController();
 let stockRouter = Router();
 
-stockRouter.get('/', stockController.verTodos);
-stockRouter.get('/details/:id_material', stockController.detallesMaterial);
+stockRouter.get('/pages/:page', stockController.verTodos);
+stockRouter.get('/search/:page', stockValidations.searchStock, stockController.filtrar);
 stockRouter.post('/create', stockValidations.createStock, stockController.crear);
+stockRouter.get('/details/:id_material', stockController.detallesMaterial);
 stockRouter.patch('/disabled/:id_material', stockController.deshabilitar);
 stockRouter.delete('/delete/:id_material', stockController.borrar);
 stockRouter.patch('/update/:id_material', stockValidations.updateStock, stockController.actualizar);
-stockRouter.get('/search', stockValidations.searchStock, stockController.filtrar);
 
 export default stockRouter;
 

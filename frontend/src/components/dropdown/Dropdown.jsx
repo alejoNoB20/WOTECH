@@ -20,7 +20,7 @@ const Dropdown = ({ links }) => {
     return(
         <>
             {isOpen ? (
-                <div className="fixed inset-0 bg-black bg-opacity-75 z-20 transition">
+                <div className="fixed inset-0 bg-black bg-opacity-75 z-30 transition">
                     <div className="fixed w-full bg-gray-700 text-white top-0 z-40">
                         <div className="flex flex-row items-center">
                             <p className="text-lg font-semibold px-4">Wotech</p>
@@ -60,7 +60,7 @@ const Dropdown = ({ links }) => {
                                         <NavLink to="/home" exact className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>
                                             Inicio
                                         </NavLink>
-                                        <NavLink to="/stock/getstock" className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>
+                                        <NavLink to="/stock/getstock/1" className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>
                                             Materiales
                                         </NavLink>
                                         <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500" onClick={(e)=> setTitle(e.target.innerText)}>

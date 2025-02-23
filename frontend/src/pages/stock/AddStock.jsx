@@ -52,7 +52,7 @@ const AddStock = () => {
       switch (response.status) {
         case 201:
           handleSuccess(responseJSON);
-          navigate("/stock/getstock");
+          navigate("/stock/getstock/1");
           return;
         case 400:
           const errors = responseJSON.errors.map((error) => error.msg)
@@ -61,11 +61,11 @@ const AddStock = () => {
           return;
         case 500:
           handleFail(responseJSON);
-          navigate("/stock/getstock");
+          navigate("/stock/getstock/1");
           return
         default:
           handleFail('Ah ocurrido un error inesperado');
-          navigate("/stock/getstock");
+          navigate("/stock/getstock/1");
           return;
       }
     } catch (error) {

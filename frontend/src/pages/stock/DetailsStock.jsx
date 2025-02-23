@@ -66,12 +66,12 @@ const UpdateStock = () => {
           return
         }else {
           handleFail(responseJSON);
-          navigate("/stock/getstock");
+          navigate("/stock/getstock/1");
           return
         }
       }else {
         handleSuccess(responseJSON);
-        navigate("/stock/getstock");
+        navigate("/stock/getstock/1");
         return;        
       }
 
