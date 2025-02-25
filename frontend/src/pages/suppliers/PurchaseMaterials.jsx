@@ -131,7 +131,7 @@ const PurchaseMaterials = () => {
                 case 201:
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/suppliers/getsuppliers");
+                    navigate("/suppliers/getsuppliers/1");
                     return;
                 case 400:
                     setLoader(false);
@@ -142,12 +142,12 @@ const PurchaseMaterials = () => {
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
-                    navigate("/suppliers/getsuppliers");
+                    navigate("/suppliers/getsuppliers/1");
                     return
                 default:
                     setLoader(false);
                     handleFail('Ah ocurrido un error inesperado');
-                    navigate("/suppliers/getsuppliers");
+                    navigate("/suppliers/getsuppliers/1");
                     return;
                 };
 

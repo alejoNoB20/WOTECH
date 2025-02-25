@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import Loader from "@components/loader/Loader";
 import ItemList from "@components/itemProductList/ItemProductList";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useModal } from "@context/modalContext";
+import Pagination from "@components/pagination/Pagination";
 
 const GetProducts = () => {
     const [list, setList] = useState([]);
+    const [maxPage, setMaxPage] = useState(null);
+    const navigate = useNavigate();
     const [loader, setLoader] = useState(false);
     const location = useLocation();
     const { openModal } = useModal();
+    const { page } = useParams();
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -21,7 +25,9 @@ const GetProducts = () => {
                 let url = `${process.env.REACT_APP_API_URL}/products`;
                 
                 if (query && option) {
-                    url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+                    url += `/search/1?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+                }else {
+                    url += `/pages/${page}`;
                 };
 
                 const mostrarError = (httpErr, errors) => {
@@ -33,7 +39,9 @@ const GetProducts = () => {
 
                 const response = await fetch(url);
                 const responseJSON = await response.json();
-                setList(responseJSON);
+
+                setList(responseJSON.resultado);
+                setMaxPage(responseJSON.maxPage);
 
                 if(!response.ok){
                     if(response.status === 400){
@@ -44,6 +52,7 @@ const GetProducts = () => {
                 }
                 }catch(err){
                     console.log(err);
+                    navigate('/products/getproducts/1');
                 }finally{
                     setLoader(false);
                 }
@@ -51,15 +60,19 @@ const GetProducts = () => {
             
         fetchData();
         
-    }, [location.search, openModal]);
+    }, [location.search, openModal, page, navigate]);
     
     return(
         <>
-            {loader ? (
+            {loader && (
                 <Loader/>
-            ) : (
-                <ItemList list = {list}/>
             )}
+            <div className="flex flex-col h-full md:mt-4">
+                <ItemList list = {list}/>
+                <div className="flex justify-center items-center mb:mt-4 md:mt-3">
+                    <Pagination url="/products/getproducts/" page={Number(page)} maxPage={maxPage}/>
+                </div>
+            </div>
         </>
     );
 };

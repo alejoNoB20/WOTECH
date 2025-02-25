@@ -5,13 +5,20 @@ import { Clients } from "../Clients/clientsModels.js";
 import { Stock } from "../Stock/stocksModels.js"
 import { orderProductsAssociation } from "../Associations/orderProductsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { Tools } from "../Tools/toolsModels.js";
 const Product = new productsService();
 
 export class ordersService {
-    verTodo = async () => {
+    verTodo = async (page) => {
         try{
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxOrders = await Orders.count();
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+
             const resultado = await Orders.findAll({
                 where: {
                     disabled: false
@@ -23,11 +30,13 @@ export class ordersService {
                 include: {
                     model: Clients,
                     attributes: ['name_client', 'last_name_client'] 
-                }
+                },
+                limit,
+                offset
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron pedidos activos en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron pedidos activos en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxOrders / limit)}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los pedidos debido a una falla en el sistema');
@@ -57,8 +66,7 @@ export class ordersService {
             const resultado = await Orders.create(dato);
 
             for(const product of products){
-                const producto = await Product.filtrarProducto('id_product', product.id_product);
-                
+                const producto = await Product.filtrarProducto(null, 'id_product', product.id_product);
                 for(const material of producto.msg[0].stocks){
                     const stock = await Stock.findOne({
                         where: {
@@ -110,7 +118,7 @@ export class ordersService {
     }
     borrarPedido = async (id_order) => {
         try{
-            const order = await this.filtrarPedidos('id_order', id_order);
+            const order = await this.filtrarPedidos(null, 'id_order', id_order);
 
             // ANTES DE ELIMINAR EL PEDIDO DEVUELVE LOS MATERIALES A LA TABLA DE STOCK
             for(const material of order.msg.materialUsed){
@@ -142,7 +150,7 @@ export class ordersService {
             return try_catch.SERVICE_CATCH_RES(err, 'La eliminación del pedido falló');
         }
     }
-    filtrarPedidos = async (type, value) => {
+    filtrarPedidos = async (page = null, type, value) => {
         try{
             let objetoWhere = {};
 
@@ -157,6 +165,40 @@ export class ordersService {
                 
             };
 
+            if(page !== null){
+                // CANTIDAD TOTAL DE REGISTROS
+                const maxOrders = await Orders.count({
+                    where: objetoWhere
+                });
+                // CANTIDAD DE REGISTROS RENDERIZADOS
+                const limit = 6;
+                // REGISTROS QUE NO SE MUESTRAN
+                const offset = page * 6 - 6;
+
+                const resultado = await Orders.findAll({
+                    where: objetoWhere,
+                    order: [['shipping_address_order', 'ASC']],
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    include: [{
+                        model: Products,
+                        through: {
+                            attributes: ['unit_product', 'id_product_fk']
+                        },
+                        attributes: ['id_product', 'name_product', 'price_product']
+                    }, {
+                        model: Clients,
+                        attributes: ['name_client'] 
+                    }],
+                    limit,
+                    offset
+                })
+                if (resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontró nada en la base de datos con ${type}: ${value}`}, 404);
+                
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxOrders / limit)}, 200);
+
+            }
             const resultado = await Orders.findAll({
                 where: objetoWhere,
                 order: [['shipping_address_order', 'ASC']],
@@ -288,7 +330,7 @@ export class ordersService {
             if(JSON.stringify(Oldervalidation) !== JSON.stringify(newValidation)){
 
                 for(const Association of olderAssociation){
-                    const producto = await Product.filtrarProducto('id_product', Association.id_product_fk);
+                    const producto = await Product.filtrarProducto(null, 'id_product', Association.id_product_fk);
                     for(const material of producto.msg[0].stocks){
                         const stock = await Stock.findOne({
                             where: {
@@ -316,7 +358,7 @@ export class ordersService {
                 })
 
                 for(const product of products){
-                    const producto = await Product.filtrarProducto('id_product', product.id_product);
+                    const producto = await Product.filtrarProducto(null, 'id_product', product.id_product);
                     for(const material of producto.msg[0].stocks){
                         const stock = await Stock.findOne({
                             where: {

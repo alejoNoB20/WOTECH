@@ -203,13 +203,13 @@ const DetailsSupplier = () => {
                         if(response.status === 500){
                             setLoader(false);
                             handleFail(responseJSON);
-                            navigate("/suppliers/getsuppliers");
+                            navigate("/suppliers/getsuppliers/1");
                             return;
                         };
                     }else {
                         setLoader(false);
                         handleSuccess(responseJSON);
-                        navigate("/suppliers/getsuppliers");
+                        navigate("/suppliers/getsuppliers/1");
                         return;        
                     };
                 }
@@ -282,12 +282,12 @@ const DetailsSupplier = () => {
                         return;
                     }else {
                         handleFail(responseJSON);
-                        navigate("/suppliers/getsuppliers");
+                        navigate("/suppliers/getsuppliers/1");
                         return
                     }
                 }else {
                     handleSuccess(responseJSON);
-                    navigate("/suppliers/getsuppliers");
+                    navigate("/suppliers/getsuppliers/1");
                     return;        
                 };
                 

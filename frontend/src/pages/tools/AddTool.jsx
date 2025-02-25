@@ -83,11 +83,11 @@ const AddTool = () => {
 
       if (response.status === 201) {
         handleSuccess()
-        navigate("/tools/gettools")
+        navigate("/tools/gettools/1")
       }
       if (response.status === 500) {
         handleFail()
-        navigate("/tools/gettools")
+        navigate("/tools/gettools/1")
       }
     } catch (error) {
       console.error("Error:", error)

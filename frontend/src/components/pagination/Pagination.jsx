@@ -4,27 +4,33 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loader from "@components/loader/Loader";
 
-const Pagination = ({ page, maxPage }) => {
+const Pagination = ({ url, page, maxPage }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleClick = (e) => {
         setLoading(true)
         if(e.target.id === "backButton" && page > 1){
-            navigate(`/stock/getstock/${e.target.value}`);
+            navigate(`${url}${e.target.value}`);
             setLoading(false);
         };
         if(e.target.id === "forthButton" && page < maxPage){
-            navigate(`/stock/getstock/${e.target.value}`);
+            navigate(`${url}${e.target.value}`);
             setLoading(false);
         };
         if(e.target.id === "pageButton"){
-            navigate(`/stock/getstock/${e.target.value}`);
+            navigate(`${url}${e.target.value}`);
             setLoading(false);
         };
         setLoading(false)
     };
 
+    if(maxPage <= 1 || maxPage === undefined){
+        return (
+            <>
+            </>
+        )
+    }
     return (
         <div className="flex flex-row gap-1">
             {loading && (

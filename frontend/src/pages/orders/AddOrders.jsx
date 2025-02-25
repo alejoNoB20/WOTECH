@@ -120,7 +120,7 @@ const AddOrders = () => {
                 case 201:
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;
                 case 400:
                     setLoader(false);
@@ -131,12 +131,12 @@ const AddOrders = () => {
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return
                 default:
                     setLoader(false);
                     handleFail('Ah ocurrido un error inesperado');
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;
             };
         }catch(err){

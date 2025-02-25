@@ -201,7 +201,7 @@ const AddProducts = () => {
                     case 201:
                         setLoader(false);
                         handleSuccess(responseJSON);
-                        navigate("/products/getproducts");
+                        navigate("/products/getproducts/1");
                         return;
                     case 400:
                         setLoader(false);
@@ -217,12 +217,12 @@ const AddProducts = () => {
                     case 500:
                         setLoader(false);
                         handleFail(responseJSON);
-                        navigate("/products/getproducts");
+                        navigate("/products/getproducts/1");
                         return
                     default:
                         setLoader(false);
                         handleFail('Ah ocurrido un error inesperado');
-                        navigate("/products/getproducts");
+                        navigate("/products/getproducts/1");
                         return;
                 }
 

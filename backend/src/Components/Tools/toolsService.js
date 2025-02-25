@@ -5,17 +5,26 @@ import { try_catch } from "../../utils/try_catch.js";
 import { uploadImage, destroyImage } from "../../libs/Cloudinary.js";
 
 export class ToolsService {
-    verHerramientas = async () => {
+    verHerramientas = async (page) => {
         try{
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxTools = await Tools.count();
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+            
             const resultado = await Tools.findAll({
                 where: {
                     disabled: false
                 },
-                attributes: ['id_tool', 'name_tool', 'img_tool', 'status_tool', 'location_tool']
+                attributes: ['id_tool', 'name_tool', 'img_tool', 'status_tool', 'location_tool'],
+                limit,
+                offset
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron herramientas registradas en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron herramientas registradas en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxTools / limit)}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver las herramientas debido a una falla en el sistema');
@@ -127,7 +136,7 @@ export class ToolsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización de la herramienta falló');
         }
     }
-    filtrarHerramienta = async (type, value) => {
+    filtrarHerramienta = async (page = null, type, value) => {
         try {
             let objetoWhere = {};
             
@@ -143,7 +152,38 @@ export class ToolsService {
                 };
             }
             
-            const respuesta = await Tools.findAll({
+            if(page !== null) {
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxTools = await Tools.count({
+                where: objetoWhere
+            });
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+
+            const resultado = await Tools.findAll({
+                where: objetoWhere,
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Products,
+                    attributes: ['id_product', 'name_product'],
+                    through: {
+                        attributes: []
+                    }
+                },
+                order: [['disabled', 'ASC']],
+                limit,
+                offset
+            });
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontro nada en la base de datos con ${type}: ${value}`}, 404);
+
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxTools / limit)}, 200);
+    
+            };
+            const resultado = await Tools.findAll({
                 where: objetoWhere,
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
@@ -157,9 +197,9 @@ export class ToolsService {
                 },
                 order: [['disabled', 'ASC']]
             })
-            if(respuesta.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
 
-            return try_catch.SERVICE_TRY_RES(respuesta, 200);
+            return try_catch.SERVICE_TRY_RES(resultado, 200);
             
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err);

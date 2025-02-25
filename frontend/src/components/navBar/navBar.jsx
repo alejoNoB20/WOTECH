@@ -42,19 +42,19 @@ const NavBar = () => {
           <NavLink to="/stock/getstock/1" className="hover:text-gray-400 active:text-red-500">
             Materiales
           </NavLink>
-          <NavLink to="/tools/gettools" exact className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/tools/gettools/1" exact className="hover:text-gray-400 active:text-red-500">
             Herramientas
           </NavLink>
-          <NavLink to="/products/getproducts" className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/products/getproducts/1" className="hover:text-gray-400 active:text-red-500">
             Productos
           </NavLink>
-          <NavLink to="/clients/getclients" exact className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/clients/getclients/1" exact className="hover:text-gray-400 active:text-red-500">
             Clientes
           </NavLink>
-          <NavLink to="/suppliers/getsuppliers" exact className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/suppliers/getsuppliers/1" exact className="hover:text-gray-400 active:text-red-500">
             Proveedores
           </NavLink>
-          <NavLink to="/orders/getorders" exact className="hover:text-gray-400 active:text-red-500">
+          <NavLink to="/orders/getorders/1" exact className="hover:text-gray-400 active:text-red-500">
             Pedidos
           </NavLink>
           <NavLink to="/userInfo">

@@ -9,8 +9,15 @@ import { uploadImage, destroyImage } from "../../libs/Cloudinary.js";
 
 
 export class productsService {
-    verProductos = async () => {
+    verProductos = async (page) => {
         try {
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxProducts = await Products.count();
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+
             const resultado = await Products.findAll({
                 where: {
                     disabled: false
@@ -18,10 +25,12 @@ export class productsService {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'description_product']
                 },
+                limit,
+                offset
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES( 'No se encontraron productos registrados en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron productos registrados en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxProducts / limit)}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los productos debido a una falla en el sistema');
@@ -266,7 +275,7 @@ export class productsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del producto falló');
         }
     }
-    filtrarProducto = async (type, value) => {
+    filtrarProducto = async (page = null, type, value) => {
         try {
             let objetoWhere = {};
             if(type === 'id_product' || type === 'nameProductValidator'){
@@ -279,6 +288,43 @@ export class productsService {
                 objetoWhere[type] = {
                     [Op.like]: `%${value}%`
                 }
+            };
+
+            if (page !== null){
+                // CANTIDAD TOTAL DE REGISTROS
+                const maxProducts = await Products.count({
+                    where: objetoWhere
+                });
+                // CANTIDAD DE REGISTROS RENDERIZADOS
+                const limit = 6;
+                // REGISTROS QUE NO SE MUESTRAN
+                const offset = page * 6 - 6;
+
+                const resultado = await Products.findAll({
+                    where: objetoWhere,
+                    include: [ 
+                        {model: Stock, 
+                            through: {
+                                attributes: ['how_much_contains_use']
+                            },
+                            attributes: ['id_material', 'name_material']},
+                        {model: Tools, 
+                            through: {
+                                attributes: []
+                            },
+                            attributes: ['id_tool', 'name_tool']}
+                    ],
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    order: [['disabled', 'ASC']],
+                    limit,
+                    offset
+                });
+                if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES({resultado: `No se encontró nada con ${type}: ${value} en la base de datos`}, 404);
+    
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxProducts / limit)}, 200);
+        
             };
 
             const resultado = await Products.findAll({

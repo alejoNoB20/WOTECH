@@ -50,7 +50,7 @@ const UpdateTool = () => {
         }
       }catch(err){
         console.log(err);
-        navigate('/tools/gettools');
+        navigate('/tools/gettools/1');
       }finally{
         setLoading(false)
       }
@@ -93,7 +93,7 @@ const UpdateTool = () => {
         case 200:
             setLoading(false);
             handleSuccess(responseJSON);
-            navigate("/tools/gettools");
+            navigate("/tools/gettools/1");
             return;
         case 400:
           setLoading(false);
@@ -109,19 +109,18 @@ const UpdateTool = () => {
         case 500:
             setLoading(false);
             handleFail(responseJSON);
-            navigate("/tools/gettools");
+            navigate("/tools/gettools/1");
             return
         default:
             setLoading(false);
             handleFail('Ah ocurrido un error inesperado');
-            navigate("/tools/gettools");
+            navigate("/tools/gettools/1");
             return;
     }
     }catch(err){
-      console.log(err);
-    }finally{
       setLoading(false);
-    }
+      console.log(err);
+    };
   }
 
   const handleDisable = async () => {
@@ -140,18 +139,18 @@ const UpdateTool = () => {
         if(response.status === 500){
             setLoading(false);
             handleFail(responseJSON);
-            navigate("/tools/gettools");
+            navigate("/tools/gettools/1");
             return;
         }else {
             setLoading(false);
             handleFail(responseJSON);
-            navigate("/tools/gettools");
+            navigate("/tools/gettools/1");
             return
         }
       }else {
           setLoading(false);
           handleSuccess(responseJSON);
-          navigate("/tools/gettools");
+          navigate("/tools/gettools/1");
           return;        
       }
     }

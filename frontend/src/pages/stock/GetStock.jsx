@@ -66,10 +66,10 @@ const GetStock = () => {
         {loading && (
             <Loader/>
         )}
-        <div className="flex flex-col h-full mb:my-10 md:mt-4">
+        <div className="flex flex-col h-full md:mt-4">
             <ItemList items = {items}/>
-            <div className="flex justify-center items-center mb:mt-6 md:mt-3">
-                <Pagination page={Number(page)} maxPage={maxPage}/>
+            <div className="flex justify-center items-center mb:mt-4 md:mt-3">
+                <Pagination url="/stock/getstock/" page={Number(page)} maxPage={maxPage}/>
             </div>
         </div>
         </>

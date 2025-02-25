@@ -5,7 +5,7 @@ const Supplier = new supplierService();
 export class supplierController {
     verTodos = async (req, res) => {
         try{
-            const resultado = await Supplier.verProveedores();
+            const resultado = await Supplier.verProveedores(req.params.page);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -41,7 +41,7 @@ export class supplierController {
     }
     detalles = async (req, res) => {
         try{
-            const resultado = await Supplier.filtrarProveedor('id_supplier', req.params.id_supplier);
+            const resultado = await Supplier.filtrarProveedor(null, 'id_supplier', req.params.id_supplier);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -61,7 +61,7 @@ export class supplierController {
         try{
             const type = req.query.search_type;
             const value = req.query.search_value;
-            const resultado = await Supplier.filtrarProveedor(type, value);
+            const resultado = await Supplier.filtrarProveedor(req.params.page, type, value);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

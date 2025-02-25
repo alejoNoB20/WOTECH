@@ -4,8 +4,6 @@ import Loader from "@components/loader/Loader";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
 import { format, diffDays } from "@formkit/tempo";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleLeft, faCheck, faFloppyDisk, faPenToSquare, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const DetailsOrders = () => {
     const [loader, setLoader] = useState(false);
@@ -70,7 +68,7 @@ const DetailsOrders = () => {
                 };
                 console.log(err);
                 handleFail('Ops, ocurrio un error al momento de recuperar los datos de este pedido');
-                navigate('/orders/getorders');
+                navigate('/orders/getorders/1');
             }finally{
                 setLoader(false);
             };
@@ -126,13 +124,13 @@ const DetailsOrders = () => {
                     if(response.status === 500){
                         setLoader(false);
                         handleFail(responseJSON);
-                        navigate("/orders/getorders");
+                        navigate("/orders/getorders/1");
                         return;
                     };
                 }else {
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;        
                 };
             }
@@ -161,13 +159,13 @@ const DetailsOrders = () => {
                     if(response.status === 500){
                         setLoader(false);
                         handleFail(responseJSON);
-                        navigate("/orders/getorders");
+                        navigate("/orders/getorders/1");
                         return;
                     };
                 }else {
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;        
                 };
             }
@@ -244,7 +242,7 @@ const DetailsOrders = () => {
                 case 200:
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;
                 case 400:
                     setLoader(false);
@@ -255,12 +253,12 @@ const DetailsOrders = () => {
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return
                 default:
                     setLoader(false);
                     handleFail('Ah ocurrido un error inesperado');
-                    navigate("/orders/getorders");
+                    navigate("/orders/getorders/1");
                     return;
             }
         }catch(err){

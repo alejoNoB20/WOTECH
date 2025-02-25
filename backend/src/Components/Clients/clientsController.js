@@ -5,7 +5,7 @@ const Clients = new clientsService();
 export class clientsController {
     verTodos = async (req, res) => {
         try {
-            const resultado = await Clients.verClientes(); 
+            const resultado = await Clients.verClientes(req.params.page); 
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -14,7 +14,7 @@ export class clientsController {
     }
     detalles = async (req, res) => {
         try{
-            const resultado = await Clients.filtrarClientes('id_client', req.params.id_client);
+            const resultado = await Clients.filtrarClientes(null ,'id_client', req.params.id_client);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -62,7 +62,7 @@ export class clientsController {
         try{
             const searchType = req.query.search_type;
             const searchValue = req.query.search_value;
-            const resultado = await Clients.filtrarClientes(searchType, searchValue);
+            const resultado = await Clients.filtrarClientes(req.params.page, searchType, searchValue);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

@@ -43,7 +43,7 @@ export class StockController {
     }
     detallesMaterial = async (req, res) => {
         try{
-            const resultado = await stock.filtrarMaterial('id_material', req.params.id_material);
+            const resultado = await stock.filtrarMaterial(null, 'id_material', req.params.id_material);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -63,6 +63,7 @@ export class StockController {
         try{
             const type = req.query.search_type;
             const value = req.query.search_value;
+
             const resultado = await stock.filtrarMaterial(req.params.page, type, value);
             try_catch.TRY_RES(res, resultado);
 

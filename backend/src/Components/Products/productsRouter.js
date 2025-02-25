@@ -5,14 +5,14 @@ import { upload } from "../../middlewares/multer.js";
 const ProductsController = new productsController();
 let productsRouter = Router();
 
-productsRouter.get('/', ProductsController.verTodos);
+productsRouter.get('/pages/:page', ProductsController.verTodos);
 productsRouter.get('/details/:id_product', ProductsController.detallesProducto);
 productsRouter.get('/getStockAndTools', ProductsController.irAPaginaCrear);
 productsRouter.post('/create', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.createProduct, ProductsController.crear);
 productsRouter.patch('/disabled/:id_product', ProductsController.deshabilitar);
 productsRouter.delete('/delete/:id_product', ProductsController.eliminar);
 productsRouter.patch('/update/:id_product', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.updateProduct, ProductsController.actualizar);
-productsRouter.get('/search/', productValidator.searchProduct, ProductsController.filtrar);
+productsRouter.get('/search/:page', productValidator.searchProduct, ProductsController.filtrar);
 
 export default productsRouter;
 

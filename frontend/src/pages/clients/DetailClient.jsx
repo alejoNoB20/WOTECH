@@ -5,7 +5,6 @@ import { useModal } from "@context/modalContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
-import { faArrowAltCircleLeft, faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const DetailClient = () => {
     const [loader, setLoader] = useState(false);
@@ -46,7 +45,7 @@ const DetailClient = () => {
                 
             }catch(err){
                 console.log(err);
-                navigate('/clients/getclients');
+                navigate('/clients/getclients/1');
             }finally{
                 setLoader(false);
             }
@@ -125,17 +124,17 @@ const DetailClient = () => {
                     return;
                 }else {
                     handleFail(responseJSON);
-                    navigate("/clients/getclients");
+                    navigate("/clients/getclients/1");
                     return
                 }
             }else {
                 handleSuccess(responseJSON);
-                navigate("/clients/getclients");
+                navigate("/clients/getclients/1");
                 return;        
             }
         }catch (err){
             handleFail('Ah ocurrido un error inesperado');
-            navigate('/clients/getclients');
+            navigate('/clients/getclients/1');
             return
         }
     };
@@ -156,13 +155,13 @@ const DetailClient = () => {
                     if(response.status === 500){
                         setLoader(false);
                         handleFail(responseJSON);
-                        navigate("/clients/getclients");
+                        navigate("/clients/getclients/1");
                         return;
                     };
                 }else {
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/clients/getclients");
+                    navigate("/clients/getclients/1");
                     return;        
                 };
             }

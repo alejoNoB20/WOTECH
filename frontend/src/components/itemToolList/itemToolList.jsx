@@ -9,7 +9,7 @@ const ItemToolList = ({ tools }) => {
                 </div>
             ) : (
                 <div className="p-6 bg-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {tools.map((tool) => (
+                    {Array.isArray(tools) && tools.length > 0 && tools.map((tool) => (
                         <ItemTool key={tool.id_tool} tool={tool} />
                     ))}
                 </div>

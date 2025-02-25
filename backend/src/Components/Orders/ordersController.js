@@ -5,7 +5,7 @@ const Order = new ordersService();
 export class orderController {
     verPedidos = async (req, res) => {
         try{
-            const resultado = await Order.verTodo();
+            const resultado = await Order.verTodo(req.params.page);
             try_catch.TRY_RES(res, resultado);
             
         }catch(err) {
@@ -32,7 +32,7 @@ export class orderController {
     }
     detalles = async (req, res) => {
         try{
-            const resultado = await Order.filtrarPedidos('id_order', req.params.id_order);
+            const resultado = await Order.filtrarPedidos(null, 'id_order', req.params.id_order);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -80,7 +80,7 @@ export class orderController {
             const type = req.query.search_type;
             const value = req.query.search_value;
 
-            const resultado = await Order.filtrarPedidos(type, value);
+            const resultado = await Order.filtrarPedidos(req.params.page, type, value);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {

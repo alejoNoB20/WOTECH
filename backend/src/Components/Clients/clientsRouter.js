@@ -4,13 +4,13 @@ import { clientsValidator } from "./clientsValidators.js";
 const Clients = new clientsController();
 let clientsRouter = Router();
 
-clientsRouter.get('/', Clients.verTodos);
+clientsRouter.get('/pages/:page', Clients.verTodos);
 clientsRouter.get('/details/:id_client', Clients.detalles);
 clientsRouter.post('/create', clientsValidator.createClient, Clients.crear);
 clientsRouter.patch('/disabled/:id_client', Clients.deshabilitar);
 clientsRouter.delete('/delete/:id_client', Clients.eliminar);
 clientsRouter.patch('/update/:id_client', clientsValidator.updateClient, Clients.actualizar);
-clientsRouter.get('/search', clientsValidator.searchClient,Clients.filtrar);
+clientsRouter.get('/search/:page', clientsValidator.searchClient,Clients.filtrar);
 
 export default clientsRouter;
 

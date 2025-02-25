@@ -33,7 +33,7 @@ export const ItemClientList = ({clients}) => {
                         {!isMobile && (<th className="text-center">Tipo de Cliente</th>)}
                     </tr>
                 </thead>
-                <tbody className="table-hover">
+                <tbody className="table-hover border border-gray-300">
                     {clients.map((client) => (
                         <ItemClient key={client.id_client} client={client} />
                     ))}

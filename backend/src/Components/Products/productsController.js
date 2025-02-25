@@ -7,7 +7,7 @@ const Product = new productsService();
 export class productsController {
     verTodos = async (req, res) => {
         try {
-            const resultado = await Product.verProductos();
+            const resultado = await Product.verProductos(req.params.page);
             try_catch.TRY_RES(res, resultado);
 
         }catch(err) {
@@ -60,7 +60,7 @@ export class productsController {
     }
     detallesProducto = async (req, res) => {
         try {
-            const resultado = await Product.filtrarProducto('id_product', req.params.id_product);
+            const resultado = await Product.filtrarProducto(null, 'id_product', req.params.id_product);
             
             try_catch.TRY_RES(res, resultado);
 
@@ -90,7 +90,7 @@ export class productsController {
         try{
             const type = req.query.search_type;
             const value = req.query.search_value;
-            const resultado = await Product.filtrarProducto(type, value);
+            const resultado = await Product.filtrarProducto(req.params.page, type, value);
             try_catch.TRY_RES(res, resultado);
             
         }catch (err) {

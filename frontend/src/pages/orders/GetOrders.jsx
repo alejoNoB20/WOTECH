@@ -2,16 +2,19 @@ import Loader from "@components/loader/Loader";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ItemOrderList from "@components/itemOrderList/ItemOrderList";
+import Pagination from "@components/pagination/Pagination";
 
 
 const GetOrders = () => {
     const [list, setList] = useState([]);
+    const [maxPage, setMaxPage] = useState(null);
     const [loader, setLoader] = useState(false);
     const { openModal } = useModal();
     const notify = useNotifications();
     const location = useLocation();
+    const { page } = useParams();
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -24,7 +27,9 @@ const GetOrders = () => {
                 let url = `${process.env.REACT_APP_API_URL}/orders`;
                 
                 if (query && option) {
-                    url += `/search?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+                    url += `/search/1?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+                }else {
+                    url += `/pages/${page}`;
                 };
 
                 const Modal = (httpErr, errors) => {
@@ -36,7 +41,9 @@ const GetOrders = () => {
 
                 const response = await fetch(url);
                 const responseJSON = await response.json();
-                setList(responseJSON);
+                console.log(responseJSON)
+                setList(responseJSON.resultado);
+                setMaxPage(responseJSON.maxPage);
 
                 if(!response.ok){
                     if(response.status === 400){
@@ -58,15 +65,19 @@ const GetOrders = () => {
         };
         fetchData();
 
-    }, [location.search, openModal, notify]);
+    }, [location.search, openModal, notify, page]);
 
     return(
         <>
-            {loader ? (
-                <Loader/>
-            ) : (
-                <ItemOrderList list={list}/>
-            )}
+        {loader && (
+            <Loader/>
+        )}
+        <div className="flex flex-col h-full md:mt-4">
+            <ItemOrderList list={list}/>
+            <div className="flex justify-center items-center mb:mt-4 md:mt-3">
+                <Pagination url="/orders/getorders/" page={Number(page)} maxPage={maxPage}/>
+            </div>
+        </div>
         </>
     )
 };

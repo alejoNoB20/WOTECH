@@ -4,17 +4,26 @@ import { Clients } from "./clientsModels.js";
 import { Orders } from "../Orders/ordersModels.js";
 
 export class clientsService {
-    verClientes = async () => {
+    verClientes = async (page) => {
         try{
+            // CANTIDAD TOTAL DE REGISTROS
+            const maxClients = await Clients.count();
+            // CANTIDAD DE REGISTROS RENDERIZADOS
+            const limit = 6;
+            // REGISTROS QUE NO SE MUESTRAN
+            const offset = page * 6 - 6;
+
             const resultado = await Clients.findAll({
                 where: {
                     disabled: false
                 },
-                attributes: ['id_client', 'name_client', 'last_name_client', 'type_client']
+                attributes: ['id_client', 'name_client', 'last_name_client', 'type_client'],
+                limit,
+                offset
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES('No se encontraron clientes registrados en la base de datos', 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron clientes registrados en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES(resultado, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxClients / limit)}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los clientes debido a una falla en el sistema');    
@@ -73,7 +82,7 @@ export class clientsService {
             return try_catch.SERVICE_CATCH_RES(err, 'La actualización del cliente falló');  
         }
     }
-    filtrarClientes = async (type, value) => {
+    filtrarClientes = async (page = null, type, value) => {
         try{
             let objetoWhere = {};
             if (type === 'name_client' || type === 'last_name_client'){
@@ -90,7 +99,31 @@ export class clientsService {
                     [Op.eq]: value
                 };
             };
-            
+            if(page !== null){
+                // CANTIDAD TOTAL DE REGISTROS
+                const maxClients = await Clients.count();
+                // CANTIDAD DE REGISTROS RENDERIZADOS
+                const limit = 6;
+                // REGISTROS QUE NO SE MUESTRAN
+                const offset = page * 6 - 6;
+
+                const resultado = await Clients.findAll({
+                    where: objetoWhere,
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    },
+                    include: {
+                        model: Orders,
+                        attributes: ['id_order', 'delivery_day_order']
+                    },
+                    limit,
+                    offset
+                });
+                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontro nada en la base de datos con ${type}: ${value}`}, 404);
+    
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxClients / limit)}, 200);    
+            };
+
             const resultado = await Clients.findAll({
                 where: objetoWhere,
                 attributes: {

@@ -6,19 +6,18 @@ const Tool = new ToolsService()
 export class ToolsController {
   verTodasHerramientas = async (req, res) => {
     try {
-      const resultado = await Tool.verHerramientas()
-      try_catch.TRY_RES(res, resultado)
+      const resultado = await Tool.verHerramientas(req.params.page);
+      try_catch.TRY_RES(res, resultado);
+
     } catch (err) {
       try_catch.CATCH_RES(res, err)
     }
   }
   detallesHerramienta = async (req, res) => {
     try {
-      const resultado = await Tool.filtrarHerramienta(
-        "id_tool",
-        req.params.id_tool
-      )
-      try_catch.TRY_RES(res, resultado)
+      const resultado = await Tool.filtrarHerramienta(null, "id_tool", req.params.id_tool)
+      try_catch.TRY_RES(res, resultado);
+
     } catch (err) {
       try_catch.CATCH_RES(res, err)
     }
@@ -65,8 +64,10 @@ export class ToolsController {
     try {
       const type = req.query.search_type
       const value = req.query.search_value
-      const resultado = await Tool.filtrarHerramienta(type, value)
+
+      const resultado = await Tool.filtrarHerramienta(req.params.page, type, value)
       try_catch.TRY_RES(res, resultado)
+
     } catch (err) {
       try_catch.CATCH_RES(res, err)
     }

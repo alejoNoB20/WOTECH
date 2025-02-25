@@ -7,13 +7,13 @@ const toolsController = new ToolsController();
 
 let toolsRouter = Router();
 
-toolsRouter.get('/', toolsController.verTodasHerramientas);
+toolsRouter.get('/pages/:page', toolsController.verTodasHerramientas);
 toolsRouter.get('/details/:id_tool', toolsController.detallesHerramienta);
 toolsRouter.post('/create', upload.single("img_tool"), toolsValidations.createTool , toolsController.pushHerramienta);
 toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
 toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
 toolsRouter.patch('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
-toolsRouter.get('/search',toolsValidations.searchTool, toolsController.buscarHerramienta);
+toolsRouter.get('/search/:page',toolsValidations.searchTool, toolsController.buscarHerramienta);
 
 export default toolsRouter;
 

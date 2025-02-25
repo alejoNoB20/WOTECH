@@ -91,7 +91,7 @@ const AddClient = () => {
                 case 201:
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/clients/getclients");
+                    navigate("/clients/getclients/1");
                     return;
                 case 400:
                     setLoader(false);
@@ -102,18 +102,18 @@ const AddClient = () => {
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
-                    navigate("/clients/getclients");
+                    navigate("/clients/getclients/1");
                     return
                 default:
                     setLoader(false);
                     handleFail('Ah ocurrido un error inesperado');
-                    navigate("/clients/getclients");
+                    navigate("/clients/getclients/1");
                     return;
                 }
 
         }catch(err){
             console.log(err);
-            navigate('/clients/getclients');
+            navigate('/clients/getclients/1');
         }
     };
 

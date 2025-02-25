@@ -89,26 +89,26 @@ function App() {
         <Route path="/stock/addstock" element={<AddStock />} />
         <Route path="/stock/detailstock/:id" element={<UpdateStock />} />
         <Route path="/stock/search/:page" element={<GetStock />}/>
-        <Route path="/tools/gettools" element={<GetTools />} />
-        <Route path="/tools/search" element={<GetTools />} />
+        <Route path="/tools/gettools/:page" element={<GetTools />} />
+        <Route path="/tools/search/:page" element={<GetTools />} />
         <Route path="/tools/updatetool/:id" element={<UpdateTool />} />
         <Route path="/tools/addtool" element={<AddTool />} />
-        <Route path="/products/getproducts" element={<GetProducts />}/>
+        <Route path="/products/getproducts/:page" element={<GetProducts />}/>
         <Route path="/products/addproduct" element={<AddProducts />}/>
         <Route path="/products/detailproduct/:id" element={<DetailsProduct />}/>
         <Route path="/products/map/:id" element={<MapProduct/>}/>
-        <Route path="/products/search" element={<GetProducts />} />
-        <Route path="/clients/getclients" element={<GetClients />} />
+        <Route path="/products/search/:page" element={<GetProducts />} />
+        <Route path="/clients/getclients/:page" element={<GetClients />} />
         <Route path="/clients/addclient" element={<AddClient />} />
         <Route path="/clients/detailclient/:id" element={<DetailClient />}/>
-        <Route path="/clients/search" element={<GetClients />} />
-        <Route path="/suppliers/getsuppliers" element={<GetSuppliers />} />
+        <Route path="/clients/search/:page" element={<GetClients />} />
+        <Route path="/suppliers/getsuppliers/:page" element={<GetSuppliers />} />
         <Route path="/suppliers/addsuppliers" element={<AddSuppliers />} />
         <Route path="/suppliers/datailssupplier/:id" element={<DetailsSupplier />}/>
-        <Route path="/suppliers/search" element={<GetSuppliers />} />
+        <Route path="/suppliers/search/:page" element={<GetSuppliers />} />
         <Route path="/suppliers/purchase" element={<PurchaseMaterials />}/>
-        <Route path="/orders/getorders" element={<GetOrders />}/>
-        <Route path="/orders/search" element={<GetOrders />} />
+        <Route path="/orders/getorders/:page" element={<GetOrders />}/>
+        <Route path="/orders/search/:page" element={<GetOrders />} />
         <Route path="/orders/addorders" element={<AddOrders />}/>
         <Route path="/orders/detailsorders/:id" element={<DetailsOrders />}/>
         <Route path="/test" element={<TestComponent/>}/>

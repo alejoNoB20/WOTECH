@@ -12,27 +12,27 @@ const Layout = ({ children }) => {
     const location = useLocation()
     const routeLinks = {
         "/stock": [
-            { name: "Ver materiales", path: "/stock/getstock" },
+            { name: "Ver materiales", path: "/stock/getstock/1" },
             { name: "Agregar material", path: "/stock/addstock" },
         ],
         "/products": [
-            { name: "Ver productos", path: "/products/getproducts" },
+            { name: "Ver productos", path: "/products/getproducts/1" },
             { name: "Agregar producto", path: "/products/addproduct" },
         ],
         "/orders": [
-            { name: "Ver pedidos", path: "/orders/getorders" },
+            { name: "Ver pedidos", path: "/orders/getorders/1" },
             { name: "Crear pedido", path: "/orders/addorders" },
         ],
         "/tools": [
-            { name: "Ver herramientas", path: "/tools/gettools" },
+            { name: "Ver herramientas", path: "/tools/gettools/1" },
             { name: "Agregar herramienta", path: "/tools/addtool" },
         ],
         "/clients": [
-            { name: "Ver clientes", path: "/clients/getclients" },
+            { name: "Ver clientes", path: "/clients/getclients/1" },
             { name: "Registrar cliente", path: "/clients/addclient" },
         ],
         "/suppliers": [
-            { name: "Ver proveedores", path: "/suppliers/getsuppliers" },
+            { name: "Ver proveedores", path: "/suppliers/getsuppliers/1" },
             { name: "Registrar proveedor", path: "/suppliers/addsuppliers" },
             { name: "Compra de materiales", path: "/suppliers/purchase" },
         ],

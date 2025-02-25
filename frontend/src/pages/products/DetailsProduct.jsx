@@ -226,13 +226,13 @@ const DetailsProduct = () => {
                     if(response.status === 500){
                         setLoader(false);
                         handleFail(responseJSON);
-                        navigate("/products/getproducts");
+                        navigate("/products/getproducts/1");
                         return;
                     };
                 }else {
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/products/getproducts");
+                    navigate("/products/getproducts/1");
                     return;        
                 };
             }
@@ -277,7 +277,7 @@ const DetailsProduct = () => {
                 case 200:
                     setLoader(false);
                     handleSuccess(responseJSON);
-                    navigate("/products/getproducts");
+                    navigate("/products/getproducts/1");
                     return;
                 case 400:
                     setLoader(false);
@@ -288,12 +288,12 @@ const DetailsProduct = () => {
                 case 500:
                     setLoader(false);
                     handleFail(responseJSON);
-                    navigate("/products/getproducts");
+                    navigate("/products/getproducts/1");
                     return
                 default:
                     setLoader(false);
                     handleFail('Ah ocurrido un error inesperado');
-                    navigate("/products/getproducts");
+                    navigate("/products/getproducts/1");
                     return;
             }
 
