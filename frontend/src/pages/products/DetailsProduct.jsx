@@ -485,6 +485,7 @@ const DetailsProduct = () => {
                                         />
                                     </div>
                                 </div>
+                                {/* PLANO */}
                                 <div className="mb-2">
                                     <label htmlFor="map_product" className="block text-gray-700">
                                         Nuevo plano del producto:

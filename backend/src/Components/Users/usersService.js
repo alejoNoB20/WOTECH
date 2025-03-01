@@ -54,9 +54,9 @@ export class userService {
 
             res.cookie("token", token, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "Strict",
-                expires: new Date(Date.now() + 900000),
+                secure: true,
+                sameSite: "None",
+                expires: new Date(Date.now() + 60 * 60 * 1000),
                 priority: "high"
             });
 

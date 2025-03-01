@@ -203,7 +203,7 @@ export class productsService {
                 }
             };
 
-            const olderProduct = await this.filtrarProducto('id_product', id_product);
+            const olderProduct = await this.filtrarProducto(null, 'id_product', id_product);
 
             const olderMaterials = olderProduct.msg[0].stocks.map(stock => {
                 return {id: stock.id_material, how_much_content: stock.productStocksAssociation.how_much_contains_use}
