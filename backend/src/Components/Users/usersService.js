@@ -55,7 +55,7 @@ export class userService {
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: true,
-                sameSite: "None",
+                SameSite: "none",
                 expires: new Date(Date.now() + 60 * 60 * 1000),
                 priority: "high"
             });
