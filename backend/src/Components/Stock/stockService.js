@@ -136,7 +136,23 @@ export class StockService {
                     limit,
                     offset
                 });
-                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontró nada en la base de datos con ${type}: ${value}`}, 404);
+
+                // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+                let notFoundMsg;
+
+                switch (type) {
+                    case 'id_material':
+                        notFoundMsg = `No se encontró ningún material con el ID: "${value}"`;
+                        break;                
+                    case 'name_material':
+                        notFoundMsg = `No se encontró ningún material con el Nombre: "${value}"`;
+                        break;                
+                    case 'amount_material':
+                        notFoundMsg = `No se encontró ningún material que una Cantidad de stock de: "${value}"`;
+                        break;                
+                    };
+
+                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
 
                 return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxStock / limit)}, 200);            
             }
@@ -162,7 +178,7 @@ export class StockService {
                 ],
                 order: [['disabled', 'ASC']],
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);            
 

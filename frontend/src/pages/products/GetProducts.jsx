@@ -21,7 +21,6 @@ const GetProducts = () => {
                 const queryParams = new URLSearchParams(location.search);
                 const query = queryParams.get("search_type") || "" ;
                 const option = queryParams.get("search_value") || "";
-    
                 let url = `${process.env.REACT_APP_API_URL}/products`;
                 
                 if (query && option) {
@@ -39,10 +38,10 @@ const GetProducts = () => {
 
                 const response = await fetch(url);
                 const responseJSON = await response.json();
-
+                
                 setList(responseJSON.resultado);
                 setMaxPage(responseJSON.maxPage);
-
+                
                 if(!response.ok){
                     if(response.status === 400){
                         const errors = responseJSON.errors.map((error) => error.msg)

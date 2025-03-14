@@ -1,78 +1,83 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // Importa el hook useLocation
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState('none');
   const location = useLocation(); // Obtén la ruta actual
   const navigate = useNavigate();
+  
   // Función para cargar opciones dependiendo de la ruta o subruta
   useEffect(() => {
     const fetchOptionsByRoute = () => {
+      let newOptions = [];
+
       if (location.pathname.startsWith('/tools')) {
-        setOptions([
+        newOptions = [
           { value: 'id_tool', label: 'ID' },
           { value: 'name_tool', label: 'Nombre' },
           { value: 'status_tool', label: 'Estado' },
           { value: 'location_tool', label: 'Ubicación' },
           { value: 'repair_shop_tool', label: 'Tienda de reparación' },
-        ]);
+        ];
       } else if (location.pathname.startsWith('/stock')) {
-        setOptions([
+        newOptions = [
           { value: 'id_material', label: 'ID' },
           { value: 'name_material', label: 'Nombre' },
           { value: 'amount_material', label: 'Cantidad de Stock' },
-        ]);
+        ];
       } else if (location.pathname.startsWith('/products')) {
-        setOptions([
+        newOptions = [
           { value: 'id_product', label: 'ID' },
           { value: 'name_product', label: 'Nombre' },
-        ]);
+        ];
       } else if (location.pathname.startsWith('/clients')) {
-        setOptions([
+        newOptions = [
           { value: 'id_client', label: 'ID' },
           { value: 'name_client', label: 'Nombre' },
           { value: 'last_name_client', label: 'Apellido' },
           { value: 'dni_client', label: 'DNI' },
           { value: 'cuil_or_cuit_client', label: 'CUIL o CUIT' },
           { value: 'type_client', label: 'TIPO' },
-        ]);
+        ];
       } else if (location.pathname.startsWith('/suppliers')) {
-        setOptions([
+        newOptions = [
           { value: 'name_company_supplier', label: 'Nombre del proveedor' },
           { value: 'distributor_name_supplier', label: 'Nombre del distribuidor' },
-        ]);
+        ];
       } else if (location.pathname.startsWith('/orders')) {
-        setOptions([
+        newOptions = [
           { value: 'id_order', label: 'ID del pedido' },
           { value: 'id_client', label: 'ID del cliente' },
           { value: 'shipping_address_order', label: 'Dirección de envío' },
           { value: 'delivery_day_order', label: 'Día de entrega' },
-        ]);
-      }else {
-        setOptions([]); // Opciones vacías si la ruta no coincide
+        ];
+      }
+  
+      setOptions(newOptions);
+
+      if (!newOptions.some(option => option.value === selectedOption)) {
+        setSelectedOption('none');
+        setQuery("")
       }
     };
 
     fetchOptionsByRoute();
-  }, [location.pathname]); // Actualiza las opciones cuando la ruta cambia
+
+  }, [location.pathname, selectedOption]); // Actualiza las opciones cuando la ruta cambia
 
   const formRef = useRef(null);
-  
-  const handleInputChange = (e) => {
-    setQuery(e.target.value);
-  };
 
   const handleSelectChange = (e) => {
     setSelectedOption(e.target.value);
-    handleSearch(e);
   };
 
   const handleSearch = async (e) => {
-    if(selectedOption !== 'none' && query){
+    setQuery(e.target.value)
+    if(selectedOption !== 'none'){
       e.preventDefault();
-      navigate(`/${location.pathname.split('/')[1]}/search/1?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(query)}`)
+      navigate(`/${location.pathname.split('/')[1]}/search/1?search_type=${encodeURIComponent(selectedOption)}&search_value=${encodeURIComponent(e.target.value)}`);
     }
   };
 
@@ -98,15 +103,24 @@ const SearchBar = ({ onSearch }) => {
           ))}
         </select>
         
-        <input
+        {selectedOption === 'none' ? (
+          <input
           type="text"
           value={query}
-          onChange={handleInputChange}
-          onBlur={handleSearch}
           placeholder="Buscar..."
-          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700 bg-white text-xs"
-        />
-      </div>
+          disabled={true}
+          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full text-black bg-gray-500 text-xs md:text-sm"
+          />
+        ) : (
+          <input
+          type="text"
+          value={query}
+          onChange={handleSearch}
+          placeholder="Buscar..."
+          className="w-40 md:min-w-44 m-0 p-2 pl-3 border border-gray-300 rounded-full text-gray-700 bg-white text-xs md:text-sm"
+          />
+        )}
+        </div>
 
     </form>
   );

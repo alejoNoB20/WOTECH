@@ -321,7 +321,20 @@ export class productsService {
                     limit,
                     offset
                 });
-                if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES({resultado: `No se encontró nada con ${type}: ${value} en la base de datos`}, 404);
+
+            // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+            let notFoundMsg;
+
+            switch (type) {
+                case 'id_product':
+                    notFoundMsg = `No se encontró ningún producto con el ID: "${value}"`;
+                    break;                
+                case 'name_product':
+                    notFoundMsg = `No se encontró ningún producto con el Nombre: "${value}"`;
+                    break;                
+                };
+
+                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
     
                 return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxProducts / limit)}, 200);
         
@@ -346,7 +359,7 @@ export class productsService {
                 },
                 order: [['disabled', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_CATCH_RES(resultado, `No se encontró nada con ${type}: ${value} en la base de datos`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 

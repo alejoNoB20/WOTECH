@@ -119,7 +119,32 @@ export class clientsService {
                     limit,
                     offset
                 });
-                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontro nada en la base de datos con ${type}: ${value}`}, 404);
+
+            // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+            let notFoundMsg;
+
+            switch (type) {
+                case 'id_client':
+                    notFoundMsg = `No se encontró ningún cliente con el ID: "${value}"`;
+                    break;                
+                case 'name_client':
+                    notFoundMsg = `No se encontró ningún cliente con el Nombre: "${value}"`;
+                    break;                
+                case 'last_name_client':
+                    notFoundMsg = `No se encontró ningún cliente con el Apellido: "${value}"`;
+                    break;      
+                case 'dni_client':
+                    notFoundMsg = `No se encontró ningún cliente con el DNI: "${value}"`;
+                    break;            
+                case 'cuil_or_cuit_client':
+                    notFoundMsg = `No se encontró ningún cliente con el CUIL o CUIT: "${value}"`;
+                    break;                
+                case 'type_client':
+                    notFoundMsg = `No se encontró ningún cliente con el Tipo: "${value}"`;
+                    break;                                        
+                };
+
+                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
     
                 return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxClients / limit)}, 200);    
             };
@@ -134,7 +159,7 @@ export class clientsService {
                     attributes: ['id_order', 'delivery_day_order']
                 }
             })
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             

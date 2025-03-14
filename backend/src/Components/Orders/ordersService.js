@@ -194,7 +194,26 @@ export class ordersService {
                     limit,
                     offset
                 })
-                if (resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontró nada en la base de datos con ${type}: ${value}`}, 404);
+
+                // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+                let notFoundMsg;
+
+                switch (type) {
+                    case 'id_order':
+                        notFoundMsg = `No se encontró ningún pedido con el ID: "${value}"`;
+                        break;                
+                    case 'id_client':
+                        notFoundMsg = `No se encontró ningún pedido con el ID de cliente: "${value}"`;
+                        break;                
+                    case 'shipping_address_order':
+                        notFoundMsg = `No se encontró ningún pedido con el la Dirección de envio: "${value}"`;
+                        break;      
+                    case 'delivery_day_order':
+                        notFoundMsg = `No se encontró ningún pedido con el Día de entrega: "${value}"`;
+                        break;            
+                    };
+
+                if (resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
                 
                 return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxOrders / limit)}, 200);
 
@@ -216,7 +235,8 @@ export class ordersService {
                     attributes: ['name_client'] 
                 }]
             })
-            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404); 
+
+            if (resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404); 
 
             if(type === 'id_order'){
                 let productsUsed = [];

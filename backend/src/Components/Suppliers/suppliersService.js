@@ -121,7 +121,20 @@ export class supplierService {
                     limit,
                     offset
                 });
-                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontró nada en la base de datos con ${type}: ${value}`}, 404);
+
+            // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+            let notFoundMsg;
+
+            switch (type) {
+                case 'name_company_supplier':
+                    notFoundMsg = `No se encontró ningún proveedor con el Nombre: "${value}"`;
+                    break;                
+                case 'distributor_name_supplier':
+                    notFoundMsg = `No se encontró ningún distribuidor con el Nombre: "${value}"`;
+                    break;                
+                };
+
+                if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
     
                 return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxSupplier / limit)}, 200);
     
@@ -137,7 +150,7 @@ export class supplierService {
                 },
                 order: [['disabled', 'ASC']]
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontró nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
 

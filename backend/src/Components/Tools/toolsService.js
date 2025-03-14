@@ -178,7 +178,29 @@ export class ToolsService {
                 limit,
                 offset
             });
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: `No se encontro nada en la base de datos con ${type}: ${value}`}, 404);
+
+            // Mensajes para diferentes casos de busquedas en los que no se encuentre ningun registro con este valor
+            let notFoundMsg;
+
+            switch (type) {
+                case 'id_tool':
+                    notFoundMsg = `No se encontró ninguna herramienta con el ID: "${value}"`;
+                    break;                
+                case 'name_tool':
+                    notFoundMsg = `No se encontró ninguna herramienta con el Nombre: "${value}"`;
+                    break;                
+                case 'status_tool':
+                    notFoundMsg = `No se encontró ninguna herramienta con el Estado: "${value}"`;
+                    break;      
+                case 'location_tool':
+                    notFoundMsg = `No se encontró ninguna herramienta con la Ubicación: "${value}"`;
+                    break;            
+                case 'repair_shop_tool':
+                    notFoundMsg = `No se encontró ninguna herramienta en la Tienda de reparación: "${value}"`;
+                    break;                
+                };
+
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
 
             return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxTools / limit)}, 200);
     
@@ -197,7 +219,7 @@ export class ToolsService {
                 },
                 order: [['disabled', 'ASC']]
             })
-            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(`No se encontro nada en la base de datos con ${type}: ${value}`, 404);
+            if(resultado.length === 0) return try_catch.SERVICE_TRY_RES(notFoundMsg, 404);
 
             return try_catch.SERVICE_TRY_RES(resultado, 200);
             

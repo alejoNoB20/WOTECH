@@ -42,7 +42,7 @@ export const connectDB = async () => {
         await sequelize.sync({ alter: true });
         (process.env.PORT === '8080') ? console.log('Conectado correctamente a la DB local!') : console.log('Conectado correctamente a la DB remota!')
     }catch(err) {
-        console.log('Error a la hora de actualiza la DB: ', err);
+        console.log('Error a la hora de conectar con la DB: ', err);
     }
 };
 
@@ -52,7 +52,7 @@ export const clearDB = async () => {
         await sequelize.sync({ force: true });
         (process.env.PORT === '8080') ? console.log('DB local reiniciada correctamente!') : console.log('DB remota reiniciada correctamente!')
     }catch(err) {
-        console.log('Error a la hora de reiniciar la DB: ', err);
+        console.log('Error a la hora de limpiar la DB: ', err);
     }
 };
 
