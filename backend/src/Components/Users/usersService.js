@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 
 export class userService {
     crearUser = async (user) => {
-        try{
-            const {username_user, password_user, type_user} = user;
+        try {
+            const { username_user, password_user, type_user } = user;
 
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(password_user, salt);
@@ -18,51 +18,43 @@ export class userService {
             });
 
             return try_catch.SERVICE_TRY_RES('Usuario registrado exitosamente', 201);
-
-        }catch(err) {
-            try_catch.SERVICE_CATCH_RES(err, 'Error del servidor al momento de registrar el usuario');
+        } catch (err) {
+            return try_catch.SERVICE_CATCH_RES(err, 'Error del servidor al momento de registrar el usuario');
         }
     };
 
     loginUser = async (res, user) => {
-        try{
-            const {password_user, username_user, type_user} = user;
-            
-            // ENCUENTRA EL USUARIO SEGUN SU NOMBRE DE USUARIO
+        try {
+            const { password_user, username_user } = user;
+
+            // ENCUENTRA EL USUARIO SEGÚN SU NOMBRE DE USUARIO
             const response = await Users.findOne({
-                where: {
-                    username_user: username_user
-                }, 
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
+                where: { username_user },
+                attributes: { exclude: ['createdAt', 'updatedAt'] }
             });
-            if(response === null) return try_catch.SERVICE_TRY_RES(`Este usuario no está registrado`, 404);
 
-            // VERIFICA QUE LA CONTRASEÑA SEA LA CORRECTA
+            if (!response) return try_catch.SERVICE_TRY_RES(`Este usuario no está registrado`, 404);
+
+            // VERIFICA QUE LA CONTRASEÑA SEA CORRECTA
             const verifyPassword = bcrypt.compareSync(password_user, response.password_user);
+            if (!verifyPassword) return try_catch.SERVICE_TRY_RES('La contraseña es incorrecta', 400);
 
-            if(!verifyPassword) return try_catch.SERVICE_TRY_RES('La contraseña es incorrecta', 400);
-
-            // EN CASO QUE LA CONTRASEÑA GENERA Y GUARDA UN TOKEN DE SEGURIDAD EN UNA COOKIE
-            const token = jwt.sign({
-                    id: response.id_user, username: response.username_user, type: response.type_user
-                }, 
+            // GENERA Y GUARDA UN TOKEN DE SEGURIDAD EN UNA COOKIE
+            const token = jwt.sign(
+                { id: response.id_user, username: response.username_user, type: response.type_user },
                 process.env.SECRET_KEY,
-                {expiresIn: '1h'}
-            );   
+                { expiresIn: '1h' }
+            );
 
             res.cookie("token", token, {
                 httpOnly: true,
-                secure: true,
-                SameSite: "none",
-                expires: new Date(Date.now() + 60 * 60 * 1000),
-                priority: "high"
+                secure: process.env.NODE_ENV === 'production', // Solo en producción
+                sameSite: process.env.NODE_ENV === 'production' ? "strict" : "lax", // Estricta en producción, relajada en local
+                maxAge: 1 * 60 * 60 * 1000 // 1 hora
             });
 
             return try_catch.SERVICE_TRY_RES('Has iniciado sesión correctamente!', 200);
-
-        }catch(err) {
+        } catch (err) {
             return try_catch.SERVICE_CATCH_RES(err, 'Error del servidor al momento de checkear el usuario');
         }
     };
