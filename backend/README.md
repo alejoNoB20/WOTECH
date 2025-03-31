@@ -1,379 +1,488 @@
-# INTRODUCTION
+# INTRODUCCIÓN
+A lo largo de este Readme vas a entender como trabaja el Back-End de nuestro proyecto y como configurarlo. 
+Sin nada más, empecemos!
 
-Alongside this readme you are going to understand how the backend works for our project and how to set up.
-So let's start!
+## Guía 
+Asumimos que el repositorio ya se encuentra clonado y estás dentro de la carpeta /backend.
 
-## Getting Started
-
-We are assuming that you already clone the repository and moved into the folder.
-
-### 1. Install the dependencies
-
+### 1. Instalar dependencias
 ```bash
 npm install
 ```
 
-### 2. Create the .env file with the following fields
-
+### 2. Crear un archivo .env con los siguientes campos
 ```makefile
-PORT
-DB_NAME
-DB_USER
-DB_PASSWORD
-DB_HOST
-DB_SERVER_URL
-// (opcional) //
-CLOUD_NAME
-API_KEY
-API_SECRET
-CLOUDINARY_URL
+PORT= 'Nº de puerto'
+DB_NAME= 'Nombre de la base de datos'
+DB_USER= 'Nombre de usuario de la base de datos'
+DB_PASSWORD= 'Contraseña de la base de datos'
+DB_HOST= 'Server HOST'
+DB_SERVER_URL= 'http://(DB_HOST):(PORT)'
+// Datos de conexión con el gestor de imagenes CLOUDINARY (opcional)
+// "Tener en cuenta que en caso de no conectar con la DB de imagenes no podrá ver ni guardar ningun tipo de imagen"
+CLOUD_NAME= 'Nombre de la nube'
+API_KEY= 'Llave de la nube'
+API_SECRET= 'Llave secreta de la nube'
+CLOUDINARY_URL= 'URL de tu nube'
 ```
 
-### 3. Connect to a database
+### 3. Conectarse a la base de datos
+Para este proyecto usamos como gestor de DB MySQL y como ORM a Sequelize, necesitas conectarte a este tipo de DB.
 
-As the project was created using MySQL and the ORM of Sequalize, you need to connect to that kind of DB.
+### 4. Iniciar el servidor
+Si estás en Windows necesitas instalar un paquete gestor de base de datos como puede ser XAMPP, y iniciar la DB local MySQL (debes crear la DB antes de conectar con el backend porque en caso contrario no sincronizaras la DB), para luego conectar con el Back-End.
 
-### 4. Run the server
-
-If you are on windows you need to install xampp, run the MySQL service and connect both to it (with both I mean to the database and the backend site).
-
-### 5. Start the scripts
-
-You have to commands with which you can run the code:
-
+### 5. Iniciar Wotech
+Puedes iniciarlo de 2 maneras:
 ```bash
 npm run start
 ```
-
-or
-
+o
 ```bash
 npm run dev
 ```
 
-The only difference between them, is that 'dev' run with nodemon and its watching for every change that you could make in the code, and 'start' doesn't.
+La diferencia entre ambos modos, es que 'dev' corre con nodemon y vigila cada cambio que puedes ejecutar en tu código en cambio 'start' no.
 
-## There you go
+## Ya lo tienes. 
+Ya está todo listo para que empiezes a usar Wotech, para entender como funciona el sistema te brindaremos toda la información sobre los EndPoints.
 
-Now you have everything set to start experimenting with the code and project.
-To a better understanding of it, we'll give you a quick overview of endpoints.
+# Veamos las rutas 
 
-## Let's see the routes
+## Documentación de endpoints con Swagger UI
+Si quieres ver el funcionamiento y descripción de las APIs de más colorida y divertida debes ingresar a /api-doc, donde además podrás interactuar con algunas de ellas.
+```
+{HOST}:{PORT}/api-doc     
 
-## The URL that you should write is like the following
+Ejemplo: localhost:8080/api-doc
 
-```text
-localhost:{PORT}/{ROUTE}
 ```
 
-PORT should be replaced by the PORT that you are running the server on.
-ROUTE refers to the route that you want to access, for example: ```/stock```
-
-## 1. Stock
-
-### 1.1. ```/``` (Method: GET)
-
-This endpoint gives you a response with all the stock.
-
-#### 1.2. ```/details/:id_material``` (Method: GET)
-
-This endpoint connects the database with the frontend to show you the material that you are deleting.
-
-#### 1.3. ```/create``` (Method: POST)
-
-Allows you to create a new stock of any material. You need to send a body with the following fields:
-
-```text
-name_material
-description_material
-amount_material
-measurement_material
+## La forma de escribir las URLs es la siguiente
+    
 ```
+{HOST}:{PORT}/{ROUTE}              
 
-#### 1.4. ```/disabled/:id_material``` (Method: PATCH)
+```
+Debes remplazar HOST y PORT con los datos que ingresaste en tu .env, y para interactuar con cada módulo debes ingresar su nombre seguidos de las acciones.
 
-With this endpoint you make a material unavailable to use.
+```
+Ejemplo 1: localhost:8080/stock/create
+Ejemplo 2: localhost:8080/stock/update/1
 
-#### 1.5. ```/delete/:id_material``` (Method: DELETE)
+```
+## 1. Stock 
 
-This is the endpoint that deletes a material from the database.
+#### 1.1. ```/``` (Método: GET)
+Devuelve una lista con todos los stock registrados.
 
-#### 1.6. ```/update/:id_material``` (Method: PATCH)
+#### 1.2. ```/details/:id_material``` (Método: GET) 
+Muestra con mayor detalle las características de un stock.
 
-Allows you to update a material information.
+#### 1.3. ```/create``` (Método: POST)
+Te permite crear un nuevo stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-#### 1.7. ```/search``` (Method: GET)
+```
+EJEMPLO: {
+  "name_material": "Madera de pino",
+  "measurement_material": "cm",
+}
+```
+NOTA: El campo measurement_material solo permite los siguientes valores: 'cm' y 'unidad'
 
-Gives you the material that you are searching for. You have to use params. For example:
+#### 1.4. ```/disabled/:id_material``` (Método: PATCH)
+Con este endpoint puedes deshabilitar un stock.
 
-```text
+#### 1.5. ```/delete/:id_material``` (Método: DELETE)
+Con este endpoint borras definitivamente un stock de la DB.
+
+#### 1.6. ```/update/:id_material``` (Método: PATCH)
+Permite actualizar la información de un stock.
+
+#### 1.7. ```/search``` (Método: GET)
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de materiales en específico. Por ejemplo:
+```
 search_type=name_material&search_value=wood
 ```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_material', 'name_material', 'amount_material'
 
--search_type indicates the fields that you are searching for, in this case the field is the name_client.
-
--search_value indicates the value that you are searching.
+-search_value indica el valor de los que buscas.
+    
 
 ## 2. Tools
 
-### 2.1. ```/``` (Method: GET)
+#### 2.1. ```/``` (Método: GET)
+Devuelve una lista con todos las herramientas registradas.
 
-Shows you all the tools.
+#### 2.2. ```/details/:id_tool``` (Método: GET)
+Muestra con mayor detalle las características de una herramienta.
 
-#### 2.2. ```/create``` (Method: POST)
+#### 2.3. ```/create``` (Método: POST)
+Te permite crear una nueva herramienta. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-Allows you to create a new tool with the next fields:
-
-```text
-name_tool
-localtion_tool
 ```
+EJEMPLO: {
+  "name_tool": "Martillo",
+  "location_tool": "Mueble 1",
+}
+```
+NOTA: si bien el estado de la herramientas es obligatorio, para la creación no es necesario ya que se entiende que esta Habilitado por defecto.
 
-#### 2.3. ```/disabled/:id_tool``` (Method: PATCH)
 
-With this endpoint you can set a tool a unavailable. The parameter is the id of the tool.
+#### 2.4. ```/disabled/:id_tool``` (Método: PATCH)
+Con este endpoint puedes deshabilitar una herramienta.
 
-#### 2.4. ```/delete/:id_tool``` (Method: DELETE)
+#### 2.5. ```/delete/:id_tool``` (Método: DELETE)
+Con este endpoint borras definitivamente una herramienta de la DB.
 
-It allows you to delete the tool from the database. Again, with its id as parameter.
+#### 2.6. ```/update/:id_tool``` (Método: PATCH)
+Permite actualizar la información de una herramienta.
 
-#### 2.5. ```/details/:id_tool``` (Method: GET)
+#### 2.7. ```/search``` (Método: GET)
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de herramientas en específico. Por ejemplo:
+```
+search_type=name_tool&search_value=hammer
+```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_tool', 'name_tool', 'status_tool', 'location_tool', 'repair_shop_tool'
 
-Using the id it shows you the information of that tool.
-
-#### 2.6. ```/update/:id_tool``` (Method: PATCH)
-
-With the id as a parameter you can update a tool, of course you need to pass in the body the fields that you want to change.
-
-#### 2.7. ```/search``` (Method: GET)
-
-You can search, with query params, multiple tools.
+-search_value indica el valor de los que buscas.
 
 ## 3. Products
 
-### 3.1. ```/``` (Method: GET)
+#### 3.1. ```/``` (Método: GET)
+Devuelve una lista con todos los productos registrados.
 
-Shows all the products.
+#### 3.2. ```/getStockAndTools``` (Método: GET)
+Devuelve información necesaria sobre stock y tools registradas en la DB para brindar al Front-End.
 
-#### 3.2. ```/getStockAndTools``` (Method: GET)
+#### 3.3. ```/create``` (Método: POST)
+Te permite crear un nuevo producto. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-Connects the database with the frontend to show the information.
+```
+EJEMPLO: {
+  "name_product": "Mesa",
+  "price_product": 5800,
+  "tools": [
+    1,
+    2,
+    3
+  ],
+  "materials": [
+    {
+      "id": 1,
+      "how_much_content": 28
+    }
+  ]
+```
+NOTA: El parámetro 'tools' es un array donde cada elemento es el ID de una herramienta y el parámetro 'materials' es un array donde cada elemento es un objeto con las claves 'id': contiene el ID de un stock, 'how_much_content': contiene las cantidades de dicho stock que se van a utilizar para la creación del producto.
 
-#### 3.3. ```/create``` (Method: POST)
+#### 3.4. ```/disabled/:id_product``` (Método: PATCH)
+Con este endpoint puedes deshabilitar un producto.
 
-You can create a product with the following fields:
+#### 3.5. ```/delete/:id_product``` (Método: DELETE)
+Con este endpoint borras definitivamente un producto de la DB.
 
-```text
-name_product
-img_product
-description_product
-price_product
-materials
-tools
+#### 3.6. ```/details/:id_product``` (Método: GET)
+Muestra con mayor detalle las características de un producto.
+
+#### 3.7. ```/update/:id_product``` (Método: PATCH)
+Permite actualizar la información de un producto.
+
+#### 3.8. ```/search``` (Método: GET)
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de productos en específico. Por ejemplo:
+```
+search_type=name_product&search_value=table
+```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_product', 'id_product'
+
+-search_value indica el valor de los que buscas.
+
+## 4. Clients 
+
+#### 4.1.  ```/``` (Método: GET) 
+Devuelve una lista con todos los clientes registrados.
+
+#### 4.2.  ```/create``` (Método: POST)
+Te permite crear un nuevo cliente. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
+
+```
+EJEMPLO: {
+  "name_client": "John",
+  "last_name_client": "Travolta",
+  "province_client": "Buenos Aires",
+  "direction_client": "Calle 123",
+  "phone_number_client": "84 153-4865",
+  "type_client": "Consumidor Final"
+}
 ```
 
-#### 3.4. ```/disabled/:id_product``` (Method: PATCH)
+#### 4.3. ```/details/:id_client``` (Método: GET)
+Muestra con mayor detalle las características de un cliente.
 
-Endpoint used to set a product as unavailable (logical delete).
+#### 4.4.  ```disabled/:id_client``` (Método: POST) 
+Con este endpoint puedes deshabilitar un cliente.
 
-#### 3.5. ```/delete/:id_product``` (Method: DELETE)
+#### 4.5. ```/delete/:id_client``` (Método: DELETE) 
+Con este endpoint borras definitivamente un cliente de la DB.
 
-Endpoint used to delete a product from the database.
+#### 4.6. ```/update/:id_client``` (Método: POST) 
+Permite actualizar la información de un cliente.
 
-#### 3.6. ```/details/:id_product``` (Method: GET)
-
-Sends to the client the details of the product that matches with the ID.
-
-#### 3.7. ```/update/:id_product``` (Method: PATCH)
-
-With this endpoint, you can update a product.
-
-#### 3.8. ```/search``` (Method: GET)
-
-Returns all the products that matches with the query params.
-
-## 4. Clients
-
-### 4.1.  ```/``` (Method: GET)
-
-The response of this endpoint is all the clients on the database
-
-#### 4.2.  ```/create``` (Method: POST)
-
-With this endpoint you can create a new client on the database. To create a client, you need to acomplish the next fields:
-
-```text
-name_client
-last_name_client
-province_client
-direction_client
-phone_number_client
-type_client 
+#### 4.7. ```/search``` (Método: GET) 
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de clientes en específico. Por ejemplo:
 ```
-
-#### 4.3.  ```delete/:id_client``` (Method: POST)
-
-:dni_client it's the parameter, here you have to write the DNI of a client already registered.
-
-#### 4.4. ```/update/:id_client``` (Method: PATCH)
-
-:dni_client it's the parameter, here you have to write the DNI of a client already registered. This endpoint allows you to send the fields that you want to change in the database.
-
-#### 4.5. ```/details/:id_client``` (Method: GET)
-
-Shows the characteristics of a client in greater detail.
-
-#### 4.6. ```/disabled/:id_client``` (Method: PATCH)
-
-With this endpoint you can disable a client.
-
-#### 4.7. ```/search``` (Method: GET)
-
-Here, you are going to work with params. Here is an example of how you should write the params for this endpoint:
-
-```text
-/search?search_type=name_client&search_value=example
+search_type=name_cliente&search_value=John
 ```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_client', 'last_name_client', 'id_client', 'dni_client', 'cuil_or_cuit_client', 'type_client'
 
--search_type indicates the fields that you are searching for, in this case the field is the name_client.
-
--search_value indicates the value that you are searching.
+-search_value indica el valor de los que buscas.
 
 ## 5. Orders
 
-### 5.1. ```/``` (Method: GET)
+#### 5.1. ```/``` (Método: GET)
+Devuelve una lista con todos los pedidos registrados.
 
-Returns all the orders from the customers.
+#### 5.2. ```/getProducts``` (Método: GET)
+Devuelve información necesaria sobre los productos registradas en la DB para brindar al Front-End.
 
-#### 5.2. ```/getProducts``` (Method: GET)
+#### 5.3. ```/create``` (Método: POST)
+Te permite crear un nuevo pedido el cual teniendo en cuenta los materiales que son necesarios para su creación, restando automáticamente la cantidad total de nuestro stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-Connects the database with the frontend, returning the order.
-
-#### 5.3. ```/create``` (Method: POST)
-
-The endpoint that creates the new orders. It should have the following fields:
-
-```text
-id_client_fk
-shipping_address_order
-delivery_day_order
-products
 ```
+EJEMPLO: {
+  "id_client_fk": 2,
+  "delivery_day_order": "2024-08-08",
+  "products": [
+    {
+      "id": 1,
+      "price_product": 5000,
+      "unit_product": 15
+    }
+  ]
+}
+```
+NOTA: El parámetro 'products' es un array en el cual sus items son objetos, cada objeto contiene 'id': id del producto, 'price_product': precio del producto, 'unit_product': las cantidades del producto en el pedido
 
-#### 5.4. ```/disabled/:id_order``` (Method: PATCH)
+#### 5.4. ```/disabled/:id_order``` (Método: PATCH)
+Con este endpoint puedes deshabilitar una pedido.
 
-It's the logical delete, sets the order as unavailable.
+#### 5.5. ```/delete/:id_order``` (Método: DELETE)
+Con este endpoint borras definitivamente un pedido de la DB.
 
-#### 5.5. ```/delete/:id_order``` (Method: DELETE)
+#### 5.6. ```/details/:id_order``` (Método: GET)
+Muestra con mayor detalle las características de un pedido.
 
-This endpoint deletes the order from the database.
+#### 5.7. ```/update/:id_order``` (Método: PATCH)
+Permite actualizar la información de un pedido.
 
-#### 5.6. ```/details/:id_order``` (Method: GET)
+#### 5.8. ```/search``` (Método: GET)
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de pedido en específico. Por ejemplo:
+```
+search_type=id_order&search_value=1
+```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'id_order', 'id_client', 'shipping_address_order' ,'delivery_day_order'
 
-Shows you all the details from one specific order.
-
-#### 5.7. ```/update/:id_order``` (Method: PATCH)
-
-Used to modifie an order.
-
-#### 5.8. ```/search``` (Method: GET)
-
-Returns all the orders that matches with the query params.
+-search_value indica el valor de los que buscas.
 
 ### 6. Suppliers
 
-#### 6.1. ```/``` (Method: GET)
+#### 6.1. ```/``` (Método: GET)
+Devuelve una lista con todos los proveedores registrados.
 
-Get all the suppliers saved on the database.
+#### 6.2. ```/create``` (Método: POST)
+Te permite crear un nuevo proveedor. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-#### 6.2. ```/create``` (Method: POST)
-
-Endpoint to create a new supplier with the next fields:
-
-```text
-name_company_supplier
-tax_address_supplier
-number_phone_company_supplier
+```
+EJEMPLO: {
+  "name_company_supplier": "The Coca-Cola Company",
+  "tax_address_supplier": "Amancio Avenida 3570",
+  "number_phone_company_supplier": "341 814-8453"
+}
 ```
 
-#### 6.3. ```/disabled/:id_supplier``` (Method: PATCH)
+#### 6.3. ```/disabled/:id_supplier``` (Método: PATCH)
+Con este endpoint puedes deshabilitar una proveedor.
 
-Logical delete of a supplier.
+#### 6.4. ```/delete/:id_supplier``` (Método: DELETE)
+Con este endpoint borras definitivamente un proveedor de la DB.
 
-#### 6.4. ```/delete/:id_supplier``` (Method: DELETE)
+#### 6.5. ```/details/id_supplier``` (Método: GET)
+Muestra con mayor detalle las características de un proveedor.
 
-Permanent delete of a supplier from the database.
+#### 6.6. ```/update/:id_supplier``` (Método: PATCH)
+Permite actualizar la información de un proveedor.
 
-#### 6.5. ```/details/id_supplier``` (Method: GET)
+#### 6.7. ```/search``` (Método: GET)
+Filtro de búsqueda, que mediante el uso de querys devuelve una lista de proveedores en específico. Por ejemplo:
+```
+search_type=name_company_supplier&search_value=PepsiCo  
+```
+-search_type indica el campo de tipo de búsqueda, permite los siguientes valores: 'name_company_supplier', 'distributor_name_supplier'  
 
-Returns all the details from one specific supplier.
-
-#### 6.6. ```/update/:id_supplier``` (Method: PATCH)
-
-Allows you to modifie the information of a supplier
-
-#### 6.7. ```/search``` (Method: GET)
-
-Returns all the matches with the query params.
+-search_value indica el valor de los que buscas.
 
 ## 7. suppliers/suppliersMaterials
+Esta ruta se utiliza para interactuar con los materiales que vende cada proveedor.
 
-This route is used to interact with the materials sold by each supplier.
+#### 7.1. ```/:id_supplier``` (Método: GET)
+Devuelve una lista con todos los materiales asociados a un proveedor registrados.
 
-### 7.1. ```/:id_supplier``` (Method: GET)
+#### 7.2. ```/create``` (Método: POST)
+Te permite crear un nuevo material asociado. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-Returns a list with all the materials associated with a registered supplier.
-
-### 7.2. ```/create``` (Method: POST)
-
-The endpoint used to created the associations.
-
-```text
-id_material_fk
-id_supplier_fk
-amount_material
-price_material
+```
+EJEMPLO: {
+  "id_material_fk": 1,
+  "id_supplier_fk": 2,
+  "amount_material": 500,
+  "price_material": 7000
+}
 ```
 
+#### 7.2. ```/update/:id_supplier_material``` (Método: PATCH)
+Permite actualizar la información de un material asociado.
 
-#### 7.3. ```/update/:id_supplier_material``` (Method: PATCH)
+#### 7.3. ```/disabled/:id_supplier_material``` (Método: PATCH)
+Con este endpoint puedes deshabilitar una material asociado.
 
-Modifie the associations.
-
-#### 7.4. ```/disabled/:id_supplier_material``` (Method: PATCH)
-
-Set an association as unavailable.
-
-#### 7.5. ```/priceControl/:id_supplier_material``` (Method: GET)
-
-It shows the associations that a supplier has.
+#### 7.4. ```/priceControl/:id_supplier_material``` (Método: GET)
+Muestra una lista con todos los precio que tuvo un material asociado a lo largo del tiempo.
 
 ## 8. Purchase
 
-### 8.1. ```/``` (Method: POST)
+#### 8.1. ```/``` (Método: POST)
+Con este endpoint vas a poder efectuar una compra de materiales de un proveedor y va a sumar automáticamente los materials a tu lista de stock. Necesitas enviar al BackEnd un JSON con los siguientes campos (como mínimo).
 
-This endpoint is called when a product is sold.
+```
+EJEMPLO: {
+  "purchase": [
+    {
+      "id_supplier_material": 1,
+      "unit_material": 3
+    }
+  ]
+}
+```
+NOTA: 'purchase' es un array donde sus items son objetos, cada objeto contiene 'id_supplier_material': es el material de proveedor que se va a comprar y 'unit_material': es la cantidad de ese material que se va a comprar
 
 ## 9. /suppliers/invoices
+Esta ruta es utilizada para guardar las facturas de compras de los proveedores.
 
-This route is used to interact with the billing of the suppliers.
+#### 9.1. ```/:id_supplier``` (Método: GET)
+Muestra una lista con las facturaciones de un proveedor.
 
-### 9.1. ```/:id_supplier``` (Method: GET)
+#### 9.2. ```/push``` (Método: POST)
+Sube la factura de un proveedor a la base de datos.
 
-Shows you all the billings from a singles supplier.
-
-#### 9.2. ```/push``` (Method: POST)
-
-Create the billing on the database.
-
-#### 9.3.```/disabled/:id_invoice``` (Method: PATCH)
-
-Set a billing as unavailable.
-
-This is all the basic information that you need to start playing with our project as an API. If you want more detailed endpoints and routes you can check our Swagger documentation here:
-
-```text
-http://localhost:{PORT}/api-doc/
+```
+EJEMPLO: {
+  "invoice": "url de la factura del proveedor..."
+}
 ```
 
-Remember, PORT should be replaced with the port set in the .env file.
+#### 9.3.``` /disabled/:id_invoice``` (Método: PATCH)
+Con este endpoint puedes deshabilitar una factura.
+
+## Modelados de las tablas SQL
+
+( * ) => CAMPOS OBLIGATORIOS
+ 
+### stock
+```
+id_material*	
+name_material*
+description_material	
+amount_material	
+measurement_material*	
+disabled	
+```
+### tools
+```
+id_tool
+name_tool*	
+description_tool	
+status_tool*	
+location_tool*	
+repair_shop_tool	
+repair_date_tool	
+search_repair_tool	
+disabled		
+```
+### suppliers
+```
+id_supplier
+name_company_supplier*	
+reason_social_supplier	
+cuit_company_supplier	
+description_supplier	
+tax_address_supplier*	
+number_phone_company_supplier*	
+mail_company_supplier	
+website_company_supplier	
+distributor_name_supplier	
+number_phone_distributor_supplier	
+mail_distributor_supplier	
+delivery_days_suppier	
+payment_method_supplier	
+disabled	
+	
+```
+### products
+```
+id_product	
+name_product*	
+img_product	
+description_product	
+price_product*	
+map_product	
+disabled	
+stocks*	
+tools*	
+```
+### supplierMaterials
+```
+id_material_fk*	
+id_supplier_fk*	
+amount_material*	
+price_material*	
+disabled	
+```
+### priceControl
+```
+id_price_control	
+id_material_supplier_fk*	
+register_price_control*
+createdAt	
+```
+### orders
+```
+id_order	
+shipping_address_order
+delivery_day_order*
+disabled	
+price_order*	
+id_client_fk	
+```
+### invoices
+```
+id_invoice	
+id_supplier*	
+invoice*	
+disabled	
+```
+### clients
+```
+id_client	
+name_client*	
+last_name_client*	
+dni_client*
+province_client*	
+direction_client*	
+mail_client	
+phone_number_client*	
+type_client*	
+cuil_or_cuit_client	
+disabled
+```
+
+Esto es todo lo que trae implementado Wotech (por el momento) así que estás listo para empezar a usarlo!

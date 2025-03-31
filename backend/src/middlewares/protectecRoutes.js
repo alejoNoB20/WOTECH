@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+
 export const checkToken = (req, res, next) => {
     const token = req.cookies.token;
 
@@ -12,6 +13,7 @@ export const checkToken = (req, res, next) => {
             return res.status(403).json({ isAuthenticated: false });
         }
 
-        return res.status(200).json(decoded)
+        req.user = decoded; // Agrega el usuario decodificado al objeto de solicitud
+        next(); // Llama a next() para pasar al siguiente middleware o ruta
     });
 };

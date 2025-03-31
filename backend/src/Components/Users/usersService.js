@@ -49,7 +49,7 @@ export class userService {
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', // Solo en producción
-                sameSite: process.env.NODE_ENV === 'production' ? "strict" : "lax", // Estricta en producción, relajada en local
+                sameSite: "Lax", // Estricta en producción, relajada en local
                 maxAge: 1 * 60 * 60 * 1000 // 1 hora
             });
 
