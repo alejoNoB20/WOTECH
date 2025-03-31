@@ -1,66 +1,67 @@
-#  🛠️ Wotech - Carpentry Manager
+#  🛠️ Wotech - Gestor de carpintería
 
-## 🤔 What is Wotech??
+## 🤔 ¿Qué es Wotech?
 
-Wotech is a project designed to improve the efficiency and effectiveness of a carpentry business. It is a management software aimed at optimizing time, controlling materials, managing orders, and much more.
+Wotech es un proyecto diseñado para mejorar la eficacia y eficiencia de una carpintería. Se trata de un software de gestión con el objetivo de optimizar tiempos, controlar materiales, controlar pedidos, entre muchas otras cosas.
 
-## 🌐 Deployment Link
+## 🌐 Link del despliegue
 
-#### 🔗 [Wotech (Test Version)](https://wotech-free.vercel.app/home)
+#### 🔗 [Wotech (versión de prueba)](https://wotech-free.vercel.app/home)
 
-#### ⚠️ IMPORTANT:
-- 🚀 The deployment is hosted on free platforms, so it may take a few seconds to load.
-- 🔑 Access credentials:
-  - Username: admin
-  - Password: admin
-- 🖼️ Limitations of the test version:
-  - Image saving in the products and tools sections is disabled.
+#### ⚠️ IMPORTANTE:
+- 🚀 El despliegue está alojado en plataformas gratuitas, por lo que puede tardar algunos segundos en cargar.
+- 🔑 Credenciales de acceso:
+  - Nombre de usuario: admin
+  - Contraseña: admin
+- 🖼️ Limitaciones de la versión de prueba:
+  - El guardado de imágenes en las secciones de productos y herramientas está deshabilitado.
+## 🔧 ¿Qué puede hacer Wotech?
 
-## 🔧 What can Wotech do?
+Si bien es un proyecto que está en proceso, con la idea de seguir incorporando funcionalidades, al día de hoy (V1.0.0), Wotech tiene las siguientes capacidades:
 
-Although this project is still in progress and continues to add new features, as of today (V1.0.0), Wotech offers the following capabilities:
+#### - Gestión de stock de materiales.
+#### - Gestión de herramientas.
+#### - Gestión de clientes.
+#### - Gestión de proveedores.
+#### - Gestión de productos.
+#### - Gestión de compra de materiales.
+#### - Gestión de pedidos realizados por clientes.
 
-#### - Material stock management.
-#### - Tool management.
-#### - Client management.
-#### - Supplier management.
-#### - Product management.
-#### - Material purchase management.
-#### - Client order management.
+## 🧑‍💻 Equipo
+El software es diseñado por: Alejo Viviani, Nicolas Raffagnini y Taiel Sagretti.
 
-## 🧑‍💻 Team
-The software is designed by: Alejo Viviani, Nicolas Raffagnini, and Taiel Sagretti.
-
-| Members             | Role               | LinkedIn                                                                                               | GitHub                                                                                                                  |
+| Miembros             | Role               | LinkedIn                                                                                               | GitHub                                                                                                                  |
 | ------------------ | ------------------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
 | Alejo Viviani      | Front-End and Back-end          | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/alejo-viviani/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/alejoNoB20) |
 | Nicolas Raffagnini | Front-End and Back-end | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/nicolas-raffagnini/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/nico-raffa)                                            
 | Taiel Sagretti     | Back-end           | [![LinkedIn](https://img.shields.io/badge/linkedin-blue?logo=linkedin)](https://www.linkedin.com/in/taiel-sagretti/) | [![GitHub](https://img.shields.io/badge/github-black?logo=github)](https://github.com/Tai-MS)                        |
 
 
-## 🛠️ Tools and Languages Used
+## 🛠️ Herramientas y Lenguajes Utilizados
 - ![Javascript](https://img.shields.io/badge/Javascript-black?logo=javascript)**Javascript**
 - ![NodeJS](https://img.shields.io/badge/nodejs-black?logo=node.js) **NodeJS**
 - ![Express](https://img.shields.io/badge/express-green?logo=express) **Express.js** 
 - ![React](https://img.shields.io/badge/react-blue?logo=react) **React.js**  
 - ![MySQL](https://img.shields.io/badge/mysql-white?logo=mysql) **MySQL**
 
-## 📥 Installation Guide
+## 📥 Guía de instalación
 
-###  1. Clone the repository
+###  1. Clonar el repositorio
 ```bash
 git clone https://github.com/alejoNoB20/WOTECH.git
 ```
-Currently, Wotech is in its first version (V.1.0.0). To use it, you first need to install the dependencies.
 
-###  2. Install Dependencies
+Actualmente Wotech se encuentra en su primera version (V.1.0.0), para poder usarlo primero debemos instalar las dependecias.
+
+###  2. Instalar Dependencias
 ```bash
 npm install
 ```
-You need to install the dependencies in both the backend and frontend directories, so make sure to run the command in both folders.
 
-## 📑 Documentation
-The rest of the instructions can be found in their specific README files.
+Debes instalar las dependencias tanto en el backend como en el frontend, por lo que tiene que usar el comando en ambas carpetas.
+
+## 📑 Documentación
+El resto de las instrucciones se encuentran distribuidas en sus readme en específico.
 
 ### 📌 Back-End Readme
 
@@ -74,8 +75,9 @@ The rest of the instructions can be found in their specific README files.
 
 - [Spanish Version](https://github.com/alejoNoB20/WOTECH/tree/developer/frontend/README-ES.md)
 
-## ⭐ Acknowledgments
-If you liked our work, we would appreciate your support with a ⭐ on the repository!
+## ⭐ Agradecimientos
 
-💡 We value any suggestions or corrections that help us continuously improve as developers.
-📩 Thank you for your attention and for trying out Wotech!
+Si te ha gustado nuestro trabajo, ¡agradecemos tu apoyo con una estrella ⭐ en el repositorio!
+
+💡 Valoramos cualquier sugerencia o corrección que nos ayude a mejorar continuamente como desarrolladores.
+📩 ¡Gracias por tu atención y por probar Wotech!
