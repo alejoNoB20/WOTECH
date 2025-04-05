@@ -34,7 +34,7 @@ export const ItemClientList = ({clients}) => {
                     </tr>
                 </thead>
                 <tbody className="table-hover border border-gray-300">
-                    {clients.map((client) => (
+                    {Array.isArray(clients) && clients.map((client) => (
                         <ItemClient key={client.id_client} client={client} />
                     ))}
                 </tbody>

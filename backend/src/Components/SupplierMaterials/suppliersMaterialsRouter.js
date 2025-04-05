@@ -1,14 +1,15 @@
 import { Router } from "express";
 import { supplierMaterialsController } from "./suppliersMaterialsController.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 import { supplierMaterialsValidator } from "./suppliersMaterialsValidator.js";
 const supplierMaterials = new supplierMaterialsController();
 let supplierMaterialsRouter = Router();
 
 supplierMaterialsRouter.get('/:id_supplier', supplierMaterials.ver);
-supplierMaterialsRouter.post('/create', supplierMaterials.crear);
-supplierMaterialsRouter.patch('/update/:id_supplier_material', supplierMaterials.modificar);
-supplierMaterialsRouter.patch('/disabled/:id_supplier_material', supplierMaterials.deshabilitar);
-supplierMaterialsRouter.get('/priceControl/:id_supplier_material', supplierMaterials.controlPrecios);
+supplierMaterialsRouter.post('/create', checkToken, supplierMaterials.crear);
+supplierMaterialsRouter.patch('/update/:id_supplier_material', checkToken, supplierMaterials.modificar);
+supplierMaterialsRouter.patch('/disabled/:id_supplier_material', checkToken, supplierMaterials.deshabilitar);
+supplierMaterialsRouter.get('/priceControl/:id_supplier_material', checkToken, supplierMaterials.controlPrecios);
 
 
 export default supplierMaterialsRouter;

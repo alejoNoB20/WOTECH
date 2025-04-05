@@ -9,7 +9,7 @@ const ItemOrderList = ({list}) => {
             </div>
             ) : (
                 <div className="flex w-full h-full justify-center bg-gray-200">
-                    {list.map((order)=> (
+                    {Array.isArray(list) && list.map((order)=> (
                             <ItemOrder key={order.id_order} order={order}/>
                         ))
                     }

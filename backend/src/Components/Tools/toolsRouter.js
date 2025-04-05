@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ToolsController } from "./toolsController.js";
 import { toolsValidations } from "./toolsValidators.js";
-import { sequelize } from "../../database/connection.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 import { upload } from "../../middlewares/multer.js";
 const toolsController = new ToolsController();
 
@@ -9,10 +9,10 @@ let toolsRouter = Router();
 
 toolsRouter.get('/pages/:page', toolsController.verTodasHerramientas);
 toolsRouter.get('/details/:id_tool', toolsController.detallesHerramienta);
-toolsRouter.post('/create', upload.single("img_tool"), toolsValidations.createTool , toolsController.pushHerramienta);
-toolsRouter.patch('/disabled/:id_tool', toolsController.deshabilitar);
-toolsRouter.delete('/delete/:id_tool', toolsController.deleteHerramienta);
-toolsRouter.patch('/update/:id_tool', toolsValidations.updateTool, toolsController.actualizarHerramienta);
+toolsRouter.post('/create', checkToken, upload.single("img_tool"), toolsValidations.createTool , toolsController.pushHerramienta);
+toolsRouter.patch('/disabled/:id_tool', checkToken, toolsController.deshabilitar);
+toolsRouter.delete('/delete/:id_tool', checkToken, toolsController.deleteHerramienta);
+toolsRouter.patch('/update/:id_tool', checkToken, toolsValidations.updateTool, toolsController.actualizarHerramienta);
 toolsRouter.get('/search/:page',toolsValidations.searchTool, toolsController.buscarHerramienta);
 
 export default toolsRouter;

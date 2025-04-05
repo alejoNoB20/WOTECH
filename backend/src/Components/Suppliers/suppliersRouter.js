@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { supplierValidator } from "./suppliersValidator.js";
 import { supplierController } from "./suppliersController.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 const Supplier = new supplierController();
 let supplierRouter = Router();
 
-supplierRouter.get('/pages/:page', Supplier.verTodos);
-supplierRouter.get('/details/:id_supplier', Supplier.detalles);
-supplierRouter.post('/create', supplierValidator.createSupplier, Supplier.crear);
-supplierRouter.patch('/disabled/:id_supplier', Supplier.deshabilitar);
-supplierRouter.delete('/delete/:id_supplier', Supplier.borrar);
-supplierRouter.patch('/update/:id_supplier', Supplier.actualizar);
-supplierRouter.get('/search/:page', Supplier.filtrar);
+supplierRouter.get('/pages/:page', checkToken, Supplier.verTodos);
+supplierRouter.get('/details/:id_supplier', checkToken, Supplier.detalles);
+supplierRouter.post('/create', checkToken, supplierValidator.createSupplier, Supplier.crear);
+supplierRouter.patch('/disabled/:id_supplier', checkToken, Supplier.deshabilitar);
+supplierRouter.delete('/delete/:id_supplier', checkToken, Supplier.borrar);
+supplierRouter.patch('/update/:id_supplier', checkToken, Supplier.actualizar);
+supplierRouter.get('/search/:page', checkToken, Supplier.filtrar);
 
 export default supplierRouter;
 

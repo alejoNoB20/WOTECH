@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { clientsController } from "./clientsController.js";
 import { clientsValidator } from "./clientsValidators.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 const Clients = new clientsController();
 let clientsRouter = Router();
 
-clientsRouter.get('/pages/:page', Clients.verTodos);
-clientsRouter.get('/details/:id_client', Clients.detalles);
-clientsRouter.post('/create', clientsValidator.createClient, Clients.crear);
-clientsRouter.patch('/disabled/:id_client', Clients.deshabilitar);
-clientsRouter.delete('/delete/:id_client', Clients.eliminar);
-clientsRouter.patch('/update/:id_client', clientsValidator.updateClient, Clients.actualizar);
-clientsRouter.get('/search/:page', clientsValidator.searchClient,Clients.filtrar);
+clientsRouter.get('/pages/:page', checkToken, Clients.verTodos);
+clientsRouter.get('/details/:id_client', checkToken, Clients.detalles);
+clientsRouter.post('/create', checkToken, clientsValidator.createClient, Clients.crear);
+clientsRouter.patch('/disabled/:id_client', checkToken, Clients.deshabilitar);
+clientsRouter.delete('/delete/:id_client', checkToken, Clients.eliminar);
+clientsRouter.patch('/update/:id_client', checkToken, clientsValidator.updateClient, Clients.actualizar);
+clientsRouter.get('/search/:page', checkToken, clientsValidator.searchClient,Clients.filtrar);
 
 export default clientsRouter;
 

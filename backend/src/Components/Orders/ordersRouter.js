@@ -1,17 +1,18 @@
 import { Router } from "express";
 import { orderController } from "./ordersController.js";
 import { ordersValidator } from "./ordersValidators.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 let ordersRouter = Router();
 const OrderController = new orderController();
 
-ordersRouter.get('/pages/:page', OrderController.verPedidos);
-ordersRouter.get('/details/:id_order', OrderController.detalles);
-ordersRouter.get('/getProductsAndClients', OrderController.detallesProductosClientes);
-ordersRouter.post('/create', ordersValidator.createOrUpdateOrder, OrderController.crear);
-ordersRouter.patch('/disabled/:id_order', OrderController.deshabilitar);
-ordersRouter.delete('/delete/:id_order', OrderController.borrar);
-ordersRouter.patch('/update/:id_order', ordersValidator.createOrUpdateOrder, OrderController.actualizar);
-ordersRouter.get('/search/:page', ordersValidator.searchOrder, OrderController.filtrar);
+ordersRouter.get('/pages/:page', checkToken, OrderController.verPedidos);
+ordersRouter.get('/details/:id_order', checkToken, OrderController.detalles);
+ordersRouter.get('/getProductsAndClients', checkToken, OrderController.detallesProductosClientes);
+ordersRouter.post('/create', checkToken, ordersValidator.createOrUpdateOrder, OrderController.crear);
+ordersRouter.patch('/disabled/:id_order', checkToken, OrderController.deshabilitar);
+ordersRouter.delete('/delete/:id_order', checkToken, OrderController.borrar);
+ordersRouter.patch('/update/:id_order', checkToken, ordersValidator.createOrUpdateOrder, OrderController.actualizar);
+ordersRouter.get('/search/:page', checkToken, ordersValidator.searchOrder, OrderController.filtrar);
 
 export default ordersRouter;
 

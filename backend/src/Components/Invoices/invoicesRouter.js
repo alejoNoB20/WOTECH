@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { invoiceController } from "./invoicesController.js";
 import { invoiceValidator } from "./invoicesValidator.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 let invoicesRouter = Router();
 const Invoice = new invoiceController();
 
-invoicesRouter.get('/:id_supplier', Invoice.ver);
-invoicesRouter.post('/push', invoiceValidator.createInvoice, Invoice.agregar);
-invoicesRouter.patch('/disabled/:id_invoice', Invoice.deshabilitar);
+invoicesRouter.get('/:id_supplier', checkToken, Invoice.ver);
+invoicesRouter.post('/push', checkToken, invoiceValidator.createInvoice, Invoice.agregar);
+invoicesRouter.patch('/disabled/:id_invoice', checkToken, Invoice.deshabilitar);
 
 export default invoicesRouter;
 

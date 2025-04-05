@@ -2,17 +2,18 @@ import { Router } from "express";
 import { productsController } from "./productsController.js";
 import { productValidator } from "./productsValidators.js";
 import { upload } from "../../middlewares/multer.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 const ProductsController = new productsController();
 let productsRouter = Router();
 
 productsRouter.get('/pages/:page', ProductsController.verTodos);
 productsRouter.get('/details/:id_product', ProductsController.detallesProducto);
 productsRouter.get('/getStockAndTools', ProductsController.irAPaginaCrear);
-productsRouter.post('/create', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.createProduct, ProductsController.crear);
-productsRouter.patch('/disabled/:id_product', ProductsController.deshabilitar);
-productsRouter.delete('/delete/:id_product', ProductsController.eliminar);
-productsRouter.patch('/update/:id_product', upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.updateProduct, ProductsController.actualizar);
-productsRouter.get('/search/:page', productValidator.searchProduct, ProductsController.filtrar);
+productsRouter.post('/create', checkToken, upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.createProduct, ProductsController.crear);
+productsRouter.patch('/disabled/:id_product', checkToken, ProductsController.deshabilitar);
+productsRouter.delete('/delete/:id_product', checkToken, ProductsController.eliminar);
+productsRouter.patch('/update/:id_product', checkToken, upload.fields([{name: "img_product"}, {name: "map_product"}]), productValidator.updateProduct, ProductsController.actualizar);
+productsRouter.get('/search/:page', checkToken, productValidator.searchProduct, ProductsController.filtrar);
 
 export default productsRouter;
 

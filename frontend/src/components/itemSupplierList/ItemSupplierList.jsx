@@ -39,7 +39,7 @@ const ItemSupplierList = ({list}) => {
                     </tr>
                 </thead>
                 <tbody className="table-hover">
-                    {list.map((item) => (
+                    {Array.isArray(list) && list.map((item) => (
                         <ItemSupplier key={item.id_supplier} item={item} />
                     ))}
                 </tbody>

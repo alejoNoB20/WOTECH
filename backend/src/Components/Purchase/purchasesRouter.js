@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { purchaseController } from "./purchasesController.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 const Purchase = new purchaseController();
 let purchasesRouter = Router();
 
-purchasesRouter.post('/', Purchase.venta);
+purchasesRouter.post('/', checkToken, Purchase.venta);
 
 export default purchasesRouter;
 

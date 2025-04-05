@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { StockController } from "./stockController.js";
 import { stockValidations } from "./stockValidators.js";
+import { checkToken } from "../../middlewares/protectecRoutes.js";
 const stockController = new StockController();
 let stockRouter = Router();
 
 stockRouter.get('/pages/:page', stockController.verTodos);
 stockRouter.get('/search/:page', stockValidations.searchStock, stockController.filtrar);
-stockRouter.post('/create', stockValidations.createStock, stockController.crear);
+stockRouter.post('/create', checkToken, stockValidations.createStock, stockController.crear);
 stockRouter.get('/details/:id_material', stockController.detallesMaterial);
-stockRouter.patch('/disabled/:id_material', stockController.deshabilitar);
-stockRouter.delete('/delete/:id_material', stockController.borrar);
-stockRouter.patch('/update/:id_material', stockValidations.updateStock, stockController.actualizar);
+stockRouter.patch('/disabled/:id_material', checkToken, stockController.deshabilitar);
+stockRouter.delete('/delete/:id_material', checkToken, stockController.borrar);
+stockRouter.patch('/update/:id_material', checkToken, stockValidations.updateStock, stockController.actualizar);
 
 export default stockRouter;
 
