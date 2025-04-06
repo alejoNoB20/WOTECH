@@ -5,10 +5,12 @@ import { checkToken } from "../../middlewares/protectecRoutes.js";
 const UserController = new userController();
 let userRouter = Router();
 
-userRouter.get('/auth/verify', checkToken);
-userRouter.post('/create', checkToken, UserController.crear);
-userRouter.post('/login', UserController.logIn);
-userRouter.get('/logout', checkToken,UserController.logOut);
-userRouter.get('/userinfo', checkToken,UserController.userInfo);
+userRouter.get("/auth/verify", checkToken, (req, res) => {
+  return res.status(200).json({ isAuthenticated: true });
+});
+userRouter.post("/create", checkToken, UserController.crear);
+userRouter.post("/login", UserController.logIn);
+userRouter.get("/logout", checkToken, UserController.logOut);
+userRouter.get("/userinfo", checkToken, UserController.userInfo);
 
 export default userRouter;
