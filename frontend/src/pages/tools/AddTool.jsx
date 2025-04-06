@@ -1,106 +1,117 @@
-import React, { useState } from "react"
-import { useModal } from "@context/modalContext"
-import { useNavigate } from "react-router-dom"
-import { useNotifications } from "@context/notificationsContext"
+import React, { useState } from "react";
+import { useModal } from "@context/modalContext";
+import { useNavigate } from "react-router-dom";
+import { useNotifications } from "@context/notificationsContext";
 
 const AddTool = () => {
-  const { openModal } = useModal()
+  const { openModal } = useModal();
   const [formData, setFormData] = useState({
     status_tool: "Habilitado",
-    img_tool: null
-  })
-  const navigate = useNavigate()
-  const notify = useNotifications()
+    img_tool: null,
+  });
+  const navigate = useNavigate();
+  const notify = useNotifications();
 
   const mostrarError = (httpErr, errors) => {
     openModal({
       errorType: httpErr,
       validationErrors: errors,
-    })
-  }
+    });
+  };
 
   const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target
+    const { name, value, type, checked, files } = e.target;
 
     if (type === "file") {
       setFormData({
         ...formData,
-        [name]: files[0]
-      })
+        [name]: files[0],
+      });
     } else {
       setFormData({
         ...formData,
-        [name]: type === "checkbox" ? (checked ? "Habilitado" : "Deshabilitado") : value,
-      })
+        [name]:
+          type === "checkbox"
+            ? checked
+              ? "Habilitado"
+              : "Deshabilitado"
+            : value,
+      });
     }
-  }
+  };
 
   const handleSuccess = () => {
-    notify("success", "¡Operación exitosa!")
-  }
+    notify("success", "¡Operación exitosa!");
+  };
 
   const handleFail = () => {
-    notify("fail", "¡Algo salió mal!")
-  }
+    notify("fail", "¡Algo salió mal!");
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const data = new FormData()
-    for (const key in formData){
-      if(formData.hasOwnProperty(key) && key !== "img_tool"){
-        const value = formData[key]
-        if(value !== undefined){
-          data.append(key, value)
+    const data = new FormData();
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key) && key !== "img_tool") {
+        const value = formData[key];
+        if (value !== undefined) {
+          data.append(key, value);
         }
       }
     }
-    
-    if (formData.img_tool) {
-      data.append("img_tool", formData.img_tool)
-    }
-    
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/tools/create`, {
-        method: "POST",
-        body: data
-      })
 
-      const convertedResp = await response.json()
+    if (formData.img_tool) {
+      data.append("img_tool", formData.img_tool);
+    }
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/tools/create`,
+        {
+          method: "POST",
+          body: data,
+          credentials: "include",
+        }
+      );
+
+      const convertedResp = await response.json();
       if (!response.ok) {
         if (response.status === 400) {
-          const errors = convertedResp.errors.map((error) => error.msg)
-          mostrarError(response.status, errors)
-          handleFail()
-          return
+          const errors = convertedResp.errors.map((error) => error.msg);
+          mostrarError(response.status, errors);
+          handleFail();
+          return;
         }
         if (response.status === 404) {
-          mostrarError(response.status, [convertedResp])
-          handleFail()
-          return
+          mostrarError(response.status, [convertedResp]);
+          handleFail();
+          return;
         }
       }
 
       if (response.status === 201) {
-        handleSuccess()
-        navigate("/tools/gettools/1")
+        handleSuccess();
+        navigate("/tools/gettools/1");
       }
       if (response.status === 500) {
-        handleFail()
-        navigate("/tools/gettools/1")
+        handleFail();
+        navigate("/tools/gettools/1");
       }
     } catch (error) {
-      console.error("Error:", error)
-      handleFail()
+      console.error("Error:", error);
+      handleFail();
     }
-  }
+  };
 
   return (
     // FONDO
     <section className="flex w-full h-full justify-center bg-gray-200">
       {/* PRINCIPAL */}
       <div className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-9 mb:px-8 mb:py-5 md:py-5 md:my-3 md:px-20">
-        <h2 className="text-2xl font-bold mb-4 text-center">Agregar herramienta</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Agregar herramienta
+        </h2>
         <form onSubmit={handleSubmit}>
           {/* NOMBRE */}
           <div className="mb-4">
@@ -120,7 +131,7 @@ const AddTool = () => {
           {/* DESCRIPCION */}
           <div className="mb-4">
             <label htmlFor="description_tool" className="block text-gray-700">
-              Descripción: 
+              Descripción:
             </label>
             <textarea
               id="description_tool"
@@ -168,7 +179,7 @@ const AddTool = () => {
         </form>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default AddTool
+export default AddTool;

@@ -5,13 +5,32 @@ import { checkToken } from "../../middlewares/protectecRoutes.js";
 const stockController = new StockController();
 let stockRouter = Router();
 
-stockRouter.get('/pages/:page', stockController.verTodos);
-stockRouter.get('/search/:page', stockValidations.searchStock, stockController.filtrar);
-stockRouter.post('/create', checkToken, stockValidations.createStock, stockController.crear);
-stockRouter.get('/details/:id_material', stockController.detallesMaterial);
-stockRouter.patch('/disabled/:id_material', checkToken, stockController.deshabilitar);
-stockRouter.delete('/delete/:id_material', checkToken, stockController.borrar);
-stockRouter.patch('/update/:id_material', checkToken, stockValidations.updateStock, stockController.actualizar);
+stockRouter.get("/", stockController.verTodos);
+stockRouter.get("/pages/:page", stockController.verPaginas);
+stockRouter.get(
+  "/search/:page",
+  stockValidations.searchStock,
+  stockController.filtrar
+);
+stockRouter.post(
+  "/create",
+  checkToken,
+  stockValidations.createStock,
+  stockController.crear
+);
+stockRouter.get("/details/:id_material", stockController.detallesMaterial);
+stockRouter.patch(
+  "/disabled/:id_material",
+  checkToken,
+  stockController.deshabilitar
+);
+stockRouter.delete("/delete/:id_material", checkToken, stockController.borrar);
+stockRouter.patch(
+  "/update/:id_material",
+  checkToken,
+  stockValidations.updateStock,
+  stockController.actualizar
+);
 
 export default stockRouter;
 
@@ -20,18 +39,18 @@ export default stockRouter;
  * /stock:
  *   get:
  *     summary: "Obtener todos los materiales con la información más importante (solo se verán los materiales habilitados)"
- *     tags: 
+ *     tags:
  *       - Stock
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Lista de materiales"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 type: object
- *                 properties: 
+ *                 properties:
  *                   id_material:
  *                     type: integer
  *                     example: 1
@@ -43,26 +62,26 @@ export default stockRouter;
  *                     example: 250
  *                   measurement_material:
  *                     type: string
- *                     example: "Unidad" 
+ *                     example: "Unidad"
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se encontró ningún stock en la base de datos"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
- * /stock/details/{id_material}: 
+ *
+ * /stock/details/{id_material}:
  *   get:
  *     summary: "Obtener todos los datos de un material en específico, esto incluye las asociaciones con Productos y Proveedores"
- *     tags: 
+ *     tags:
  *       - Stock
  *     parameters:
  *       - in: path
@@ -71,32 +90,32 @@ export default stockRouter;
  *           type: string
  *         required: true
  *         description: "ID del material"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Material detallado"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/stock'
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * /stock/create:
  *   post:
  *     summary: "Crear un nuevo stock"
- *     tags: 
+ *     tags:
  *       - Stock
- *     responses: 
- *       201: 
+ *     responses:
+ *       201:
  *         description: "Creación Exitosa (El JSON contiene a modo de ejemplo los elementos mínimos y más importantes que debe contener el body que recibe el back para la creación de un nuevo stock)"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -105,13 +124,13 @@ export default stockRouter;
  *             schema:
  *               type: object
  *               properties:
- *                 name_material: 
+ *                 name_material:
  *                   type: string
  *                   example: "Madera de pino"
- *                 measurement_material: 
+ *                 measurement_material:
  *                   type: string
  *                   example: "cm"
- *                 description: 
+ *                 description:
  *                   type: string
  *                   example: "El valor de 'measurement_material' solo puede ser 'cm' o 'unidad'"
  *       400:
@@ -140,15 +159,15 @@ export default stockRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"                
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La creación del stock falló"
- * 
+ *
  * /stock/disabled/{id_material}:
  *   patch:
  *     summary: "Eliminado lógico de un stock"
@@ -169,7 +188,7 @@ export default stockRouter;
  *             schema:
  *               type: string
  *               example: "La deshabilitación del stock falló"
- * 
+ *
  * /stock/delete/{id_material}:
  *   delete:
  *     summary: "Eliminado total de un stock"
@@ -189,17 +208,17 @@ export default stockRouter;
  *           text/plain:
  *             schema:
  *               type: string
- *               example: "La elimación del stock falló" 
- * 
+ *               example: "La elimación del stock falló"
+ *
  * /stock/update/{id_material}:
  *   patch:
  *     summary: "Actualizar un stock"
- *     tags: 
+ *     tags:
  *       - Stock
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Actualización Exitosa"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -230,19 +249,19 @@ export default stockRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"        
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La actualización del stock falló"
- * 
- * /stock/search: 
+ *
+ * /stock/search:
  *   get:
  *     summary: "Filtro de busqueda, donde ingresando ciertos parámetros te va a devolver 1 o más materiales (el body de la response va a ser igual de completo que el /stock/details/{id_material})"
- *     tags: 
+ *     tags:
  *       - Stock
  *     parameters:
  *       - in: query
@@ -252,23 +271,23 @@ export default stockRouter;
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_material', 'name_material, 'amount_material'"
  *       - in: query
- *         name: search_value 
+ *         name: search_value
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_value indiqua el valor que deseamos buscar"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Se mostrarán los materiales encontrados con los parámetros establecidos"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/stock'
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -302,12 +321,12 @@ export default stockRouter;
  *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * components:
  *   schemas:
  *     stock:
@@ -325,26 +344,26 @@ export default stockRouter;
  *           example: "Clavos 15mm"
  *         description_material:
  *           type: string
- *           example: "Comprado en Pedro SRL" 
+ *           example: "Comprado en Pedro SRL"
  *         amount_material:
  *           type: integer
  *           example: 250
  *         measurement_material:
  *           type: string
- *           example: "Unidad" 
+ *           example: "Unidad"
  *         disabled:
  *           type: boolean
  *           example: false
  *         products:
  *           type: object
  *           properties:
- *             id_product: 
+ *             id_product:
  *               type: integer
  *               example: 2
  *             name_product:
  *               type: string
  *               example: "Ropero Grande"
- *             productStocksAssociation: 
+ *             productStocksAssociation:
  *               type: object
  *               properties:
  *                 how_much_contains_use:
@@ -353,7 +372,7 @@ export default stockRouter;
  *         suppliers:
  *           type: object
  *           properties:
- *             id_supplier: 
+ *             id_supplier:
  *               type: integer
  *               example: 2
  *             name_company_supplier:
@@ -362,7 +381,7 @@ export default stockRouter;
  *             tax_address_supplier:
  *               type: string
  *               example: "Calle 123"
- *             supplier_Materials_associations: 
+ *             supplier_Materials_associations:
  *               type: object
  *               properties:
  *                 amount_material:
@@ -370,5 +389,5 @@ export default stockRouter;
  *                   example: 500
  *                 price_material:
  *                   type: integer
- *                   example: 7000   
+ *                   example: 7000
  */

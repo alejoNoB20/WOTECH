@@ -6,75 +6,80 @@ import ItemSupplierList from "@components/itemSupplierList/ItemSupplierList";
 import Pagination from "@components/pagination/Pagination";
 
 const GetSuppliers = () => {
-    const [list, setList] = useState([]);
-    const [maxPage, setMaxPage] = useState(null);
-    const [loader, setLoader] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { openModal } = useModal();
-    const { page } = useParams();
-    
-    useEffect(()=> {
-        const fetchData = async () => {
-            const queryParams = new URLSearchParams(location.search);
-            const type = queryParams.get("search_type") || "";
-            const value = queryParams.get("search_value") || "";
+  const [list, setList] = useState([]);
+  const [maxPage, setMaxPage] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { openModal } = useModal();
+  const { page } = useParams();
 
-            let url = `${process.env.REACT_APP_API_URL}/suppliers`;
+  useEffect(() => {
+    const fetchData = async () => {
+      const queryParams = new URLSearchParams(location.search);
+      const type = queryParams.get("search_type") || "";
+      const value = queryParams.get("search_value") || "";
 
-            if(type && value){
-                url += `/search/1?search_type=${encodeURIComponent(type)}&search_value=${encodeURIComponent(value)}`;
-            }else {
-                url += `/pages/${page}`
-            };
+      let url = `${process.env.REACT_APP_API_URL}/suppliers`;
 
-            try{
-                setLoader(true);
+      if (type && value) {
+        url += `/search/1?search_type=${encodeURIComponent(
+          type
+        )}&search_value=${encodeURIComponent(value)}`;
+      } else {
+        url += `/pages/${page}`;
+      }
 
-                const response = await fetch(url);
-                const responseJSON = await response.json();
-                setList(responseJSON.resultado);
-                setMaxPage(responseJSON.maxPage);
+      try {
+        setLoader(true);
 
-                const mostrarError = (httpErr, errors) => {
-                    openModal({
-                        errorType: httpErr,
-                        validationErrors: errors,
-                    })
-                };  
+        const response = await fetch(url, {
+          method: "GET",
+          credentials: "include",
+        });
+        const responseJSON = await response.json();
+        setList(responseJSON.resultado);
+        setMaxPage(responseJSON.maxPage);
 
-                if(!response.ok){
-                    if(response.status === 400){
-                        const errors = responseJSON.errors.map((error) => error.msg)
-                        mostrarError(response.status, errors);
-                        return;
-                    };
-                };
+        const mostrarError = (httpErr, errors) => {
+          openModal({
+            errorType: httpErr,
+            validationErrors: errors,
+          });
+        };
 
-            }catch(err){
-                console.log(err);
-                navigate('/suppliers/getsuppliers/1');
-            }finally{
-                setLoader(false);
-            }
+        if (!response.ok) {
+          if (response.status === 400) {
+            const errors = responseJSON.errors.map((error) => error.msg);
+            mostrarError(response.status, errors);
+            return;
+          }
         }
-        fetchData();
+      } catch (err) {
+        console.log(err);
+        navigate("/suppliers/getsuppliers/1");
+      } finally {
+        setLoader(false);
+      }
+    };
+    fetchData();
+  }, [location.search, navigate, openModal, page]);
 
-    }, [location.search, navigate, openModal, page]);
-
-    return(
-        <>
-        {loader && (
-            <Loader/>
-        )}
-        <div className="flex flex-col h-full md:mt-4">
-            <ItemSupplierList list={list}/>
-            <div className="flex justify-center items-center mb:mt-4 md:mt-3">
-                <Pagination url="/suppliers/getsuppliers/" page={Number(page)} maxPage={maxPage}/>
-            </div>
+  return (
+    <>
+      {loader && <Loader />}
+      <div className="flex flex-col h-full md:mt-4">
+        <ItemSupplierList list={list} />
+        <div className="flex justify-center items-center mb:mt-4 md:mt-3">
+          <Pagination
+            url="/suppliers/getsuppliers/"
+            page={Number(page)}
+            maxPage={maxPage}
+          />
         </div>
-        </>
-    )
+      </div>
+    </>
+  );
 };
 
 export default GetSuppliers;

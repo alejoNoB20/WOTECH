@@ -5,13 +5,23 @@ import { checkToken } from "../../middlewares/protectecRoutes.js";
 const Supplier = new supplierController();
 let supplierRouter = Router();
 
-supplierRouter.get('/pages/:page', checkToken, Supplier.verTodos);
-supplierRouter.get('/details/:id_supplier', checkToken, Supplier.detalles);
-supplierRouter.post('/create', checkToken, supplierValidator.createSupplier, Supplier.crear);
-supplierRouter.patch('/disabled/:id_supplier', checkToken, Supplier.deshabilitar);
-supplierRouter.delete('/delete/:id_supplier', checkToken, Supplier.borrar);
-supplierRouter.patch('/update/:id_supplier', checkToken, Supplier.actualizar);
-supplierRouter.get('/search/:page', checkToken, Supplier.filtrar);
+supplierRouter.get("/", checkToken, Supplier.verTodos);
+supplierRouter.get("/pages/:page", checkToken, Supplier.verPaginas);
+supplierRouter.get("/details/:id_supplier", checkToken, Supplier.detalles);
+supplierRouter.post(
+  "/create",
+  checkToken,
+  supplierValidator.createSupplier,
+  Supplier.crear
+);
+supplierRouter.patch(
+  "/disabled/:id_supplier",
+  checkToken,
+  Supplier.deshabilitar
+);
+supplierRouter.delete("/delete/:id_supplier", checkToken, Supplier.borrar);
+supplierRouter.patch("/update/:id_supplier", checkToken, Supplier.actualizar);
+supplierRouter.get("/search/:page", checkToken, Supplier.filtrar);
 
 export default supplierRouter;
 
@@ -20,89 +30,89 @@ export default supplierRouter;
  * /suppliers:
  *   get:
  *     summary: "Obtener todos los proveedores con la información más importante (solo se verán los proveedores habilitados)"
- *     tags: 
+ *     tags:
  *       - Suppliers
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Lista de proveedores"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 type: object
- *                 properties: 
+ *                 properties:
  *                   id_supplier:
  *                     type: integer
  *                     example: 2
- *                   name_company_supplier: 
+ *                   name_company_supplier:
  *                     type: string
  *                     example: "Pedro SRL"
  *                   number_phone_company_supplier:
  *                     type: string
- *                     example: "341 512-3124" 
+ *                     example: "341 512-3124"
  *                   tax_address_supplier:
  *                     type: string
- *                     example: "Calle 123" 
+ *                     example: "Calle 123"
  *                   distributor_name_supplier:
  *                     type: string
  *                     example: "Juan"
  *                   number_phone_distributor_supplier:
  *                     type: string
- *                     example: "341 512-3456" 
+ *                     example: "341 512-3456"
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se encontró ningún proveedor en la base de datos"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se pueden ver los proveedores debido a una falla en el sistema"
- * 
- * /suppliers/details/{id_supplier}: 
+ *
+ * /suppliers/details/{id_supplier}:
  *   get:
  *     summary: "Obtener todos los datos de un proveedor en específico, esto incluye las asociaciones con Stock"
- *     tags: 
+ *     tags:
  *       - Suppliers
  *     parameters:
  *       - in: path
- *         name: id_supplier 
+ *         name: id_supplier
  *         schema:
  *           type: string
  *         required: true
  *         description: "ID del proveedor"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Datos del proveedor detallados"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/suppliers'
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * /suppliers/create:
  *   post:
  *     summary: "Crear un nuevo proveedor"
- *     tags: 
+ *     tags:
  *       - Suppliers
- *     responses: 
- *       201: 
+ *     responses:
+ *       201:
  *         description: "Creación Exitosa (El JSON contiene a modo de ejemplo los elementos mínimos y más importantes que debe contener el body que recibe el back para la creación de unnuevo proveedor)"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -146,15 +156,15 @@ export default supplierRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"                
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La creación del proveedor falló"
- * 
+ *
  * /suppliers/disabled/{id_supplier}:
  *   patch:
  *     summary: "Eliminado lógico de un proveedor"
@@ -175,7 +185,7 @@ export default supplierRouter;
  *             schema:
  *               type: string
  *               example: "La deshabilitación del proveedor falló"
- * 
+ *
  * /suppliers/delete/{id_material}:
  *   delete:
  *     summary: "Eliminado total de un proveedor"
@@ -195,17 +205,17 @@ export default supplierRouter;
  *           text/plain:
  *             schema:
  *               type: string
- *               example: "La elimación del proveedor falló" 
- * 
+ *               example: "La elimación del proveedor falló"
+ *
  * /suppliers/update/{id_supplier}:
  *   patch:
  *     summary: "Actualizar un proveedor"
- *     tags: 
+ *     tags:
  *       - Suppliers
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Actualización Exitosa"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -236,45 +246,45 @@ export default supplierRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"        
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La actualización del proveedor falló"
- * 
- * /suppliers/search: 
+ *
+ * /suppliers/search:
  *   get:
  *     summary: "Filtro de busqueda, donde ingresando ciertos parámetros te va a devolver 1 o más proveedores (el body del response va a ser igual de completo que el /suppliers/details/{id_supplier})"
- *     tags: 
+ *     tags:
  *       - Suppliers
  *     parameters:
  *       - in: query
- *         name: search_type 
+ *         name: search_type
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'name_company_supplier', 'distributor_name_supplier"
  *       - in: query
- *         name: search_value 
+ *         name: search_value
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_value indiqua el valor que deseamos buscar"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Se mostrarán los proveedores encontrados con los parámetros establecidos"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/suppliers'
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -308,12 +318,12 @@ export default supplierRouter;
  *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * components:
  *   schemas:
  *     suppliers:
@@ -331,13 +341,13 @@ export default supplierRouter;
  *           example: "The Coca-Cola Company"
  *         reason_social_supplier:
  *           type: string
- *           example: "Companía Servicios de Bebidas Refrescantes, S.L" 
+ *           example: "Companía Servicios de Bebidas Refrescantes, S.L"
  *         cuit_company_supplier:
  *           type: string
  *           example: "30-52539008-6"
  *         description_supplier:
  *           type: string
- *           example: "corporación multinacional estadounidense de bebidas con sede en Atlanta, Georgia...." 
+ *           example: "corporación multinacional estadounidense de bebidas con sede en Atlanta, Georgia...."
  *         tax_address_supplier:
  *           type: string
  *           example: "Amancio Avenida 3570"
@@ -358,13 +368,13 @@ export default supplierRouter;
  *           example: "341 512-3456"
  *         mail_distributor_supplier:
  *           type: string
- *           example: "JuanCocaCola@gmail.com" 
+ *           example: "JuanCocaCola@gmail.com"
  *         delivery_days_suppier:
  *           type: string
- *           example: "Martes" 
+ *           example: "Martes"
  *         payment_method_supplier:
  *           type: string
- *           example: "Efectivo" 
+ *           example: "Efectivo"
  *         disabled:
  *           type: boolean
  *           example: false
@@ -373,22 +383,22 @@ export default supplierRouter;
  *           items:
  *             type: object
  *             properties:
- *               id_material: 
+ *               id_material:
  *                 type: integer
  *                 example: 7
  *               name_material:
  *                 type: string
  *                 example: "Madera de pino"
- *               supplier_Materials_associations: 
+ *               supplier_Materials_associations:
  *                 type: object
  *                 properties:
  *                   amount_material:
  *                     type: integer
- *                     example: 300 
+ *                     example: 300
  *                   price_material:
  *                     type: integer
- *                     example: 8000 
+ *                     example: 8000
  *                   id_supplier:
  *                     type: integer
- *                     example: 2 
+ *                     example: 2
  */

@@ -247,6 +247,7 @@ const DetailsProduct = () => {
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
           }
         );
         const responseJSON = await response.json();
@@ -300,6 +301,7 @@ const DetailsProduct = () => {
         {
           method: "PATCH",
           body: formData,
+          credentials: "include",
         }
       );
       const responseJSON = await response.json();

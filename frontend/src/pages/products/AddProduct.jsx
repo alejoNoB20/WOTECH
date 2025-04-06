@@ -208,6 +208,7 @@ const AddProducts = () => {
         {
           method: "POST",
           body: formData,
+          credentials: "include",
         }
       );
       const responseJSON = await response.json();

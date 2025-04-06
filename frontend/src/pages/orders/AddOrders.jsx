@@ -39,7 +39,11 @@ const AddOrders = () => {
 
         // RECUPERA LOS DATOS NECESARIOS DE LOS PRODUCTOS Y CLIENTES EN LA DB PARA GENERAR UN PEDIDO
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/orders/getProductsAndClients`
+          `${process.env.REACT_APP_API_URL}/orders/getProductsAndClients`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
         );
         const responseJSON = await response.json();
         setProductList(responseJSON.products);
@@ -120,6 +124,7 @@ const AddOrders = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
         }
       );
       const responseJSON = await response.json();

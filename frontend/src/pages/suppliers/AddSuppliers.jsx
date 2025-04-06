@@ -66,6 +66,7 @@ const AddSuppliers = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
         }
       );
       const responseJSON = await response.json();
