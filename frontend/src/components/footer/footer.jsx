@@ -1,39 +1,53 @@
-import React from "react"
-
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-6 w-full bottom-0 z-20 border-t-2">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-          <div className="text-sm text-center sm:text-left">© 2024 Mi Sitio Web. Todos los derechos reservados.</div>
-          <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row md:mx-10 justify-between items-center space-y-4 sm:space-y-0">
+          <div className="text-sm text-center sm:text-left">
+            © 2025 Wotech - Carpentry Manager. Todos los derechos reservados.
+          </div>
+          <div className="flex gap-x-4">
             <a
-              href="https://twitter.com"
+              href="mailto:alejoviviani12@gmail.com?Subject=Consulta%20sobre%20servicios%20de%20desarrollo%20web"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400 transition-colors duration-200"
             >
-              <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.016-.608 1.794-1.574 2.163-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-2.719 0-4.92 2.201-4.92 4.917 0 .385.045.76.127 1.122-4.088-.205-7.72-2.164-10.148-5.144-.423.726-.666 1.569-.666 2.465 0 1.701.866 3.197 2.181 4.075-.803-.025-1.56-.246-2.22-.616v.062c0 2.375 1.69 4.356 3.934 4.807-.411.111-.844.171-1.291.171-.316 0-.623-.031-.923-.087.623 1.943 2.432 3.355 4.575 3.394-1.675 1.313-3.791 2.098-6.084 2.098-.395 0-.786-.023-1.17-.068 2.169 1.392 4.747 2.207 7.523 2.207 9.025 0 13.964-7.479 13.964-13.964 0-.213-.005-.426-.014-.637.961-.694 1.793-1.562 2.449-2.549z" />
-              </svg>
+              <img
+                src="/Gmail_icon_w.svg"
+                alt="GitHub Icon"
+                className="w-5 h-5 md:w-8 md:h-8"
+              />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.linkedin.com/in/alejo-viviani/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-gray-400 transition-colors duration-200"
             >
-              <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.31.975.975 1.248 2.242 1.31 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.31 3.608-.975.975-2.242 1.248-3.608 1.31-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.31-.975-.975-1.248-2.242-1.31-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.31-3.608.975-.975 2.242-1.248 3.608-1.31 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.67.013-4.947.072-1.429.064-2.836.386-3.897 1.447-1.061 1.061-1.383 2.468-1.447 3.897-.059 1.276-.072 1.688-.072 4.947s.013 3.67.072 4.947c.064 1.429.386 2.836 1.447 3.897 1.061 1.061 2.468 1.383 3.897 1.447 1.276.059 1.688.072 4.947.072s3.67-.013 4.947-.072c1.429-.064 2.836-.386 3.897-1.447 1.061-1.061 1.383-2.468 1.447-3.897.059-1.276.072-1.688.072-4.947s-.013-3.67-.072-4.947c-.064-1.429-.386-2.836-1.447-3.897-1.061-1.061-2.468-1.383-3.897-1.447-1.276-.059-1.688-.072-4.947-.072z" />
-                <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 1 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 1 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 1 0 0-2.881z" />
-              </svg>
+              <img
+                src="/LinkedIn_icon_w.svg"
+                alt="LinkedIn Icon"
+                className="w-5 h-5 md:w-8 md:h-8"
+              />
+            </a>
+            <a
+              href="https://www.github.com/AlejoNoB20"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-400 transition-colors duration-200"
+            >
+              <img
+                src="/Github_icon_w.svg"
+                alt="Github Icon"
+                className="w-5 h-5 md:w-8 md:h-8"
+              />
             </a>
           </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
-
+export default Footer;
