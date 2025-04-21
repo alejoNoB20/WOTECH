@@ -36,7 +36,11 @@ export class supplierService {
   verPaginasProveedores = async (page) => {
     try {
       // CANTIDAD TOTAL DE REGISTROS
-      const maxSupplier = await Supplier.count();
+      const maxSupplier = await Supplier.count({
+        where: {
+          disabled: false
+        }
+      });
       // CANTIDAD DE REGISTROS RENDERIZADOS
       const limit = 6;
       // REGISTROS QUE NO SE MUESTRAN
@@ -64,7 +68,7 @@ export class supplierService {
         );
 
       return try_catch.SERVICE_TRY_RES(
-        { resultado, maxPage: Math.round(maxSupplier / limit) },
+        { resultado, maxPage: maxSupplier / limit },
         200
       );
     } catch (err) {
@@ -210,7 +214,7 @@ export class supplierService {
           return try_catch.SERVICE_TRY_RES({ resultado: notFoundMsg }, 404);
 
         return try_catch.SERVICE_TRY_RES(
-          { resultado, maxPage: Math.round(maxSupplier / limit) },
+          { resultado, maxPage: maxSupplier / limit },
           200
         );
       }

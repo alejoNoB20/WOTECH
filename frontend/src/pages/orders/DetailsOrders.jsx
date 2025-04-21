@@ -55,6 +55,7 @@ const DetailsOrders = () => {
         );
         const responseJSON = await response.json();
         setOrder(responseJSON[0]);
+        console.log(responseJSON[0])
         setMaterialUsed(responseJSON.materialUsed);
         setToolUsed(responseJSON.toolsUsed);
 
@@ -320,7 +321,7 @@ const DetailsOrders = () => {
               <section className="flex flex-col bg-white rounded-xl shadow-xl mx-6 mb:my-6 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
                 {/* TITULO */}
                 <h2 className="text-2xl justify-center text-center font-bold mb-4">
-                  Detalles del pedido {order.id_order}:
+                  Detalles del pedido {order.id_order} {order.disabled && (<label>(ENTREGADO)</label>)}
                 </h2>
                 {/* COLUMNAS DE INPUTS */}
                 <div className="flex fle-row w-full justify-center space-x-3 md:space-x-20">

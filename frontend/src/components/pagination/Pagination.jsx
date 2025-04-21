@@ -10,17 +10,17 @@ const Pagination = ({ url, page, maxPage }) => {
 
     const handleClick = (e) => {
         setLoading(true)
-        if(e.target.id === "backButton" && page > 1){
-            navigate(`${url}${e.target.value}`);
-            setLoading(false);
-        };
-        if(e.target.id === "forthButton" && page < maxPage){
-            navigate(`${url}${e.target.value}`);
-            setLoading(false);
-        };
-        if(e.target.id === "pageButton"){
-            navigate(`${url}${e.target.value}`);
-            setLoading(false);
+        if((e.target.id === "backButton" && page > 1) || (e.target.id === "forthButton" && page < maxPage) || (e.target.id === "pageButton")){
+            if(url.includes("search")){
+                const indexQuery = url.indexOf('?');
+                const firstPartUrl = url.slice(0, indexQuery);
+                const secondPartUrl = url.slice(indexQuery);
+                navigate(`${firstPartUrl}${e.target.value}${secondPartUrl}`);
+                setLoading(false);                    
+            }else {
+                navigate(`${url}${e.target.value}`);
+                setLoading(false);
+            }
         };
         setLoading(false)
     };
@@ -67,32 +67,32 @@ const Pagination = ({ url, page, maxPage }) => {
             <button value={page} id="pageButton" className="rounded-md p-2 border bg-indigo-600 text-white hover:bg-indigo-700" onClick={handleClick}>
                 {page}
             </button>
-            {(maxPage - page) >= 1 && (
+            {(maxPage - page) > 0 &&(
                 // Botón primera página + 1
                 <button value={page + 1} id="pageButton" className="rounded-md p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
                     {page + 1}
                 </button>
             )}
-            {(maxPage - page) >= 2  && (
+            {(maxPage - page) > 1 && (
                 // Botón primera página + 2
                 <button value={page + 2} id="pageButton" className="rounded-md p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
                     {page + 2}
                 </button>
             )}
-            {(maxPage - page) >= 3 && (
+            {(maxPage - page) > 2 && (
                 // Botón separador y ultima página
                 <>
                     <button className="rounded-md p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
                         ...
                     </button>
-                    <button value={maxPage} id="pageButton" className="rounded-md p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
-                        {maxPage}
+                    <button value={Math.ceil(maxPage)} id="pageButton" className="rounded-md p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
+                        {Math.ceil(maxPage)}
                     </button>
                 </>
             )}
             {/* Botón pagina siguiente */}
             <button value={page + 1} id="forthButton"className="rounded rounded-r-xl p-2 border border-spacing-14 border-indigo-500 bg-white hover:bg-indigo-700 hover:text-white" onClick={handleClick}>
-                <FontAwesomeIcon icon={faArrowRight}/>
+                <FontAwesomeIcon icon={faArrowRight} />
             </button>
         </div>
     );

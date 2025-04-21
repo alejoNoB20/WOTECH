@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { try_catch } from "../../utils/try_catch.js";
 import { Clients } from "./clientsModels.js";
 import { Orders } from "../Orders/ordersModels.js";
@@ -7,7 +7,11 @@ export class clientsService {
     verClientes = async (page) => {
         try{
             // CANTIDAD TOTAL DE REGISTROS
-            const maxClients = await Clients.count();
+            const maxClients = await Clients.count({
+                where: {
+                    disabled: false
+                }
+            });
             // CANTIDAD DE REGISTROS RENDERIZADOS
             const limit = 6;
             // REGISTROS QUE NO SE MUESTRAN
@@ -23,7 +27,7 @@ export class clientsService {
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron clientes registrados en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxClients / limit)}, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxClients / limit}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los clientes debido a una falla en el sistema');    
@@ -101,7 +105,9 @@ export class clientsService {
             };
             if(page !== null){
                 // CANTIDAD TOTAL DE REGISTROS
-                const maxClients = await Clients.count();
+                const maxClients = await Clients.count({
+                    where: objetoWhere
+                });
                 // CANTIDAD DE REGISTROS RENDERIZADOS
                 const limit = 6;
                 // REGISTROS QUE NO SE MUESTRAN
@@ -146,7 +152,7 @@ export class clientsService {
 
                 if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
     
-                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxClients / limit)}, 200);    
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxClients / limit}, 200);    
             };
 
             const resultado = await Clients.findAll({

@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { Products } from "./productsModels.js";
 import { Stock } from "../Stock/stocksModels.js";
 import { Tools } from "../Tools/toolsModels.js";
@@ -12,7 +12,11 @@ export class productsService {
     verProductos = async (page) => {
         try {
             // CANTIDAD TOTAL DE REGISTROS
-            const maxProducts = await Products.count();
+            const maxProducts = await Products.count({
+                where: {
+                    disabled: false
+                }
+            });
             // CANTIDAD DE REGISTROS RENDERIZADOS
             const limit = 6;
             // REGISTROS QUE NO SE MUESTRAN
@@ -29,8 +33,7 @@ export class productsService {
                 offset
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron productos registrados en la base de datos'}, 404);
-
-            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxProducts / limit)}, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxProducts / limit}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los productos debido a una falla en el sistema');
@@ -336,7 +339,7 @@ export class productsService {
 
                 if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
     
-                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxProducts / limit)}, 200);
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxProducts / limit}, 200);
         
             };
 

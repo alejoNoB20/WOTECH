@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { Stock } from "./stocksModels.js";
 import { Supplier } from "../Suppliers/suppliersModels.js";
 import { Products } from "../Products/productsModels.js";
@@ -32,7 +32,11 @@ export class StockService {
   verPaginasStock = async (page) => {
     try {
       // CANTIDAD TOTAL DE REGISTROS
-      const maxStock = await Stock.count();
+      const maxStock = await Stock.count({
+        where: {
+          disabled: false
+        }
+      });
       // CANTIDAD DE REGISTROS RENDERIZADOS
       const limit = 6;
       // REGISTROS QUE NO SE MUESTRAN
@@ -55,7 +59,7 @@ export class StockService {
         );
 
       return try_catch.SERVICE_TRY_RES(
-        { resultado, maxPage: Math.round(maxStock / limit) },
+        { resultado, maxPage: maxStock / limit },
         200
       );
     } catch (err) {
@@ -212,7 +216,7 @@ export class StockService {
           return try_catch.SERVICE_TRY_RES({ resultado: notFoundMsg }, 404);
 
         return try_catch.SERVICE_TRY_RES(
-          { resultado, maxPage: Math.round(maxStock / limit) },
+          { resultado, maxPage: maxStock / limit },
           200
         );
       }

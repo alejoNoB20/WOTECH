@@ -6,6 +6,7 @@ const ItemOrder = ({order}) => {
     const [isMobile, setIsMobile] = useState(false);
     const { id_order, delivery_day_order, price_order, shipping_address_order } = order;
     const [dayColorText, setDayColorText] = useState(null);
+    const [backgroundColor, setBackgrounColor] = useState("");
     const navigate = useNavigate();
 
     useEffect(()=> {
@@ -33,6 +34,11 @@ const ItemOrder = ({order}) => {
                 setDayColorText('text-green-700');
             };
             
+            if(order.disabled){
+                setBackgrounColor('bg-red-300')
+            }else {
+                setBackgrounColor('bg-white')
+            }
         }catch(err){
             console.log(err);
         };
@@ -47,7 +53,7 @@ const ItemOrder = ({order}) => {
         // TARJETA DEL PEDIDO
         <>
             {!isMobile ? (
-                <div className="bg-white flex justify-center text-center rounded-lg m-2 md:m-5 py-3 w-full max-h-28 transition duration-500 hover:bg-gray-300 shadow-xl " onClick={() => handleDetailsClick(id_order)}>
+                <div className={`${backgroundColor} bg-red flex justify-center text-center rounded-lg m-5 py-3 h-20 transition duration-500 hover:bg-gray-300 shadow-xl w-[90%]`} onClick={() => handleDetailsClick(id_order)}>
                     {/* INFORMACION DE LA TARJETA */}
                     <div className="flex flex-row justify-center text-center items-center">
                         {/* ID ORDEN */}
@@ -71,7 +77,7 @@ const ItemOrder = ({order}) => {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white flex justify-center text-center rounded-lg m-5 py-3 w-full max-h-28 transition duration-500 hover:bg-gray-300 shadow-xl " onClick={() => handleDetailsClick(id_order)}>
+                <div className="bg-white flex justify-center text-center rounded-lg m-5 py-3 max-h-28 transition duration-500 hover:bg-gray-300 shadow-xl w-[90%]" onClick={() => handleDetailsClick(id_order)}>
                     {/* INFORMACION DE LA TARJETA */}
                     <div className="flex flex-row justify-center text-center items-center gap-2">
                         {/* ID ORDEN */}

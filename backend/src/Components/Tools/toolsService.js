@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { Tools } from "./toolsModels.js";
 import { Products } from "../Products/productsModels.js";
 import { try_catch } from "../../utils/try_catch.js";
@@ -39,7 +39,11 @@ export class ToolsService {
   verPaginas = async (page) => {
     try {
       // CANTIDAD TOTAL DE REGISTROS
-      const maxTools = await Tools.count();
+      const maxTools = await Tools.count({
+        where: {
+          disabled: false
+        }
+      });
       // CANTIDAD DE REGISTROS RENDERIZADOS
       const limit = 6;
       // REGISTROS QUE NO SE MUESTRAN
@@ -69,7 +73,7 @@ export class ToolsService {
         );
 
       return try_catch.SERVICE_TRY_RES(
-        { resultado, maxPage: Math.round(maxTools / limit) },
+        { resultado, maxPage: maxTools / limit },
         200
       );
     } catch (err) {
@@ -290,7 +294,7 @@ export class ToolsService {
           return try_catch.SERVICE_TRY_RES({ resultado: notFoundMsg }, 404);
 
         return try_catch.SERVICE_TRY_RES(
-          { resultado, maxPage: Math.round(maxTools / limit) },
+          { resultado, maxPage: maxTools / limit },
           200
         );
       }

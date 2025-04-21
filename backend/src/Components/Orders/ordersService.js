@@ -13,7 +13,11 @@ export class ordersService {
     verTodo = async (page) => {
         try{
             // CANTIDAD TOTAL DE REGISTROS
-            const maxOrders = await Orders.count();
+            const maxOrders = await Orders.count({
+                where: {
+                    disabled: false
+                }
+            });
             // CANTIDAD DE REGISTROS RENDERIZADOS
             const limit = 6;
             // REGISTROS QUE NO SE MUESTRAN
@@ -36,7 +40,7 @@ export class ordersService {
             });
             if(resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: 'No se encontraron pedidos activos en la base de datos'}, 404);
 
-            return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxOrders / limit)}, 200);
+            return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxOrders / limit}, 200);
 
         }catch(err) {
             return try_catch.SERVICE_CATCH_RES(err, 'No se pueden ver los pedidos debido a una falla en el sistema');
@@ -167,9 +171,7 @@ export class ordersService {
 
             if(page !== null){
                 // CANTIDAD TOTAL DE REGISTROS
-                const maxOrders = await Orders.count({
-                    where: objetoWhere
-                });
+                const maxOrders = await Orders.count();
                 // CANTIDAD DE REGISTROS RENDERIZADOS
                 const limit = 6;
                 // REGISTROS QUE NO SE MUESTRAN
@@ -215,7 +217,7 @@ export class ordersService {
 
                 if (resultado.length === 0) return try_catch.SERVICE_TRY_RES({resultado: notFoundMsg}, 404);
                 
-                return try_catch.SERVICE_TRY_RES({resultado, maxPage: Math.round(maxOrders / limit)}, 200);
+                return try_catch.SERVICE_TRY_RES({resultado, maxPage: maxOrders / limit}, 200);
 
             }
             const resultado = await Orders.findAll({

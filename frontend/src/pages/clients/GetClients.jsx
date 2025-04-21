@@ -8,6 +8,7 @@ import Pagination from "@components/pagination/Pagination";
 const GetClients = () => {
   const [loader, setLoader] = useState(false);
   const [maxPage, setMaxPage] = useState(null);
+  const [url, setUrl] = useState("");
   const [list, setList] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,12 +26,12 @@ const GetClients = () => {
         let url = `${process.env.REACT_APP_API_URL}/clients`;
 
         if (query && option) {
-          url += `/search/1?search_type=${encodeURIComponent(
-            query
-          )}&search_value=${encodeURIComponent(option)}`;
+          url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+          setUrl(`/clients/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
         } else {
           url += `/pages/${page}`;
-        }
+          setUrl(`/clients/getclients/`)
+      }
 
         const mostrarError = (httpErr, errors) => {
           openModal({
@@ -71,7 +72,7 @@ const GetClients = () => {
         <ItemClientList clients={list} />
         <div className="flex justify-center items-center mb:mt-4 md:mt-3">
           <Pagination
-            url="/clients/getclients/"
+            url={url}
             page={Number(page)}
             maxPage={maxPage}
           />

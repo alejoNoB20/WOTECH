@@ -8,6 +8,7 @@ import Pagination from "@components/pagination/Pagination";
 const GetStock = () => {
     const [items, setItems] = useState([]);
     const [maxPage, setMaxPage] = useState(null);
+    const [url, setUrl] = useState("");
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const navigate = useNavigate();
@@ -24,11 +25,13 @@ const GetStock = () => {
             let url = `${process.env.REACT_APP_API_URL}/stock`;
             
             if (query && option) {
-                url += `/search/1?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
-            }else {
+                url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+                setUrl(`/stock/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
+              } else {
                 url += `/pages/${page}`;
-            };
-
+                setUrl(`/stock/getstock/`)
+            }
+            
             const mostrarError = (httpErr, errors) => {
                 openModal({
                     errorType: httpErr,
@@ -69,7 +72,7 @@ const GetStock = () => {
         <div className="flex flex-col h-full md:mt-4">
             <ItemList items = {items}/>
             <div className="flex justify-center items-center mb:mt-4 md:mt-3">
-                <Pagination url="/stock/getstock/" page={Number(page)} maxPage={maxPage}/>
+                <Pagination url={url} page={Number(page)} maxPage={maxPage}/>
             </div>
         </div>
         </>

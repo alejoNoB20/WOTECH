@@ -9,6 +9,7 @@ import Pagination from "@components/pagination/Pagination";
 const GetOrders = () => {
   const [list, setList] = useState([]);
   const [maxPage, setMaxPage] = useState(null);
+  const [url, setUrl] = useState("");
   const [loader, setLoader] = useState(false);
   const { openModal } = useModal();
   const notify = useNotifications();
@@ -26,12 +27,12 @@ const GetOrders = () => {
         let url = `${process.env.REACT_APP_API_URL}/orders`;
 
         if (query && option) {
-          url += `/search/1?search_type=${encodeURIComponent(
-            query
-          )}&search_value=${encodeURIComponent(option)}`;
+          url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+          setUrl(`/orders/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
         } else {
           url += `/pages/${page}`;
-        }
+          setUrl(`/orders/getorders/`)
+      }
 
         const Modal = (httpErr, errors) => {
           openModal({
@@ -45,7 +46,6 @@ const GetOrders = () => {
           credentials: "include",
         });
         const responseJSON = await response.json();
-        console.log(responseJSON);
         setList(responseJSON.resultado);
         setMaxPage(responseJSON.maxPage);
 
@@ -78,7 +78,7 @@ const GetOrders = () => {
         <ItemOrderList list={list} />
         <div className="flex justify-center items-center mb:mt-4 md:mt-3">
           <Pagination
-            url="/orders/getorders/"
+            url={url}
             page={Number(page)}
             maxPage={maxPage}
           />

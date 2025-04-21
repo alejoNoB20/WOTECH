@@ -7,6 +7,7 @@ import Pagination from "@components/pagination/Pagination";
 
 const GetTools = () => {
   const [tools, setTools] = useState([]);
+  const [url, setUrl] = useState("");
   const [maxPage, setMaxPage] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -25,10 +26,12 @@ const GetTools = () => {
       let url = `${process.env.REACT_APP_API_URL}/tools`;
       
       if (query && option) {
-        url += `/search/1?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
-      }else {
+        url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+        setUrl(`/tools/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
+      } else {
         url += `/pages/${page}`;
-      };
+        setUrl(`/tools/gettools/`)
+      }
 
       const mostrarError = (httpErr, errors) => {
         openModal({
@@ -40,8 +43,6 @@ const GetTools = () => {
       try {
         const response = await fetch(url);
         const responseJson = await response.json();
-
-        console.log(responseJson)
 
         if (!response.ok) {
           if (response.status === 400) {
@@ -73,7 +74,7 @@ const GetTools = () => {
       <div className="flex flex-col h-full md:mt-4">
           <ItemToolList tools = {tools}/>
           <div className="flex justify-center items-center mb:mt-4 md:mt-3">
-              <Pagination url="/tools/gettools/" page={Number(page)} maxPage={maxPage}/>
+              <Pagination url={url} page={Number(page)} maxPage={maxPage}/>
           </div>
       </div>
     </>

@@ -8,6 +8,7 @@ import Pagination from "@components/pagination/Pagination";
 const GetSuppliers = () => {
   const [list, setList] = useState([]);
   const [maxPage, setMaxPage] = useState(null);
+  const [url, setUrl] = useState("");
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,17 +18,17 @@ const GetSuppliers = () => {
   useEffect(() => {
     const fetchData = async () => {
       const queryParams = new URLSearchParams(location.search);
-      const type = queryParams.get("search_type") || "";
-      const value = queryParams.get("search_value") || "";
+      const query = queryParams.get("search_type") || "";
+      const option = queryParams.get("search_value") || "";
 
       let url = `${process.env.REACT_APP_API_URL}/suppliers`;
 
-      if (type && value) {
-        url += `/search/1?search_type=${encodeURIComponent(
-          type
-        )}&search_value=${encodeURIComponent(value)}`;
+      if (query && option) {
+        url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
+        setUrl(`/suppliers/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
       } else {
         url += `/pages/${page}`;
+        setUrl(`/suppliers/getsuppliers/`)
       }
 
       try {
@@ -72,7 +73,7 @@ const GetSuppliers = () => {
         <ItemSupplierList list={list} />
         <div className="flex justify-center items-center mb:mt-4 md:mt-3">
           <Pagination
-            url="/suppliers/getsuppliers/"
+            url={url}
             page={Number(page)}
             maxPage={maxPage}
           />
