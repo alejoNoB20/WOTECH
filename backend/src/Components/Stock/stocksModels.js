@@ -8,7 +8,7 @@ export const Stock = sequelize.define('stock', {
         autoIncrement: true
     }, 
     name_material: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(80),
         unique: true,
         allowNull: false
     },

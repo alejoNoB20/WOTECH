@@ -19,7 +19,7 @@ export const Orders = sequelize.define('orders', {
         onUpdate: 'CASCADE'
     },
     shipping_address_order: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull: true
     },
     delivery_day_order: {

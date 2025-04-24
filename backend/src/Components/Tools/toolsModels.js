@@ -12,7 +12,7 @@ export const Tools = sequelize.define('tools', {
         allowNull:true
     },
     name_tool: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(80),
         unique: true,
         allowNull: false
     },
@@ -29,7 +29,7 @@ export const Tools = sequelize.define('tools', {
         allowNull: false
     },
     repair_shop_tool: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull:true
     },
     repair_date_tool: {

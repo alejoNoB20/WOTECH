@@ -366,7 +366,6 @@ const DetailsProduct = () => {
                 </div>
                 {/* Datos Nombre, Plano, Precio */}
                 <div className="flex flex-col mb:mb-4 md: gap-y-4">
-                  <div className="flex flex-row md:flex-col mb:gap-x-10 mb:mb-4 md:gap-y-4">
                     {/* Nombre */}
                     <div className="flex flex-col">
                       <h4 className="text-gray-400 text-xs font-semibold">
@@ -385,15 +384,14 @@ const DetailsProduct = () => {
                         $ {product.price_product || "No disponible"}
                       </p>
                     </div>
-                  </div>
                   {/* Plano del producto */}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col text-center justify-center">
                     <h4 className="text-gray-400 text-xs font-semibold">
                       Plano del producto:
                     </h4>
                     {product.map_product ? (
                       <button
-                        className="flex px-5 py-2 mt-4 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-700 rounded-lg"
+                        className="flex px-5 py-2 mt-4 bg-green-600 transition hover:bg-green-700 hover:text-white text-gray-800 rounded-lg mx-auto"
                         onClick={() => handleButtonClick(product.id_product)}
                       >
                         Ver plano
@@ -584,7 +582,7 @@ const DetailsProduct = () => {
                 <textarea
                   id="description_product"
                   name="description_product"
-                  value={updateProduct.description_product || "Sin descripción"}
+                  value={updateProduct.description_product || ""}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                   onChange={handleChange}
                 />

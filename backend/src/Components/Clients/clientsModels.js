@@ -24,7 +24,7 @@ export const Clients = sequelize.define('clients', {
         allowNull: false
     },
     direction_client: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull: false
     },
     mail_client: {

@@ -158,6 +158,7 @@ export class productsService {
     }
     actualizarProducto = async (id_product, data) => {
         try{
+            console.log(data)
             let imageError = {status: false};
             let beforeUpdateImg;
             let beforeUpdateMap;
@@ -221,6 +222,7 @@ export class productsService {
             if(JSON.stringify(data) !== JSON.stringify(validationProduct)){
                 await Products.update({
                         name_product: data.name_product,
+                        price_product: data.price_product,
                         img_product: data.img_product,
                         map_product: data.map_product,
                         description_product: data.description_product

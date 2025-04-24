@@ -38,7 +38,7 @@ export const Supplier = sequelize.define('supplier', {
         allowNull: true
     },
     website_company_supplier: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(200),
         allowNull: true
     },
     distributor_name_supplier: {
@@ -46,7 +46,7 @@ export const Supplier = sequelize.define('supplier', {
         allowNull: true
     },
     number_phone_distributor_supplier: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         allowNull: true
     },
     mail_distributor_supplier: {
