@@ -31,7 +31,7 @@ if(process.env.PORT === '8080'){
 export const updateDB = async () => {
     try{
         await sequelize.sync({ alter: true });
-        (process.env.PORT === '8080') ? console.log('DB local creada correctamente!') : console.log('DB remota creada correctamente!')        
+        (process.env.PORT === '8080') ? console.log('DB local actualizada correctamente!') : console.log('DB remota actualizada correctamente!')        
     }catch(err) {
         console.log('Error a la hora de actualiza la DB: ', err);
     }
@@ -39,7 +39,7 @@ export const updateDB = async () => {
 
 export const connectDB = async () => {
     try{
-        await sequelize.sync({ alter: true });
+        await sequelize.sync();
         (process.env.PORT === '8080') ? console.log('Conectado correctamente a la DB local!') : console.log('Conectado correctamente a la DB remota!')
     }catch(err) {
         console.log('Error a la hora de conectar con la DB: ', err);

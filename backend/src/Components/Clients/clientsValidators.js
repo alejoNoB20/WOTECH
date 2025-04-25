@@ -37,7 +37,7 @@ export const clientsValidator = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo DIRECCIÓN es obligatorio').bail()
-            .isLength({max: 100}).withMessage('El campo DIRECCIÓN permite un máximo de 100 caracteres'),
+            .isLength({max: 150}).withMessage('El campo DIRECCIÓN permite un máximo de 150 caracteres'),
 
         body('mail_client')
             .optional()
@@ -98,7 +98,7 @@ export const clientsValidator = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo DIRECCIÓN es obligatorio').bail()
-            .isLength({max: 100}).withMessage('El campo DIRECCIÓN permite un máximo de 100 caracteres'),
+            .isLength({max: 150}).withMessage('El campo DIRECCIÓN permite un máximo de 150 caracteres'),
 
         body('mail_client')
             .optional()

@@ -9,7 +9,7 @@ export const stockValidations = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo NOMBRE es obligatorio').bail()
-            .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
+            .isLength({max: 80}).withMessage('El campo NOMBRE recibe un máximo de 80 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
                 if(findSameName.status === 200) throw new Error('Hay un stock con el mismo nombre en la base de datos');
@@ -68,7 +68,7 @@ export const stockValidations = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo NOMBRE es obligatorio').bail()
-            .isLength({max: 50}).withMessage('El campo NOMBRE recibe un máximo de 50 caracteres').bail()
+            .isLength({max: 80}).withMessage('El campo NOMBRE recibe un máximo de 80 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findSameName = await Stock.filtrarMaterial('nameMaterialValidator', req.body.name_material);
                 if(findSameName.status == 200 && findSameName.msg[0].id_material != req.params.id_material) throw new Error('Hay un stock con el mismo nombre en la base de datos');

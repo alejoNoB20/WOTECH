@@ -9,7 +9,6 @@ export const Products = sequelize.define('products', {
     },
     name_product:{
         type: DataTypes.STRING(80),
-        unique: true,
         allowNull: false
     },
     img_product: {
@@ -35,4 +34,11 @@ export const Products = sequelize.define('products', {
     }
 }, {
     tableName:'products',
-})
+    indexes: [
+      {
+        unique: true,
+        fields: ['name_product'],
+        name: 'unique_products_index'
+      }
+    ]
+  });

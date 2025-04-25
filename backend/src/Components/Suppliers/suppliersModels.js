@@ -10,7 +10,6 @@ export const Supplier = sequelize.define('supplier', {
     name_company_supplier: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true
     },
     reason_social_supplier: {
         type: DataTypes.STRING(150),
@@ -19,7 +18,6 @@ export const Supplier = sequelize.define('supplier', {
     cuit_company_supplier: {
         type: DataTypes.STRING(50),
         allowNull: true,
-        unique: true
     },
     description_supplier: {
         type: DataTypes.TEXT('medium'),
@@ -67,5 +65,12 @@ export const Supplier = sequelize.define('supplier', {
         defaultValue: false
     }
 }, {
-    tableName: 'supplier'
-});
+    tableName: 'supplier',
+    indexes: [
+      {
+        unique: true,
+        fields: ['cuit_company_supplier', 'name_company_supplier'],
+        name: 'unique_supplier_index'
+      }
+    ]
+  });

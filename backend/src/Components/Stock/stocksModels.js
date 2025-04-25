@@ -9,7 +9,6 @@ export const Stock = sequelize.define('stock', {
     }, 
     name_material: {
         type: DataTypes.STRING(80),
-        unique: true,
         allowNull: false
     },
     description_material: {
@@ -30,5 +29,12 @@ export const Stock = sequelize.define('stock', {
         defaultValue: false
     }
 }, {
-    tableName: 'stock'
-});
+    tableName: 'stock',
+    indexes: [
+      {
+        unique: true,
+        fields: ['name_material'],
+        name: 'unique_stock_index'
+      }
+    ]
+  });

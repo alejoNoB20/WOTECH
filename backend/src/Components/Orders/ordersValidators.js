@@ -12,7 +12,7 @@ export const ordersValidator = {
         body('shipping_address_order')
             .optional()
             .trim()
-            .isLength({max: 100}),
+            .isLength({max: 150}).withMessage("El campo dirección de envio debe contener un máximo de 150 caracteres"),
 
         body('delivery_day_order')
             .exists()

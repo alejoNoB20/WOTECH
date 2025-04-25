@@ -10,15 +10,21 @@ export const Users = sequelize.define('users', {
     username_user: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
     password_user: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
     type_user: {
         type: DataTypes.STRING,
         allowNull:false
     }
-}); 
+}, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['username_user', 'password_user'],
+        name: 'unique_user_index'
+      }
+    ]
+  });

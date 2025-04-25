@@ -9,7 +9,7 @@ export const toolsValidations = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo nombre es obligatorio, no puede estar vacío').bail()
-            .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres').bail()
+            .isLength({max: 80}).withMessage('El nombre de la herramienta puede tener un máximo de 80 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findTheSameName = await Tool.filtrarHerramienta('nameToolValidator', req.body.name_tool);
                 if (findTheSameName.status == 200) throw new Error('Ya se encuentra una herramienta registrada con el mismo nombre');
@@ -29,7 +29,7 @@ export const toolsValidations = {
             .trim()
             .exists()
             .notEmpty().withMessage('El campo nombre es obligatorio, no puede estar vacío').bail()
-            .isLength({max: 50}).withMessage('El nombre de la herramienta puede tener un máximo de 50 caracteres').bail()
+            .isLength({max: 80}).withMessage('El nombre de la herramienta puede tener un máximo de 80 caracteres').bail()
             .custom(async (value, {req}) => {
                 const findTheSameName = await Tool.filtrarHerramienta('nameToolValidator', req.body.name_tool);
                 if (findTheSameName.status == 200 && findTheSameName.msg[0].id_tool != req.params.id_tool) throw new Error('Ya se encuentra una herramienta registrada con el mismo nombre');
@@ -45,7 +45,8 @@ export const toolsValidations = {
             .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()
                 .trim()
                 .exists()
-                .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Donde se está arreglando" es obligatorio'),
+                .notEmpty().withMessage('Si la herramienta se encuentra en arreglo el campo "Donde se está arreglando" es obligatorio')
+                .isLength(150).withMessage('El nombre del local puede tener un máximo de 150 caracteres').bail(),
 
         body('repair_date_tool')
             .if((value, {req}) => req.body.status_tool === 'En Arreglo').bail()

@@ -13,7 +13,6 @@ export const Tools = sequelize.define('tools', {
     },
     name_tool: {
         type: DataTypes.STRING(80),
-        unique: true,
         allowNull: false
     },
     description_tool: {
@@ -47,4 +46,11 @@ export const Tools = sequelize.define('tools', {
     }
 },{
     tableName: 'tools',
-});
+    indexes: [
+      {
+        unique: true,
+        fields: ['name_tool'],
+        name: 'unique_tool_index'
+      }
+    ]
+  });

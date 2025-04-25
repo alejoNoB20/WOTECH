@@ -24,7 +24,7 @@ export const productValidator = {
 
         body('description_product')
             .optional()
-            .isLength({max: 100}).withMessage('El campo DESCRIPCIÓN permite un máxmio de 100 caracteres'),
+            .isLength({max: 300}).withMessage('El campo DESCRIPCIÓN permite un máxmio de 300 caracteres'),
 
         body('price_product')
             .exists()
@@ -73,7 +73,7 @@ export const productValidator = {
 
         body('description_product')
             .optional()
-            .isLength({max: 100}).withMessage('El campo DESCRIPCIÓN permite un máxmio de 100 caracteres'),
+            .isLength({max: 300}).withMessage('El campo DESCRIPCIÓN permite un máxmio de 300 caracteres'),
 
         body('price_product')
             .exists()

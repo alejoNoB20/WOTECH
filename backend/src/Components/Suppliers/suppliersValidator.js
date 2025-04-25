@@ -55,7 +55,7 @@ export const supplierValidator = {
         body('website_company_supplier')
             .optional()
             .trim()
-            .isLength({max: 255}).withMessage('El campo SITIO WEB DE LA COMPANÍA puede contener un máximo de 255 caracteres'),
+            .isLength({max: 250}).withMessage('El campo SITIO WEB DE LA COMPANÍA puede contener un máximo de 250 caracteres'),
 
         body('distributor_name_supplier')
             .optional()
@@ -155,7 +155,7 @@ export const supplierValidator = {
             .optional()
             .trim()
             .isEmail().withMessage('El formato del campo MAIL DEL DISTRIBUIDOR no es válido').bail()
-            .isLength({max: 255}).withMessage('El campo MAIL DEL DISTRIBUIDO puede contener un máximo de 255 caracteres'),
+            .isLength({max: 25}).withMessage('El campo MAIL DEL DISTRIBUIDO puede contener un máximo de 250 caracteres'),
 
         body('delivery_days_suppier')
             .optional()

@@ -50,4 +50,11 @@ export const Clients = sequelize.define('clients', {
     }
 }, {
     tableName: 'clients',
-});
+    indexes: [
+      {
+        unique: true,
+        fields: ['name_client'],
+        name: 'unique_client_index'
+      }
+    ]
+  });
