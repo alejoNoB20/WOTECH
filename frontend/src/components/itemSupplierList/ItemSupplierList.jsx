@@ -23,15 +23,15 @@ const ItemSupplierList = ({list}) => {
                     <h1 className="text-black text-xl my-auto">{list}</h1>
                 </div>
             ) : (
-                <table className="w-full h-full border border-gray-300">
+                <table className="w-full mb:h-[66dvh] border border-gray-300">
                 <thead >
                     <tr>
                         <th className="text-center">ID</th>
-                        <th className="text-center">Nombre del proveedor</th>
-                        <th className="text-center">Dirección del proveedor</th>
+                        <th className="text-center">Nombre</th>
+                        <th className="text-center">Dirección</th>
                         {!isMobile && (
                             <>
-                                <th className="text-center">Número del proveedor</th>
+                                <th className="text-center">Número</th>
                                 <th className="text-center">Nombre del distribuidor</th>
                                 <th className="text-center">Número del distribuidor</th>
                             </>

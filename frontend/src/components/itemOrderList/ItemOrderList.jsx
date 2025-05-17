@@ -8,7 +8,7 @@ const ItemOrderList = ({list}) => {
                 <h1 className="text-black text-xl my-auto">{list}</h1>
             </div>
             ) : (
-                <div className="flex flex-col w-full h-full justify-center items-center bg-gray-200">
+                <div className="flex flex-col w-full mb:h-[72dvh] justify-center items-center bg-gray-200">
                     {Array.isArray(list) && list.map((order)=> (
                             <ItemOrder key={order.id_order} order={order}/>
                         ))

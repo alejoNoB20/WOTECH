@@ -24,7 +24,7 @@ export const ItemClientList = ({clients}) => {
                     <h1 className="text-black text-xl my-auto">{clients}</h1>
                 </div>
             ) : (
-                <table className="w-full h-full">
+                <table className="w-full mb:h-[66dvh] border">
                 <thead>
                     <tr>
                         <th className="text-center">ID</th>
