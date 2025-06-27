@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useModal } from "@context/modalContext";
 import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@context/notificationsContext";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const AddTool = () => {
   const { openModal } = useModal();
@@ -136,10 +137,12 @@ const AddTool = () => {
             <textarea
               id="description_tool"
               name="description_tool"
+              maxLength={300}
               value={formData.description_tool || ""}
               onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
+            <CharacterCounter value={formData.description_tool} />
           </div>
           {/* UBICACION */}
           <div className="mb-4">

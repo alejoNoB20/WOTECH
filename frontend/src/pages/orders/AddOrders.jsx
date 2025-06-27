@@ -217,7 +217,7 @@ const AddOrders = () => {
             {/* SECCION LUGAR DE ENTREGA */}
             <div className="flex flex-col mb-4">
               <label htmlFor="shipping_address_order" className="text-gray-700">
-                Lugar de entrega:{" "}
+                Lugar de entrega:
               </label>
               <input
                 type="text"

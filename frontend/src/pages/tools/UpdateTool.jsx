@@ -6,6 +6,7 @@ import { faPen, faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
 import { format } from "@formkit/tempo";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const UpdateTool = () => {
   const [loading, setLoading] = useState(true);
@@ -325,7 +326,7 @@ const UpdateTool = () => {
               <div className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center justify-center py-4 my-7 md:m-3 md:space-x-8">
                 {/* Titulo */}
                 <h2 className="text-2xl font-bold mb-4 mx-5 justify-center">
-                  Detalles de la herramienta: {updateTool.name_tool}
+                  Detalles de la herramienta: {tool.name_tool}
                 </h2>
                 {/* Inputs */}
                 <div className="flex flex-col md:flex-row mx-3">
@@ -430,9 +431,11 @@ const UpdateTool = () => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                     id="description_tool"
                     name="description_tool"
+                    maxLength={300}
                     value={updateTool.description_tool || ""}
                     onChange={handleChange}
                   />
+                  <CharacterCounter value={updateTool.description_tool} />
                 </div>
                 {/* Columna nº2 */}
                 {fix && (

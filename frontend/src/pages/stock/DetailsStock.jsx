@@ -6,6 +6,7 @@ import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
 import "./updateStock.css";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const UpdateStock = () => {
   const [material, setMaterial] = useState({});
@@ -138,7 +139,10 @@ const UpdateStock = () => {
       {loading && <Loader />}
       {!showForm ? (
         // PRINCIPAL
-        <div className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-9 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20">
+        <div
+          key="view"
+          className="flex flex-col bg-white rounded-xl shadow-xl mx-3 mb:my-9 mb:px-2 mb:py-5 md:py-5 md:my-3 md:px-20"
+        >
           {/* TITULO */}
           <h2 className="text-2xl font-bold mb-4 mx-5 text-center">
             Detalles del material: {material.name_material}
@@ -193,6 +197,7 @@ const UpdateStock = () => {
                 <select
                   name="products"
                   className="mt-1 block w-full px-2 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 mb:text-xs"
+                  onChange={handleProductRedirect}
                 >
                   <option value="default" selected>
                     Lista de productos
@@ -203,7 +208,7 @@ const UpdateStock = () => {
                       return (
                         <option
                           value={association.id_product}
-                          onChange={handleProductRedirect}
+                          key={association.id_product}
                         >
                           {association.name_product}
                         </option>
@@ -243,8 +248,8 @@ const UpdateStock = () => {
           <div className="flex justify-center mt-4">
             <button
               onClick={() => {
-                setShowForm(true);
                 setUpdatedMaterial(material);
+                setShowForm(true);
               }}
               className="mx-auto bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded"
             >
@@ -255,7 +260,10 @@ const UpdateStock = () => {
         </div>
       ) : (
         // PRINCIPAL
-        <div className="flex flex-col bg-white rounded-xl shadow-xl mb:my-12 mb:py-5 mb:px-3 md:py-5 md:my-3 md:px-20">
+        <div
+          key="form"
+          className="flex flex-col bg-white rounded-xl shadow-xl mb:my-12 mb:py-5 mb:px-3 md:py-5 md:my-3 md:px-20"
+        >
           <h2 className="text-2xl font-bold mb-4 text-center">
             Actualizar material: {material.name_material}
           </h2>
@@ -271,7 +279,7 @@ const UpdateStock = () => {
                 id="name_material"
                 name="name_material"
                 className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={updatedMaterial.name_material || null}
+                value={updatedMaterial.name_material || ""}
                 onChange={(e) =>
                   setUpdatedMaterial({
                     ...updatedMaterial,
@@ -292,7 +300,8 @@ const UpdateStock = () => {
               <textarea
                 id="description_material"
                 name="description_material"
-                value={updatedMaterial.description_material || null}
+                maxLength={300}
+                value={updatedMaterial.description_material || ""}
                 onChange={(e) =>
                   setUpdatedMaterial({
                     ...updatedMaterial,
@@ -301,6 +310,7 @@ const UpdateStock = () => {
                 }
                 className="mt-1 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              <CharacterCounter value={updatedMaterial.description_material} />
             </div>
             {/* UNIDAD DE MEDIDA */}
             <div className="mb-2">
@@ -312,7 +322,7 @@ const UpdateStock = () => {
                 <select
                   id="measurement_material"
                   name="measurement_material"
-                  value={updatedMaterial.measurement_material || null}
+                  value={updatedMaterial.measurement_material || ""}
                   onChange={(e) =>
                     setUpdatedMaterial({
                       ...updatedMaterial,

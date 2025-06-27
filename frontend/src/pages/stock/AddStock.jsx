@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useModal } from "@context/modalContext";
 import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@context/notificationsContext";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const AddStock = () => {
   const { openModal } = useModal();
@@ -107,11 +108,13 @@ const AddStock = () => {
                 Descripción:{" "}
               </label>
               <textarea
+                maxLength={300}
                 id="description_material"
                 name="description_material"
                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 onChange={(e) => setDescriptionMaterial(e.target.value)}
               />
+              <CharacterCounter value={descriptionMaterial} />
             </div>
 
             <div className="flex flex-col">

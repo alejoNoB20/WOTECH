@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const DetailsProduct = () => {
   const [loader, setLoader] = useState(true);
@@ -344,10 +345,16 @@ const DetailsProduct = () => {
         <Loader />
       ) : (
         // FONDO
-        <section className="flex w-full h-full justify-center bg-gray-200">
+        <section
+          key="main"
+          className="flex w-full h-full justify-center bg-gray-200"
+        >
           {!model ? (
             // PRINCIPAL
-            <div className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center items-center py-2 m-5 md:m-3 md:px-14">
+            <div
+              key="view"
+              className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center items-center py-2 m-5 md:m-3 md:px-14"
+            >
               {/* TITULO */}
               <h2 className="text-2xl font-bold mb-4 text-center">
                 Detalles del producto: {product.name_product}
@@ -366,24 +373,24 @@ const DetailsProduct = () => {
                 </div>
                 {/* Datos Nombre, Plano, Precio */}
                 <div className="flex flex-col mb:mb-4 md: gap-y-4">
-                    {/* Nombre */}
-                    <div className="flex flex-col">
-                      <h4 className="text-gray-400 text-xs font-semibold">
-                        Nombre:
-                      </h4>
-                      <p className="text-gray-800 text-lg">
-                        {product.name_product || "No disponible"}
-                      </p>
-                    </div>
-                    {/* Precio */}
-                    <div className="flex flex-col">
-                      <h4 className="text-gray-400 text-xs font-semibold">
-                        Precio:
-                      </h4>
-                      <p className="text-gray-800 text-lg">
-                        $ {product.price_product || "No disponible"}
-                      </p>
-                    </div>
+                  {/* Nombre */}
+                  <div className="flex flex-col">
+                    <h4 className="text-gray-400 text-xs font-semibold">
+                      Nombre:
+                    </h4>
+                    <p className="text-gray-800 text-lg">
+                      {product.name_product || "No disponible"}
+                    </p>
+                  </div>
+                  {/* Precio */}
+                  <div className="flex flex-col">
+                    <h4 className="text-gray-400 text-xs font-semibold">
+                      Precio:
+                    </h4>
+                    <p className="text-gray-800 text-lg">
+                      $ {product.price_product || "No disponible"}
+                    </p>
+                  </div>
                   {/* Plano del producto */}
                   <div className="flex flex-col text-center justify-center">
                     <h4 className="text-gray-400 text-xs font-semibold">
@@ -473,9 +480,12 @@ const DetailsProduct = () => {
               </button>
             </div>
           ) : (
-            <section className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center justify-center py-4 my-7 md:m-3 md:space-x-8">
+            <section
+              key="form"
+              className="flex flex-col bg-white px-3 rounded-lg shadow-2xl text-center justify-center py-4 my-7 md:m-3 md:space-x-8"
+            >
               <h2 className="text-2xl font-bold mb-4 mx-5 justify-center">
-                Actualizar producto: {updateProduct.name_product}
+                Actualizar producto: {product.name_product}
               </h2>
               {/* Inputs e imagen */}
               <div className="flex flex-col md:flex-row mx-3">
@@ -581,11 +591,13 @@ const DetailsProduct = () => {
                 </label>
                 <textarea
                   id="description_product"
+                  maxLength={300}
                   name="description_product"
                   value={updateProduct.description_product || ""}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                   onChange={handleChange}
                 />
+                <CharacterCounter value={updateProduct.description_product} />
               </div>
 
               {/* Materiales y herramientas */}

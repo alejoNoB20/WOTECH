@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "@context/modalContext";
 import { useNotifications } from "@context/notificationsContext";
+import { CharacterCounter } from "@components/characterCounter/CharacterCounter";
 
 const AddProducts = () => {
   const [loader, setLoader] = useState(false);
@@ -10,6 +11,7 @@ const AddProducts = () => {
   const [product, setProduct] = useState({});
   const [stock, setStock] = useState({});
   const [tools, setTools] = useState({});
+  const [count, setCount] = useState(product?.description_product || 0);
 
   const [materialSelected, setMaterialSelected] = useState([]);
   const [toolSelected, setToolSelected] = useState([]);
@@ -83,12 +85,14 @@ const AddProducts = () => {
         [name]: value,
       });
     }
+
+    setCount(value.length);
   };
 
   const handleAddMaterial = () => {
     if (
       materialRef &&
-      quantityMaterialRef.length != 0 &&
+      quantityMaterialRef.length !== 0 &&
       quantityMaterialRef > 0
     ) {
       const stocks = [...stock];
@@ -249,319 +253,303 @@ const AddProducts = () => {
     }
   };
 
-  return (
-    <>
-      {loader ? (
-        <Loader />
-      ) : (
-        // FONDO
-        <section className="flex w-full h-full justify-center bg-gray-200 p-2">
-          <div className="flex flex-col bg-white rounded-xl shadow-xl w-full max-w-4xl mb:my-8 mb:px-2 mb:py-5 md:my-3 md:px-8 md:py-5">
-            <h2 className="text-2xl font-bold mb-4 text-center">
-              Agregar producto
-            </h2>
-            <form onSubmit={handleSubmit} className="mb:mx-4 md:mx-8">
-              {/* Contenedor de columnas */}
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Primera columna */}
-                <div className="flex flex-col w-full">
-                  <div className="mb-4">
-                    <label
-                      htmlFor="name_product"
-                      className="block text-gray-700"
-                    >
-                      Nombre: *
-                    </label>
-                    <input
-                      type="text"
-                      id="name_product"
-                      name="name_product"
-                      value={product.name_product || ""}
-                      className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label
-                      htmlFor="price_product"
-                      className="block text-gray-700"
-                    >
-                      Precio: *
-                    </label>
-                    <div className="flex items-center">
-                      <span className="text-lg text-gray-700 pr-2">$</span>
-                      <input
-                        type="number"
-                        id="price_product"
-                        min={0}
-                        name="price_product"
-                        value={product.price_product || ""}
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
+  if (loader) return <Loader />;
 
-                {/* Segunda columna */}
-                <div className="flex flex-col w-full">
-                  <div className="mb-4">
-                    <label
-                      htmlFor="img_product"
-                      className="block text-gray-700"
-                    >
-                      Imagen del producto:
-                    </label>
-                    <input
-                      type="file"
-                      id="img_product"
-                      name="img_product"
-                      className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="map_product"
-                      className="block text-gray-700"
-                    >
-                      Plano del producto:
-                    </label>
-                    <input
-                      type="file"
-                      id="map_product"
-                      name="map_product"
-                      className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
-                      onChange={handleChange}
-                    />
-                  </div>
+  return (
+    // FONDO
+    <section className="flex w-full h-full justify-center bg-gray-200 p-2">
+      <div className="flex flex-col bg-white rounded-xl shadow-xl w-full max-w-4xl mb:my-8 mb:px-2 mb:py-5 md:my-3 md:px-8 md:py-5">
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Agregar producto
+        </h2>
+        <form onSubmit={handleSubmit} className="mb:mx-4 md:mx-8">
+          {/* Contenedor de columnas */}
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Primera columna */}
+            <div className="flex flex-col w-full">
+              <div className="mb-4">
+                <label htmlFor="name_product" className="block text-gray-700">
+                  Nombre: *
+                </label>
+                <input
+                  type="text"
+                  id="name_product"
+                  name="name_product"
+                  value={product.name_product || ""}
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="flex flex-col">
+                <label htmlFor="price_product" className="block text-gray-700">
+                  Precio: *
+                </label>
+                <div className="flex items-center">
+                  <span className="text-lg text-gray-700 pr-2">$</span>
+                  <input
+                    type="number"
+                    id="price_product"
+                    min={0}
+                    name="price_product"
+                    value={product.price_product || ""}
+                    className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
+            </div>
 
-              {/* Descripción */}
+            {/* Segunda columna */}
+            <div className="flex flex-col w-full">
               <div className="mb-4">
-                <label
-                  htmlFor="description_product"
-                  className="block text-gray-700"
-                >
-                  Descripción:
+                <label htmlFor="img_product" className="block text-gray-700">
+                  Imagen del producto:
                 </label>
-                <textarea
-                  id="description_product"
-                  name="description_product"
-                  value={product.description_product || ""}
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <input
+                  type="file"
+                  id="img_product"
+                  name="img_product"
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
                   onChange={handleChange}
                 />
               </div>
-            </form>
-
-            {/* Materiales y herramientas */}
-            <div className="flex flex-col md:flex-row gap-4 mb-4 px-4">
-              {/* Materiales */}
-              <div className="flex flex-col w-full">
-                <div className="flex flex-col mb:gap-y-2 md:flex-row md:gap-x-4 mb-4 items-center">
-                  <div className="flex flex-col w-full">
-                    <label htmlFor="stockList" className="block text-gray-700">
-                      Lista de materiales: *
-                    </label>
-                    {/* Selector de materiales */}
-                    <select
-                      ref={selectRef}
-                      name="stockList"
-                      id="stockList"
-                      className="mt-1 block h-10 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-                      defaultValue="none"
-                      onChange={(e) =>
-                        handleRef(
-                          "material",
-                          stock.find(
-                            (material) =>
-                              material.id_material === parseInt(e.target.value)
-                          )
-                        )
-                      }
-                    >
-                      <option value="none" className="text-gray-700">
-                        Seleccionar material...
-                      </option>
-                      {Array.isArray(stock) &&
-                        stock.length > 0 &&
-                        stock.map((material) =>
-                          material.disabled ? (
-                            <option
-                              key={material.id_material}
-                              value={material.id_material}
-                              className="text-white bg-gray-500"
-                              disabled
-                            >
-                              {material.id_material} | {material.name_material}
-                            </option>
-                          ) : (
-                            <option
-                              key={material.id_material}
-                              value={material.id_material}
-                              className="text-gray-700"
-                            >
-                              {material.id_material} | {material.name_material}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </div>
-
-                  {/* Cantidad */}
-                  <div className="flex flex-col md:max-w-24 w-full">
-                    <label htmlFor="quantity" className="block text-gray-700">
-                      Cantidad: *
-                    </label>
-                    <input
-                      ref={quantityRef}
-                      type="number"
-                      min={0}
-                      name="quantity"
-                      id="quantity"
-                      className="mt-1 w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                      onChange={(e) =>
-                        handleRef("quantity", parseInt(e.target.value))
-                      }
-                      required
-                    />
-                  </div>
-
-                  {/* Botón Agregar */}
-                  <button
-                    className="self-end h-10 mb:w-full rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800"
-                    onClick={handleAddMaterial}
-                  >
-                    Agregar
-                  </button>
-                </div>
-
-                {/* Listado de materiales seleccionados */}
-                <div className="flex flex-col gap-2">
-                  {materialSelected.map((material) => (
-                    <div
-                      key={material.id}
-                      className="flex justify-between items-center"
-                    >
-                      <span className="text-gray-700">
-                        - {material.name_material} ({material.how_much_content})
-                      </span>
-                      <button
-                        className="bg-red-700 text-white rounded-lg border border-gray-300 px-2 py-1 hover:bg-red-800"
-                        onClick={() =>
-                          handleRemoveMaterial(
-                            materialSelected.find(
-                              (mat) => mat.id === material.id
-                            )
-                          )
-                        }
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div className="mb-4">
+                <label htmlFor="map_product" className="block text-gray-700">
+                  Plano del producto:
+                </label>
+                <input
+                  type="file"
+                  id="map_product"
+                  name="map_product"
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs md:text-sm"
+                  onChange={handleChange}
+                />
               </div>
-
-              {/* Herramientas */}
-              <div className="flex flex-col w-full">
-                <div className="mb-4">
-                  <label htmlFor="toolList" className="block text-gray-700">
-                    Lista de herramientas: *
-                  </label>
-                  <div className="flex flex-col md:flex-row gap-2">
-                    <select
-                      ref={selectRef}
-                      name="toolList"
-                      id="toolList"
-                      className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-                      defaultValue="none"
-                      onChange={(e) =>
-                        handleRef(
-                          "tool",
-                          tools.find(
-                            (tool) => tool.id_tool === parseInt(e.target.value)
-                          )
-                        )
-                      }
-                    >
-                      <option value="none" className="text-gray-700">
-                        Seleccionar herramienta...
-                      </option>
-                      {Array.isArray(tools) &&
-                        tools.length > 0 &&
-                        tools.map((tool) =>
-                          tool.disabled ? (
-                            <option
-                              key={tool.id_tool}
-                              value={tool.id_tool}
-                              className="text-white bg-gray-500"
-                              disabled
-                            >
-                              {tool.id_tool} | {tool.name_tool}
-                            </option>
-                          ) : (
-                            <option
-                              key={tool.id_tool}
-                              value={tool.id_tool}
-                              className="text-gray-700"
-                            >
-                              {tool.id_tool} | {tool.name_tool}
-                            </option>
-                          )
-                        )}
-                    </select>
-                    <button
-                      className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800"
-                      onClick={handleAddTool}
-                    >
-                      Agregar
-                    </button>
-                  </div>
-                </div>
-
-                {/* Listado de herramientas seleccionadas */}
-                <div className="flex flex-col gap-2">
-                  {toolSelected.map((tool) => (
-                    <div
-                      key={tool.id_tool}
-                      className="flex justify-between items-center"
-                    >
-                      <span className="text-gray-700">- {tool.name_tool}</span>
-                      <button
-                        className="bg-red-700 text-white rounded-lg border border-gray-300 px-2 py-1 hover:bg-red-800"
-                        onClick={() =>
-                          handleRemoveTool(
-                            toolSelected.find((t) => t.id_tool === tool.id_tool)
-                          )
-                        }
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Botón de creación */}
-            <div className="px-4 md:px-8">
-              <button
-                type="submit"
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                onClick={handleSubmit}
-              >
-                Crear Producto
-              </button>
             </div>
           </div>
-        </section>
-      )}
-    </>
+
+          {/* Descripción */}
+          <div className="mb-4">
+            <label
+              htmlFor="description_product"
+              className="block text-gray-700"
+            >
+              Descripción:
+            </label>
+            <textarea
+              maxLength={300}
+              id="description_product"
+              name="description_product"
+              value={product.description_product || ""}
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              onChange={handleChange}
+            />
+            <CharacterCounter value={product.description_product} />
+          </div>
+        </form>
+
+        {/* Materiales y herramientas */}
+        <div className="flex flex-col md:flex-row gap-4 mb-4 px-4">
+          {/* Materiales */}
+          <div className="flex flex-col w-full">
+            <div className="flex flex-col mb:gap-y-2 md:flex-row md:gap-x-4 mb-4 items-center">
+              <div className="flex flex-col w-full">
+                <label htmlFor="stockList" className="block text-gray-700">
+                  Lista de materiales: *
+                </label>
+                {/* Selector de materiales */}
+                <select
+                  ref={selectRef}
+                  name="stockList"
+                  id="stockList"
+                  className="mt-1 block h-10 w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  defaultValue="none"
+                  onChange={(e) =>
+                    handleRef(
+                      "material",
+                      stock.find(
+                        (material) =>
+                          material.id_material === parseInt(e.target.value)
+                      )
+                    )
+                  }
+                >
+                  <option value="none" className="text-gray-700">
+                    Seleccionar material...
+                  </option>
+                  {Array.isArray(stock) &&
+                    stock.length > 0 &&
+                    stock.map((material) =>
+                      material.disabled ? (
+                        <option
+                          key={material.id_material}
+                          value={material.id_material}
+                          className="text-white bg-gray-500"
+                          disabled
+                        >
+                          {material.id_material} | {material.name_material}
+                        </option>
+                      ) : (
+                        <option
+                          key={material.id_material}
+                          value={material.id_material}
+                          className="text-gray-700"
+                        >
+                          {material.id_material} | {material.name_material}
+                        </option>
+                      )
+                    )}
+                </select>
+              </div>
+
+              {/* Cantidad */}
+              <div className="flex flex-col md:max-w-24 w-full">
+                <label htmlFor="quantity" className="block text-gray-700">
+                  Cantidad: *
+                </label>
+                <input
+                  ref={quantityRef}
+                  type="number"
+                  min={0}
+                  name="quantity"
+                  id="quantity"
+                  className="mt-1 w-full h-10 px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  onChange={(e) =>
+                    handleRef("quantity", parseInt(e.target.value))
+                  }
+                  required
+                />
+              </div>
+
+              {/* Botón Agregar */}
+              <button
+                className="self-end h-10 mb:w-full rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800"
+                onClick={handleAddMaterial}
+              >
+                Agregar
+              </button>
+            </div>
+
+            {/* Listado de materiales seleccionados */}
+            <div className="flex flex-col gap-2">
+              {materialSelected.map((material) => (
+                <div
+                  key={material.id}
+                  className="flex justify-between items-center"
+                >
+                  <span className="text-gray-700">
+                    - {material.name_material} ({material.how_much_content})
+                  </span>
+                  <button
+                    className="bg-red-700 text-white rounded-lg border border-gray-300 px-2 py-1 hover:bg-red-800"
+                    onClick={() =>
+                      handleRemoveMaterial(
+                        materialSelected.find((mat) => mat.id === material.id)
+                      )
+                    }
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Herramientas */}
+          <div className="flex flex-col w-full">
+            <div className="mb-4">
+              <label htmlFor="toolList" className="block text-gray-700">
+                Lista de herramientas: *
+              </label>
+              <div className="flex flex-col md:flex-row gap-2">
+                <select
+                  ref={selectRef}
+                  name="toolList"
+                  id="toolList"
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                  defaultValue="none"
+                  onChange={(e) =>
+                    handleRef(
+                      "tool",
+                      tools.find(
+                        (tool) => tool.id_tool === parseInt(e.target.value)
+                      )
+                    )
+                  }
+                >
+                  <option value="none" className="text-gray-700">
+                    Seleccionar herramienta...
+                  </option>
+                  {Array.isArray(tools) &&
+                    tools.length > 0 &&
+                    tools.map((tool) =>
+                      tool.disabled ? (
+                        <option
+                          key={tool.id_tool}
+                          value={tool.id_tool}
+                          className="text-white bg-gray-500"
+                          disabled
+                        >
+                          {tool.id_tool} | {tool.name_tool}
+                        </option>
+                      ) : (
+                        <option
+                          key={tool.id_tool}
+                          value={tool.id_tool}
+                          className="text-gray-700"
+                        >
+                          {tool.id_tool} | {tool.name_tool}
+                        </option>
+                      )
+                    )}
+                </select>
+                <button
+                  className="rounded-lg bg-green-700 text-white p-2 border border-gray-300 hover:bg-green-800"
+                  onClick={handleAddTool}
+                >
+                  Agregar
+                </button>
+              </div>
+            </div>
+
+            {/* Listado de herramientas seleccionadas */}
+            <div className="flex flex-col gap-2">
+              {toolSelected.map((tool) => (
+                <div
+                  key={tool.id_tool}
+                  className="flex justify-between items-center"
+                >
+                  <span className="text-gray-700">- {tool.name_tool}</span>
+                  <button
+                    className="bg-red-700 text-white rounded-lg border border-gray-300 px-2 py-1 hover:bg-red-800"
+                    onClick={() =>
+                      handleRemoveTool(
+                        toolSelected.find((t) => t.id_tool === tool.id_tool)
+                      )
+                    }
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Botón de creación */}
+        <div className="px-4 md:px-8">
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={handleSubmit}
+          >
+            Crear Producto
+          </button>
+        </div>
+      </div>
+    </section>
   );
 };
 

@@ -5,14 +5,37 @@ import { checkToken } from "../../middlewares/protectecRoutes.js";
 let ordersRouter = Router();
 const OrderController = new orderController();
 
-ordersRouter.get('/pages/:page', checkToken, OrderController.verPedidos);
-ordersRouter.get('/details/:id_order', checkToken, OrderController.detalles);
-ordersRouter.get('/getProductsAndClients', checkToken, OrderController.detallesProductosClientes);
-ordersRouter.post('/create', checkToken, ordersValidator.createOrUpdateOrder, OrderController.crear);
-ordersRouter.patch('/disabled/:id_order', checkToken, OrderController.deshabilitar);
-ordersRouter.delete('/delete/:id_order', checkToken, OrderController.borrar);
-ordersRouter.patch('/update/:id_order', checkToken, ordersValidator.createOrUpdateOrder, OrderController.actualizar);
-ordersRouter.get('/search/:page', checkToken, ordersValidator.searchOrder, OrderController.filtrar);
+ordersRouter.get("/pages/:page", checkToken, OrderController.verPedidos);
+ordersRouter.get("/details/:id_order", checkToken, OrderController.detalles);
+ordersRouter.get(
+  "/getProductsAndClients",
+  checkToken,
+  OrderController.detallesProductosClientes
+);
+ordersRouter.post(
+  "/create",
+  checkToken,
+  ordersValidator.createOrUpdateOrder,
+  OrderController.crear
+);
+ordersRouter.patch(
+  "/disabled/:id_order",
+  checkToken,
+  OrderController.deshabilitar
+);
+ordersRouter.delete("/delete/:id_order", checkToken, OrderController.borrar);
+ordersRouter.patch(
+  "/update/:id_order",
+  checkToken,
+  ordersValidator.createOrUpdateOrder,
+  OrderController.actualizar
+);
+ordersRouter.get(
+  "/search/:page",
+  checkToken,
+  ordersValidator.searchOrder,
+  OrderController.filtrar
+);
 
 export default ordersRouter;
 
@@ -21,18 +44,18 @@ export default ordersRouter;
  * /orders:
  *   get:
  *     summary: "Obtener todos los pedidos con la información más importante (solo se verán los pedidos activos)"
- *     tags: 
+ *     tags:
  *       - Orders
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Lista de Pedidos"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
  *                 type: object
- *                 properties: 
+ *                 properties:
  *                   id_order:
  *                     type: integer
  *                     example: 7
@@ -44,23 +67,23 @@ export default ordersRouter;
  *                     example: "135000"
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se encontraron pedidos activos en la base de datos"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se pueden ver los pedidos debido a una falla en el sistema"
- * 
- * /orders/details/{id_order}: 
+ *
+ * /orders/details/{id_order}:
  *   get:
  *     summary: "Obtener todos los datos de un pedido en específico, esto incluye las asociaciones con Productos y Clientes"
- *     tags: 
+ *     tags:
  *       - Orders
  *     parameters:
  *       - in: path
@@ -69,32 +92,32 @@ export default ordersRouter;
  *           type: string
  *         required: true
  *         description: "ID del pedido"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Información detallada del pedido"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/orders'
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * /orders/getProducts:
  *   get:
  *     summary: "Obtener los ID, NOMBRES y PRECIOS de los Productos cargadas en la db para que el usuario pueda elegir que contiene el Pedido (no incluye ningun Producto deshabilitado)"
- *     tags: 
+ *     tags:
  *       - Orders
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Lista Productos"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
@@ -112,28 +135,28 @@ export default ordersRouter;
  *                     example: 5000
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se encontró ningun producto en la base de datos"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "No se pueden ver los productos debido a una falla en el sistema"
- * 
+ *
  * /orders/create:
  *   post:
  *     summary: "Crear un pedido"
- *     tags: 
+ *     tags:
  *       - Orders
- *     responses: 
- *       201: 
+ *     responses:
+ *       201:
  *         description: "Creación Exitosa (El JSON contiene a modo de ejemplo los elementos mínimos y más importantes que debe contener el body que recibe el back para la creación de un nuevo pedido)"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -142,13 +165,13 @@ export default ordersRouter;
  *             schema:
  *               type: object
  *               properties:
- *                 id_client_fk: 
+ *                 id_client_fk:
  *                   type: integer
  *                   example: 2
- *                 delivery_day_order: 
+ *                 delivery_day_order:
  *                   type: string
  *                   example: "2024-08-08"
- *                 products: 
+ *                 products:
  *                   type: array
  *                   items:
  *                     type: object
@@ -162,10 +185,10 @@ export default ordersRouter;
  *                       unit_product:
  *                         type: integer
  *                         example: 15
- *                 description: 
+ *                 description:
  *                   type: string
  *                   example: "El parámetro 'products' es un array en el cual sus items son objetos, cada objeto contiene 'id': id del producto, 'price_product': precio del producto, 'unit_product': las cantidades del producto dentro del pedido"
- *                 
+ *
  *       400:
  *         description: "Error datos mal ingresados por el usuario, el mensaje de error dependerá del dato erróneo"
  *         content:
@@ -192,15 +215,15 @@ export default ordersRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"                
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La creación del pedido falló"
- * 
+ *
  * /orders/disabled/{id_order}:
  *   patch:
  *     summary: "Eliminado lógico de un producto"
@@ -221,7 +244,7 @@ export default ordersRouter;
  *             schema:
  *               type: string
  *               example: "El pedido fallo al intentar cerrarlo"
- * 
+ *
  * /orders/delete/{id_order}:
  *   delete:
  *     summary: "Eliminado total de un pedido"
@@ -241,17 +264,17 @@ export default ordersRouter;
  *           text/plain:
  *             schema:
  *               type: string
- *               example: "La eliminación del pedido falló" 
- * 
+ *               example: "La eliminación del pedido falló"
+ *
  * /orders/update/{id_order}:
  *   patch:
  *     summary: "Actualizar un pedido"
- *     tags: 
+ *     tags:
  *       - Orders
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Actualización Exitosa"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -282,45 +305,45 @@ export default ordersRouter;
  *                         example: "search_value"
  *                       location:
  *                         type: string
- *                         example: "query"        
+ *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "La actualización del pedido falló"
- * 
- * /orders/search: 
+ *
+ * /orders/search:
  *   get:
  *     summary: "Filtro de busqueda, donde ingresando ciertos parámetros te va a devolver 1 o más pedidos (el body del response va a ser igual de completo que el /orders/details/{id_order})"
- *     tags: 
+ *     tags:
  *       - Orders
  *     parameters:
  *       - in: query
- *         name: search_type 
+ *         name: search_type
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_type indiqua el tipo de filtro, pueden ser: 'id_order', 'id_client, 'shipping_address_order' 'delivery_day_order'"
  *       - in: query
- *         name: search_value 
+ *         name: search_value
  *         schema:
  *           type: string
  *         required: true
  *         description: "search_value indiqua el valor que deseamos buscar"
- *     responses: 
- *       200: 
+ *     responses:
+ *       200:
  *         description: "Se mostrarán los pedidos encontrados con los parámetros establecidos"
- *         content: 
+ *         content:
  *           application/json:
  *             schema:
  *               type: array
- *               items: 
+ *               items:
  *                 $ref: '#/components/schemas/orders'
  *       404:
  *         description: "Datos no encontrados"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
@@ -354,12 +377,12 @@ export default ordersRouter;
  *                         example: "query"
  *       500:
  *         description: "Error en el servidor"
- *         content: 
+ *         content:
  *           text/plain:
  *             schema:
  *               type: string
  *               example: "Hubo un error interno en el servidor"
- * 
+ *
  * components:
  *   schemas:
  *     orders:
@@ -378,7 +401,7 @@ export default ordersRouter;
  *           example: "Calle 123"
  *         delivery_day_order:
  *           type: string
- *           example: "2024-08-08" 
+ *           example: "2024-08-08"
  *         disabled:
  *           type: boolean
  *           example: false
@@ -387,13 +410,13 @@ export default ordersRouter;
  *           example: 135000
  *         id_client_fk:
  *           type: integer
- *           example: 2 
+ *           example: 2
  *         products:
  *           type: array
  *           items:
  *             type: object
  *             properties:
- *               id_product: 
+ *               id_product:
  *                 type: integer
  *                 example: 2
  *               name_product:
