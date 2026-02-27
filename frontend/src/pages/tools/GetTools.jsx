@@ -20,17 +20,19 @@ const GetTools = () => {
       setLoading(true);
 
       const queryParams = new URLSearchParams(location.search);
-      const query = queryParams.get("search_type") || "" ;
+      const query = queryParams.get("search_type") || "";
       const option = queryParams.get("search_value") || "";
 
       let url = `${process.env.REACT_APP_API_URL}/tools`;
-      
+
       if (query && option) {
         url += `/search/${page}?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`;
-        setUrl(`/tools/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`)
+        setUrl(
+          `/tools/search/?search_type=${encodeURIComponent(query)}&search_value=${encodeURIComponent(option)}`,
+        );
       } else {
         url += `/pages/${page}`;
-        setUrl(`/tools/gettools/`)
+        setUrl(`/tools/gettools/`);
       }
 
       const mostrarError = (httpErr, errors) => {
@@ -46,39 +48,36 @@ const GetTools = () => {
 
         if (!response.ok) {
           if (response.status === 400) {
-            const errors = responseJson.errors.map((error) => error.msg)
-            mostrarError(response.status, errors)
-            return
-          };
-        };
+            const errors = responseJson.errors.map((error) => error.msg);
+            mostrarError(response.status, errors);
+            return;
+          }
+        }
 
         setTools(responseJson.resultado);
         setMaxPage(responseJson.maxPage);
-
       } catch (error) {
-        console.error("Error en el fetch:", error)
-        navigate('/tools/gettools/1')
+        console.error("Error en el fetch:", error);
+        navigate("/tools/gettools/1");
       } finally {
-        setLoading(false) 
-      };
+        setLoading(true);
+      }
     };
 
-    fetchData() 
-  }, [location.search, openModal, page, navigate]) 
+    fetchData();
+  }, [location.search, openModal, page, navigate]);
 
   return (
     <>
-      {loading && (
-          <Loader/>
-      )}
+      {loading && <Loader />}
       <div className="flex flex-col h-full md:mt-4">
-          <ItemToolList tools = {tools}/>
-          <div className="flex justify-center items-center mb:mt-4 md:mt-3">
-              <Pagination url={url} page={Number(page)} maxPage={maxPage}/>
-          </div>
+        <ItemToolList tools={tools} />
+        <div className="flex justify-center items-center mb:mt-4 md:mt-3">
+          <Pagination url={url} page={Number(page)} maxPage={maxPage} />
+        </div>
       </div>
     </>
-  )
+  );
 };
 
-export default GetTools
+export default GetTools;

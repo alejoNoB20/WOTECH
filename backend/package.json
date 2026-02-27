@@ -27,13 +27,12 @@
     "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "tar-fs": "^3.0.8"
+    "mocha": "^10.7.3",
+    "tar-fs": "^3.0.8",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "debug": "^4.3.6",
-    "dotenv": "^16.4.5",
-    "mocha": "^10.7.3",
-    "nodemon": "^3.1.4",
-    "sqlite3": "^5.1.7"
+    "nodemon": "^3.1.4"
   }
 }
