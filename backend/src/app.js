@@ -50,7 +50,7 @@ app.use(
       "https://wotech-free.vercel.app",
     ],
     credentials: true,
-  })
+  }),
 );
 
 app.use(logger("dev"));
